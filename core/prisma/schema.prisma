@@ -1,67 +1,159 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-generator client {
-    provider = "prisma-client-js"
-    previewFeatures = ["jsonProtocol"]
-}
-
 datasource db {
-    provider = "sqlite"
-    // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-    // Further reading:
-    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
-    url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+generator client {
+  provider = "prisma-client-js"
 }
 
-// Necessary for Next auth
-model Account {
-    id                String  @id @default(cuid())
-    userId            String
-    type              String
-    provider          String
-    providerAccountId String
-    refresh_token     String? // @db.Text
-    access_token      String? // @db.Text
-    expires_at        Int?
-    token_type        String?
-    scope             String?
-    id_token          String? // @db.Text
-    session_state     String?
-    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+//
+// // Necessary for Next auth
+// model Account {
+//   id                String  @id @default(cuid())
+//   userId            String
+//   type              String
+//   provider          String
+//   providerAccountId String
+//   refresh_token     String? // @db.Text
+//   access_token      String? // @db.Text
+//   expires_at        Int?
+//   token_type        String?
+//   scope             String?
+//   id_token          String? // @db.Text
+//   session_state     String?
+//   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+//
+//   @@unique([provider, providerAccountId])
+// }
+//
+// model Session {
+//   id           String   @id @default(cuid())
+//   sessionToken String   @unique
+//   userId       String
+//   expires      DateTime
+//   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+// }
+//
+// model User {
+//   id            String        @id @default(cuid())
+//   name          String?
+//   email         String?       @unique
+//   emailVerified DateTime?
+//   image         String?
+//   accounts      Account[]
+//   sessions      Session[]
+//   age           Int?
+//   height        Int? // IN CM
+//   // type            Doctor | Patient How do I define this?
+//   Appointment   Appointment[]
+// }
+//
+// model VerificationToken {
+//   identifier String
+//   token      String   @unique
+//   expires    DateTime
+//
+//   @@unique([identifier, token])
+// }
 
-    @@unique([provider, providerAccountId])
+// Models
+model Clinic {
+  clinicId String    @id @default(cuid())
+  name     String
+  address  String
+  city     String
+  province provinces
+  doctors  Doctor[]
 }
 
-model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    userId       String
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+model Doctor {
+  doctorId     String        @id @default(cuid())
+  firstName    String
+  lastName     String
+  email        String
+  phone        String
+  clinic       Clinic        @relation(fields: [clinicId], references: [clinicId], onDelete: Cascade)
+  clinicId     String
+  specialty    String?
+  appointments Appointment[]
+  patients     Patient[]
+
+  @@index([clinicId])
 }
 
-model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
+model Patient {
+  patientId String @id @default(cuid())
+  firstName String
+  lastName  String
+  email     String
+  phone     String
+  age       Int? // IN YEARS
+  height    Int? // IN CM
+  weight    Int? // In LB
+  doctor    Doctor @relation(fields: [doctorId], references: [doctorId], onDelete: Cascade)
+  doctorId  String
+
+  @@index([doctorId])
 }
 
-model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
+model AppointmentSymptoms {
+  id            String      @id @default(cuid())
+  // symptomModel SymptomModel
+  appointment   Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+  appointmentId String
 
-    @@unique([identifier, token])
+  @@index([appointmentId])
+}
+
+model Appointment {
+  id                  String                @id @default(cuid())
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  doctorId            String
+  doctor              Doctor                @relation(fields: [doctorId], references: [doctorId], onDelete: Cascade)
+  startDate           DateTime
+  endDate             DateTime
+  notes               String?
+  status              Status                @default(Pending)
+  appointmentSymptoms AppointmentSymptoms[]
+
+  @@index([doctorId])
+}
+
+model Image {
+  id          Int      @id @default(autoincrement())
+  title       String // The title of the image
+  url         String // The URL of the image in Cloudinary
+  createdAt   DateTime @default(now()) // The time the image was added
+  updatedAt   DateTime @updatedAt // The last time the image was updated
+  description String? // The description of the image
+}
+
+// Enumerations
+enum provinces {
+  AB
+  BC
+  MB
+  NB
+  NL
+  NS
+  NT
+  NU
+  ON
+  PEI
+  QC
+  SK
+  YK
+}
+
+enum Status {
+  Pending
+  Confirmed
+  Cancelled
+  Completed
 }
