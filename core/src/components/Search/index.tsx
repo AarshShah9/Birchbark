@@ -1,7 +1,7 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Icon from "@/components/Icon";
 import Select from "@/components/Select";
-import ImageContainer from "~/components/ImageContainer";
+import Item from "~/components/Search/Item";
 
 const createdOptions = [
   {
@@ -128,13 +128,11 @@ const Search = ({ items }: SearchProps) => {
             onChange={setDate}
           />
         </div>
-        <ImageContainer />
-
-        {/*<div>*/}
-        {/*    {items.map((x) => (*/}
-        {/*        <Item item={x} key={x.id} />*/}
-        {/*    ))}*/}
-        {/*</div>*/}
+        <div>
+          {items.map((x) => (
+            <Item item={x} key={x.id} />
+          ))}
+        </div>
       </div>
     </form>
   );
