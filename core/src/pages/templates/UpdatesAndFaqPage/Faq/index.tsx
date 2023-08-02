@@ -1,4 +1,3 @@
-import FaqItem from "@/components/FaqItem";
 import Image from "@/components/Image";
 
 type FaqItems = {
@@ -14,11 +13,11 @@ type FaqProps = {
 
 const Faq = ({ items }: FaqProps) => (
   <>
-    <div>
-      {items.map((x) => (
-        <FaqItem item={x} key={x.id} />
-      ))}
-    </div>
+    {/*<div>*/}
+    {/*  {items.map((x) => (*/}
+    {/*    <FaqItem item={x} key={x.id} />*/}
+    {/*  ))}*/}
+    {/*</div>*/}
     <div className="mt-12 rounded-[1.25rem] bg-n-2/50 p-20 text-center dark:bg-n-7/50 md:px-8 md:py-16">
       <div className="mx-auto mb-8 w-28">
         <Image src="/images/faq-image.svg" width={112} height={112} alt="" />

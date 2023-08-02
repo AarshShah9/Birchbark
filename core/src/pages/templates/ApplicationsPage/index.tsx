@@ -2,9 +2,6 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import Layout from "@/components/Layout";
 import Icon from "@/components/Icon";
-import Application from "./Application";
-
-import { applications } from "@/mocks/applications";
 
 const ApplicationsPage = () => {
   const [search, setSearch] = useState<string>("");
@@ -46,9 +43,9 @@ const ApplicationsPage = () => {
         </form>
         <div className="h6 mb-11 text-n-4 md:mb-6">Suggested apps</div>
         <div className="-mx-7 -mt-16 flex flex-wrap 2xl:-mx-4 2xl:-mt-12 md:mx-0 md:mt-0 md:block">
-          {applications.map((application) => (
-            <Application item={application} key={application.id} />
-          ))}
+          {/*{applications.map((application) => (*/}
+          {/*  <Application item={application} key={application.id} />*/}
+          {/*))}*/}
         </div>
       </div>
     </Layout>
