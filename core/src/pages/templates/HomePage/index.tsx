@@ -1,10 +1,9 @@
 import Layout from "@/components/Layout";
-import Main from "./Main";
 
 const HomePage = () => {
   return (
     <Layout>
-      <Main />
+      <h1>Home Page</h1>
     </Layout>
   );
 };

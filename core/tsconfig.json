@@ -48,6 +48,9 @@
       ],
       "@/mocks/*": [
         "./src/mocks/*"
+      ],
+      "@/CustomPages/*": [
+        "./src/CustomPages/*"
       ]
     }
   },
