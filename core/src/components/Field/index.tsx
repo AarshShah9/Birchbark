@@ -1,4 +1,4 @@
-import { twMerge } from "tailwind-merge";
+import {twMerge} from "tailwind-merge";
 import Icon from "@/components/Icon";
 
 type FieldProps = {
@@ -16,18 +16,18 @@ type FieldProps = {
 };
 
 const Field = ({
-    className,
-    classInput,
-    label,
-    textarea,
-    note,
-    type,
-    value,
-    onChange,
-    placeholder,
-    required,
-    icon,
-}: FieldProps) => {
+                   className,
+                   classInput,
+                   label,
+                   textarea,
+                   note,
+                   type,
+                   value,
+                   onChange,
+                   placeholder,
+                   required,
+                   icon,
+               }: FieldProps) => {
     const handleKeyDown = (event: any) => {
         const remainingChars = 880 - value.length;
         if (remainingChars <= 0 && event.key !== "Backspace") {
@@ -89,9 +89,9 @@ const Field = ({
                     />
                 </div>
                 {note && <div className="mt-2 base2 text-n-4/50">{note}</div>}
-                {/* <div className="mt-2 caption2 text-accent-1">
-                Email is incorrect
-            </div> */}
+                {/*<div className="mt-2 caption2 text-accent-1">*/}
+                {/*    Email is incorrect*/}
+                {/*</div>*/}
             </div>
         </div>
     );
