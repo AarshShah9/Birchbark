@@ -4,13 +4,14 @@ import Layout from "~/components/Layout";
 import Calendar from "~/components/Calendar";
 import CalendarWrapper from "~/components/CalendarWrapper";
 import dynamic from 'next/dynamic';
+import SchedulerWrapper from '~/components/SchedulerWrapper';
 
 const IndexPage: React.FC = () => {
     return (
         <Layout>
             <main>
-                {/* <Calendar /> */}
-                <CalendarWrapper />
+                {/* <CalendarWrapper /> */}
+                <SchedulerWrapper/>
             </main>
         </Layout>
     );
