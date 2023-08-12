@@ -12,6 +12,8 @@ import { addClass, Browser, closest, extend, Internationalization, isNullOrUndef
 import { DataManager, Predicate, Query } from '@syncfusion/ej2-data';
 import { tz } from 'moment-timezone';
 
+
+
 const Overview = () => {
   const [currentView, setCurrentView] = useState<View>('Week');
   const [isTimelineView, setIsTimelineView] = useState<boolean>(false);
@@ -23,6 +25,7 @@ const Overview = () => {
   let workWeekObj = useRef<MultiSelectComponent>(null);
   let resourceObj = useRef<MultiSelectComponent>(null);
   let liveTimeInterval: NodeJS.Timeout | number;
+
   const weekDays: Record<string, any>[] = [
     { text: 'Sunday', value: 0 },
     { text: 'Monday', value: 1 },
@@ -58,8 +61,7 @@ const Overview = () => {
     }
   ];
   const calendarCollections: Record<string, any>[] = [
-    { CalendarText: 'Calendar 1', CalendarId: 1, CalendarColor: '#2b2b2b' }, // Pick color here
-    { CalendarText: 'Company', CalendarId: 2, CalendarColor: '#ff7f50' },
+    { CalendarText: 'Dr. Smith Appointments', CalendarId: 1, CalendarColor: '#0084FF' }, // Pick color here
     { CalendarText: 'Dr. Smith', CalendarId: 3, CalendarColor: '#AF27CD' },
     { CalendarText: 'Dr. Adam', CalendarId: 4, CalendarColor: '#808000' }
   ];
@@ -304,33 +306,12 @@ const Overview = () => {
   const getDateHeaderDate = (value: Date): string => {
     return intl.formatDate(value, { skeleton: 'd' });
   }
-  const getWeather = (value: Date) => {
-    switch (value.getDay()) {
-      case 0:
-        return '<img class="weather-image"  src= "src/schedule/images/weather-clear.svg" />';
-      case 1:
-        return '<img class="weather-image" src="src/schedule/images/weather-clouds.svg"/>';
-      case 2:
-        return '<img class="weather-image" src="src/schedule/images/weather-rain.svg"/>';
-      case 3:
-        return '<img class="weather-image" src="src/schedule/images/weather-clouds.svg"/>';
-      case 4:
-        return '<img class="weather-image" src="src/schedule/images/weather-rain.svg"/>';
-      case 5:
-        return '<img class="weather-image" src="src/schedule/images/weather-clear.svg"/>';
-      case 6:
-        return '<img class="weather-image" src="src/schedule/images/weather-clouds.svg"/>';
-      default:
-        return null;
-    }
-  }
 
   const dateHeaderTemplate = (props: { date: Date; }) => {
     return (
       <Fragment>
         <div>{getDateHeaderDay(props.date)}</div>
         <div>{getDateHeaderDate(props.date)}</div>
-        {/* <div className="date-text" dangerouslySetInnerHTML={{ __html: getWeather(props.date) }}></div> */}
       </Fragment>
     );
   }
@@ -346,20 +327,19 @@ const Overview = () => {
     }
     scheduleObj.current.resources[0].query = resourcePredicate ? new Query().where(resourcePredicate) : new Query().where('CalendarId', 'equal', 1);
   }
+
+  // THIS GENERATES THE DUMMY DATA FOR THE CALENDAR SEE generateEvents2() for custom dummy events
   let generateEvents = (): Record<string, any>[] => {
     let eventData: Record<string, any>[] = [];
     let eventSubjects: string[] = [
-      'Bering Sea Gold', 'Technology', 'Maintenance', 'Meeting', 'Traveling', 'Annual Conference', 'Birthday Celebration',
-      'Farewell Celebration', 'Wedding Anniversary', 'Alaska: The Last Frontier', 'Deadliest Catch', 'Sports Day', 'MoonShiners',
-      'Close Encounters', 'HighWay Thru Hell', 'Daily Planet', 'Cash Cab', 'Basketball Practice', 'Rugby Match', 'Guitar Class',
-      'Music Lessons', 'Doctor checkup', 'Brazil - Mexico', 'Opening ceremony', 'Final presentation'
+      'Doctor Appointment'
     ];
     let weekDate: Date = new Date(new Date().setDate(new Date().getDate() - new Date().getDay()));
     let startDate: Date = new Date(weekDate.getFullYear(), weekDate.getMonth(), weekDate.getDate(), 10, 0);
     let endDate: Date = new Date(weekDate.getFullYear(), weekDate.getMonth(), weekDate.getDate(), 11, 30);
     eventData.push({
       Id: 1,
-      Subject: eventSubjects[Math.floor(Math.random() * (24 - 0 + 1) + 0)],
+      Subject: eventSubjects[0],
       StartTime: startDate,
       EndTime: endDate,
       Location: '',
@@ -404,6 +384,33 @@ const Overview = () => {
     }
     return overviewEvents;
   };
+
+  let generateEvents2 = (): Record<string, any>[] => {
+    let eventData: Record<string, any>[] = [];
+    let weekDate: Date = new Date(new Date().setDate(new Date().getDate() - new Date().getDay()));
+    eventData.push({
+      Id: 1,
+      Subject: 'Appointment with Dr. Smith',
+      StartTime: new Date(weekDate.getFullYear(), weekDate.getMonth(), weekDate.getDate(), 10, 0),
+      EndTime: new Date(weekDate.getFullYear(), weekDate.getMonth(), weekDate.getDate(), 11, 30),
+      Location: '123 Main St, Atlanta, GA 30303',
+      Description: 'Appointment regarding patient checkup and health status',
+      RecurrenceRule: 'FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=1;COUNT=10;',
+      IsAllDay: false,
+      IsReadonly: false,
+      CalendarId: 1
+    });
+
+    let overviewEvents: { [key: string]: Date }[] = extend([], eventData, undefined, true) as { [key: string]: Date }[];
+    let timezone: Timezone = new Timezone();
+    let currentTimezone: never = timezone.getLocalTimezoneName() as never;
+    for (let event of overviewEvents) {
+      event.StartTime = timezone.convert(event.StartTime, 'UTC', currentTimezone);
+      event.EndTime = timezone.convert(event.EndTime, 'UTC', currentTimezone);
+    }
+    return overviewEvents;
+  };
+
 
   const createUpload = () => {
     const element = document.querySelector('.calendar-import .e-css.e-btn');
@@ -526,8 +533,9 @@ const Overview = () => {
         <div className='content-wrapper'>
           <div className='schedule-overview'>
             {/* <AppBarComponent colorMode="Primary"> */}
-            <div className='flex flex-row justify-between bg-n-6'>
-              {/* <span className="time e-icons e-time-zone"></span> */}
+
+
+            <div className='flex flex-row justify-between bg-n-6 m-5 hidden'>
               <div className=' flex justify-center w-48 '>
                 <div className='rounded-lg border-2 border-n-4 flex justify-center items-center w-56'>
                     <span id="timezoneBtn" className="time pr-2">UTC</span>
@@ -536,27 +544,23 @@ const Overview = () => {
                 </div>
               </div>
 
-
-              {/* <div className="e-appbar-spacer border">test</div> */}
-              <div className=' w-[500px] flex flex-row'>
-                <div className='rounded-lg border-2 border-n-4 flex justify-center items-center'>
+              <div className='flex flex-row'>
+                <div className='rounded-lg border-2 border-n-4 flex justify-center items-center p-3'>
                     <div className='control-panel calendar-export'>
                         <ButtonComponent id='printBtn' cssClass='title-bar-btn e-inherit' iconCss='e-icons e-print' onClick={(onPrint)} content='Print' />
                     </div>
-                    {/* <div className='control-panel import-button'> */}
-                        {/* <UploaderComponent id='fileUpload' type='file' allowedExtensions='.ics' cssClass='calendar-import' buttons={{ browse: importTemplateFn({ text: 'Import' })[0] as HTMLElement }} multiple={false} showFileList={false} selected={(onImportClick)} created={createUpload} /> */}
-                    {/* </div> */}
                     <div className='control-panel calendar-export'>
                         <DropDownButtonComponent id='exportBtn' content='Export' cssClass = 'title-bar-btn e-inherit' items={exportItems} select={onExportClick} className='bg-white'/>
                     </div>
                     <ButtonComponent id='settingsBtn' cssClass='overview-toolbar-settings e-inherit' iconCss='e-icons e-settings' iconPosition='Top' content='' onClick={btnClick} />
                 </div>
-              </div>
-                
-              
+              </div>  
             </div>
+
+
+
             {/* </AppBarComponent> */}
-            <ToolbarComponent id='toolbarOptions' cssClass='overview-toolbar' width='100%' height={70} overflowMode='Scrollable' scrollStep={100} created={() => liveTimeInterval = setInterval(() => { updateLiveTime(); }, 1000)} clicked={onToolbarItemClicked}>
+            <ToolbarComponent id='toolbarOptions' cssClass='overview-toolbar' width='100%' height={40} overflowMode='Scrollable' scrollStep={100} created={() => liveTimeInterval = setInterval(() => { updateLiveTime(); }, 1000)} clicked={onToolbarItemClicked}>
               <ItemsDirective>
                 <ItemDirective prefixIcon='e-icons e-plus' tooltipText='New Appointment' text='New Appointment' tabIndex={0}/>
                 <ItemDirective prefixIcon='e-icons e-repeat' tooltipText='New Recurring Appointment' text='New Recurring Appointment' tabIndex={0} />
@@ -567,7 +571,7 @@ const Overview = () => {
                 <ItemDirective prefixIcon='e-icons e-month' tooltipText='Month' text='Month' tabIndex={0} />
                 <ItemDirective prefixIcon='e-icons e-month' tooltipText='Year' text='Year' tabIndex={0} />
                 <ItemDirective prefixIcon='e-icons e-agenda-date-range' tooltipText='Agenda' text='Agenda' tabIndex={0} />
-                <ItemDirective type='Separator' />
+                {/* <ItemDirective type='Separator' /> */}
                 {/* <ItemDirective tooltipText='Grouping' text='Grouping' template={groupTemplate} /> */}
                 {/* <ItemDirective tooltipText='Timme Slots' text='Timme Slots' template={gridlineTemplate} /> */}
                 {/* <ItemDirective tooltipText='Auto Fit Rows' text='Auto Fit Rows' template={autoHeightTemplate} /> */}
@@ -576,13 +580,13 @@ const Overview = () => {
             <div className='overview-content'>
               <div className='left-panel'>
                 <div className='overview-scheduler'>
-                  <ScheduleComponent id='scheduler' cssClass='schedule-overview' ref={scheduleObj} width='100%' height='100%' currentView={currentView} group={{ resources: ['Calendars'] }} timezone='UTC' eventSettings={{ dataSource: generateEvents() }} dateHeaderTemplate={dateHeaderTemplate}>
+                  <ScheduleComponent id='scheduler' cssClass='schedule-overview' ref={scheduleObj} width='100%' height='100%' currentView={currentView} group={{ resources: ['Calendars'] }} timezone='UTC' eventSettings={{ dataSource: generateEvents2() }} dateHeaderTemplate={dateHeaderTemplate}>
                     <ResourcesDirective>
                       <ResourceDirective field='CalendarId' title='Calendars' name='Calendars' dataSource={calendarCollections} query={new Query().where('CalendarId', 'equal', 1)} textField='CalendarText' idField='CalendarId' colorField='CalendarColor' />
                     </ResourcesDirective>
                     <ViewsDirective>
-                      <ViewDirective option='Day' />
-                      <ViewDirective option='Week' />
+                      <ViewDirective option='Day' startHour='08:00' endHour='18:00'/>
+                      <ViewDirective option='Week' startHour='08:00' endHour='18:00' />
                       <ViewDirective option='WorkWeek' />
                       <ViewDirective option='Month' />
                       <ViewDirective option='Year' />

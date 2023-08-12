@@ -1,4 +1,5 @@
 import "@/styles/globals.css";
+import '@/styles/schedulerTheme.css';
 import type { AppProps } from "next/app";
 import { resolveValue, Toaster } from "react-hot-toast";
 import { Inter, Karla } from "next/font/google";
@@ -25,13 +26,6 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <Head>
-        <link
-          href="https://cdn.syncfusion.com/ej2/material.css"
-          rel="stylesheet"
-          type="text/css"
-        />
-      </Head>
       <main className={`${karla.variable} ${inter.variable} font-sans`}>
         <style jsx global>{`
           html {
