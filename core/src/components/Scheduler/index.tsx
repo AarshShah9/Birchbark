@@ -1,36 +1,3 @@
-// import * as React from 'react';
-// import { ScheduleComponent, ViewsDirective, ViewDirective, Day, Week, WorkWeek, Month, Agenda, Inject } from '@syncfusion/ej2-react-schedule';
-// import { render } from '@headlessui/react/dist/utils/render';
-
-// const data: Record<string, any>[] = [{
-//     Id: 1,
-//     Subject: 'Scrum Meeting',
-//     Location: 'Office',
-//     StartTime: new Date(2022, 0, 1, 9, 30),
-//     EndTime: new Date(2023, 0, 1, 10, 30),
-//     RecurrenceRule: 'FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=1'
-//   }];
-
-
-// const Scheduler: React.FC = () => { 
-//     return(
-//       <div>
-//         <ScheduleComponent height='650px'>
-//           <ViewsDirective>
-//             <ViewDirective option='Day' />
-//             <ViewDirective option='Week' />
-//             <ViewDirective option='WorkWeek' />
-//             <ViewDirective option='Month' />
-//             <ViewDirective option='Agenda' />
-//           </ViewsDirective>
-//           <Inject services={[Day, Week, WorkWeek, Month, Agenda]} />
-//         </ScheduleComponent>
-//       </div>
-//     );
-// }
-
-// export default Scheduler;
-
 import * as ReactDOM from 'react-dom';
 import * as React from 'react';
 import { Fragment, useEffect, useRef, useState } from 'react';
@@ -70,20 +37,20 @@ const Overview = () => {
     { text: 'Excel', iconCss: 'e-icons e-export-excel' }
   ];
   const contextMenuItems: MenuItemModel[] = [
-    { text: 'New Event', iconCss: 'e-icons e-plus', id: 'Add' },
-    { text: 'New Recurring Event', iconCss: 'e-icons e-repeat', id: 'AddRecurrence' },
+    { text: 'New Appointment', iconCss: 'e-icons e-plus', id: 'Add' },
+    { text: 'New Recurring Appointment', iconCss: 'e-icons e-repeat', id: 'AddRecurrence' },
     { text: 'Today', iconCss: 'e-icons e-timeline-today', id: 'Today' },
-    { text: 'Edit Event', iconCss: 'e-icons e-edit', id: 'Save' },
-    { text: 'Delete Event', iconCss: 'e-icons e-trash', id: 'Delete' },
+    { text: 'Edit Appointment', iconCss: 'e-icons e-edit', id: 'Save' },
+    { text: 'Delete Appointment', iconCss: 'e-icons e-trash', id: 'Delete' },
     {
-      text: 'Delete Event', id: 'DeleteRecurrenceEvent', iconCss: 'e-icons e-trash',
+      text: 'Delete Appointment', id: 'DeleteRecurrenceEvent', iconCss: 'e-icons e-trash',
       items: [
         { text: 'Delete Occurrence', id: 'DeleteOccurrence' },
         { text: 'Delete Series', id: 'DeleteSeries' }
       ]
     },
     {
-      text: 'Edit Event', id: 'EditRecurrenceEvent', iconCss: 'e-icons e-edit',
+      text: 'Edit Appointment', id: 'EditRecurrenceEvent', iconCss: 'e-icons e-edit',
       items: [
         { text: 'Edit Occurrence', id: 'EditOccurrence' },
         { text: 'Edit Series', id: 'EditSeries' }
@@ -91,10 +58,10 @@ const Overview = () => {
     }
   ];
   const calendarCollections: Record<string, any>[] = [
-    { CalendarText: 'My Calendar', CalendarId: 1, CalendarColor: '#2b2b2b' }, // Pick color here
+    { CalendarText: 'Calendar 1', CalendarId: 1, CalendarColor: '#2b2b2b' }, // Pick color here
     { CalendarText: 'Company', CalendarId: 2, CalendarColor: '#ff7f50' },
-    { CalendarText: 'Birthday', CalendarId: 3, CalendarColor: '#AF27CD' },
-    { CalendarText: 'Holiday', CalendarId: 4, CalendarColor: '#808000' }
+    { CalendarText: 'Dr. Smith', CalendarId: 3, CalendarColor: '#AF27CD' },
+    { CalendarText: 'Dr. Adam', CalendarId: 4, CalendarColor: '#808000' }
   ];
   const timezoneData: Record<string, any>[] = [
     { text: 'UTC -12:00', value: 'Etc/GMT+12' },
@@ -576,11 +543,11 @@ const Overview = () => {
                     <div className='control-panel calendar-export'>
                         <ButtonComponent id='printBtn' cssClass='title-bar-btn e-inherit' iconCss='e-icons e-print' onClick={(onPrint)} content='Print' />
                     </div>
-                    <div className='control-panel import-button'>
-                        <UploaderComponent id='fileUpload' type='file' allowedExtensions='.ics' cssClass='calendar-import' buttons={{ browse: importTemplateFn({ text: 'Import' })[0] as HTMLElement }} multiple={false} showFileList={false} selected={(onImportClick)} created={createUpload} />
-                    </div>
+                    {/* <div className='control-panel import-button'> */}
+                        {/* <UploaderComponent id='fileUpload' type='file' allowedExtensions='.ics' cssClass='calendar-import' buttons={{ browse: importTemplateFn({ text: 'Import' })[0] as HTMLElement }} multiple={false} showFileList={false} selected={(onImportClick)} created={createUpload} /> */}
+                    {/* </div> */}
                     <div className='control-panel calendar-export'>
-                        <DropDownButtonComponent id='exportBtn' content='Export' cssClass = 'e-inherit' items={exportItems} select={onExportClick} />
+                        <DropDownButtonComponent id='exportBtn' content='Export' cssClass = 'title-bar-btn e-inherit' items={exportItems} select={onExportClick} className='bg-white'/>
                     </div>
                     <ButtonComponent id='settingsBtn' cssClass='overview-toolbar-settings e-inherit' iconCss='e-icons e-settings' iconPosition='Top' content='' onClick={btnClick} />
                 </div>
@@ -591,8 +558,8 @@ const Overview = () => {
             {/* </AppBarComponent> */}
             <ToolbarComponent id='toolbarOptions' cssClass='overview-toolbar' width='100%' height={70} overflowMode='Scrollable' scrollStep={100} created={() => liveTimeInterval = setInterval(() => { updateLiveTime(); }, 1000)} clicked={onToolbarItemClicked}>
               <ItemsDirective>
-                <ItemDirective prefixIcon='e-icons e-plus' tooltipText='New Event' text='New Event' tabIndex={0}/>
-                <ItemDirective prefixIcon='e-icons e-repeat' tooltipText='New Recurring Event' text='New Recurring Event' tabIndex={0} />
+                <ItemDirective prefixIcon='e-icons e-plus' tooltipText='New Appointment' text='New Appointment' tabIndex={0}/>
+                <ItemDirective prefixIcon='e-icons e-repeat' tooltipText='New Recurring Appointment' text='New Recurring Appointment' tabIndex={0} />
                 <ItemDirective type='Separator' />
                 <ItemDirective prefixIcon='e-icons e-day' tooltipText='Day' text='Day'tabIndex={0}/>
                 <ItemDirective prefixIcon='e-icons e-week' tooltipText='Week' text='Week' tabIndex={0}/>

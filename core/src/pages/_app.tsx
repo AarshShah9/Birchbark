@@ -5,8 +5,12 @@ import { Inter, Karla } from "next/font/google";
 import { ColorModeProvider, ColorModeScript } from "@chakra-ui/color-mode";
 import Head from "next/head";
 import { registerLicense } from '@syncfusion/ej2-base';
-registerLicense('Ngo9BigBOggjHTQxAR8/V1NGaF1cWGhBYVJ2WmFZfV1gfV9DZ1ZVR2Y/P1ZhSXxQdk1jWn1fdXNRRWlcV0c=');
+import { useEffect } from "react";
 
+
+//useEffect(() => {
+//  registerLicense(process.env.SYNC_FUSION_LICENSE_KEY ?? '');
+//}, []);
 
 const inter = Inter({
   weight: ["500", "600", "700"],
