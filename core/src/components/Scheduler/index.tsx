@@ -142,45 +142,48 @@ const Overview = () => {
   }
 
   const updateLiveTime = (): void => {
-    let scheduleTimezone: string = scheduleObj ? scheduleObj.current.timezone : 'Etc/GMT';
+    let scheduleTimezone: string = scheduleObj?.current?.timezone || 'Etc/GMT';
     let liveTime;
-    if (scheduleObj.current.isAdaptive) {
+    if (scheduleObj?.current?.isAdaptive) {
       liveTime = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZone: scheduleTimezone });
     }
     else {
       liveTime = new Date().toLocaleTimeString('en-US', { timeZone: scheduleTimezone });
     }
-    timeBtn.current.innerHTML = liveTime;
+    if (timeBtn.current){
+      timeBtn.current.innerHTML = liveTime ?? "";
+    }
+    
   };
 
   const onImportClick = (args: SelectedEventArgs): void => {
-    scheduleObj.current.importICalendar(((args.event.target as HTMLInputElement).files as any)[0]);
+    scheduleObj?.current?.importICalendar(((args.event.target as HTMLInputElement).files as any)[0]);
   }
 
   const onPrint = (): void => {
-    scheduleObj.current.print();
+    scheduleObj?.current?.print();
   }
 
   const onExportClick = (args: MenuEventArgs): void => {
     if (args.item.text === 'Excel') {
       let exportDatas: Record<string, any>[] = [];
-      let eventCollection: Record<string, any>[] = scheduleObj.current.getEvents();
-      let resourceCollection: ResourcesModel[] = scheduleObj.current.getResourceCollections();
-      let resourceData: Record<string, any>[] = resourceCollection[0].dataSource as Record<string, any>[];
+      let eventCollection: Record<string, any>[] = scheduleObj?.current?.getEvents() ?? new Array<Record<string, any>>();
+      let resourceCollection: ResourcesModel[] = scheduleObj?.current?.getResourceCollections() ?? new Array<ResourcesModel>();
+      let resourceData: Record<string, any>[] = resourceCollection[0]?.dataSource as Record<string, any>[];
       for (let resource of resourceData) {
         let data: Record<string, any>[] = eventCollection.filter((e: Record<string, any>) => e.CalendarId === resource.CalendarId);
         exportDatas = exportDatas.concat(data as Record<string, any>[]);
       }
-      scheduleObj.current.exportToExcel({ exportType: 'xlsx', customData: exportDatas, fields: ['Id', 'Subject', 'StartTime', 'EndTime', 'CalendarId'] });
+      scheduleObj?.current?.exportToExcel({ exportType: 'xlsx', customData: exportDatas, fields: ['Id', 'Subject', 'StartTime', 'EndTime', 'CalendarId'] });
     } else {
-      scheduleObj.current.exportToICalendar();
+      scheduleObj?.current?.exportToICalendar();
     }
   }
 
   const getEventData = (): Record<string, any> => {
-    const date: Date = scheduleObj.current.selectedDate;
+    const date: Date = scheduleObj?.current?.selectedDate ?? new Date();
     return {
-      Id: scheduleObj.current.getEventMaxID(),
+      Id: scheduleObj?.current?.getEventMaxID(),
       Subject: '',
       StartTime: new Date(date.getFullYear(), date.getMonth(), date.getDate(), new Date().getHours(), 0, 0),
       EndTime: new Date(date.getFullYear(), date.getMonth(), date.getDate(), new Date().getHours() + 1, 0, 0),
@@ -211,13 +214,14 @@ const Overview = () => {
       case 'Agenda':
         setCurrentView('Agenda');
         break;
-      case 'New Event':
+      case 'New Appointment':
+        
         const eventData: Record<string, any> = getEventData();
-        scheduleObj.current.openEditor(eventData, 'Add', true);
+        scheduleObj?.current?.openEditor(eventData, 'Add', true);
         break;
-      case 'New Recurring Event':
+      case 'New Recurring Appointment':
         const recEventData: Record<string, any> = getEventData();
-        scheduleObj.current.openEditor(recEventData, 'Add', true, 1);
+        scheduleObj?.current?.openEditor(recEventData, 'Add', true, 1);
         break;
     }
   }
@@ -249,11 +253,15 @@ const Overview = () => {
         updatedView = 'Agenda';
         break;
     }
-    scheduleObj.current.currentView = updatedView;
+    if(scheduleObj.current){
+      scheduleObj.current.currentView = updatedView;
+    }
   }, [isTimelineView]);
 
   const onChange = (args: SwitchEventArgs) => {
-    setIsTimelineView(args.checked);
+    if (args.checked) {
+      setIsTimelineView(args.checked);
+    }
   }
 
   const timelineTemplate = () => {
@@ -271,7 +279,12 @@ const Overview = () => {
     return (
       <div className = 'template'>
         <div className='icon-child'>
-          <CheckBoxComponent id='grouping' checked={true} change={(args: SwitchEventArgs) => { scheduleObj.current.group.resources = args.checked ? ['Calendars'] : []; }} />
+          <CheckBoxComponent id='grouping' checked={true} change={(args: SwitchEventArgs) => 
+            { 
+              if(scheduleObj.current){
+                scheduleObj.current.group.resources = args.checked ? ['Calendars'] : []; 
+              }
+            }} />
         </div>
         <div className='text-child'>Grouping</div>
       </div>
@@ -282,7 +295,12 @@ const Overview = () => {
     return (
       <div className = 'template'>
         <div className='icon-child'>
-          <CheckBoxComponent id='timeSlots' checked={true} change={(args: SwitchEventArgs) => { scheduleObj.current.timeScale.enable = args.checked as boolean; }} />
+          <CheckBoxComponent id='timeSlots' checked={true} change={(args: SwitchEventArgs) => 
+            { 
+              if(scheduleObj.current){
+                scheduleObj.current.timeScale.enable = args.checked as boolean; 
+              }
+            }} />
         </div>
         <div className='text-child'>Gridlines</div>
       </div>
@@ -293,7 +311,11 @@ const Overview = () => {
     return (
       <div className = 'template'>
         <div className='icon-child'>
-          <CheckBoxComponent id='row_auto_height' checked={false} change={(args: SwitchEventArgs) => { scheduleObj.current.rowAutoHeight = args.checked as boolean; }} />
+          <CheckBoxComponent id='row_auto_height' checked={false} change={(args: SwitchEventArgs) => 
+            { if(scheduleObj.current){
+                scheduleObj.current.rowAutoHeight = args.checked as boolean; 
+              }
+            }} />
         </div>
         <div className='text-child'>Row Auto Height</div>
       </div>
@@ -325,7 +347,9 @@ const Overview = () => {
         resourcePredicate = new Predicate('CalendarId', 'equal', value);
       }
     }
-    scheduleObj.current.resources[0].query = resourcePredicate ? new Query().where(resourcePredicate) : new Query().where('CalendarId', 'equal', 1);
+    if(scheduleObj.current?.resources[0]){
+      scheduleObj.current.resources[0].query = resourcePredicate ? new Query().where(resourcePredicate) : new Query().where('CalendarId', 'equal', 1);
+    }
   }
 
   // THIS GENERATES THE DUMMY DATA FOR THE CALENDAR SEE generateEvents2() for custom dummy events
@@ -372,15 +396,15 @@ const Overview = () => {
       });
       id++;
     }
-    if (Browser.isIE) {
-      Timezone.prototype.offset = (date: Date, timezone: string): number => tz.zone(timezone).utcOffset(date.getTime());
-    }
+
     let overviewEvents: { [key: string]: Date }[] = extend([], eventData, undefined, true) as { [key: string]: Date }[];
     let timezone: Timezone = new Timezone();
     let currentTimezone: never = timezone.getLocalTimezoneName() as never;
     for (let event of overviewEvents) {
-      event.StartTime = timezone.convert(event.StartTime, 'UTC', currentTimezone);
-      event.EndTime = timezone.convert(event.EndTime, 'UTC', currentTimezone);
+      if(event.StartTime && event.EndTime){
+        event.StartTime = timezone.convert(event.StartTime, 'UTC', currentTimezone);
+        event.EndTime = timezone.convert(event.EndTime, 'UTC', currentTimezone);
+      }
     }
     return overviewEvents;
   };
@@ -398,15 +422,18 @@ const Overview = () => {
       RecurrenceRule: 'FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=1;COUNT=10;',
       IsAllDay: false,
       IsReadonly: false,
-      CalendarId: 1
+      CalendarId: 1, 
+      DoctorID: 1 // THIS WILL BE THE DOCTORS ID
     });
 
     let overviewEvents: { [key: string]: Date }[] = extend([], eventData, undefined, true) as { [key: string]: Date }[];
     let timezone: Timezone = new Timezone();
     let currentTimezone: never = timezone.getLocalTimezoneName() as never;
     for (let event of overviewEvents) {
-      event.StartTime = timezone.convert(event.StartTime, 'UTC', currentTimezone);
-      event.EndTime = timezone.convert(event.EndTime, 'UTC', currentTimezone);
+      if(event.StartTime && event.EndTime){
+        event.StartTime = timezone.convert(event.StartTime, 'UTC', currentTimezone);
+        event.EndTime = timezone.convert(event.EndTime, 'UTC', currentTimezone);
+      }
     }
     return overviewEvents;
   };
@@ -414,19 +441,19 @@ const Overview = () => {
 
   const createUpload = () => {
     const element = document.querySelector('.calendar-import .e-css.e-btn');
-    element.classList.add('e-inherit');
+    element?.classList.add('e-inherit');
   }
 
   const btnClick = () => {
     let settingsPanel: Element = document.querySelector('.overview-content .right-panel') as Element;
     if (settingsPanel.classList.contains('hide')) {
       removeClass([settingsPanel], 'hide');
-      workWeekObj.current.refresh();
-      resourceObj.current.refresh();
+      workWeekObj?.current?.refresh();
+      resourceObj?.current?.refresh();
     } else {
       addClass([settingsPanel], 'hide');
     }
-    scheduleObj.current.refreshEvents();
+    scheduleObj?.current?.refreshEvents();
   }
 
   const contextMenuOpen = (args: BeforeOpenCloseMenuEventArgs) => {
@@ -435,7 +462,7 @@ const Overview = () => {
       remove(newEventElement);
       removeClass([document.querySelector('.e-selected-cell') as Element], 'e-selected-cell');
     }
-    scheduleObj.current.closeQuickInfoPopup();
+    scheduleObj?.current?.closeQuickInfoPopup();
     let targetElement: HTMLElement = args.event.target as HTMLElement;
     if (closest(targetElement, '.e-contextmenu')) {
       return;
@@ -446,84 +473,95 @@ const Overview = () => {
       return;
     }
     if (selectedTarget.classList.contains('e-appointment')) {
-      let eventObj: Record<string, any> = scheduleObj.current.getEventDetails(selectedTarget) as Record<string, any>;
+      let eventObj: Record<string, any> = scheduleObj?.current?.getEventDetails(selectedTarget) as Record<string, any>;
       if (eventObj.RecurrenceRule) {
-        contextMenuObj.current.showItems(['EditRecurrenceEvent', 'DeleteRecurrenceEvent'], true);
-        contextMenuObj.current.hideItems(['Add', 'AddRecurrence', 'Today', 'Save', 'Delete'], true);
+        contextMenuObj?.current?.showItems(['EditRecurrenceEvent', 'DeleteRecurrenceEvent'], true);
+        contextMenuObj?.current?.hideItems(['Add', 'AddRecurrence', 'Today', 'Save', 'Delete'], true);
       } else {
-        contextMenuObj.current.showItems(['Save', 'Delete'], true);
-        contextMenuObj.current.hideItems(['Add', 'AddRecurrence', 'Today', 'EditRecurrenceEvent', 'DeleteRecurrenceEvent'], true);
+        contextMenuObj?.current?.showItems(['Save', 'Delete'], true);
+        contextMenuObj?.current?.hideItems(['Add', 'AddRecurrence', 'Today', 'EditRecurrenceEvent', 'DeleteRecurrenceEvent'], true);
       }
       return;
     } else if ((selectedTarget.classList.contains('e-work-cells') || selectedTarget.classList.contains('e-all-day-cells')) &&
       !selectedTarget.classList.contains('e-selected-cell')) {
-      removeClass([].slice.call(scheduleObj.current.element.querySelectorAll('.e-selected-cell')), 'e-selected-cell');
+      removeClass([].slice.call(scheduleObj?.current?.element.querySelectorAll('.e-selected-cell')), 'e-selected-cell');
       selectedTarget.setAttribute('aria-selected', 'true');
       selectedTarget.classList.add('e-selected-cell');
     }
-    contextMenuObj.current.hideItems(['Save', 'Delete', 'EditRecurrenceEvent', 'DeleteRecurrenceEvent'], true);
-    contextMenuObj.current.showItems(['Add', 'AddRecurrence', 'Today'], true);
+    contextMenuObj?.current?.hideItems(['Save', 'Delete', 'EditRecurrenceEvent', 'DeleteRecurrenceEvent'], true);
+    contextMenuObj?.current?.showItems(['Add', 'AddRecurrence', 'Today'], true);
   }
 
   const contextMenuSelect = (args: ContextMenuEventArgs) => {
     let selectedMenuItem: string = args.item.id as string;
     let eventObj: Record<string, any> = {};
     if (selectedTarget && selectedTarget.classList.contains('e-appointment')) {
-      eventObj = scheduleObj.current.getEventDetails(selectedTarget) as Record<string, any>;
+      eventObj = scheduleObj?.current?.getEventDetails(selectedTarget) as Record<string, any>;
     }
     switch (selectedMenuItem) {
       case 'Today':
-        scheduleObj.current.selectedDate = new Date();
+        if(scheduleObj.current){
+          scheduleObj.current.selectedDate = new Date();
+        }
         break;
       case 'Add':
       case 'AddRecurrence':
-        let selectedCells: Element[] = scheduleObj.current.getSelectedElements();
-        let activeCellsData: CellClickEventArgs = scheduleObj.current.getCellDetails(selectedCells.length > 0 ? selectedCells : selectedTarget);
-        if (selectedMenuItem === 'Add') {
-          scheduleObj.current.openEditor(activeCellsData, 'Add');
+        let selectedCells: Element[] = scheduleObj?.current?.getSelectedElements() ?? [];
+        let activeCellsData: CellClickEventArgs | undefined = scheduleObj?.current?.getCellDetails(selectedCells.length > 0 ? selectedCells : selectedTarget);
+        
+        if (selectedMenuItem === 'Add' && activeCellsData) {
+          scheduleObj?.current?.openEditor(activeCellsData, 'Add');
         } else {
-          scheduleObj.current.openEditor(activeCellsData, 'Add', false, 1);
+          if(activeCellsData){
+            scheduleObj?.current?.openEditor(activeCellsData, 'Add', false, 1);
+          }
         }
         break;
       case 'Save':
       case 'EditOccurrence':
       case 'EditSeries':
         if (selectedMenuItem === 'EditSeries') {
-          let query: Query = new Query().where(scheduleObj.current.eventFields.id as string, 'equal', eventObj.RecurrenceID as string | number);
-          eventObj = new DataManager(scheduleObj.current.eventsData).executeLocal(query)[0] as Record<string, any>;
+          let query: Query = new Query().where(scheduleObj?.current?.eventFields.id as string, 'equal', eventObj.RecurrenceID as string | number);
+          eventObj = new DataManager(scheduleObj?.current?.eventsData).executeLocal(query)[0] as Record<string, any>;
         }
-        scheduleObj.current.openEditor(eventObj, selectedMenuItem);
+        scheduleObj?.current?.openEditor(eventObj, selectedMenuItem);
         break;
       case 'Delete':
-        scheduleObj.current.deleteEvent(eventObj);
+        scheduleObj?.current?.deleteEvent(eventObj);
         break;
       case 'DeleteOccurrence':
       case 'DeleteSeries':
-        scheduleObj.current.deleteEvent(eventObj, selectedMenuItem);
+        scheduleObj?.current?.deleteEvent(eventObj, selectedMenuItem);
         break;
     }
   }
 
   const timezoneChange = (args: ChangeEventArgs) => {
-    scheduleObj.current.timezone = args.value as string;
+    if(scheduleObj.current){
+      scheduleObj.current.timezone = args.value as string;
+    }
     updateLiveTime();
     (document.querySelector('.schedule-overview #timezoneBtn') as HTMLElement).innerHTML = '<span class="e-btn-icon e-icons e-time-zone e-icon-left"></span>' + args.itemData.text;
   }
 
   const weekNumberChange = (args: ChangeEventArgs) => {
-    if (args.value == "Off") {
+    if (args.value == "Off" && scheduleObj.current) {
       scheduleObj.current.showWeekNumber = false;
     } else {
-      scheduleObj.current.showWeekNumber = true;
-      scheduleObj.current.weekRule = args.value as any;
+      if(scheduleObj.current){
+        scheduleObj.current.showWeekNumber = true;
+        scheduleObj.current.weekRule = args.value as any;
+      }
     }
   }
 
   const tooltipChange = (args: ChangeEventArgs) => {
-    if (args.value === "Off") {
+    if (args.value === "Off" && scheduleObj.current) {
       scheduleObj.current.eventSettings.enableTooltip = false;
     } else {
-      scheduleObj.current.eventSettings.enableTooltip = true;
+      if(scheduleObj.current){
+        scheduleObj.current.eventSettings.enableTooltip = true;
+      }
     }
   }
 
@@ -532,10 +570,11 @@ const Overview = () => {
       <div className='col-lg-12 control-section'>
         <div className='content-wrapper'>
           <div className='schedule-overview'>
+            {/* We may need this later */}
             {/* <AppBarComponent colorMode="Primary"> */}
 
 
-            <div className='flex flex-row justify-between bg-n-6 m-5 hidden'>
+            <div className='flex-row justify-between bg-n-6 m-5 hidden'>
               <div className=' flex justify-center w-48 '>
                 <div className='rounded-lg border-2 border-n-4 flex justify-center items-center w-56'>
                     <span id="timezoneBtn" className="time pr-2">UTC</span>
@@ -571,10 +610,6 @@ const Overview = () => {
                 <ItemDirective prefixIcon='e-icons e-month' tooltipText='Month' text='Month' tabIndex={0} />
                 <ItemDirective prefixIcon='e-icons e-month' tooltipText='Year' text='Year' tabIndex={0} />
                 <ItemDirective prefixIcon='e-icons e-agenda-date-range' tooltipText='Agenda' text='Agenda' tabIndex={0} />
-                {/* <ItemDirective type='Separator' /> */}
-                {/* <ItemDirective tooltipText='Grouping' text='Grouping' template={groupTemplate} /> */}
-                {/* <ItemDirective tooltipText='Timme Slots' text='Timme Slots' template={gridlineTemplate} /> */}
-                {/* <ItemDirective tooltipText='Auto Fit Rows' text='Auto Fit Rows' template={autoHeightTemplate} /> */}
               </ItemsDirective>
             </ToolbarComponent>
             <div className='overview-content'>
@@ -599,6 +634,9 @@ const Overview = () => {
               </div>
               <div className='right-panel hide bg-green-600'>
                 <div className='control-panel e-css'>
+
+                  {/* WE MIGHT WANT TO KEEP THIS, ITS THE CODE FOR THE SETTINGS DROPDOWN */}
+
                   {/* <div className='col-row '>
                     <div className='col-left '>
                       <label style={{ lineHeight: '34px', margin: '0' }}>Calendar</label>
