@@ -5,66 +5,111 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["jsonProtocol"]
 }
 
 datasource db {
-  provider = "sqlite"
-  url  = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model Doctor {
-  id        Int       @id @default(autoincrement())
-  firstName String
-  lastName  String
-  email     String
-  phone     String
-  specialty String?
-
-  // Relationships
-  appointments  Appointment[] @relation("DoctorAppointments")
-  clinics       Clinic[]      @relation("DoctorClinics")
-  patients      Patient[]     @relation("DoctorPatients")
-}
-
-model Clinic {
-  id      Int       @id @default(autoincrement())
-  name    String
-  address String
-  city    String
-  state   String
-  zipCode String
-
-  // Relationships
-  doctors      Doctor[]      @relation("DoctorClinics")
-  patients     Patient[]     @relation("ClinicPatients")
-  appointments Appointment[] @relation("AppointmentClinics")
+  id                 Int                  @id @default(autoincrement())
+  name               String
+  // Add the relation field for DoctorAppointments
+  doctorAppointments DoctorAppointments[]
+  AppointmentDoctors AppointmentDoctors[]
 }
 
 model Patient {
-  id        Int       @id @default(autoincrement())
-  firstName String
-  lastName  String
-  email     String
-  phone     String
-  age       Int?
-  height    Int?
-  weight    Int?
+  id                  Int                   @id @default(autoincrement())
+  name                String
+  // Add the relation field for PatientAppointments
+  patientAppointments PatientAppointments[]
+  AppointmentPatients AppointmentPatients[]
+}
 
-  // Relationships
-  appointments  Appointment[] @relation("PatientAppointments")
-  doctors       Doctor[]      @relation("DoctorPatients")
-  clinics       Clinic[]      @relation("ClinicPatients")
+model Clinic {
+  id                 Int                  @id @default(autoincrement())
+  name               String
+  // Add the relation field for AppointmentClinics
+  appointmentClinics AppointmentClinics[]
 }
 
 model Appointment {
-  id        Int       @id @default(autoincrement())
-  startTime DateTime
-  endTime   DateTime
+  id              Int       @id @default(autoincrement())
+  subject         String    // Subject of the appointment
+  startTime       DateTime  // Start date and time of the appointment
+  endTime         DateTime  // End date and time of the appointment
+  location        String?   // Location of the appointment (optional)
+  description     String?   // Description of the appointment (optional)
+  recurrenceRule  String?   // Recurrence rule for recurring appointments (optional)
+  isAllDay        Boolean   // Whether the appointment is an all-day event
+  isReadOnly      Boolean   // Whether the appointment is read-only
+  calendarId      Int       // ID of the associated calendar
+  doctorId        Int       // ID of the associated doctor
 
   // Relationships
-  doctors    Doctor[]  @relation("DoctorAppointments")
-  patients   Patient[] @relation("PatientAppointments")
-  clinics    Clinic[]  @relation("AppointmentClinics")
+  appointmentDoctors  AppointmentDoctors[]
+  appointmentPatients AppointmentPatients[]
+  appointmentClinics  AppointmentClinics[]
+  DoctorAppointments  DoctorAppointments[]
+  PatientAppointments PatientAppointments[]
+
+  // Indexes
+  @@index([startTime, endTime]) // Index for querying appointments by time range
+}
+
+
+
+model DoctorAppointments {
+  doctorId      Int
+  appointmentId Int
+
+  doctor      Doctor      @relation(fields: [doctorId], references: [id])
+  appointment Appointment @relation(fields: [appointmentId], references: [id])
+
+  @@id([doctorId, appointmentId])
+}
+
+model PatientAppointments {
+  patientId     Int
+  appointmentId Int
+
+  patient     Patient     @relation(fields: [patientId], references: [id])
+  appointment Appointment @relation(fields: [appointmentId], references: [id])
+
+  @@id([patientId, appointmentId])
+}
+
+model AppointmentDoctors {
+  appointmentId Int
+  doctorId      Int
+
+  appointment Appointment @relation(fields: [appointmentId], references: [id])
+  doctor      Doctor      @relation(fields: [doctorId], references: [id])
+
+  @@id([appointmentId, doctorId])
+}
+
+model AppointmentPatients {
+  appointmentId Int
+  patientId     Int
+
+  appointment Appointment @relation(fields: [appointmentId], references: [id])
+  patient     Patient     @relation(fields: [patientId], references: [id])
+
+  @@id([appointmentId, patientId])
+}
+
+model AppointmentClinics {
+  appointmentId Int
+  clinicId      Int
+
+  appointment Appointment @relation(fields: [appointmentId], references: [id])
+  clinic      Clinic      @relation(fields: [clinicId], references: [id])
+
+  @@id([appointmentId, clinicId])
 }
