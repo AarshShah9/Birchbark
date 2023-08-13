@@ -1,9 +1,12 @@
 import "@/styles/globals.css";
-import type {AppProps} from "next/app";
 import {resolveValue, Toaster} from "react-hot-toast";
 import {Inter, Karla} from "next/font/google";
 import {ColorModeProvider, ColorModeScript} from "@chakra-ui/color-mode";
 import {ClerkProvider} from "@clerk/nextjs";
+import '@/styles/schedulerTheme.css';
+import type { AppProps } from "next/app";
+import Head from "next/head";
+import { registerLicense } from "@syncfusion/ej2-base";
 
 const inter = Inter({
     weight: ["500", "600", "700"],
@@ -20,6 +23,9 @@ const karla = Karla({
 });
 
 export default function App({Component, pageProps}: AppProps) {
+    registerLicense(process.env.NEXT_PUBLIC_SYNC_FUSION_LICENSE_KEY ?? "");
+
+
     return (
         <ClerkProvider>
             <main className={`${karla.variable} ${inter.variable} font-sans`}>

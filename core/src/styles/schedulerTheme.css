@@ -1,0 +1,18 @@
+
+/* Work cells in vertical views of scheduler */
+.e-schedule .e-vertical-view .e-work-cells{
+    border-radius: 0px;
+}
+
+
+/* Appointment in vertical views of scheduler */
+.e-schedule .e-vertical-view .e-day-wrapper .e-appointment{
+    border-radius: 8px;
+    padding: 2px;
+}
+
+
+/* All day Appointment in vertical views of scheduler */
+.e-schedule .e-vertical-view .e-all-day-appointment-wrapper .e-appointment{
+    border-radius: 8px;
+}

@@ -4,6 +4,7 @@ export default function Document() {
     return (
         <Html lang="en">
             <Head>
+                
                 <meta
                     content="Figma UI kit designed to enhance the functionality of ChatGPT"
                     name="Brainwave - AI UI Kit"
@@ -45,6 +46,12 @@ export default function Document() {
                 />
                 <meta name="msapplication-TileColor" content="#da532c" />
                 <meta name="theme-color" content="#ffffff" />
+
+                <link
+                    href="https://cdn.syncfusion.com/ej2/tailwind.css"
+                    rel="stylesheet"
+                    type="text/css"
+                />
             </Head>
             <body>
                 <Main />
