@@ -68,37 +68,41 @@ model Clinic {
   address  String
   city     String
   province provinces
-  doctors  Doctor[]
+  doctors  User[]    @relation("ClinicDoctors")
 }
 
-model Doctor {
-  doctorId     String        @id @default(cuid())
-  firstName    String
-  lastName     String
-  email        String
-  phone        String
-  clinic       Clinic        @relation(fields: [clinicId], references: [clinicId], onDelete: Cascade)
-  clinicId     String
-  specialty    String?
-  appointments Appointment[]
-  patients     Patient[]
-
-  @@index([clinicId])
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  password  String
+  role      UserRole  @default(PATIENT) // Either DOCTOR or PATIENT
+  name      String?
+  chats     Chat[]
+  messages  Message[]
 }
 
-model Patient {
-  patientId String @id @default(cuid())
-  firstName String
-  lastName  String
-  email     String
-  phone     String
-  age       Int? // IN YEARS
-  height    Int? // IN CM
-  weight    Int? // In LB
-  doctor    Doctor @relation(fields: [doctorId], references: [doctorId], onDelete: Cascade)
-  doctorId  String
+enum UserRole {
+  DOCTOR
+  PATIENT
+}
 
-  @@index([doctorId])
+model Chat {
+  id        Int       @id @default(autoincrement())
+  doctorId  Int
+  patientId Int
+  doctor    User      @relation("DoctorChats", fields: [doctorId], references: [id])
+  patient   User      @relation("PatientChats", fields: [patientId], references: [id])
+  messages  Message[]
+  createdAt DateTime  @default(now())
+}
+
+model Message {
+  id        Int       @id @default(autoincrement())
+  content   String
+  senderId  Int       // User ID of the sender, either a doctor or patient
+  chatId    Int
+  chat      Chat      @relation(fields: [chatId], references: [id])
+  createdAt DateTime  @default(now())
 }
 
 model AppointmentSymptoms {
