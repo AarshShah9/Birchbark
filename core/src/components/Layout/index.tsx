@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import Link from "next/link";
-import { twMerge } from "tailwind-merge";
-import { enablePageScroll, clearQueueScrollLocks } from "scroll-lock";
+import {twMerge} from "tailwind-merge";
+import {clearQueueScrollLocks, enablePageScroll} from "scroll-lock";
 import Head from "next/head";
-import { useMediaQuery } from "react-responsive";
+import {useMediaQuery} from "react-responsive";
 import LeftSidebar from "@/components/LeftSidebar";
 import RightSidebar from "@/components/RightSidebar";
 import Icon from "@/components/Icon";
@@ -17,11 +17,11 @@ type LayoutProps = {
 };
 
 const Layout = ({
-    smallSidebar,
-    hideRightSidebar,
-    backUrl,
-    children,
-}: LayoutProps) => {
+                    smallSidebar,
+                    hideRightSidebar,
+                    backUrl,
+                    children,
+                }: LayoutProps) => {
     const [visibleSidebar, setVisibleSidebar] = useState<any>(
         smallSidebar || false
     );
@@ -46,15 +46,15 @@ const Layout = ({
     return (
         <>
             <Head>
-                <title>Brainwave</title>
+                <title>Symptom360</title>
             </Head>
             <div
                 className={`pr-6 bg-n-7 md:p-0 md:bg-n-1 dark:md:bg-n-6 md:overflow-hidden ${
                     visibleSidebar
                         ? "pl-24 md:pl-0"
                         : smallSidebar
-                        ? "pl-24 md:pl-0"
-                        : "pl-80 xl:pl-24 md:pl-0"
+                            ? "pl-24 md:pl-0"
+                            : "pl-80 xl:pl-24 md:pl-0"
                 }`}
             >
                 <LeftSidebar
@@ -99,7 +99,7 @@ const Layout = ({
                                     className="absolute top-6 right-6 flex justify-center items-center w-10 h-10 border-2 border-n-4/25 rounded-full text-0 transition-colors hover:border-transparent hover:bg-n-4/25"
                                     href={backUrl || "/"}
                                 >
-                                    <Icon className="fill-n-4" name="close" />
+                                    <Icon className="fill-n-4" name="close"/>
                                 </Link>
                             )}
                             {children}
