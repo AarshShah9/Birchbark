@@ -101,7 +101,7 @@ const LeftSidebar = ({
                         />
                     </button>
                 </div>
-                <div className="scrollbar-none grow overflow-y-auto scroll-smooth">
+                <div className="scrollbar-none grow scroll-smooth">
                     <Navigation visible={value} items={navigation}/>
                     <div
                         className={`my-4 h-0.25 bg-n-6 ${
