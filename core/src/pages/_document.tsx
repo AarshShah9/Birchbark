@@ -40,10 +40,10 @@ export default function Document() {
                 <meta name="twitter:site" content="@ui8" />
                 <meta name="twitter:creator" content="@ui8" />
                 <meta property="fb:admins" content="132951670226590" />
-                <meta
-                    name="viewport"
-                    content="width=device-width, initial-scale=1, maximum-scale=1"
-                />
+                {/* <meta */}
+                    {/* name="viewport" */}
+                    {/* content="width=device-width, initial-scale=1, maximum-scale=1" */}
+                {/* /> */}
                 <meta name="msapplication-TileColor" content="#da532c" />
                 <meta name="theme-color" content="#ffffff" />
 
