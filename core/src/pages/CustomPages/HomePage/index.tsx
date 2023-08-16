@@ -47,7 +47,7 @@ const HomePage: React.FC = () => {
             <div className='absolute inset-0 flex flex-col justify-center items-center m-32'>
                 <h1 className='font-inikaBold text-white text-6xl font-bold'>We're here for you</h1>
                 <div className='w-[300px] h-[5px] my-4 bg-white rounded-full'></div>
-                <p className='font-inikaRegular text-4xl font-medium text-center px-32'>We are proudly serving Canadian First Nations and Native Canadian people. We are here to connect you to doctors remotely and get you the help you need.</p>
+                <p className='font-inikaRegular text-4xl font-medium text-center px-32'>We are proudly serving First Nations and Indigenous. We are here to connect you to doctors remotely and get you the help you need.</p>
             </div>
         </div>
 
@@ -59,7 +59,7 @@ const HomePage: React.FC = () => {
                     <div className=' mx-20 flex items-center h-full'>
                         <div>
                             <h1 className='font-inikaBold text-5xl font-bold'>Who we are</h1>
-                            <p className='w-[450px] font-inikaRegular text-xl'>We are Symptom 360, a group of canadians proudly serving Canadian First Nations and Native Canadian people. We are here to connect you to doctors remotely and get you the help you need.</p>
+                            <p className='w-[450px] font-inikaRegular text-xl'>We are Symptom 360, a group of canadians proudly serving First Nations and Indigenous. We are here to connect you to doctors remotely and get you the help you need.</p>
                         </div>
                     </div>
                     <div className=' mx-20'>
@@ -77,7 +77,7 @@ const HomePage: React.FC = () => {
                     <div className=' mx-20 flex items-center h-full'>
                         <div>
                             <h1 className='font-inikaBold text-5xl font-bold'>Where we are</h1>
-                            <p className='w-[450px] font-inikaRegular text-xl'>We are proudly serving Canadian First Nations and Native Canadian people. We are here to connect you to doctors remotely and get you the help you need.</p>
+                            <p className='w-[450px] font-inikaRegular text-xl'>We are proudly serving First Nations and Indigenous. We are here to connect you to doctors remotely and get you the help you need.</p>
                         </div>
                     </div>
                     

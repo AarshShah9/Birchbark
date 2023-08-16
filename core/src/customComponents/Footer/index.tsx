@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
                 <h1 className='text-2xl font-bold'>Company</h1>
                 <div className='h-1 w-[200px] bg-white mt-1 mb-4'/>
                 <ul className='flex flex-col'>
-                    <motion.a whileHover={{ color: '#343839' }} className="m-1" href='#'>About Us</motion.a>
+                    <motion.a whileHover={{ color: '#343839' }} className="m-1" href='/CustomPages/AboutUsPage'>About Us</motion.a>
                     <motion.a whileHover={{ color: '#343839' }} className="m-1" href='#'>Career</motion.a>
                 </ul>
             </div>
