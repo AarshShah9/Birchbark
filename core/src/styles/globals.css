@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: 'Inika-Bold';
+    src: url('../../public/Inika-Bold.ttf');
+}
+@font-face {
+    font-family: 'Inika-Regular';
+    src: url('../../public/Inika-Regular.ttf');
+}
+
 @layer components {
     .react-datepicker {
         @apply !border-n-3 !rounded-lg !font-inter shadow-[0_0_1rem_0.25rem_rgba(0,0,0,0.04),0_2rem_2rem_-1rem_rgba(0,0,0,0.1)] overflow-hidden dark:bg-n-7 dark:!border-n-5;
