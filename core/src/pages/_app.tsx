@@ -4,9 +4,9 @@ import {Inter, Karla} from "next/font/google";
 import {ColorModeProvider, ColorModeScript} from "@chakra-ui/color-mode";
 import {ClerkProvider} from "@clerk/nextjs";
 import '@/styles/schedulerTheme.css';
-import type { AppProps } from "next/app";
-import Head from "next/head";
-import { registerLicense } from "@syncfusion/ej2-base";
+import type {AppProps} from "next/app";
+import {registerLicense} from "@syncfusion/ej2-base";
+import {api} from "~/utils/api";
 
 const inter = Inter({
     weight: ["500", "600", "700"],
@@ -22,7 +22,7 @@ const karla = Karla({
     variable: "--font-karla",
 });
 
-export default function App({Component, pageProps}: AppProps) {
+const MyApp = ({Component, pageProps}: AppProps) => {
     registerLicense(process.env.NEXT_PUBLIC_SYNC_FUSION_LICENSE_KEY ?? "");
 
 
@@ -74,3 +74,5 @@ export default function App({Component, pageProps}: AppProps) {
         </ClerkProvider>
     );
 }
+
+export default api.withTRPC(MyApp);

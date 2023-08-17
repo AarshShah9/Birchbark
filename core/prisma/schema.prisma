@@ -132,6 +132,7 @@ model Image {
   updatedAt   DateTime @updatedAt // The last time the image was updated
   description String? // The description of the image
 }
+
 enum provinces {
   AB
   BC
