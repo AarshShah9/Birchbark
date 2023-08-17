@@ -11,74 +11,20 @@ generator client {
   provider = "prisma-client-js"
 }
 
-//
-// // Necessary for Next auth
-// model Account {
-//   id                String  @id @default(cuid())
-//   userId            String
-//   type              String
-//   provider          String
-//   providerAccountId String
-//   refresh_token     String? // @db.Text
-//   access_token      String? // @db.Text
-//   expires_at        Int?
-//   token_type        String?
-//   scope             String?
-//   id_token          String? // @db.Text
-//   session_state     String?
-//   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-//
-//   @@unique([provider, providerAccountId])
-// }
-//
-// model Session {
-//   id           String   @id @default(cuid())
-//   sessionToken String   @unique
-//   userId       String
-//   expires      DateTime
-//   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-// }
-//
-// model User {
-//   id            String        @id @default(cuid())
-//   name          String?
-//   email         String?       @unique
-//   emailVerified DateTime?
-//   image         String?
-//   accounts      Account[]
-//   sessions      Session[]
-//   age           Int?
-//   height        Int? // IN CM
-//   // type            Doctor | Patient How do I define this?
-//   Appointment   Appointment[]
-// }
-//
-// model VerificationToken {
-//   identifier String
-//   token      String   @unique
-//   expires    DateTime
-//
-//   @@unique([identifier, token])
-// }
+
 
 // Models
-model Clinic {
-  clinicId String    @id @default(cuid())
-  name     String
-  address  String
-  city     String
-  province provinces
-  doctors  User[]    @relation("ClinicDoctors")
-}
-
 model User {
-  id        Int       @id @default(autoincrement())
-  email     String    @unique
-  password  String
-  role      UserRole  @default(PATIENT) // Either DOCTOR or PATIENT
-  name      String?
-  chats     Chat[]
-  messages  Message[]
+  id       Int       @id @default(autoincrement())
+  email    String    @unique
+  password String
+  name     String?
+  role     UserRole
+  clinicId String?
+  clinic   Clinic?   @relation("UserToClinic", fields: [clinicId], references: [clinicId])
+  chatsAsDoctor Chat[] @relation("DoctorChat")
+  chatsAsPatient Chat[] @relation("PatientChat")
+  messages Message[] @relation("UserMessages")
 }
 
 enum UserRole {
@@ -86,78 +32,30 @@ enum UserRole {
   PATIENT
 }
 
+model Clinic {
+  clinicId String    @id @default(cuid())
+  name     String
+  address  String
+  city     String
+  users    User[]    @relation("UserToClinic")
+}
+
 model Chat {
   id        Int       @id @default(autoincrement())
   doctorId  Int
   patientId Int
-  doctor    User      @relation("DoctorChats", fields: [doctorId], references: [id])
-  patient   User      @relation("PatientChats", fields: [patientId], references: [id])
+  doctor    User      @relation("DoctorChat", fields: [doctorId], references: [id])
+  patient   User      @relation("PatientChat", fields: [patientId], references: [id])
   messages  Message[]
   createdAt DateTime  @default(now())
 }
 
 model Message {
-  id        Int       @id @default(autoincrement())
-  content   String
-  senderId  Int       // User ID of the sender, either a doctor or patient
-  chatId    Int
-  chat      Chat      @relation(fields: [chatId], references: [id])
-  createdAt DateTime  @default(now())
-}
-
-model AppointmentSymptoms {
-  id            String      @id @default(cuid())
-  // symptomModel SymptomModel
-  appointment   Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
-  appointmentId String
-
-  @@index([appointmentId])
-}
-
-model Appointment {
-  id                  String                @id @default(cuid())
-  createdAt           DateTime              @default(now())
-  updatedAt           DateTime              @updatedAt
-  doctorId            String
-  doctor              Doctor                @relation(fields: [doctorId], references: [doctorId], onDelete: Cascade)
-  startDate           DateTime
-  endDate             DateTime
-  notes               String?
-  status              Status                @default(Pending)
-  appointmentSymptoms AppointmentSymptoms[]
-
-  @@index([doctorId])
-}
-
-model Image {
-  id          Int      @id @default(autoincrement())
-  title       String // The title of the image
-  url         String // The URL of the image in Cloudinary
-  createdAt   DateTime @default(now()) // The time the image was added
-  updatedAt   DateTime @updatedAt // The last time the image was updated
-  description String? // The description of the image
-}
-
-// Enumerations
-enum provinces {
-  AB
-  BC
-  MB
-  NB
-  NL
-  NS
-  NT
-  NU
-  ON
-  PEI
-  QC
-  SK
-  YK
-}
-
-enum Status {
-  Pending
-  Confirmed
-  Cancelled
-  Completed
+  id              Int       @id @default(autoincrement())
+  content         String
+  senderId        Int      
+  sender          User      @relation("UserMessages", fields: [senderId], references: [id])
+  chatId          Int
+  chat            Chat      @relation(fields: [chatId], references: [id])
+  createdAt       DateTime  @default(now())
 }
