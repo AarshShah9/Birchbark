@@ -4,15 +4,14 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["jsonProtocol"]
-}
-
 datasource db {
   provider     = "mysql"
   url          = env("DATABASE_URL")
   relationMode = "prisma"
+}
+
+generator client {
+  provider = "prisma-client-js"
 }
 
 model Doctor {
@@ -36,6 +35,9 @@ model Clinic {
   name               String
   // Add the relation field for AppointmentClinics
   appointmentClinics AppointmentClinics[]
+  address  String
+  city     String
+  province provinces
 }
 
 model Appointment {
@@ -112,4 +114,35 @@ model AppointmentClinics {
   clinic      Clinic      @relation(fields: [clinicId], references: [id])
 
   @@id([appointmentId, clinicId])
+}
+
+model Image {
+  id          Int      @id @default(autoincrement())
+  title       String // The title of the image
+  url         String // The URL of the image in Cloudinary
+  createdAt   DateTime @default(now()) // The time the image was added
+  updatedAt   DateTime @updatedAt // The last time the image was updated
+  description String? // The description of the image
+}
+enum provinces {
+  AB
+  BC
+  MB
+  NB
+  NL
+  NS
+  NT
+  NU
+  ON
+  PEI
+  QC
+  SK
+  YK
+}
+
+enum Status {
+  Pending
+  Confirmed
+  Cancelled
+  Completed
 }
