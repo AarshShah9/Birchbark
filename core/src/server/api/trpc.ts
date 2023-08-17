@@ -14,6 +14,22 @@ import superjson from "superjson";
 import { ZodError } from "zod";
 import { prisma } from "~/server/db";
 import { getAuth } from "@clerk/nextjs/server";
+import { Server } from 'ws';
+import { IncomingMessage } from "http";
+
+// wss is a global variable that will be used to send messages to all connected clients for real-time updates
+export const wss = new Server({ noServer: true });
+
+wss.on('connection', (ws) => {
+  ws.on('message', async (message) => {
+    // This is where you'll handle incoming messages from the WebSocket.
+    // You can invoke your tRPC procedures here if needed.
+  });
+});
+
+
+
+
 
 /**
  * 1. CONTEXT
