@@ -25,27 +25,6 @@ export const chatRouter = createTRPCRouter({
     return chat;
   }),
   
-  createMessage: privateProcedure.input(z.object({
-    chatId: z.number(),
-    content: z.string(),
-  })).mutation(async ({ ctx, input }) => {
-    const currentUser = await ctx.currentUser;
-        if (!currentUser || !currentUser.id) {
-            throw new Error("Current user or user ID not found");
-        }
-
-        const senderId = parseInt(currentUser.id, 10);
-
-        const message = await ctx.prisma.message.create({
-            data: {
-                content: input.content,
-                chatId: input.chatId,
-                senderId: senderId, 
-            },
-        });
-        return message;
-  }),
-  
   createChat: privateProcedure.input(z.object({
     doctorId: z.number(),
     patientId: z.number(),
