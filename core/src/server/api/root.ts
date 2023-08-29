@@ -2,6 +2,7 @@ import { wss } from "~/server/api/trpc";
 import { IncomingMessage } from "http";
 import { createTRPCRouter, privateProcedure } from "~/server/api/trpc"; // Adjust the import path as per your project structure
 import { prisma } from "~/server/db"; // Adjust this import too
+import { chatRouter } from "../Services/chatRouter";
 
 /**
  * This is the primary router for your server.
