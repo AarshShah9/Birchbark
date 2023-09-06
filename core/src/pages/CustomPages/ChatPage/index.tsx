@@ -1,55 +1,33 @@
 import React from "react";
 import Layout from "~/components/Layout";
-import Question from "~/customComponents/Question";
-import Answer from "~/components/Answer";
-import Chat from "~/components/Chat";
-import {useUser} from "@clerk/nextjs";
-// import SendbirdApp from "@sendbird/uikit-react/App";
+import { useUser } from "@clerk/nextjs";
 import "@sendbird/uikit-react/dist/index.css";
-import {useColorMode} from "@chakra-ui/color-mode";
-import dynamic from 'next/dynamic'
-
+import { useColorMode } from "@chakra-ui/color-mode";
+import dynamic from "next/dynamic";
+import styled from "styled-components";
 
 const ChatsPage: React.FC = () => {
   const user = useUser();
-    const { colorMode } = useColorMode();
-    const isLightMode = colorMode === "light";
+  const { colorMode } = useColorMode();
+  const isLightMode = colorMode === "light";
 
   const SendbirdApp = dynamic(() => import("@sendbird/uikit-react/App"), {
     ssr: false,
-  })
+  });
 
+  const StyledSendbirdApp = styled(SendbirdApp)``;
 
-
-    return (
+  return (
     <Layout>
-      {/*<div className={"rounded-md"}>*/}
-      <SendbirdApp
+      <div className={"h-screen rounded-2xl p-2"}>
+        <StyledSendbirdApp
           appId={process.env.NEXT_PUBLIC_SENDBIRD_APPID ?? ""}
           userId={user?.user?.id ?? "null"}
           theme={colorMode}
 
           // nickname={user.user?.firstName ?? "Unknown"}
-      />
-      {/*</div>*/}
-
-  {/*<Chat title="Chat">*/}
-      {/*  <Answer time="3 mins ago">*/}
-      {/*    Hello Dr. Sander. I have been having this terrible pain in my throat.*/}
-      {/*    I filled out the survey and am coming to see you later today. Is there*/}
-      {/*    anything I can do in the meantime to deal with the pain. 🙂*/}
-      {/*  </Answer>*/}
-      {/*  <Question time="2 mins ago">*/}
-      {/*    Hi Tina, I am sorry to hear about your throat. I got the survey and*/}
-      {/*    the images of your throat. It looks like it could be strep throat. For*/}
-      {/*    now, just drink some warm soothing liquids, I can probably get you in*/}
-      {/*    a bit early over my lunch break around 12:30 if that works for you?*/}
-      {/*  </Question>*/}
-      {/*  <Answer time="Just now">*/}
-      {/*    That would be great. Thank you so much Dr. Sander. See you soon, Tina.*/}
-      {/*  </Answer>*/}
-      {/*  <Answer loading />*/}
-      {/*</Chat>*/}
+        />
+      </div>
     </Layout>
   );
 };

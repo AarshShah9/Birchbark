@@ -20,6 +20,8 @@ model Doctor {
   // Add the relation field for DoctorAppointments
   doctorAppointments DoctorAppointments[]
   AppointmentDoctors AppointmentDoctors[]
+  Organization       Organization?        @relation(fields: [organizationId], references: [id])
+  organizationId     Int?
 }
 
 model Patient {
@@ -28,6 +30,8 @@ model Patient {
   // Add the relation field for PatientAppointments
   patientAppointments PatientAppointments[]
   AppointmentPatients AppointmentPatients[]
+  Organization        Organization?         @relation(fields: [organizationId], references: [id])
+  organizationId      Int?
 }
 
 model Clinic {
@@ -122,6 +126,21 @@ model AppointmentClinics {
   @@id([appointmentId, clinicId])
   @@index([appointmentId])
   @@index([clinicId])
+}
+
+model Organization {
+  id        Int        @id @default(autoincrement())
+  name      String // The name of the organization
+  createdAt DateTime   @default(now()) // The time the organization was added
+  updatedAt DateTime   @updatedAt // The last time the organization was updated
+  city      String? // The city the organization is located in
+  province  provinces? // The province the organization is located in
+  address   String? // The address of the organization
+  phone     String? // The phone number of the organization
+  email     String? // The email of the organization
+  website   String? // The website of the organization
+  doctors   Doctor[] // The doctors that work at the organization
+  patients  Patient[] // The patients that are registered at the organization
 }
 
 model Image {

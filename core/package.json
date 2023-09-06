@@ -57,6 +57,7 @@
     "react-syntax-highlighter": "^15.5.0",
     "react-textarea-autosize": "^8.4.0",
     "scroll-lock": "^2.1.5",
+    "styled-components": "^6.0.7",
     "superjson": "1.12.2",
     "tailwind-merge": "^1.10.0",
     "tailwind-scrollbar": "^3.0.0",
