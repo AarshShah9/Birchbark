@@ -9,6 +9,7 @@ import Navigation from "./Navigation";
 import {resultSearch} from "@/mocks/resultSearch";
 import {settings} from "@/constants/settings";
 import {twMerge} from "tailwind-merge";
+import {UserButton} from "@clerk/nextjs";
 
 type LeftSidebarProps = {
     value: boolean;
@@ -93,6 +94,8 @@ const LeftSidebar = ({
                         value ? "justify-center md:px-4" : "justify-between"
                     }`}
                 >
+                    <UserButton afterSignOutUrl="/"
+                    />
                     {!value && <Logo/>}
                     <button className="group tap-highlight-color" onClick={handleClick}>
                         <Icon

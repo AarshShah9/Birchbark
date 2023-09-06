@@ -71,50 +71,49 @@ const Layout = ({
                     }`}
                 >
                     <div
-                        className={`relative flex grow max-w-full bg-n-1 rounded-[1.25rem] md:rounded-none dark:bg-n-6 ${
-                            !hideRightSidebar &&
-                            "pr-[22.5rem] 2xl:pr-80 lg:pr-0"
-                        }`}
+                        className={`relative flex grow max-w-full bg-n-1 rounded-[1.25rem] md:rounded-none dark:bg-n-6 
+        `}
                     >
                         <div
-                            className={`relative flex flex-col grow max-w-full ${
-                                !hideRightSidebar && "md:pt-18"
-                            }`}
+                            className={`relative flex flex-col grow max-w-full 
+                            
+                            `
+                        }
                         >
-                            {!hideRightSidebar && (
-                                <Burger
-                                    className={`
-                                ${!visibleSidebar && "md:hidden"}
-                            `}
-                                    visibleRightSidebar={visibleRightSidebar}
-                                    onClick={() =>
-                                        setVisibleRightSidebar(
-                                            !visibleRightSidebar
-                                        )
-                                    }
-                                />
-                            )}
-                            {hideRightSidebar && smallSidebar && (
-                                <Link
-                                    className="absolute top-6 right-6 flex justify-center items-center w-10 h-10 border-2 border-n-4/25 rounded-full text-0 transition-colors hover:border-transparent hover:bg-n-4/25"
-                                    href={backUrl || "/"}
-                                >
-                                    <Icon className="fill-n-4" name="close"/>
-                                </Link>
-                            )}
+                            {/*{!hideRightSidebar && (*/}
+                            {/*    <Burger*/}
+                            {/*        className={`*/}
+                            {/*    ${!visibleSidebar && "md:hidden"}*/}
+                            {/*`}*/}
+                            {/*        visibleRightSidebar={visibleRightSidebar}*/}
+                            {/*        onClick={() =>*/}
+                            {/*            setVisibleRightSidebar(*/}
+                            {/*                !visibleRightSidebar*/}
+                            {/*            )*/}
+                            {/*        }*/}
+                            {/*    />*/}
+                            {/*)}*/}
+                            {/*{hideRightSidebar && smallSidebar && (*/}
+                            {/*    <Link*/}
+                            {/*        className="absolute top-6 right-6 flex justify-center items-center w-10 h-10 border-2 border-n-4/25 rounded-full text-0 transition-colors hover:border-transparent hover:bg-n-4/25"*/}
+                            {/*        href={backUrl || "/"}*/}
+                            {/*    >*/}
+                            {/*        <Icon className="fill-n-4" name="close"/>*/}
+                            {/*    </Link>*/}
+                            {/*)}*/}
                             {children}
                         </div>
-                        {!hideRightSidebar && (
-                            <RightSidebar
-                                className={`
-                                ${
-                                    !visibleSidebar &&
-                                    "md:translate-x-64 md:before:absolute md:before:z-30 md:before:inset-0"
-                                }
-                            `}
-                                visible={visibleRightSidebar}
-                            />
-                        )}
+                        {/*{!hideRightSidebar && (*/}
+                        {/*    <RightSidebar*/}
+                        {/*        className={`*/}
+                        {/*        ${*/}
+                        {/*            !visibleSidebar &&*/}
+                        {/*            "md:translate-x-64 md:before:absolute md:before:z-30 md:before:inset-0"*/}
+                        {/*        }*/}
+                        {/*    `}*/}
+                        {/*        visible={visibleRightSidebar}*/}
+                        {/*    />*/}
+                        {/*)}*/}
                     </div>
                 </div>
                 <div

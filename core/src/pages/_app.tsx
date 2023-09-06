@@ -1,12 +1,16 @@
 import "@/styles/globals.css";
 import {resolveValue, Toaster} from "react-hot-toast";
 import {Inter, Karla} from "next/font/google";
-import {ColorModeProvider, ColorModeScript} from "@chakra-ui/color-mode";
+import {ColorModeProvider, ColorModeScript, useColorMode} from "@chakra-ui/color-mode";
 import {ClerkProvider} from "@clerk/nextjs";
 import '@/styles/schedulerTheme.css';
 import type {AppProps} from "next/app";
 import {registerLicense} from "@syncfusion/ej2-base";
 import {api} from "~/utils/api";
+import { dark, shadesOfPurple} from '@clerk/themes';
+
+
+
 
 const inter = Inter({
     weight: ["500", "600", "700"],
@@ -25,9 +29,12 @@ const karla = Karla({
 const MyApp = ({Component, pageProps}: AppProps) => {
     registerLicense(process.env.NEXT_PUBLIC_SYNC_FUSION_LICENSE_KEY ?? "");
 
+    const { colorMode } = useColorMode();
+    const isLightMode = colorMode === "light";
+    const theme = isLightMode ? shadesOfPurple : dark;
+
 
     return (
-        <ClerkProvider>
             <main className={`${karla.variable} ${inter.variable} font-sans`}>
                 <style jsx global>{`
                   html {
@@ -39,12 +46,23 @@ const MyApp = ({Component, pageProps}: AppProps) => {
                   }
                 `}</style>
                 <ColorModeProvider>
-                    <ColorModeScript
+
+
+                        <ColorModeScript
                         initialColorMode="system"
                         key="chakra-ui-no-flash"
                         storageKey="chakra-ui-color-mode"
                     />
-                    <Component {...pageProps} />
+                    <ClerkProvider
+                    appearance={{
+                        baseTheme:  theme,
+                        }}
+                    // appearance={{
+                    //     baseTheme: isLightMode ? neobrutalism : dark,
+                    // }}
+                >
+
+                <Component {...pageProps} />
                     <Toaster
                         containerStyle={{
                             bottom: 40,
@@ -68,10 +86,10 @@ const MyApp = ({Component, pageProps}: AppProps) => {
                                 {resolveValue(t.message, t)}
                             </div>
                         )}
-                    </Toaster>
+                    </Toaster>        </ClerkProvider>
                 </ColorModeProvider>
             </main>
-        </ClerkProvider>
+
     );
 }
 
