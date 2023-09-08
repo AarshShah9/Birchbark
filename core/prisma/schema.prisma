@@ -1,6 +1,9 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 datasource db {
   provider     = "mysql"
   url          = env("DATABASE_URL")
@@ -11,118 +14,133 @@ generator client {
   provider = "prisma-client-js"
 }
 
-//
-// // Necessary for Next auth
-// model Account {
-//   id                String  @id @default(cuid())
-//   userId            String
-//   type              String
-//   provider          String
-//   providerAccountId String
-//   refresh_token     String? // @db.Text
-//   access_token      String? // @db.Text
-//   expires_at        Int?
-//   token_type        String?
-//   scope             String?
-//   id_token          String? // @db.Text
-//   session_state     String?
-//   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-//
-//   @@unique([provider, providerAccountId])
-// }
-//
-// model Session {
-//   id           String   @id @default(cuid())
-//   sessionToken String   @unique
-//   userId       String
-//   expires      DateTime
-//   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-// }
-//
-// model User {
-//   id            String        @id @default(cuid())
-//   name          String?
-//   email         String?       @unique
-//   emailVerified DateTime?
-//   image         String?
-//   accounts      Account[]
-//   sessions      Session[]
-//   age           Int?
-//   height        Int? // IN CM
-//   // type            Doctor | Patient How do I define this?
-//   Appointment   Appointment[]
-// }
-//
-// model VerificationToken {
-//   identifier String
-//   token      String   @unique
-//   expires    DateTime
-//
-//   @@unique([identifier, token])
-// }
-
-// Models
-model Clinic {
-  clinicId String    @id @default(cuid())
-  name     String
-  address  String
-  city     String
-  province provinces
-  doctors  Doctor[]
-}
-
 model Doctor {
-  doctorId     String        @id @default(cuid())
-  firstName    String
-  lastName     String
-  email        String
-  phone        String
-  clinic       Clinic        @relation(fields: [clinicId], references: [clinicId], onDelete: Cascade)
-  clinicId     String
-  specialty    String?
-  appointments Appointment[]
-  patients     Patient[]
-
-  @@index([clinicId])
+  id                 Int                  @id @default(autoincrement())
+  name               String
+  // Add the relation field for DoctorAppointments
+  doctorAppointments DoctorAppointments[]
+  AppointmentDoctors AppointmentDoctors[]
+  Organization       Organization?        @relation(fields: [organizationId], references: [id])
+  organizationId     Int?
 }
 
 model Patient {
-  patientId String @id @default(cuid())
-  firstName String
-  lastName  String
-  email     String
-  phone     String
-  age       Int? // IN YEARS
-  height    Int? // IN CM
-  weight    Int? // In LB
-  doctor    Doctor @relation(fields: [doctorId], references: [doctorId], onDelete: Cascade)
-  doctorId  String
-
-  @@index([doctorId])
+  id                  Int                   @id @default(autoincrement())
+  name                String
+  // Add the relation field for PatientAppointments
+  patientAppointments PatientAppointments[]
+  AppointmentPatients AppointmentPatients[]
+  Organization        Organization?         @relation(fields: [organizationId], references: [id])
+  organizationId      Int?
 }
 
-model AppointmentSymptoms {
-  id            String      @id @default(cuid())
-  // symptomModel SymptomModel
-  appointment   Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
-  appointmentId String
-
-  @@index([appointmentId])
+model Clinic {
+  id                 Int                  @id @default(autoincrement())
+  name               String
+  // Add the relation field for AppointmentClinics
+  appointmentClinics AppointmentClinics[]
+  address            String
+  city               String
+  province           provinces
 }
 
 model Appointment {
-  id                  String                @id @default(cuid())
-  createdAt           DateTime              @default(now())
-  updatedAt           DateTime              @updatedAt
-  doctorId            String
-  doctor              Doctor                @relation(fields: [doctorId], references: [doctorId], onDelete: Cascade)
-  startDate           DateTime
-  endDate             DateTime
-  notes               String?
-  status              Status                @default(Pending)
-  appointmentSymptoms AppointmentSymptoms[]
+  id             Int      @id @default(autoincrement())
+  subject        String // Subject of the appointment
+  startTime      DateTime // Start date and time of the appointment
+  endTime        DateTime // End date and time of the appointment
+  location       String? // Location of the appointment (optional)
+  description    String? // Description of the appointment (optional)
+  recurrenceRule String? // Recurrence rule for recurring appointments (optional)
+  isAllDay       Boolean // Whether the appointment is an all-day event
+  isReadOnly     Boolean // Whether the appointment is read-only
+  calendarId     Int // ID of the associated calendar
+  doctorId       Int // ID of the associated doctor
 
+  // Relationships
+  appointmentDoctors  AppointmentDoctors[]
+  appointmentPatients AppointmentPatients[]
+  appointmentClinics  AppointmentClinics[]
+  DoctorAppointments  DoctorAppointments[]
+  PatientAppointments PatientAppointments[]
+
+  // Indexes
+  @@index([startTime, endTime]) // Index for querying appointments by time range
+}
+
+model DoctorAppointments {
+  doctorId      Int
+  appointmentId Int
+
+  doctor      Doctor      @relation(fields: [doctorId], references: [id])
+  appointment Appointment @relation(fields: [appointmentId], references: [id])
+
+  @@id([doctorId, appointmentId])
+  @@index([appointmentId])
   @@index([doctorId])
+}
+
+model PatientAppointments {
+  patientId     Int
+  appointmentId Int
+
+  patient     Patient     @relation(fields: [patientId], references: [id])
+  appointment Appointment @relation(fields: [appointmentId], references: [id])
+
+  @@id([patientId, appointmentId])
+  @@index([patientId])
+  @@index([appointmentId])
+}
+
+model AppointmentDoctors {
+  appointmentId Int
+  doctorId      Int
+
+  appointment Appointment @relation(fields: [appointmentId], references: [id])
+  doctor      Doctor      @relation(fields: [doctorId], references: [id])
+
+  @@id([appointmentId, doctorId])
+  @@index([appointmentId])
+  @@index([doctorId])
+}
+
+model AppointmentPatients {
+  appointmentId Int
+  patientId     Int
+
+  appointment Appointment @relation(fields: [appointmentId], references: [id])
+  patient     Patient     @relation(fields: [patientId], references: [id])
+
+  @@id([appointmentId, patientId])
+  @@index([appointmentId])
+  @@index([patientId])
+}
+
+model AppointmentClinics {
+  appointmentId Int
+  clinicId      Int
+
+  appointment Appointment @relation(fields: [appointmentId], references: [id])
+  clinic      Clinic      @relation(fields: [clinicId], references: [id])
+
+  @@id([appointmentId, clinicId])
+  @@index([appointmentId])
+  @@index([clinicId])
+}
+
+model Organization {
+  id        Int        @id @default(autoincrement())
+  name      String // The name of the organization
+  createdAt DateTime   @default(now()) // The time the organization was added
+  updatedAt DateTime   @updatedAt // The last time the organization was updated
+  city      String? // The city the organization is located in
+  province  provinces? // The province the organization is located in
+  address   String? // The address of the organization
+  phone     String? // The phone number of the organization
+  email     String? // The email of the organization
+  website   String? // The website of the organization
+  doctors   Doctor[] // The doctors that work at the organization
+  patients  Patient[] // The patients that are registered at the organization
 }
 
 model Image {
@@ -134,7 +152,6 @@ model Image {
   description String? // The description of the image
 }
 
-// Enumerations
 enum provinces {
   AB
   BC

@@ -60,9 +60,10 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.cjs",
-    "**/*.mjs"
+    "**/*.mjs",
+    "/src",
+    "node_modules/@sendbird/uikit-react/index.d.ts"
   ],
   "exclude": [
-    "node_modules"
   ]
 }
