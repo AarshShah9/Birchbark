@@ -24,21 +24,21 @@ const Navbar: React.FC = () => {
   
 
     return (
-        <div className='bg-[#141718]'>
-            <nav className='md:hidden w-[100%] h-28 px-32 lg:px-16 bg-neutral-800' >
-                <div className='h-full flex flex-row justify-between'>
+        <div className='bg-[#141718] text-white'>
+            <nav className='md:hidden w-[100%] h-28 px-32 lg:px-16 bg-neutral-800 text-white' >
+                <div className='h-full flex flex-row justify-between text-white'>
                     {/* LOGO */}
                     <div className='flex-initial h-full flex items-center justify-center'>
                         <img className='aspect-[22/7]' alt='Symptom360 Logo' src='/images/BlueNavLogo.svg' />
                     </div>
 
                     {/* NAV ITEMS */}
-                    <div className='h-full flex items-center justify-center'>
-                        <ul className='flex flex-row'>
-                            <motion.a whileHover={{ scale: 1.2, color: '#0084FF' }} className='m-6 lg:m-4 font-bold text-2xl lg:text-lg' href="/CustomPages/HomePage">Home</motion.a>
-                            <motion.a whileHover={{ scale: 1.2, color: '#0084FF' }} className='m-6 lg:m-4 font-bold text-2xl lg:text-lg' href="/CustomPages/AboutUsPage">About Us</motion.a>
-                            <motion.a whileHover={{ scale: 1.2, color: '#0084FF' }} className='m-6 lg:m-4 font-bold text-2xl lg:text-lg' href="/CustomPages/PricingPage">Pricing</motion.a>
-                            <motion.a whileHover={{ scale: 1.2, color: '#0084FF' }} className='m-6 lg:m-4 font-bold text-2xl lg:text-lg' href="/CustomPages/ContactUsPage">Contact Us</motion.a>
+                    <div className='h-full flex items-center justify-center text-white'>
+                        <ul className='flex flex-row text-white'>
+                            <motion.a whileHover={{ scale: 1.2, color: '#0084FF' }} className=' text-white m-6 lg:m-4 font-bold text-2xl lg:text-lg' href="/CustomPages/HomePage">Home</motion.a>
+                            <motion.a whileHover={{ scale: 1.2, color: '#0084FF' }} className=' text-white m-6 lg:m-4 font-bold text-2xl lg:text-lg' href="/CustomPages/AboutUsPage">About Us</motion.a>
+                            <motion.a whileHover={{ scale: 1.2, color: '#0084FF' }} className=' text-white m-6 lg:m-4 font-bold text-2xl lg:text-lg' href="/CustomPages/PricingPage">Pricing</motion.a>
+                            <motion.a whileHover={{ scale: 1.2, color: '#0084FF' }} className=' text-white m-6 lg:m-4 font-bold text-2xl lg:text-lg' href="/CustomPages/ContactUsPage">Contact Us</motion.a>
                         </ul>
                         <div className='h-full flex items-center justify-center ml-8'>
                             <motion.a 
