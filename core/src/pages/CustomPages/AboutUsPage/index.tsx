@@ -12,11 +12,14 @@ const AboutUsPage: React.FC = () => {
 
         {/* MAIN CONTENT */}
         <div className='text-white'>
-          <div className='px-48 py-24'>
-            <h1 className='text-5xl text-center font-inikaBold'>Welcome to Symptom 360</h1>
-            <p className='text-2xl text-center font-inikaRegular'>
-              We talked to many First Nations Communities in Canada to understand what problems they have with virtual healthcare. So, we made a special website just for you to get healthcare online! What matters most
-            </p>
+          <div className='flex justify-center items-center h-[40vh] '>
+            <div className='w-[50%]'>
+              <h1 className='text-5xl text-center font-inikaBold'>Welcome to Symptom 360</h1>
+              <p className='text-2xl text-center font-inikaRegular'>
+                We talked to many First Nations Communities in Canada to understand what problems they have with virtual healthcare. So, we made a special website just for you to get healthcare online! What matters most
+              </p>
+            </div>
+            
           </div>
 
           <div className='flex items-center justify-center pt-32'>
@@ -99,15 +102,16 @@ const AboutUsPage: React.FC = () => {
         </div>
 
         {/* Section 1 */}
-        <div className='w-full h-[1200px] flex justify-center'>
-        <div className='px-48 py-24'>
+        <div className='w-full h-[1400px] flex justify-center'>
+        <div className='px-48 py-24 border w-[50%]'>
             <h1 className='text-6xl text-center font-inikaBold mb-12'>How Symptom 360 works</h1>
-            <div className='flex flex-col w-full h-auto '>
+            <div className='flex flex-col w-full h-full'>
+
               {/* CARD HOLDER */}
-              <div className='flex flex-row justify-left w-full h-auto border'>
-                <div className='relative w-96 h-64 bg-[#303334] rounded-2xl flex justify-center items-center m-5'>
-                  <p className='text-white text-md py-5 pl-15'>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo ducimus eum rem, accusamus autem dicta aperiam earum quo, ex quibusdam vel, nesciunt reiciendis ullam tempora pariatur tempore similique culpa libero.
+              <div className='flex flex-row justify-left w-full h-[80%]'>
+                <div className='relative w-[60%] h-[90%] bg-[#303334] rounded-2xl flex justify-center items-center m-5'>
+                  <p className='text-white text-2xl py-5 pl-15 leading-7'>
+                  You will answer some easy questions about your health. This helps your doctor understand what is going on. Your answers go to your doctor in a really safe way.
                   </p>
                   <span className='w-20 h-20 bg-[#4CA9EE] rounded-full absolute -left-10 text-5xl white font-inikaBold'>
                     <div className='flex justify-center items-center w-full h-full'>
@@ -116,11 +120,12 @@ const AboutUsPage: React.FC = () => {
                   </span>
                 </div>
               </div>
+
               {/* CARD HOLDER */}
-              <div className='flex flex-row justify-right w-full h-auto'>
-                <div className='relative w-96 h-64 bg-[#303334] rounded-2xl flex justify-center items-center m-5'>
-                  <p className='text-white text-md py-5 pl-15'>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo ducimus eum rem, accusamus autem dicta aperiam earum quo, ex quibusdam vel, nesciunt reiciendis ullam tempora pariatur tempore similique culpa libero.
+              <div className='flex flex-row justify-right w-full h-[80%]'>
+                <div className='relative w-[60%] h-[90%] bg-[#303334] rounded-2xl flex justify-center items-center m-5 ml-auto'>
+                  <p className='text-white text-2xl py-5 pl-15 leading-7'>
+                  You can pick a time to have a virtual meeting with your doctor using video, phone, or text. Your doctor will get a detailed report with your answers, which helps them understand your health status during the online visit.
                   </p>
                   <span className='w-20 h-20 bg-[#4CA9EE] rounded-full absolute -left-10 text-5xl white font-inikaBold'>
                     <div className='flex justify-center items-center w-full h-full'>
@@ -129,11 +134,12 @@ const AboutUsPage: React.FC = () => {
                   </span>
                 </div>
               </div>
+
               {/* CARD HOLDER */}
-              <div className='flex flex-row justify-left w-full h-auto'>
-                <div className='relative w-96 h-64 bg-[#303334] rounded-2xl flex justify-center items-center m-5'>
-                  <p className='text-white text-md py-5 pl-15'>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo ducimus eum rem, accusamus autem dicta aperiam earum quo, ex quibusdam vel, nesciunt reiciendis ullam tempora pariatur tempore similique culpa libero.
+              <div className='flex flex-row justify-left w-full h-[80%]'>
+                <div className='relative w-[60%] h-[90%] bg-[#303334] rounded-2xl flex justify-center items-center m-5'>
+                  <p className='text-white text-2xl py-5 pl-15 leading-7'>
+                  We really want to make sure you get the best care possible, your health is important to us, and we are here to help you the whole way. If you have any questions, just let us know!
                   </p>
                   <span className='w-20 h-20 bg-[#4CA9EE] rounded-full absolute -left-10 text-5xl white font-inikaBold'>
                     <div className='flex justify-center items-center w-full h-full'>

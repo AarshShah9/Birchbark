@@ -7,7 +7,7 @@ import { faInstagram, faLinkedin, faTwitter, faFacebook } from '@fortawesome/fre
 const Footer: React.FC = () => {
   return (
     <div>
-        <footer className='md:hidden w-full h-full bg-blue-400 '>
+        <footer className='md:hidden w-full h-full bg-blue-400 text-white'>
             <div className='flex items-center justify-center'>
                 <div className='mx-32 mt flex flex-row justify-between pt-6 '>
                     <div className='m-8'>
