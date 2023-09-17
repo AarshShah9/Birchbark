@@ -24,10 +24,9 @@ export const pricingRouter = createTRPCRouter({
       };
 
       try {
-        const createdQuote = await ctx.prisma.requestQuotes.create({
+        return await ctx.prisma.requestQuotes.create({
           data: newQuote,
         });
-        return createdQuote;
       } catch (error) {
         throw new TRPCError({
           code: "BAD_REQUEST",
