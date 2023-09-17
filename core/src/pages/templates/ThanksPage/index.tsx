@@ -23,12 +23,12 @@ const ThanksPage = () => {
               shortly.
             </div>
             <div className="flex xl:block lg:flex lg:space-x-4 md:block md:space-x-0 md:space-y-3">
-              <Link
-                className="btn-stroke-light mr-3 xl:mb-4 xl:mr-0 xl:w-full lg:mb-0"
-                href="/pricing"
-              >
-                Manage subscription
-              </Link>
+              {/*<Link*/}
+              {/*  className="btn-stroke-light mr-3 xl:mb-4 xl:mr-0 xl:w-full lg:mb-0"*/}
+              {/*  href="/pricing"*/}
+              {/*>*/}
+              {/*  Manage subscription*/}
+              {/*</Link>*/}
               <Link className="btn-blue xl:w-full" href="/">
                 Start new chat
               </Link>
