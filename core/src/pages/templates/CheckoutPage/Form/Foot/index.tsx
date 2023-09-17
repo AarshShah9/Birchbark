@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Icon from "@/components/Icon";
 
 type FootProps = Record<string, never>;
@@ -24,9 +23,9 @@ const Foot = ({}: FootProps) => (
       {/* <button className="btn-blue" type="submit">
                 Start Brainwave Enterprise plan
             </button> */}
-      <Link href="/thanks" className="btn-blue md:w-full" type="submit">
-        Start Brainwave Enterprise plan
-      </Link>
+      {/*<Link href="/thanks" className="btn-blue md:w-full" type="submit">*/}
+      {/*  Start Brainwave Enterprise plan*/}
+      {/*</Link>*/}
     </div>
   </div>
 );
