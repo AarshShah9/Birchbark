@@ -21,6 +21,7 @@ const config = {
   images: {
     domains: ['img.clerk.com'],
   },
+
 };
 
 export default config;

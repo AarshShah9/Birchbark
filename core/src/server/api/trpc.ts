@@ -7,13 +7,13 @@
  * need to use are documented accordingly near the end.
  */
 
-import {initTRPC, TRPCError} from "@trpc/server";
-import {type CreateNextContextOptions} from "@trpc/server/adapters/next";
-import {type Session} from "next-auth";
+import { initTRPC, TRPCError } from "@trpc/server";
+import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
+import { type Session } from "next-auth";
 import superjson from "superjson";
-import {ZodError} from "zod";
-import {prisma} from "~/server/db";
-import {getAuth} from "@clerk/nextjs/server";
+import { ZodError } from "zod";
+import { prisma } from "~/server/db";
+import { getAuth } from "@clerk/nextjs/server";
 
 /**
  * 1. CONTEXT
@@ -24,7 +24,7 @@ import {getAuth} from "@clerk/nextjs/server";
  */
 
 type CreateContextOptions = {
-    session: Session | null;
+  session: Session | null;
 };
 
 /**
@@ -38,10 +38,10 @@ type CreateContextOptions = {
  * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
  */
 const createInnerTRPCContext = (opts: CreateContextOptions) => {
-    return {
-        session: opts.session,
-        prisma,
-    };
+  return {
+    session: opts.session,
+    prisma,
+  };
 };
 
 /**
@@ -51,15 +51,15 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
  * @see https://trpc.io/docs/context
  */
 export const createTRPCContext = async (opts: CreateNextContextOptions) => {
-    const {req, res} = opts;
+  const { req, res } = opts;
 
-    const sessionObject = getAuth(req);
-    const userId = sessionObject.userId;
+  const sessionObject = getAuth(req);
+  const userId = sessionObject.userId;
 
-    return {
-        prisma,
-        userId,
-    };
+  return {
+    prisma,
+    userId,
+  };
 };
 
 /**
@@ -71,17 +71,17 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
  */
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
-    transformer: superjson,
-    errorFormatter({shape, error}) {
-        return {
-            ...shape,
-            data: {
-                ...shape.data,
-                zodError:
-                    error.cause instanceof ZodError ? error.cause.flatten() : null,
-            },
-        };
-    },
+  transformer: superjson,
+  errorFormatter({ shape, error }) {
+    return {
+      ...shape,
+      data: {
+        ...shape.data,
+        zodError:
+          error.cause instanceof ZodError ? error.cause.flatten() : null,
+      },
+    };
+  },
 });
 
 /**
@@ -107,19 +107,28 @@ export const createTRPCRouter = t.router;
  */
 export const publicProcedure = t.procedure;
 
-const enforceUserIsAuthed = t.middleware(async ({ctx, next}) => {
-    if (!ctx.userId) {
-        throw new TRPCError({
-            code: "UNAUTHORIZED",
-            message: "You must be logged in to perform this action.",
-        });
-    }
-
-    return next({
-        ctx: {
-            userId: ctx.userId,
-        },
+const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
+  if (!ctx.userId) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "You must be logged in to perform this action.",
     });
+  }
+
+  return next({
+    ctx: {
+      userId: ctx.userId,
+    },
+  });
 });
 
 export const privateProcedure = t.procedure.use(enforceUserIsAuthed);
+
+const HandleEncryption = t.middleware(async ({ ctx, next }) => {
+  // Implement encryption here
+  return next({
+    ctx,
+  });
+});
+
+export const encryptedProcedure = privateProcedure.use(HandleEncryption);
