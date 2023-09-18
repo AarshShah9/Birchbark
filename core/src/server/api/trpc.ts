@@ -54,11 +54,11 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
   const { req, res } = opts;
 
   const sessionObject = getAuth(req);
-  const user = sessionObject.user;
+  const userId = sessionObject.userId;
 
   return {
     prisma,
-    currentUser: user,
+    userId,
   };
 };
 
@@ -108,7 +108,7 @@ export const createTRPCRouter = t.router;
 export const publicProcedure = t.procedure;
 
 const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
-  if (!ctx.currentUser) {
+  if (!ctx.userId) {
     throw new TRPCError({
       code: "UNAUTHORIZED",
       message: "You must be logged in to perform this action.",
@@ -117,9 +117,18 @@ const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
 
   return next({
     ctx: {
-      session: ctx.currentUser,
+      userId: ctx.userId,
     },
   });
 });
 
 export const privateProcedure = t.procedure.use(enforceUserIsAuthed);
+
+const HandleEncryption = t.middleware(async ({ ctx, next }) => {
+  // Implement encryption here
+  return next({
+    ctx,
+  });
+});
+
+export const encryptedProcedure = privateProcedure.use(HandleEncryption);
