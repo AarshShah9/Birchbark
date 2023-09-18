@@ -34,6 +34,16 @@ model Patient {
   organizationId      Int?
 }
 
+model Clinic {
+  id                 Int                  @id @default(autoincrement())
+  name               String
+  // Add the relation field for AppointmentClinics
+  appointmentClinics AppointmentClinics[]
+  address            String
+  city               String
+  province           provinces
+}
+
 model Appointment {
   id             Int      @id @default(autoincrement())
   subject        String // Subject of the appointment
@@ -48,11 +58,11 @@ model Appointment {
   doctorId       Int // ID of the associated doctor
 
   // Relationships
-  appointmentDoctors      AppointmentDoctors[]
-  appointmentPatients     AppointmentPatients[]
-  appointmentOrganization AppointmentOrganizations[]
-  DoctorAppointments      DoctorAppointments[]
-  PatientAppointments     PatientAppointments[]
+  appointmentDoctors  AppointmentDoctors[]
+  appointmentPatients AppointmentPatients[]
+  appointmentClinics  AppointmentClinics[]
+  DoctorAppointments  DoctorAppointments[]
+  PatientAppointments PatientAppointments[]
 
   // Indexes
   @@index([startTime, endTime]) // Index for querying appointments by time range
@@ -106,32 +116,31 @@ model AppointmentPatients {
   @@index([patientId])
 }
 
-model AppointmentOrganizations {
-  appointmentId  Int
-  organizationId Int
+model AppointmentClinics {
+  appointmentId Int
+  clinicId      Int
 
-  appointment  Appointment  @relation(fields: [appointmentId], references: [id])
-  organization Organization @relation(fields: [organizationId], references: [id])
+  appointment Appointment @relation(fields: [appointmentId], references: [id])
+  clinic      Clinic      @relation(fields: [clinicId], references: [id])
 
-  @@id([appointmentId, organizationId])
+  @@id([appointmentId, clinicId])
   @@index([appointmentId])
-  @@index([organizationId])
+  @@index([clinicId])
 }
 
 model Organization {
-  id                       Int                        @id @default(autoincrement())
-  name                     String // The name of the organization
-  createdAt                DateTime                   @default(now()) // The time the organization was added
-  updatedAt                DateTime                   @updatedAt // The last time the organization was updated
-  city                     String? // The city the organization is located in
-  province                 provinces? // The province the organization is located in
-  address                  String? // The address of the organization
-  phone                    String? // The phone number of the organization
-  email                    String? // The email of the organization
-  website                  String? // The website of the organization
-  doctors                  Doctor[] // The doctors that work at the organization
-  patients                 Patient[] // The patients that are registered at the organization
-  AppointmentOrganizations AppointmentOrganizations[]
+  id        Int        @id @default(autoincrement())
+  name      String // The name of the organization
+  createdAt DateTime   @default(now()) // The time the organization was added
+  updatedAt DateTime   @updatedAt // The last time the organization was updated
+  city      String? // The city the organization is located in
+  province  provinces? // The province the organization is located in
+  address   String? // The address of the organization
+  phone     String? // The phone number of the organization
+  email     String? // The email of the organization
+  website   String? // The website of the organization
+  doctors   Doctor[] // The doctors that work at the organization
+  patients  Patient[] // The patients that are registered at the organization
 }
 
 model Image {
