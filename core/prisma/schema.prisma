@@ -143,6 +143,19 @@ model Image {
   description String? // The description of the image
 }
 
+model RequestQuotes {
+  id                Int       @id @default(autoincrement())
+  OrganizationName  String
+  OrganizationEmail String
+  OrganizationPhone String
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  description       String
+  province          provinces
+  city              String
+  status            Status    @default(Pending)
+}
+
 enum provinces {
   AB
   BC
