@@ -16,7 +16,7 @@ const AboutUsPage: React.FC = () => {
             <div className='w-[50%]'>
               <h1 className='text-5xl text-center font-inikaBold'>Welcome to Symptom 360</h1>
               <p className='text-2xl text-center font-inikaRegular'>
-                We talked to many First Nations Communities in Canada to understand what problems they have with virtual healthcare. So, we made a special website just for you to get healthcare online! What matters most
+              Your health is important to us. We understand that it can sometimes be difficult to access healthcare on reserves. We partnered with the largest reserve in Canada, the Blood Tribe, to build a platform to provide you the virtual care you deserve.
               </p>
             </div>
             
@@ -33,7 +33,7 @@ const AboutUsPage: React.FC = () => {
                       <img src='/icons/heart.svg' alt='icon' className='w-12'/>
                     </div>
                     <h1 className='font-inikaBold text-5xl font-bold mb-4'>Trust</h1>
-                    <p className='font-inikaRegular text-xl'>We are Symptom 360, a group of canadians proudly serving First Nations and Indigenous. We are here to connect you to doctors remotely and get you the help you need.</p>
+                    <p className='font-inikaRegular text-xl'>Trust is important in us. Our platform connects you with local doctors who are trusted members of your community.</p>
                   </motion.div>
 
                   <motion.div whileHover={{scale:1.1}}  className=' flex flex-col items-center justify-center h-96 w-[18%] md:w-64 bg-[#303334] shadow-xl rounded-2xl p-4 m-4'>
@@ -41,15 +41,15 @@ const AboutUsPage: React.FC = () => {
                       <img src='/icons/handshake.svg' alt='icon' className='w-12'/>
                     </div>
                     <h1 className='font-inikaBold text-5xl font-bold mb-4'>Partnership</h1>
-                    <p className='font-inikaRegular text-xl'>We are Symptom 360, a group of canadians proudly serving First Nations and Indigenous. We are here to connect you to doctors remotely and get you the help you need.</p>
+                    <p className='font-inikaRegular text-xl'>This platform was built in partnership with the Blood Tribe to meet the specific needs of Indigenous Peoples in Canada.</p>
                   </motion.div>
 
                   <motion.div whileHover={{scale:1.1}}  className=' flex flex-col items-center justify-center h-96 w-[18%] md:w-64 bg-[#303334] shadow-xl rounded-2xl p-4 m-4'>
                     <div>
-                      <img src='/icons/mapleLeaf.svg' alt='icon' className='w-12'/>
+                      <img src='/icons/healingCircle.svg' alt='icon' className='w-12'/>
                     </div>
                     <h1 className='font-inikaBold text-5xl font-bold mb-4'>Culture</h1>
-                    <p className='font-inikaRegular text-xl'>We are Symptom 360, a group of canadians proudly serving First Nations and Indigenous. We are here to connect you to doctors remotely and get you the help you need.</p>
+                    <p className='font-inikaRegular text-xl'>Through our website, you can connect with Elders and traditional healers in addition to doctors.</p>
                   </motion.div>
                 </div>
 
@@ -73,7 +73,7 @@ const AboutUsPage: React.FC = () => {
                       <img src='/icons/video.svg' className=''></img>
                     </div>
                     <span className='flex justify-center items-center text-black text-3xl pl-8 font-medium'>
-                      Video: A video call where you can see your doctor face to face.
+                    Video: You and your doctor can see one-another while talking
                     </span>
                   </div>
 
@@ -82,8 +82,7 @@ const AboutUsPage: React.FC = () => {
                       <img src='/icons/phone.svg' className=''></img>
                     </div>
                     <span className='flex justify-center items-center text-black text-3xl pl-8 font-medium'>
-                    Phone: Just call your doctor and talk about your health over the phone.
-                    </span>
+                    Phone: Just call your doctor and talk about your health over the phone.                    </span>
                   </div>
 
                   <div className='flex flex-row mb-8'>
@@ -91,8 +90,7 @@ const AboutUsPage: React.FC = () => {
                       <img src='/icons/texts.svg' className=''></img>
                     </div>
                     <span className='flex justify-center items-center text-black text-3xl pl-8 font-medium'>
-                    Text: If you are in a hurry, you can quickly send a text to your doctor.
-                    </span>
+                    Text: If you are in a hurry, you can quickly send a text to your doctor.                    </span>
                   </div>
                 </div>
               </div>
@@ -103,7 +101,7 @@ const AboutUsPage: React.FC = () => {
 
         {/* Section 1 */}
         <div className='w-full h-[1400px] flex justify-center'>
-        <div className='px-48 py-24 border w-[50%]'>
+        <div className='px-48 py-24 w-[50%]'>
             <h1 className='text-6xl text-center font-inikaBold mb-12'>How Symptom 360 works</h1>
             <div className='flex flex-col w-full h-full'>
 

@@ -46,7 +46,7 @@ const HomePage: React.FC = () => {
             <div className='absolute inset-0 flex flex-col justify-center items-center m-32 xl:m-16 lg:m-4'>
                 <p className='font-inikaBold text-white text-6xl 2xl:text-5xl xl:text-3xl  font-bold'>We're here for you</p>
                 <div className='w-[25%] h-[5px] lg:h-[3px] my-4 lg:my-2 bg-white rounded-full'></div>
-                <p className='font-inikaRegular text-4xl 2xl:text-2xl lg:text-xl font-medium text-center px-32 lg:px-12 lg:leading-tight'>We are proudly serving First Nations and Indigenous. We are here to connect you to doctors remotely and get you the help you need.</p>
+                <p className='font-inikaRegular text-4xl 2xl:text-2xl lg:text-xl font-medium text-center px-32 lg:px-12 lg:leading-tight'>Developed alongside the Blood Tribe, we are here to get you the personalized help you want.</p>
             </div>
         </div>
 
@@ -57,8 +57,8 @@ const HomePage: React.FC = () => {
                 <div className='flex flex-row xl:flex-col-reverse'>
                     <div className='mx-20 sm:mx-4 flex-initial'>
                         <div className='flex flex-col justify-center h-full w-[450px] md:w-64'>
-                            <h1 className='font-inikaBold text-5xl font-bold'>Who we are</h1>
-                            <p className='font-inikaRegular text-xl'>We are Symptom 360, a group of canadians proudly serving First Nations and Indigenous. We are here to connect you to doctors remotely and get you the help you need.</p>
+                            <h1 className='font-inikaBold text-5xl font-bold'>Why Us?</h1>
+                            <p className='font-inikaRegular text-xl'>We worked very closely with Canada’s largest Reserve, the Blood Tribe, to develop a product that meets the specific needs of people living on reserves. Community is important to us, so we provide community centered care.</p>
                         </div>
                     </div>
                     <div className='mx-20 sm:mx-4 w-96 h-96 md:w-64 md:h-64 flex-initial'>
@@ -75,8 +75,8 @@ const HomePage: React.FC = () => {
                     </div>
                     <div className='mx-20 sm:mx-4 flex-initial'>
                         <div className='flex flex-col justify-center h-full w-[450px] md:w-64'>
-                            <h1 className='font-inikaBold text-5xl font-bold'>Where we are</h1>
-                            <p className='font-inikaRegular text-xl'>We are proudly serving First Nations and Indigenous. We are here to connect you to doctors remotely and get you the help you need.</p>
+                            <h1 className='font-inikaBold text-5xl font-bold'>Why we do what we do?</h1>
+                            <p className='font-inikaRegular text-xl'>We are proudly serving Indigenous communities across Canada. We know that accessing medical care on reserves can be difficult and that you may not always be able to go visit a doctor in-person. We connect you by phone or video with trusted doctors, so that you can access the care you need.</p>
                         </div>
                     </div>
                     
@@ -89,7 +89,7 @@ const HomePage: React.FC = () => {
                     <div className='mx-20 sm:mx-4 flex-initial '>
                         <div className='flex flex-col justify-center h-full w-[450px] md:w-64'>
                             <h1 className='font-inikaBold text-5xl font-bold'>How it works</h1>
-                            <p className='font-inikaRegular text-xl'>Symptom 360 is a telecomunication service. We partner with doctors in order to get every patient the care that they need regardless of location.</p>
+                            <p className='font-inikaRegular text-xl'>You first sign up for a free account and can book video or phone visits with experienced doctors who are already serving people in your community. We are here to connect you to fantastic doctors who can provide you with the care you deserve.</p>
                         </div>
                     </div>
                     <div className=' mx-20 sm:mx-4 w-96 h-96 md:w-64 md:h-64 flex-initial'>
