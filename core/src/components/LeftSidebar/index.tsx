@@ -46,7 +46,7 @@ const LeftSidebar = ({
       title: "Calendar",
       icon: "calendar",
       color: "fill-accent-2",
-      url: "/",
+      url: "/calendar",
     },
     {
       title: "Chats",
