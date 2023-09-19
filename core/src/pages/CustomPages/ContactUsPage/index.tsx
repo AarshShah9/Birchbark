@@ -35,7 +35,7 @@ const ContactUsPage: React.FC = () => {
           
           {/* Right */}
           <div className='flex-1'>
-            <FAQS/>
+            Right side example
           </div>
         </div>
         <Footer />
