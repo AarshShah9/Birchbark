@@ -1,5 +1,7 @@
-import {SoreThroatsService } from "~/server/api/routers/SoreThroatService"; 
 import { createTRPCRouter } from "~/server/api/trpc";
+import {SoreThroatsService } from "~/server/api/routers/SoreThroatService";
+import { appointmentRouter } from "~/server/api/routers/appointmentRouter";
+import { pricingRouter } from "~/server/api/routers/pricingRouter";
 
 /*
  * This is the primary router for your server.
@@ -8,6 +10,8 @@ import { createTRPCRouter } from "~/server/api/trpc";
  */
 export const appRouter = createTRPCRouter({
   sourThroats: SoreThroatsService,
+  appointment: appointmentRouter,
+  pricing: pricingRouter,
 });
 
 // export type definition of API
