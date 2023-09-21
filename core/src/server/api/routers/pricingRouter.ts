@@ -24,7 +24,7 @@ export const pricingRouter = createTRPCRouter({
       };
 
       try {
-        return await ctx.prisma.requestQuotes.create({
+        return await ctx.prisma.requestQuote.create({
           data: newQuote,
         });
       } catch (error) {
