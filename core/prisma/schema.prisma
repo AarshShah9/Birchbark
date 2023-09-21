@@ -25,150 +25,135 @@ model Doctor {
   patient         Patient? @relation(fields: [patientId], references: [id]) // Change to singular and use a relation to Patient model
 
   patientId         Int?
-  Organisation      Organisation?       @relation(fields: [organisationId], references: [id])
+  Organisation      Organization?       @relation(fields: [organisationId], references: [id])
   organisationId    Int?
   AppointmentDoctor AppointmentDoctor[]
+
+  @@index([patientId])
+  @@index([organisationId])
 }
 
 model Patient {
-  id                  Int                   @id @default(autoincrement())
-  name                String
-  // Add the relation field for PatientAppointments
-  patientAppointments PatientAppointments[]
-  AppointmentPatients AppointmentPatients[]
-  Organization        Organization?         @relation(fields: [organizationId], references: [id])
-  organizationId      Int?
+  id              Int    @id @default(autoincrement())
+  name            String
+  organisation_id Int
+  clerk_id        Int
+  email           String
+  phone_num       String
+  notification_on String
+  doctor_id       Int
+
+  Doctor             Doctor[]
+  Organisation       Organization?        @relation(fields: [organisationId], references: [id])
+  organisationId     Int?
+  AppointmentPatient AppointmentPatient[]
+
+  @@index([organisationId])
 }
 
-model Clinic {
-  id                 Int                  @id @default(autoincrement())
-  name               String
-  // Add the relation field for AppointmentClinics
-  appointmentClinics AppointmentClinics[]
-  address            String
-  city               String
-  province           provinces
+model Organization {
+  id                       Int                       @id @default(autoincrement())
+  name                     String
+  createdAt                DateTime
+  updatedAt                DateTime
+  city                     String
+  province                 String
+  address                  String
+  phone                    String
+  email                    String
+  website                  String
+  doctor                   Doctor[]
+  patients                 Patient[]
+  clerkId                  Int
+  appointmentOrganisations AppointmentOrganization[]
+  stripeId                 String?
 }
 
 model Appointment {
   id             Int      @id @default(autoincrement())
-  subject        String // Subject of the appointment
-  startTime      DateTime // Start date and time of the appointment
-  endTime        DateTime // End date and time of the appointment
-  location       String? // Location of the appointment (optional)
-  description    String? // Description of the appointment (optional)
-  recurrenceRule String? // Recurrence rule for recurring appointments (optional)
-  isAllDay       Boolean // Whether the appointment is an all-day event
-  isReadOnly     Boolean // Whether the appointment is read-only
-  calendarId     Int // ID of the associated calendar
-  doctorId       Int // ID of the associated doctor
+  subject        String
+  startTime      DateTime
+  endTime        DateTime
+  location       String?
+  description    String?
+  recurrenceRule String?
+  isAllDay       Boolean
+  isReadOnly     Boolean
+  calendarId     Int
+  doctor_id      Int
+  status         String
 
-  // Relationships
-  appointmentDoctors  AppointmentDoctors[]
-  appointmentPatients AppointmentPatients[]
-  appointmentClinics  AppointmentClinics[]
-  DoctorAppointments  DoctorAppointments[]
-  PatientAppointments PatientAppointments[]
-
-  // Indexes
-  @@index([startTime, endTime]) // Index for querying appointments by time range
-}
-
-model DoctorAppointments {
-  doctorId      Int
-  appointmentId Int
-
-  doctor      Doctor      @relation(fields: [doctorId], references: [id])
-  appointment Appointment @relation(fields: [appointmentId], references: [id])
-
-  @@id([doctorId, appointmentId])
-  @@index([appointmentId])
-  @@index([doctorId])
-}
-
-model PatientAppointments {
-  patientId     Int
-  appointmentId Int
-
-  patient     Patient     @relation(fields: [patientId], references: [id])
-  appointment Appointment @relation(fields: [appointmentId], references: [id])
-
-  @@id([patientId, appointmentId])
-  @@index([patientId])
-  @@index([appointmentId])
-}
-
-model AppointmentDoctors {
-  appointmentId Int
-  doctorId      Int
-
-  appointment Appointment @relation(fields: [appointmentId], references: [id])
-  doctor      Doctor      @relation(fields: [doctorId], references: [id])
-
-  @@id([appointmentId, doctorId])
-  @@index([appointmentId])
-  @@index([doctorId])
-}
-
-model AppointmentPatients {
-  appointmentId Int
-  patientId     Int
-
-  appointment Appointment @relation(fields: [appointmentId], references: [id])
-  patient     Patient     @relation(fields: [patientId], references: [id])
-
-  @@id([appointmentId, patientId])
-  @@index([appointmentId])
-  @@index([patientId])
-}
-
-model AppointmentClinics {
-  appointmentId Int
-  clinicId      Int
-
-  appointment Appointment @relation(fields: [appointmentId], references: [id])
-  clinic      Clinic      @relation(fields: [clinicId], references: [id])
-
-  @@id([appointmentId, clinicId])
-  @@index([appointmentId])
-  @@index([clinicId])
-}
-
-model Organization {
-  id        Int        @id @default(autoincrement())
-  name      String // The name of the organization
-  createdAt DateTime   @default(now()) // The time the organization was added
-  updatedAt DateTime   @updatedAt // The last time the organization was updated
-  city      String? // The city the organization is located in
-  province  provinces? // The province the organization is located in
-  address   String? // The address of the organization
-  phone     String? // The phone number of the organization
-  email     String? // The email of the organization
-  website   String? // The website of the organization
-  doctors   Doctor[] // The doctors that work at the organization
-  patients  Patient[] // The patients that are registered at the organization
+  AppointmentDoctor       AppointmentDoctor[]
+  AppointmentPatient      AppointmentPatient[]
+  AppointmentOrganisation AppointmentOrganization[]
 }
 
 model Image {
   id          Int      @id @default(autoincrement())
   title       String // The title of the image
-  url         String // The URL of the image in Cloudinary
+  blobUrl     String // The URL of the image in Cloudinary
   createdAt   DateTime @default(now()) // The time the image was added
   updatedAt   DateTime @updatedAt // The last time the image was updated
   description String? // The description of the image
 }
 
-model RequestQuotes {
-  id                Int       @id @default(autoincrement())
+model RequestQuote {
+  id                Int             @id @default(autoincrement())
   OrganizationName  String
   OrganizationEmail String
   OrganizationPhone String
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
   description       String
   province          provinces
   city              String
-  status            Status    @default(Pending)
+  status            Status          @default(Pending)
+  generatedNote     GeneratedNote[]
+}
+
+model GeneratedNote {
+  id             Int           @id @default(autoincrement())
+  title          String
+  description    String
+  blobURL        String
+  appointmentID  Int
+  RequestQuote   RequestQuote? @relation(fields: [requestQuoteId], references: [id])
+  requestQuoteId Int?
+
+  @@index([requestQuoteId])
+}
+
+model AppointmentDoctor {
+  id            Int         @id @default(autoincrement())
+  appointmentId Int
+  doctorId      Int
+  appointment   Appointment @relation(fields: [appointmentId], references: [id])
+  doctor        Doctor      @relation(fields: [doctorId], references: [id])
+
+  @@index([appointmentId])
+  @@index([doctorId])
+}
+
+model AppointmentPatient {
+  id            Int         @id @default(autoincrement())
+  appointmentId Int
+  patientId     Int
+  appointment   Appointment @relation(fields: [appointmentId], references: [id])
+  patient       Patient     @relation(fields: [patientId], references: [id])
+
+  @@index([appointmentId])
+  @@index([patientId])
+}
+
+model AppointmentOrganization {
+  id             Int          @id @default(autoincrement())
+  appointmentId  Int
+  organisationId Int
+  appointment    Appointment  @relation(fields: [appointmentId], references: [id])
+  organisation   Organization @relation(fields: [organisationId], references: [id])
+
+  @@index([appointmentId])
+  @@index([organisationId])
 }
 
 enum provinces {
@@ -192,139 +177,4 @@ enum Status {
   Confirmed
   Cancelled
   Completed
-}
-
-generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["jsonProtocol"]
-}
-
-datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
-}
-
-model Doctor {
-  id              Int      @id @default(autoincrement())
-  name            String
-  organisation_id Int
-  clerk_id        Int
-  email           String
-  phone_num       String
-  notification_on String
-  patient         Patient? @relation(fields: [patientId], references: [id]) // Change to singular and use a relation to Patient model
-
-  patientId         Int?
-  Organisation      Organisation?       @relation(fields: [organisationId], references: [id])
-  organisationId    Int?
-  AppointmentDoctor AppointmentDoctor[]
-}
-
-model Patient {
-  id              Int    @id @default(autoincrement())
-  name            String
-  organisation_id Int
-  clerk_id        Int
-  email           String
-  phone_num       String
-  notification_on String
-  doctor_id       Int
-
-  Doctor             Doctor[]
-  Organisation       Organisation?        @relation(fields: [organisationId], references: [id])
-  organisationId     Int?
-  AppointmentPatient AppointmentPatient[]
-}
-
-model Appointment {
-  id             Int      @id @default(autoincrement())
-  subject        String
-  startTime      DateTime
-  endTime        DateTime
-  location       String?
-  description    String?
-  recurrenceRule String?
-  isAllDay       Boolean
-  isReadOnly     Boolean
-  calendarId     Int
-  doctor_id      Int
-  status         String
-
-  AppointmentDoctor       AppointmentDoctor[]
-  AppointmentPatient      AppointmentPatient[]
-  AppointmentOrganisation AppointmentOrganisation[]
-}
-
-model Organisation {
-  id                       Int                       @id @default(autoincrement())
-  name                     String
-  createdAt                DateTime
-  updatedAt                DateTime
-  city                     String
-  province                 String
-  address                  String
-  phone                    String
-  email                    String
-  website                  String
-  doctor                   Doctor[]
-  patients                 Patient[]
-  clerkId                  Int
-  appointmentOrganisations AppointmentOrganisation[]
-  stripeId                 String?
-}
-
-model Image {
-  id          Int      @id @default(autoincrement())
-  title       String
-  blobURL     String
-  createdAt   DateTime
-  updatedAt   DateTime
-  description String
-}
-
-model RequestQuote {
-  id               Int             @id @default(autoincrement())
-  organisationName String
-  createdAt        DateTime
-  updatedAt        DateTime
-  description      String
-  province         String
-  city             String
-  status           String
-  generatedNote    GeneratedNote[]
-}
-
-model GeneratedNote {
-  id             Int           @id @default(autoincrement())
-  title          String
-  description    String
-  blobURL        String
-  appointmentID  Int
-  RequestQuote   RequestQuote? @relation(fields: [requestQuoteId], references: [id])
-  requestQuoteId Int?
-}
-
-model AppointmentDoctor {
-  id            Int         @id @default(autoincrement())
-  appointmentId Int
-  doctorId      Int
-  appointment   Appointment @relation(fields: [appointmentId], references: [id])
-  doctor        Doctor      @relation(fields: [doctorId], references: [id])
-}
-
-model AppointmentPatient {
-  id            Int         @id @default(autoincrement())
-  appointmentId Int
-  patientId     Int
-  appointment   Appointment @relation(fields: [appointmentId], references: [id])
-  patient       Patient     @relation(fields: [patientId], references: [id])
-}
-
-model AppointmentOrganisation {
-  id             Int          @id @default(autoincrement())
-  appointmentId  Int
-  organisationId Int
-  appointment    Appointment  @relation(fields: [appointmentId], references: [id])
-  organisation   Organisation @relation(fields: [organisationId], references: [id])
 }
