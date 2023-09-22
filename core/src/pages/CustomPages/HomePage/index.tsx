@@ -1,6 +1,6 @@
 import React from 'react';
-import Navbar from '~/customComponents/Navbar';
-import Footer from '~/customComponents/Footer';
+import Navbar from '../../../customComponents/Navbar';
+import Footer from '../../../customComponents/Footer';
 import { motion } from "framer-motion";
 
 const HomePage: React.FC = () => {
@@ -10,8 +10,8 @@ const HomePage: React.FC = () => {
         <Navbar />
 
         {/* Splashscreen/Hero */}
-        <div className='w-[100%] pt-40 lg:pt-4 pb-32 lg:pb-2 px-32 lg:px-24 md:16 bg-[#141718]'>
-            <div className='h-full flex items-center justify-center'>
+        <div className='w-full pt-40 lg:pt-4 pb-32 lg:pb-2 px-32 lg:px-24 md:16 bg-[#141718] '>
+            <div className='h-full flex items-center justify-center '>
                 <div className='w-[80%] lg:w-[95%] h-[400px]'>
                     <div className='h-full flex justify-between '>
                         <div className='flex justify-center items-center w-full h-full '>
@@ -51,30 +51,34 @@ const HomePage: React.FC = () => {
         </div>
 
         {/* Info Section */}
-        <div className='flex flex-col p-32 bg-[#141718]'>
+        <div className='flex flex-col py-16 md:px-2 xl:px-20 px-32 bg-[#141718] '>
             {/* Section 1 */}
-            <div className='flex justify-center text-white'>
-                <div className='flex flex-row xl:flex-col-reverse'>
-                    <div className='mx-20 sm:mx-4 flex-initial'>
-                        <div className='flex flex-col justify-center h-full w-[450px] md:w-64'>
+            <div className='flex mb-4 md:pt-8 justify-center text-white'>
+                <div className='flex flex-row md:flex-col-reverse'>
+                    <div className='md:mx-8 xl:mx-10 mx-20 flex-initial'>
+                        <div className='flex flex-col justify-center h-full md:w-[100%] xl:w-[300px] w-[450px]'>
                             <h1 className='font-inikaBold text-5xl font-bold'>Why Us?</h1>
                             <p className='font-inikaRegular text-xl'>We worked very closely with Canada’s largest Reserve, the Blood Tribe, to develop a product that meets the specific needs of people living on reserves. Community is important to us, so we provide community centered care.</p>
                         </div>
                     </div>
-                    <div className='mx-20 sm:mx-4 w-96 h-96 md:w-64 md:h-64 flex-initial'>
-                        <img className='aspect-[1/1]' src="/images/Wolf.svg" alt="wolf graphic" />
+                    <div className='w-full flex justify-center'>
+                        <div className=' md:mx-4 xl:mx-10 mx-20 w-96 h-96 xl:w-64 xl:h-64 flex-initial'>
+                            <img className='aspect-[1/1]' src="/images/Wolf.svg" alt="wolf graphic" />
+                        </div>
                     </div>
                 </div>
             </div>
 
             {/* Section 2 */}
-            <div className='flex justify-center text-white'>
-                <div className='flex flex-row xl:flex-col'>
-                    <div className='mx-20 sm:mx-4 w-96 h-96 md:w-64 md:h-64 flex-initial'>
-                        <img className='aspect-[1/1]' src="/images/Bear.svg" alt="wolf graphic" />
+            <div className='flex mb-4 md:pt-8 justify-center text-white'>
+                <div className='flex flex-row md:flex-col'>
+                    <div className='w-full flex justify-center'>
+                        <div className=' md:mx-4 xl:mx-10 mx-20 w-96 h-96 xl:w-64 xl:h-64 flex-initial'>
+                            <img className='aspect-[1/1]' src="/images/Bear.svg" alt="wolf graphic" />
+                        </div>
                     </div>
-                    <div className='mx-20 sm:mx-4 flex-initial'>
-                        <div className='flex flex-col justify-center h-full w-[450px] md:w-64'>
+                    <div className='md:mx-8 xl:mx-10 mx-20 flex-initial'>
+                        <div className='flex flex-col justify-center h-full md:w-[100%] xl:w-[300px] w-[450px]'>
                             <h1 className='font-inikaBold text-5xl font-bold'>Why we do what we do?</h1>
                             <p className='font-inikaRegular text-xl'>We are proudly serving Indigenous communities across Canada. We know that accessing medical care on reserves can be difficult and that you may not always be able to go visit a doctor in-person. We connect you by phone or video with trusted doctors, so that you can access the care you need.</p>
                         </div>
@@ -84,16 +88,18 @@ const HomePage: React.FC = () => {
             </div>
 
             {/* Section 3 */}
-            <div className='flex justify-center text-white'>
-                <div className='flex flex-row xl:flex-col-reverse '>
-                    <div className='mx-20 sm:mx-4 flex-initial '>
-                        <div className='flex flex-col justify-center h-full w-[450px] md:w-64'>
+            <div className='flex mb-4 md:pt-8 justify-center text-white'>
+                <div className='flex flex-row md:flex-col-reverse '>
+                    <div className='md:mx-8 xl:mx-10 mx-20 flex-initial'>
+                        <div className='flex flex-col justify-center h-full md:w-[100%] xl:w-[300px] w-[450px]'>
                             <h1 className='font-inikaBold text-5xl font-bold'>How it works</h1>
                             <p className='font-inikaRegular text-xl'>You first sign up for a free account and can book video or phone visits with experienced doctors who are already serving people in your community. We are here to connect you to fantastic doctors who can provide you with the care you deserve.</p>
                         </div>
                     </div>
-                    <div className=' mx-20 sm:mx-4 w-96 h-96 md:w-64 md:h-64 flex-initial'>
-                        <img className='aspect-[1/1]' src="/images/Moose.svg" alt="wolf graphic" />
+                    <div className='w-full flex justify-center'>
+                        <div className=' md:mx-4 xl:mx-10 mx-20 w-96 h-96 xl:w-64 xl:h-64 flex-initial'>
+                            <img className='aspect-[1/1]' src="/images/Moose.svg" alt="wolf graphic" />
+                        </div>
                     </div>
                 </div>
             </div>
