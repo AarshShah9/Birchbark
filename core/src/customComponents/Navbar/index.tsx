@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { AnimatePresence, motion } from "framer-motion"
 
 const Navbar: React.FC = () => {
@@ -8,28 +8,13 @@ const Navbar: React.FC = () => {
         setIsOpen(prevState => !prevState);
     };
 
-    useEffect(() => {
-        const closeMenuOnResize = () => {
-            if (window.innerWidth >= 768) {
-            setIsOpen(false);
-            }
-        };
-
-    window.addEventListener('resize', closeMenuOnResize);
-
-    return () => {
-        window.removeEventListener('resize', closeMenuOnResize);
-        };
-    }, []);
-  
-
     return (
         <div className='bg-[#141718] text-white'>
-            <nav className='md:hidden w-[100%] h-28 px-32 lg:px-16 bg-neutral-800 text-white' >
+            <nav className='md:hidden w-[100%] h-28 lg:px-4 xl:px-4 2xl:px-8 px-32 bg-neutral-800 text-white' >
                 <div className='h-full flex flex-row justify-between text-white'>
                     {/* LOGO */}
                     <div className='flex-initial h-full flex items-center justify-center'>
-                        <img className='aspect-[22/7]' alt='Symptom360 Logo' src='/images/BlueNavLogo.svg' />
+                        <img className='aspect-[22/7] lg:w-[175px] xl:w-[200px]' alt='Symptom360 Logo' src='/images/BlueNavLogo.svg' />
                     </div>
 
                     {/* NAV ITEMS */}
@@ -40,7 +25,7 @@ const Navbar: React.FC = () => {
                             <motion.a whileHover={{ scale: 1.2, color: '#0084FF' }} className=' text-white m-6 lg:m-4 font-bold text-2xl lg:text-lg' href="/CustomPages/PricingPage">Pricing</motion.a>
                             <motion.a whileHover={{ scale: 1.2, color: '#0084FF' }} className=' text-white m-6 lg:m-4 font-bold text-2xl lg:text-lg' href="/CustomPages/ContactUsPage">Contact Us</motion.a>
                         </ul>
-                        <div className='h-full flex items-center justify-center ml-8'>
+                        <div className='h-full flex items-center justify-center lg:ml-4 ml-8'>
                             <motion.a 
                                 whileHover={{ scale: 1.1, backgroundColor: '#045de9'}}
                                 className='w-48 lg:w-32 h-16 lg:h-12 rounded-full flex justify-center items-center bg-blue-500' 
@@ -94,7 +79,7 @@ const Navbar: React.FC = () => {
                     animate={{ opacity: 1, y: 0, zIndex: 1 }}
                     exit={{ opacity: 0, y: -200, zIndex: -1 }}
                     transition={{ duration: 0.2 }}
-                    className="p-4 flex flex-col items-center bg-transparent "
+                    className="p-4 hidden md:flex flex-col items-center bg-transparent "
                 >
                     <motion.ul
                         className="space-y-2"
