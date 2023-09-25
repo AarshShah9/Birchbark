@@ -122,9 +122,18 @@ const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
   });
 });
 
-export const privateProcedure = t.procedure.use(enforceUserIsAuthed);
+const enforceRateLimiting = t.middleware(async ({ ctx, next }) => {
+  // Implement rate limiting here
+  return next({
+    ctx,
+  });
+});
 
-const HandleEncryption = t.middleware(async ({ ctx, next }) => {
+export const privateProcedure = t.procedure
+  .use(enforceUserIsAuthed)
+  .use(enforceRateLimiting);
+
+const handleEncryption = t.middleware(async ({ ctx, next }) => {
   // Implement encryption here
   return next({
     ctx,
