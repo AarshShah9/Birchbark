@@ -14,7 +14,31 @@ const quoteType = z.object({
 
 type quoteType = z.infer<typeof quoteType>;
 
+const orgInfo = z.object({
+    OrganizationName: z.string(),
+    city: z.string(),
+    province: z.nativeEnum(provinces),
+    address: z.string(),
+    phone: z.string(),
+    email: z.string(),
+    website: z.string(),
+    doctorName: z.string(),
+}
+)
+
+type orgInfo = z.infer<typeof orgInfo>;
+
 export const pricingRouter = createTRPCRouter({
+
+    // createOrganization: publicProcedure.input(orgInfo)
+    // .output(z.string()).mutation(async ({ ctx, input }) => {
+    //
+    //
+    //
+    //     return "success";
+    //     }),
+
+
   addNewQuote: publicProcedure
     .input(quoteType)
     .output(quoteType)
