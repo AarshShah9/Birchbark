@@ -21,6 +21,7 @@
     "@next-auth/prisma-adapter": "^1.0.5",
     "@prisma/client": "^5.3.1",
     "@sendbird/uikit-react": "^3.6.8",
+    "@stripe/stripe-js": "^2.1.6",
     "@syncfusion/ej2": "^22.2.8",
     "@syncfusion/ej2-react-buttons": "^22.2.5",
     "@syncfusion/ej2-react-calendars": "^22.2.5",

@@ -15,41 +15,57 @@ generator client {
 }
 
 model Doctor {
-  id              Int      @id @default(autoincrement())
-  name            String
-  organisation_id Int
-  clerk_id        String   @unique
-  email           String
-  phone_num       String
-  notification_on String
-  patient         Patient? @relation(fields: [patientId], references: [id]) // Change to singular and use a relation to Patient model
+  id             Int      @id @default(autoincrement())
+  name           String
+  clerkId        String   @unique
+  email          String
+  phoneNumber    String
+  notificationOn Boolean
+  patient        Patient? @relation(fields: [patientId], references: [id]) // Change to singular and use a relation to Patient model
 
   patientId         Int?
-  Organisation      Organization?       @relation(fields: [organisationId], references: [id])
-  organisationId    Int?
+  Organization      Organization?       @relation(fields: [OrganizationId], references: [id])
+  OrganizationId    Int?
   AppointmentDoctor AppointmentDoctor[]
   Activated         Boolean             @default(false)
 
   @@index([patientId])
-  @@index([organisationId])
+  @@index([OrganizationId])
 }
 
 model Patient {
   id              Int    @id @default(autoincrement())
   name            String
-  organisation_id Int
-  clerk_id        Int
+  Organization_id Int
+  clerkId         Int
   email           String
   phone_num       String
   notification_on String
-  doctor_id       Int
+  doctorId        Int
 
   Doctor             Doctor[]
-  Organisation       Organization?        @relation(fields: [organisationId], references: [id])
-  organisationId     Int?
+  Organization       Organization?        @relation(fields: [OrganizationId], references: [id])
+  OrganizationId     Int?
   AppointmentPatient AppointmentPatient[]
 
-  @@index([organisationId])
+  stripeCustomerId         String?
+  stripeSubscriptionId     String?
+  stripeSubscriptionStatus StripeSubscriptionStatus?
+
+  @@index([OrganizationId])
+}
+
+model StripeEvent {
+  id              String   @id @unique
+  apiVersion      String?
+  data            Json
+  request         Json?
+  type            String
+  object          String
+  account         String?
+  created         DateTime
+  livemode        Boolean
+  pendingWebhooks Int
 }
 
 model Organization {
@@ -66,7 +82,7 @@ model Organization {
   doctor                   Doctor[]
   patients                 Patient[]
   clerkId                  Int
-  appointmentOrganisations AppointmentOrganization[]
+  appointmentOrganizations AppointmentOrganization[]
   stripeId                 String?
 }
 
@@ -81,12 +97,12 @@ model Appointment {
   isAllDay       Boolean
   isReadOnly     Boolean
   calendarId     Int
-  doctor_id      Int
+  doctorId       Int
   status         String
 
   AppointmentDoctor       AppointmentDoctor[]
   AppointmentPatient      AppointmentPatient[]
-  AppointmentOrganisation AppointmentOrganization[]
+  AppointmentOrganization AppointmentOrganization[]
 }
 
 model Image {
@@ -149,12 +165,24 @@ model AppointmentPatient {
 model AppointmentOrganization {
   id             Int          @id @default(autoincrement())
   appointmentId  Int
-  organisationId Int
+  OrganizationId Int
   appointment    Appointment  @relation(fields: [appointmentId], references: [id])
-  organisation   Organization @relation(fields: [organisationId], references: [id])
+  Organization   Organization @relation(fields: [OrganizationId], references: [id])
 
   @@index([appointmentId])
-  @@index([organisationId])
+  @@index([OrganizationId])
+}
+
+// Enumerations
+enum StripeSubscriptionStatus {
+  incomplete
+  incompleteExpired
+  trialing
+  active
+  pastDue
+  canceled
+  unpaid
+  paused
 }
 
 enum provinces {

@@ -17,7 +17,7 @@ type StripeProps = {
 
 const StripePage: NextPage<StripeProps> = (props) => {
   const router = useRouter();
-  const mutation = api.pricing.checkoutSession.useMutation();
+  const mutation = api.stripe.checkoutSession.useMutation();
 
   React.useEffect(() => {
     // Check to see if this is a redirect back from Checkout
@@ -36,10 +36,9 @@ const StripePage: NextPage<StripeProps> = (props) => {
   const handleCheckout = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      const session = await mutation.mutateAsync({
+      const redirectURL = await mutation.mutateAsync({
         priceId: PRICING_TYPE_1,
       });
-      const redirectURL = session.url;
       await router.push(redirectURL ?? "some failed url");
     },
     []

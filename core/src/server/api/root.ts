@@ -1,7 +1,9 @@
 import { createTRPCRouter } from "~/server/api/trpc";
-import {SoreThroatsService } from "~/server/api/routers/SoreThroatService";
+import { soreThroatRouter } from "~/server/api/routers/soreThroatRouter";
 import { appointmentRouter } from "~/server/api/routers/appointmentRouter";
 import { pricingRouter } from "~/server/api/routers/pricingRouter";
+import { doctorRouter } from "~/server/api/routers/doctorRouter";
+import { stripeRouter } from "~/server/api/routers/stripeRouter";
 
 /*
  * This is the primary router for your server.
@@ -9,9 +11,11 @@ import { pricingRouter } from "~/server/api/routers/pricingRouter";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  sourThroats: SoreThroatsService,
+  sourThroats: soreThroatRouter,
   appointment: appointmentRouter,
   pricing: pricingRouter,
+  doctor: doctorRouter,
+  stripe: stripeRouter,
 });
 
 // export type definition of API
