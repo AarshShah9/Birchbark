@@ -10,7 +10,6 @@ export default function Document() {
         />
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
-
         <link
           href="https://cdn.syncfusion.com/ej2/tailwind.css"
           rel="stylesheet"

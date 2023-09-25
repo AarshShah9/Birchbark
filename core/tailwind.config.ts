@@ -9,6 +9,7 @@ export default {
     "./src/pages/**/*.{js,ts,jsx,tsx}",
     "./src/components/**/*.{js,ts,jsx,tsx}",
     "./src/templates/**/*.{js,ts,jsx,tsx}",
+    "./src/customComponents/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     screens: {
@@ -70,6 +71,8 @@ export default {
       fontFamily: {
         // sans: ["var(--font-karla)", ...fontFamily.sans],
         inter: "var(--font-inter)",
+        inikaBold: ['Inika-Bold', 'sans-serif'],
+        inikaRegular: ['Inika-Regular', 'sans-serif'],
       },
       fontSize: {
         0: ["0px", "0px"],
