@@ -47,11 +47,8 @@ export const stripeRouter = createTRPCRouter({
           mode: "subscription",
           success_url: `${process.env.NEXT_PUBLIC_VERCEL_URL}/sign-in`,
           cancel_url: `${process.env.NEXT_PUBLIC_VERCEL_URL}/stripePayment`,
-          // how can I pass an id here to stripe so that I can link it to my database after?
           metadata: { organizationId: org.id },
         });
-
-        const someFunc = async () => {};
 
         return session.url as string;
       } catch (error) {
