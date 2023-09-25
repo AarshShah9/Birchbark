@@ -1,8 +1,8 @@
 import type { NextPage } from "next";
-import HomePage from "./LandingPages/HomePage";
+import CalendarPage from "../CustomPages/CalendarPage";
 
 const Home: NextPage = () => {
-  return <HomePage />;
+  return <CalendarPage />;
 };
 
 export default Home;

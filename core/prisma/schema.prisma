@@ -18,7 +18,7 @@ model Doctor {
   id              Int      @id @default(autoincrement())
   name            String
   organisation_id Int
-  clerk_id        Int
+  clerk_id        String   @unique
   email           String
   phone_num       String
   notification_on String
@@ -28,6 +28,7 @@ model Doctor {
   Organisation      Organization?       @relation(fields: [organisationId], references: [id])
   organisationId    Int?
   AppointmentDoctor AppointmentDoctor[]
+  Activated         Boolean             @default(false)
 
   @@index([patientId])
   @@index([organisationId])
