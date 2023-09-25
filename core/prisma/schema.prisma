@@ -27,7 +27,6 @@ model Doctor {
   Organization      Organization?       @relation(fields: [OrganizationId], references: [id])
   OrganizationId    Int?
   AppointmentDoctor AppointmentDoctor[]
-  Activated         Boolean             @default(false)
 
   @@index([patientId])
   @@index([OrganizationId])
@@ -48,10 +47,6 @@ model Patient {
   OrganizationId     Int?
   AppointmentPatient AppointmentPatient[]
 
-  stripeCustomerId         String?
-  stripeSubscriptionId     String?
-  stripeSubscriptionStatus StripeSubscriptionStatus?
-
   @@index([OrganizationId])
 }
 
@@ -71,19 +66,23 @@ model StripeEvent {
 model Organization {
   id                       Int                       @id @default(autoincrement())
   name                     String
-  createdAt                DateTime
-  updatedAt                DateTime
+  createdAt                DateTime                  @default(now())
+  updatedAt                DateTime                  @updatedAt
   city                     String
   province                 String
   address                  String
   phone                    String
   email                    String
-  website                  String
+  website                  String?
   doctor                   Doctor[]
   patients                 Patient[]
-  clerkId                  Int
+  clerkId                  Int?
   appointmentOrganizations AppointmentOrganization[]
-  stripeId                 String?
+
+  stripeCustomerId         String?
+  stripePriceId            String?
+  stripeSubscriptionId     String?
+  stripeSubscriptionStatus StripeSubscriptionStatus?
 }
 
 model Appointment {
