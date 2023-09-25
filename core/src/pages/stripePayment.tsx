@@ -3,12 +3,11 @@ import React, { useCallback } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
+import { env } from "~/env.mjs";
 
 // Make sure to call `loadStripe` outside a component’s render to avoid
 // recreating the `Stripe` object on every render.
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? ""
-);
+const stripePromise = loadStripe(env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 const PRICING_TYPE_1: string = "price_1NrUxJBFnPGxhxouBLAUxcdm";
 
 type StripeProps = {
@@ -36,10 +35,10 @@ const StripePage: NextPage<StripeProps> = (props) => {
   const handleCheckout = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      const redirectURL = await mutation.mutateAsync({
-        priceId: PRICING_TYPE_1,
-      });
-      await router.push(redirectURL ?? "some failed url");
+      // const redirectURL = await mutation.mutateAsync({
+      //   priceId: PRICING_TYPE_1,
+      // });
+      // await router.push(redirectURL ?? "some failed url");
     },
     []
   );

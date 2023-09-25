@@ -3,6 +3,7 @@ import { z } from "zod";
 import { stripe } from "~/utils/stripe";
 import { TRPCError } from "@trpc/server";
 import { provinces } from "@prisma/client";
+import { env } from "~/env.mjs";
 
 const createNewSubscription = z.object({
   priceId: z.string(),
@@ -45,8 +46,8 @@ export const stripeRouter = createTRPCRouter({
             },
           ],
           mode: "subscription",
-          success_url: `${process.env.NEXT_PUBLIC_VERCEL_URL}/sign-in`,
-          cancel_url: `${process.env.NEXT_PUBLIC_VERCEL_URL}/stripePayment`,
+          success_url: `${env.NEXT_PUBLIC_VERCEL_URL}/sign-in`,
+          cancel_url: `${env.NEXT_PUBLIC_VERCEL_URL}/stripePayment`,
           metadata: { organizationId: org.id },
         });
 
