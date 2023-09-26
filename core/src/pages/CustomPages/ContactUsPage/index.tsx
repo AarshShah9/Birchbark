@@ -9,21 +9,12 @@ import FAQComponent from "../../../customComponents/FAQS/FAQComponent";
 import { faq } from "../../../data/faq";
 
 const ContactUsPage: React.FC = () => {
-  const [question, setQuestion] = React.useState("What is Symptom 360?");
-  const [answer, setAnswer] = React.useState(
-    "Symptom 360 is a platform that connects you with local doctors and traditional healers. We are here to help you get the care you need."
-  );
-  const [isOpen, setIsOpen] = React.useState(false);
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
-
   return (
     <div>
       <Navbar />
-      <div className="relative z-0 flex h-[1250px] w-full">
+      <div className="relative z-0 flex h-[1250px] w-full flex-row md:h-full md:flex-col">
         {/* Left */}
-        <div className="relative w-[45%] flex-1 bg-[#000000] p-[7%]">
+        <div className="relative w-[45%] flex-1 bg-[#000000] p-[7%] md:w-full">
           <div>
             <h1 className="mb-4 text-[60px] font-bold leading-tight">
               Contact Us
@@ -37,7 +28,7 @@ const ContactUsPage: React.FC = () => {
           <div>
             {/* Form */}
             <form>
-              <div className="flex flex-col">
+              <div className="relative z-10 flex flex-col">
                 {/* <label htmlFor="name">Name</label> */}
                 <input
                   className="mb-4 rounded-full px-4 pb-3 pt-2 text-white"
@@ -80,7 +71,7 @@ const ContactUsPage: React.FC = () => {
               </div>
             </form>
           </div>
-          <div>
+          <div className="md:hidden">
             <div
               className="absolute bottom-0 right-0 rounded-full bg-[#306083] p-48 text-[#306083] opacity-75"
               style={{ transform: "translate(35%, 35%)" }}
@@ -97,7 +88,7 @@ const ContactUsPage: React.FC = () => {
         </div>
 
         {/* Right */}
-        <div className="flex-2 z-2 w-[55%] bg-[#141414] p-[7%]">
+        <div className="flex-2 z-2 w-[55%] bg-[#141414] p-[7%] md:w-full">
           <div className="flex flex-col items-center">
             {/* <div className='flex flex-col justify-center items-center'>
                   <div className='flex flex-row'>
