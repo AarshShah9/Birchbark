@@ -140,4 +140,4 @@ const handleEncryption = t.middleware(async ({ ctx, next }) => {
   });
 });
 
-export const encryptedProcedure = privateProcedure.use(HandleEncryption);
+export const encryptedProcedure = privateProcedure.use(handleEncryption);
