@@ -78,7 +78,6 @@ model Organization {
   address                  Address?
 
   stripeCustomerId         String?
-  stripePriceId            String?
   stripeSubscriptionId     String?
   stripeSubscriptionStatus StripeSubscriptionStatus?
 }
@@ -186,10 +185,10 @@ model AppointmentOrganization {
 // Enumerations
 enum StripeSubscriptionStatus {
   incomplete
-  incompleteExpired
+  incomplete_expired
   trialing
   active
-  pastDue
+  past_due
   canceled
   unpaid
   paused
