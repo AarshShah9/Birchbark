@@ -5,12 +5,18 @@ import { TRPCError } from "@trpc/server";
 import { provinces } from "@prisma/client";
 import { env } from "~/env.mjs";
 
+// take this input:
+
 const createNewSubscription = z.object({
   priceId: z.string(),
   orgName: z.string(),
-  city: z.string(),
-  province: z.nativeEnum(provinces),
-  address: z.string(),
+  address: z.object({
+    street: z.string(),
+    city: z.string(),
+    province: z.nativeEnum(provinces),
+    postalCode: z.string(),
+    apt: z.string().optional(),
+  }),
   phone: z.string(),
   email: z.string(),
   website: z.string().optional(),
@@ -22,16 +28,27 @@ export const stripeRouter = createTRPCRouter({
     .output(z.string())
     .mutation(async ({ ctx, input }) => {
       try {
-        // I need to create an instance of organization in my db
+        const address = await ctx.prisma.address.create({
+          data: {
+            street: input.address.street,
+            city: input.address.city,
+            province: input.address.province,
+            postalCode: input.address.postalCode,
+            apt: input.address.apt,
+          },
+        });
+
         const org = await ctx.prisma.organization.create({
           data: {
             stripePriceId: input.priceId,
             stripeCustomerId: ctx.userId,
             stripeSubscriptionStatus: "incomplete",
             name: input.orgName,
-            city: input.city,
-            province: input.province,
-            address: input.address,
+            address: {
+              connect: {
+                id: address.id,
+              },
+            },
             phone: input.phone,
             email: input.email,
             website: input.website,
