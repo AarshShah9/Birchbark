@@ -68,9 +68,6 @@ model Organization {
   name                     String
   createdAt                DateTime                  @default(now())
   updatedAt                DateTime                  @updatedAt
-  city                     String
-  province                 String
-  address                  String
   phone                    String
   email                    String
   website                  String?
@@ -78,11 +75,25 @@ model Organization {
   patients                 Patient[]
   clerkId                  Int?
   appointmentOrganizations AppointmentOrganization[]
+  address                  Address?
 
   stripeCustomerId         String?
   stripePriceId            String?
   stripeSubscriptionId     String?
   stripeSubscriptionStatus StripeSubscriptionStatus?
+}
+
+model Address {
+  id             Int           @id @default(autoincrement())
+  street         String
+  city           String
+  province       provinces
+  postalCode     String
+  apt            String?
+  Organization   Organization? @relation(fields: [OrganizationId], references: [id])
+  OrganizationId Int?          @unique
+
+  @@index([OrganizationId])
 }
 
 model Appointment {
