@@ -58,8 +58,9 @@ const ContactUsPage: React.FC = () => {
                 ></textarea>
 
                 <div className="z-2 ml-8 flex h-full items-center justify-center lg:ml-4">
+                  {/* Submit button doesn't go anywhere yet */}
                   <motion.a
-                    whileHover={{ scale: 1.1, backgroundColor: "#045de9" }}
+                    whileHover={{ scale: 1.05, backgroundColor: "#045de9" }}
                     className="flex h-16 w-48 items-center justify-center rounded-full bg-blue-500 shadow-md lg:h-12 lg:w-32"
                     href="/sign-in"
                   >
@@ -104,9 +105,12 @@ const ContactUsPage: React.FC = () => {
                 FAQ's
               </h1>
               <FAQComponent faq={faq.faq1} />
-              <FAQComponent faq={faq.faq1} />
-              <FAQComponent faq={faq.faq1} />
-              <FAQComponent faq={faq.faq1} />
+              <FAQComponent faq={faq.faq2} />
+              <FAQComponent faq={faq.faq3} />
+              <FAQComponent faq={faq.faq4} />
+              <FAQComponent faq={faq.faq5} />
+              <FAQComponent faq={faq.faq6} />
+              <FAQComponent faq={faq.faq7} />
             </div>
           </div>
         </div>
