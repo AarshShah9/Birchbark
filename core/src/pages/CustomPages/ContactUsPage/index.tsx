@@ -90,7 +90,7 @@ const ContactUsPage: React.FC = () => {
 
         {/* Right */}
         <div className="flex-2 z-2 w-[55%] bg-[#141414] p-[7%] md:w-full">
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col">
             {/* <div className='flex flex-col justify-center items-center'>
                   <div className='flex flex-row'>
                     <div className='flex flex-col justify-center items-center'>
