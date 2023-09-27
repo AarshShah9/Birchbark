@@ -11,13 +11,13 @@ export const handleSubscriptionCreatedOrUpdated = async ({
   prisma: PrismaClient;
 }) => {
   const subscription = event.data.object as Stripe.Subscription;
-  const userId = subscription.metadata.organizationId;
+  const orgId = subscription.metadata.organizationId;
 
   try {
     // update user with subscription data
     await prisma.organization.update({
       where: {
-        id: parseInt(userId as string),
+        id: parseInt(orgId ?? "-1"),
       },
       data: {
         stripeSubscriptionId: subscription.id,

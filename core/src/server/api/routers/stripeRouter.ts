@@ -5,8 +5,6 @@ import { TRPCError } from "@trpc/server";
 import { provinces } from "@prisma/client";
 import { env } from "~/env.mjs";
 
-// take this input:
-
 const createNewSubscription = z.object({
   priceId: z.string(),
   orgName: z.string(),
@@ -40,7 +38,6 @@ export const stripeRouter = createTRPCRouter({
 
         const org = await ctx.prisma.organization.create({
           data: {
-            stripePriceId: input.priceId,
             stripeCustomerId: ctx.userId,
             stripeSubscriptionStatus: "incomplete",
             name: input.orgName,
@@ -52,6 +49,25 @@ export const stripeRouter = createTRPCRouter({
             phone: input.phone,
             email: input.email,
             website: input.website,
+          },
+        });
+
+        const customer = await stripe.customers.create({
+          email: org.email,
+          name: org.name,
+          // use metadata to link this Stripe customer to internal user id
+          metadata: {
+            organizationId: org.id,
+          },
+        });
+
+        // update with new customer id
+        await ctx.prisma.organization.update({
+          where: {
+            id: org.id,
+          },
+          data: {
+            stripeCustomerId: customer.id,
           },
         });
 

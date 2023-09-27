@@ -77,6 +77,8 @@ model Organization {
   appointmentOrganizations AppointmentOrganization[]
   address                  Address?
 
+  activated Boolean @default(false)
+
   stripeCustomerId         String?
   stripeSubscriptionId     String?
   stripeSubscriptionStatus StripeSubscriptionStatus?
