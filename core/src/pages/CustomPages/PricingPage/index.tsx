@@ -15,7 +15,7 @@ const PricingPage: React.FC = () => {
 
 
             <div className=' w-full h-fit flex justify-center'>
-              <div className='w-[80%] flex flex-row h-fit justify-center'>
+              <div className='w-[80%] flex flex-row h-fit justify-center border'>
                 {/* Left Section */}
                 <div className='mb-8 mx-4 h-auto flex items-end'>
                   <div className=' h-fit'>
@@ -23,23 +23,23 @@ const PricingPage: React.FC = () => {
                       <p className='text-xl'>M A J O R  F E A T U R E S</p>
                       <div className='w-full h-1 bg-white'></div>
                       <div className='flex flex-col'>
-                        <div className='text-xl py-2'>Diagnostic Tool</div>
-                        <div className='text-xl py-2'>Symptom360 AI Chatbot</div>
-                        <div className='text-xl py-2'>Video + Chat Conferencing</div>
-                        <div className='text-xl py-2'>Full Image Library</div>
-                        <div className='text-xl py-2'>Access to Event Board</div>
-                        <div className='text-xl py-2'>Custom Integrations</div>
-                        <div className='text-xl py-2'>Total Patient Cap</div>
+                        <div className='flex items-center text-xl w-auto h-9 m-[2.5px]'>Diagnostic Tool</div>
+                        <div className='flex items-center text-xl w-auto h-9 m-[2.5px]'>Symptom360 AI Chatbot</div>
+                        <div className='flex items-center text-xl w-auto h-9 m-[2.5px]'>Video + Chat Conferencing</div>
+                        <div className='flex items-center text-xl w-auto h-9 m-[2.5px]'>Full Image Library</div>
+                        <div className='flex items-center text-xl w-auto h-9 m-[2.5px]'>Access to Event Board</div>
+                        <div className='flex items-center text-xl w-auto h-9 m-[2.5px]'>Custom Integrations</div>
+                        <div className='flex items-center text-xl w-auto h-9 m-[2.5px]'>Total Patient Cap</div>
                       </div>
                     </div>
                   </div>
                 </div>
                 
                 {/* Right Section */}
-                <div className='flex flex-row justify-between w-[65%] h-fit m-4'>
+                <div className='flex flex-row justify-center w-[65%] h-fit m-4'>
 
                   {/* Priicng Card */}
-                  <div className='flex flex-col bg-[#303334] w-[270px] h-[600px] rounded-[16px]'>
+                  <div className='flex flex-col bg-[#303334] w-[270px] h-[fit] pb-[15px] mx-4 rounded-[16px]'>
                     <div className='flex flex-col mt-5 px-5 h-56'>
                       <div className='mb-2 font-bold text-[24px]'>Starter</div>
                       <div className='leading-tight text-[16px] h-22 '>The starter tier is for those who would like the basic access to our services with limited support.</div>
@@ -51,17 +51,18 @@ const PricingPage: React.FC = () => {
                     </div>
                     
                     <div className='flex flex-col px-5'>
-                      <div className='flex justify-center items-center text-xl font-bold pb-3 bg-[#282828] w-auto h-12 m-1'>&#x2713;</div>
-                      <div className='flex justify-center items-center text-xl font-bold pb-3 bg-[#282828] w-auto h-12 m-1'>&#x2713;</div>
-                      <div className='flex justify-center items-center text-xl font-bold pb-3 bg-[#282828] w-auto h-12 m-1'>&#x2713;</div>
-                      <div className='flex justify-center items-center text-xl font-bold pb-3 bg-[#282828] w-auto h-12 m-1'></div>
-                      <div className='flex justify-center items-center text-xl font-bold pb-3 bg-[#282828] w-auto h-12 m-1'></div>
-                      <div className='flex justify-center items-center text-xl font-bold pb-3 bg-[#282828] w-auto h-12 m-1'>100</div>
+                      <div className='flex justify-center items-center text-xl font-bold bg-[#282828] w-auto h-9 m-[2.5px] rounded-[8px]'>&#x2713;</div>
+                      <div className='flex justify-center items-center text-xl font-bold bg-[#282828] w-auto h-9 m-[2.5px] rounded-[8px]'>&#x2713;</div>
+                      <div className='flex justify-center items-center text-xl font-bold bg-[#282828] w-auto h-9 m-[2.5px] rounded-[8px]'>&#x2713;</div>
+                      <div className='flex justify-center items-center text-xl font-bold bg-[#282828] w-auto h-9 m-[2.5px] rounded-[8px]'>&#x2713;</div>
+                      <div className='flex justify-center items-center text-xl font-bold bg-[#282828] w-auto h-9 m-[2.5px] rounded-[8px]'></div>
+                      <div className='flex justify-center items-center text-xl font-bold bg-[#282828] w-auto h-9 m-[2.5px] rounded-[8px]'></div>
+                      <div className='flex justify-center items-center text-xl font-bold bg-[#282828] w-auto h-9 m-[2.5px] rounded-[8px]'>100</div>
                     </div>
                   </div>
 
                   {/* Priicng Card */}
-                  <div className='flex flex-col bg-[#303334] w-[270px] h-[600px] rounded-[16px]'>
+                  <div className='flex flex-col bg-[#303334] w-[270px] h-[fit] pb-[15px] mx-4 rounded-[16px]'>
                     <div className='flex flex-col mt-5 px-5 h-56'>
                       <div className='mb-2 font-bold text-[24px]'>Pro</div>
                       <div className='leading-tight text-[16px] h-22 '>For those who would like even more features with even more support.</div>
@@ -73,17 +74,18 @@ const PricingPage: React.FC = () => {
                     </div>
                     
                     <div className='flex flex-col px-5'>
-                      <div className='flex justify-center items-center text-xl font-bold pb-3 bg-[#282828] w-auto h-12 m-1'>&#x2713;</div>
-                      <div className='flex justify-center items-center text-xl font-bold pb-3 bg-[#282828] w-auto h-12 m-1'>&#x2713;</div>
-                      <div className='flex justify-center items-center text-xl font-bold pb-3 bg-[#282828] w-auto h-12 m-1'>&#x2713;</div>
-                      <div className='flex justify-center items-center text-xl font-bold pb-3 bg-[#282828] w-auto h-12 m-1'>&#x2713;</div>
-                      <div className='flex justify-center items-center text-xl font-bold pb-3 bg-[#282828] w-auto h-12 m-1'></div>
-                      <div className='flex justify-center items-center text-xl font-bold pb-3 bg-[#282828] w-auto h-12 m-1'>1000</div>
+                      <div className='flex justify-center items-center text-xl font-bold bg-[#282828] w-auto h-9 m-[2.5px] rounded-[8px]'>&#x2713;</div>
+                      <div className='flex justify-center items-center text-xl font-bold bg-[#282828] w-auto h-9 m-[2.5px] rounded-[8px]'>&#x2713;</div>
+                      <div className='flex justify-center items-center text-xl font-bold bg-[#282828] w-auto h-9 m-[2.5px] rounded-[8px]'>&#x2713;</div>
+                      <div className='flex justify-center items-center text-xl font-bold bg-[#282828] w-auto h-9 m-[2.5px] rounded-[8px]'>&#x2713;</div>
+                      <div className='flex justify-center items-center text-xl font-bold bg-[#282828] w-auto h-9 m-[2.5px] rounded-[8px]'>&#x2713;</div>
+                      <div className='flex justify-center items-center text-xl font-bold bg-[#282828] w-auto h-9 m-[2.5px] rounded-[8px]'></div>
+                      <div className='flex justify-center items-center text-xl font-bold bg-[#282828] w-auto h-9 m-[2.5px] rounded-[8px]'>1000</div>
                     </div>
                   </div>
 
                   {/* Priicng Card */}
-                  <div className='flex flex-col bg-[#303334] w-[270px] h-[600px] rounded-[16px]'>
+                  <div className='flex flex-col bg-[#303334] w-[270px] h-[fit] pb-[15px] mx-4 rounded-[16px]'>
                     <div className='flex flex-col mt-5 px-5 h-56'>
                       <div className='mb-2 font-bold text-[24px]'>Request a quote</div>
                       <div className='leading-tight text-[16px] h-22 '>If you’re needs don’t fall into the other pricing plans, please contact us to request a quote below.</div>
@@ -95,18 +97,17 @@ const PricingPage: React.FC = () => {
                     </div>
                     
                     <div className='flex flex-col px-5'>
-                      <div className='flex justify-center items-center text-xl font-bold pb-3 bg-[#282828] w-auto h-12 m-1'>&#x2713;</div>
-                      <div className='flex justify-center items-center text-xl font-bold pb-3 bg-[#282828] w-auto h-12 m-1'>&#x2713;</div>
-                      <div className='flex justify-center items-center text-xl font-bold pb-3 bg-[#282828] w-auto h-12 m-1'>&#x2713;</div>
-                      <div className='flex justify-center items-center text-xl font-bold pb-3 bg-[#282828] w-auto h-12 m-1'>&#x2713;</div>
-                      <div className='flex justify-center items-center text-xl font-bold pb-3 bg-[#282828] w-auto h-12 m-1'>&#x2713;</div>
-                      <div className='flex justify-center items-center text-xl font-bold pb-3 bg-[#282828] w-auto h-12 m-1'>By case</div>
+                      <div className='flex justify-center items-center text-xl font-bold bg-[#282828] w-auto h-9 m-[2.5px] rounded-[8px]'>&#x2713;</div>
+                      <div className='flex justify-center items-center text-xl font-bold bg-[#282828] w-auto h-9 m-[2.5px] rounded-[8px]'>&#x2713;</div>
+                      <div className='flex justify-center items-center text-xl font-bold bg-[#282828] w-auto h-9 m-[2.5px] rounded-[8px]'>&#x2713;</div>
+                      <div className='flex justify-center items-center text-xl font-bold bg-[#282828] w-auto h-9 m-[2.5px] rounded-[8px]'>&#x2713;</div>
+                      <div className='flex justify-center items-center text-xl font-bold bg-[#282828] w-auto h-9 m-[2.5px] rounded-[8px]'>&#x2713;</div>
+                      <div className='flex justify-center items-center text-xl font-bold bg-[#282828] w-auto h-9 m-[2.5px] rounded-[8px]'>&#x2713;</div>
+                      <div className='flex justify-center items-center text-xl font-bold bg-[#282828] w-auto h-9 m-[2.5px] rounded-[8px]'>By case</div>
                     </div>
                   </div>
-
                 </div>
               </div>
-              
             </div>
           </div>
         <Footer />
