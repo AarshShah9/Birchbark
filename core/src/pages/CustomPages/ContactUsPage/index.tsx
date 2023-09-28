@@ -61,8 +61,9 @@ const ContactUsPage: React.FC = () => {
                   {/* Submit button doesn't go anywhere yet */}
                   <motion.a
                     whileHover={{ scale: 1.05, backgroundColor: "#045de9" }}
+                    whileTap={{ scale: 0.95 }}
                     className="flex h-16 w-48 items-center justify-center rounded-full bg-blue-500 shadow-md lg:h-12 lg:w-32"
-                    href="/sign-in"
+                    href="/CustomPages/ConfirmationPage"
                   >
                     <span className="text-center text-2xl font-bold">
                       Submit
@@ -91,15 +92,6 @@ const ContactUsPage: React.FC = () => {
         {/* Right */}
         <div className="flex-2 z-2 w-[55%] bg-[#141414] p-[7%] md:w-full">
           <div className="flex flex-col">
-            {/* <div className='flex flex-col justify-center items-center'>
-                  <div className='flex flex-row'>
-                    <div className='flex flex-col justify-center items-center'>
-                      <img className='w-[200px] h-[200px] lg:w-[300px] lg:h-[300px]' alt='Bison Graphic' src='/images/Bison.svg' />
-                      <h1 className='text-5xl font-inikaBold'>Symptom 360</h1>
-                      <p className='text-xl font-inikaRegular'>We are here to help you.</p>
-                    </div>
-                  </div>
-                </div> */}
             <div className="w-[100%] text-left">
               <h1 className="mb-8 text-[60px] font-bold leading-tight">
                 FAQ's

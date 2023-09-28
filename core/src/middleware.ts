@@ -5,7 +5,7 @@ import {authMiddleware} from "@clerk/nextjs";
 // See https://clerk.com/docs/nextjs/middleware for more information about configuring your middleware
 export default authMiddleware({
     debug: true,
-    publicRoutes: ["/sign-in", "/sign-up","/", "/about-us", "/CustomPages/HomePage", "/CustomPages/AboutUsPage", "/CustomPages/ContactUsPage"],
+    publicRoutes: ["/sign-in", "/sign-up","/", "/about-us", "/CustomPages/HomePage", "/CustomPages/AboutUsPage", "/CustomPages/ContactUsPage", "/CustomPages/ConfirmationPage"],
 
 });
 

@@ -21,7 +21,7 @@ const FAQComponent: React.FC<FAQProps> = ({ faq }) => {
       <div className="my-8 flex w-[100%] flex-col justify-center">
         <motion.button
           onClick={toggleDropdown}
-          whileHover={{ scale: 1.03, color: "#a1a1a1" }}
+          whileHover={{ scale: 1.02, color: "#a1a1a1" }}
           className="
                     flex
                     flex-row
