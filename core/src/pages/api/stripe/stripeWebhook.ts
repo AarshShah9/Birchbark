@@ -4,6 +4,7 @@ import { buffer } from "micro";
 import { handleSubscriptionCreated } from "~/server/api/utils/stripeWebHookHandlers";
 import { stripe } from "~/utils/stripe";
 import { prisma } from "~/server/db";
+import requestIp from "request-ip";
 
 // Stripe requires the raw body to construct the event.
 export const config = {
@@ -19,6 +20,25 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const validIps = [
+    "3.18.12.63",
+    "3.130.192.231",
+    "13.235.14.237",
+    "13.235.122.149",
+    "18.211.135.69",
+    "35.154.171.200",
+    "52.15.183.38",
+    "54.88.130.119",
+    "54.88.130.237",
+    "54.187.174.169",
+    "54.187.205.235",
+    "54.187.216.72",
+  ];
+  if (!validIps.includes(requestIp.getClientIp(req) ?? "null")) {
+    res.status(403).send("Forbidden");
+    return;
+  }
+
   if (req.method === "POST") {
     const buf = await buffer(req);
     const sig = req.headers["stripe-signature"];
