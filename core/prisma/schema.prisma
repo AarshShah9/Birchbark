@@ -17,7 +17,7 @@ generator client {
 model Doctor {
   id             Int      @id @default(autoincrement())
   name           String
-  clerkId        String   @unique
+  clerkId        String?  @unique
   email          String
   phoneNumber    String
   notificationOn Boolean

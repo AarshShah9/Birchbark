@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import type Stripe from "stripe";
 import { buffer } from "micro";
-import { handleSubscriptionCreatedOrUpdated } from "~/server/api/utils/stripeWebHookHandlers";
+import { handleSubscriptionCreated } from "~/server/api/utils/stripeWebHookHandlers";
 import { stripe } from "~/utils/stripe";
 import { prisma } from "~/server/db";
 
@@ -36,7 +36,7 @@ export default async function handler(
       switch (event.type) {
         case "customer.subscription.created":
           // Used to provision services as they are added to a subscription.
-          await handleSubscriptionCreatedOrUpdated({
+          await handleSubscriptionCreated({
             event,
             prisma,
           });
