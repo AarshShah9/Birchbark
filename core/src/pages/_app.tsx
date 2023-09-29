@@ -12,6 +12,7 @@ import type { AppProps } from "next/app";
 import { registerLicense } from "@syncfusion/ej2-base";
 import { api } from "~/utils/api";
 import { dark, neobrutalism } from "@clerk/themes";
+import { env } from "~/env.mjs";
 
 const inter = Inter({
   weight: ["500", "600", "700"],
@@ -28,7 +29,7 @@ const karla = Karla({
 });
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-  registerLicense(process.env.NEXT_PUBLIC_SYNC_FUSION_LICENSE_KEY ?? "");
+  registerLicense(env.NEXT_PUBLIC_SYNC_FUSION_LICENSE_KEY);
 
   const { colorMode } = useColorMode();
   const isLightMode = colorMode === "light";

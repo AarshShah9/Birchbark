@@ -1,8 +1,8 @@
-import type {NextPage} from "next";
-import SignInPage from "./CustomPages/SignInPage";
+import type { NextPage } from "next";
+import SignInPage from "./LandingPages/SignInPage";
 
 const SignIn: NextPage = () => {
-    return <SignInPage/>;
+  return <SignInPage />;
 };
 
 export default SignIn;

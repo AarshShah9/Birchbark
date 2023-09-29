@@ -5,6 +5,7 @@ import "@sendbird/uikit-react/dist/index.css";
 import { useColorMode } from "@chakra-ui/color-mode";
 import dynamic from "next/dynamic";
 import styled from "styled-components";
+import { env } from "~/env.mjs";
 
 const ChatsPage: React.FC = () => {
   const user = useUser();
@@ -21,7 +22,7 @@ const ChatsPage: React.FC = () => {
     <Layout>
       <div className={"h-screen rounded-2xl p-2"}>
         <StyledSendbirdApp
-          appId={process.env.NEXT_PUBLIC_SENDBIRD_APPID ?? ""}
+          appId={env.NEXT_PUBLIC_SENDBIRD_APPID}
           userId={user?.user?.id ?? "null"}
           theme={colorMode}
 
