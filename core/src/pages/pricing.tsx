@@ -1,10 +1,13 @@
 import PricingPage from "./LandingPages/PricingPage";
 import React from "react";
+import { NextPage } from "next";
 
-export const Pricing = () => {
+const Pricing: NextPage = () => {
   return (
     <>
       <PricingPage />
     </>
   );
 };
+
+export default Pricing;
