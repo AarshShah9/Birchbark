@@ -11,7 +11,7 @@ const Test = ({ className, dark }: TestProps) => (
     <Image
       className="h-auto w-full"
       // src={dark ? "/images/logo-dark.svg" : "/images/logo.svg"}
-      src={"/Logos/WebsiteLogo.png"}
+      src="/images/BlueNavLogo.svg"
       width={1000}
       height={600}
       alt="Brainwave"
