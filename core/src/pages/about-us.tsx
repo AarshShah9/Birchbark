@@ -1,8 +1,8 @@
-import type {NextPage} from "next";
-import AboutUs from "./CustomPages/AboutUsPage";
+import type { NextPage } from "next";
+import AboutUs from "./LandingPages/AboutUsPage";
 
 const Home: NextPage = () => {
-    return <AboutUs/>;
+  return <AboutUs />;
 };
 
 export default Home;
