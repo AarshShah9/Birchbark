@@ -63,7 +63,7 @@ const ContactUsPage: React.FC = () => {
                     whileHover={{ scale: 1.05, backgroundColor: "#045de9" }}
                     whileTap={{ scale: 0.95 }}
                     className="flex h-16 w-48 items-center justify-center rounded-full bg-blue-500 shadow-md lg:h-12 lg:w-32"
-                    href="/CustomPages/ConfirmationPage"
+                    href="/CustomPages/PaymentSuccess"
                   >
                     <span className="text-center text-2xl font-bold">
                       Submit
