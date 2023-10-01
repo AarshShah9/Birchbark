@@ -4,8 +4,8 @@ import { BiPlusMedical, BiMinus } from "react-icons/bi";
 
 interface FAQProps {
   faq: {
-    question: string;
-    answer: string;
+    question: { English: string };
+    answer: { English: string };
   };
 }
 
@@ -35,7 +35,7 @@ const FAQComponent: React.FC<FAQProps> = ({ faq }) => {
             {!isOpen && <BiPlusMedical size="25px" />}
             {isOpen && <BiMinus size="25px" />}
           </div>
-          {question}
+          {question.English}
         </motion.button>
       </div>
       <AnimatePresence>
@@ -56,7 +56,7 @@ const FAQComponent: React.FC<FAQProps> = ({ faq }) => {
               y: -40,
             }}
           >
-            {answer}
+            {answer.English}
           </motion.div>
         )}
       </AnimatePresence>

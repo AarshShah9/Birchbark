@@ -2,20 +2,21 @@ import React from "react";
 import Navbar from "~/customComponents/Navbar";
 import Footer from "~/customComponents/Footer";
 import { motion } from "framer-motion";
+import { a, b, c } from "../../../itlText/confirmation";
 
 const Confirmation: React.FC = () => {
   return (
     <div>
       <Navbar />
-      <div className="flex h-[85vh] flex-col items-center justify-center bg-[#232627] p-16">
-        <h1 className="mb-4 text-center font-inikaBold text-6xl">Thank You</h1>
-        <h2 className="text-center font-inikaRegular text-xl">
-          We'll get back to you soon!
-        </h2>
+      <div className="flex min-h-[85vh] flex-col items-center justify-center bg-[#232627] p-16">
+        <h1 className="mb-4 text-center font-inikaBold text-6xl">
+          {a.English}
+        </h1>
+        <h2 className="text-center font-inikaRegular text-xl">{b.English}</h2>
         <motion.img
           className="m-10"
           whileHover={{
-            rotate: 1.2,
+            rotate: 1.3,
             transition: {
               repeat: Infinity,
               repeatType: "reverse",
@@ -27,11 +28,11 @@ const Confirmation: React.FC = () => {
         />
         <motion.a
           className="font-inikaRegular text-xl underline"
-          href="/CustomPages/HomePage"
+          href="/"
           whileHover={{ scale: 1.02, color: "#a1a1a1" }}
           whileTap={{ scale: 0.97 }}
         >
-          Return to homepage
+          {c.English}
         </motion.a>
       </div>
       <Footer />
