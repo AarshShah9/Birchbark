@@ -1,7 +1,8 @@
 import crypto from "crypto";
+import { env } from "~/env.mjs";
 
 const algorithm = "aes-256-cbc";
-const key = Buffer.from(process.env.ENCRYPTION_KEY!, "hex");
+const key = Buffer.from(env.ENCRYPTION_KEY, "hex");
 const iv = crypto.randomBytes(16);
 
 export const encrypt = (text: string): string => {
