@@ -4,7 +4,7 @@ import Footer from "~/customComponents/Footer";
 import { motion } from "framer-motion";
 import { BsFillBox2HeartFill } from "react-icons/bs";
 
-const Confirmation: React.FC = () => {
+const PaymentSuccess: React.FC = () => {
   return (
     <div>
       <Navbar />
@@ -43,4 +43,4 @@ const Confirmation: React.FC = () => {
   );
 };
 
-export default Confirmation;
+export default PaymentSuccess;
