@@ -18,18 +18,18 @@ const FAQComponent: React.FC<FAQProps> = ({ faq }) => {
 
   return (
     <>
-      <div className="my-8 flex w-[100%] flex-col items-center">
+      <div className="my-8 flex w-[100%] flex-col justify-center">
         <motion.button
           onClick={toggleDropdown}
-          whileHover={{ scale: 1.03, color: "#e8e8e8" }}
+          whileHover={{ scale: 1.02, color: "#a1a1a1" }}
           className="
-                            flex
-                            flex-row
-                            py-0
-                            text-left
-                            text-[24px]
-                            font-bold
-                            "
+                    flex
+                    flex-row
+                    py-0
+                    text-left
+                    text-[24px]
+                    font-bold
+                    "
         >
           <div className="mr-6 flex h-[26px] w-[26px] flex-col items-center justify-center">
             {!isOpen && <BiPlusMedical size="25px" />}

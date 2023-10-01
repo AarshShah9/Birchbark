@@ -13,7 +13,6 @@ const ContactUsPage: React.FC = () => {
     <div>
       <Navbar />
       <div className="relative z-0 flex h-[1250px] w-full flex-row md:h-full md:flex-col">
-        {/* Left */}
         <div className="relative w-[45%] flex-1 bg-[#000000] p-[7%] md:w-full">
           <div>
             <h1 className="mb-4 text-[60px] font-bold leading-tight">
@@ -26,10 +25,8 @@ const ContactUsPage: React.FC = () => {
             </p>
           </div>
           <div>
-            {/* Form */}
             <form>
               <div className="relative z-10 flex flex-col">
-                {/* <label htmlFor="name">Name</label> */}
                 <input
                   className="mb-4 rounded-full px-4 pb-3 pt-2 text-white"
                   type="text"
@@ -38,7 +35,6 @@ const ContactUsPage: React.FC = () => {
                   placeholder="Name"
                 />
 
-                {/* <label htmlFor="email">Email</label> */}
                 <input
                   className="mb-4 rounded-full px-4 pb-3 pt-2 text-white"
                   type="email"
@@ -47,7 +43,6 @@ const ContactUsPage: React.FC = () => {
                   placeholder="Email"
                 />
 
-                {/* <label htmlFor="message">Message</label> */}
                 <textarea
                   className="mb-4 resize-none rounded-3xl px-4 py-3 text-white"
                   name="message"
@@ -59,9 +54,10 @@ const ContactUsPage: React.FC = () => {
 
                 <div className="z-2 ml-8 flex h-full items-center justify-center lg:ml-4">
                   <motion.a
-                    whileHover={{ scale: 1.1, backgroundColor: "#045de9" }}
+                    whileHover={{ scale: 1.05, backgroundColor: "#045de9" }}
+                    whileTap={{ scale: 0.95 }}
                     className="flex h-16 w-48 items-center justify-center rounded-full bg-blue-500 shadow-md lg:h-12 lg:w-32"
-                    href="/sign-in"
+                    href="/confirmation"
                   >
                     <span className="text-center text-2xl font-bold">
                       Submit
@@ -87,26 +83,19 @@ const ContactUsPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Right */}
         <div className="flex-2 z-2 w-[55%] bg-[#141414] p-[7%] md:w-full">
-          <div className="flex flex-col items-center">
-            {/* <div className='flex flex-col justify-center items-center'>
-                  <div className='flex flex-row'>
-                    <div className='flex flex-col justify-center items-center'>
-                      <img className='w-[200px] h-[200px] lg:w-[300px] lg:h-[300px]' alt='Bison Graphic' src='/images/Bison.svg' />
-                      <h1 className='text-5xl font-inikaBold'>Symptom 360</h1>
-                      <p className='text-xl font-inikaRegular'>We are here to help you.</p>
-                    </div>
-                  </div>
-                </div> */}
+          <div className="flex flex-col">
             <div className="w-[100%] text-left">
               <h1 className="mb-8 text-[60px] font-bold leading-tight">
                 FAQ's
               </h1>
               <FAQComponent faq={faq.faq1} />
-              <FAQComponent faq={faq.faq1} />
-              <FAQComponent faq={faq.faq1} />
-              <FAQComponent faq={faq.faq1} />
+              <FAQComponent faq={faq.faq2} />
+              <FAQComponent faq={faq.faq3} />
+              <FAQComponent faq={faq.faq4} />
+              <FAQComponent faq={faq.faq5} />
+              <FAQComponent faq={faq.faq6} />
+              <FAQComponent faq={faq.faq7} />
             </div>
           </div>
         </div>
