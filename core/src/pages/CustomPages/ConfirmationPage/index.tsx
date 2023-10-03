@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "~/customComponents/Navbar";
 import Footer from "~/customComponents/Footer";
 import { motion } from "framer-motion";
-import { a, b, c } from "../../../itlText/confirmation";
+import { confirmationResources } from "../../../itlText/confirmation";
 
 const Confirmation: React.FC = () => {
   return (
@@ -10,9 +10,11 @@ const Confirmation: React.FC = () => {
       <Navbar />
       <div className="flex min-h-[85vh] flex-col items-center justify-center bg-[#232627] p-16">
         <h1 className="mb-4 text-center font-inikaBold text-6xl">
-          {a.English}
+          {confirmationResources.thankYou.English}
         </h1>
-        <h2 className="text-center font-inikaRegular text-xl">{b.English}</h2>
+        <h2 className="text-center font-inikaRegular text-xl">
+          {confirmationResources.getBackSoon.English}
+        </h2>
         <motion.img
           className="m-10"
           whileHover={{
@@ -32,7 +34,7 @@ const Confirmation: React.FC = () => {
           whileHover={{ scale: 1.02, color: "#a1a1a1" }}
           whileTap={{ scale: 0.97 }}
         >
-          {c.English}
+          {confirmationResources.returnHomepage.English}
         </motion.a>
       </div>
       <Footer />

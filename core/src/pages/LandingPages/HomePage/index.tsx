@@ -2,21 +2,7 @@ import React from "react";
 import Navbar from "../../../customComponents/Navbar";
 import Footer from "../../../customComponents/Footer";
 import { motion } from "framer-motion";
-import {
-  a,
-  b,
-  c,
-  d,
-  e,
-  f,
-  g,
-  h,
-  i,
-  j,
-  k,
-  l,
-  m,
-} from "../../../itlText/homepage";
+import { homepageResources } from "../../../itlText/homepage";
 
 const HomePage: React.FC = () => {
   return (
@@ -39,7 +25,7 @@ const HomePage: React.FC = () => {
                       className="flex flex-row"
                     >
                       <motion.p className="text-5xl font-medium text-white lg:text-3xl">
-                        {a.English}{" "}
+                        {homepageResources.specific.English}{" "}
                       </motion.p>
                       <motion.p
                         initial={{ opacity: 0 }}
@@ -47,7 +33,7 @@ const HomePage: React.FC = () => {
                         transition={{ delay: 0.2 }}
                         className="text-5xl font-bold text-sky-500 lg:text-3xl "
                       >
-                        &nbsp;{b.English}
+                        &nbsp;{homepageResources.needs.English}
                       </motion.p>
                     </motion.div>
                     <motion.h3
@@ -56,7 +42,7 @@ const HomePage: React.FC = () => {
                       transition={{ duration: 0.35, ease: "easeIn" }}
                       className="text-5xl font-medium text-white lg:text-3xl "
                     >
-                      {c.English}
+                      {homepageResources.require.English}
                     </motion.h3>
                     <motion.h3
                       initial={{ x: -120, opacity: 0 }}
@@ -64,7 +50,7 @@ const HomePage: React.FC = () => {
                       transition={{ duration: 0.4, ease: "easeIn" }}
                       className="text-5xl font-bold text-sky-500 lg:text-3xl "
                     >
-                      {d.English}
+                      {homepageResources.solutions.English}
                     </motion.h3>
                   </div>
                   <div>
@@ -74,7 +60,7 @@ const HomePage: React.FC = () => {
                       href="/CustomPages/PricingPage"
                     >
                       <span className="text-center text-2xl font-bold text-white lg:text-xl">
-                        {e.English}
+                        {homepageResources.pricing.English}
                       </span>
                     </motion.a>
                   </div>
@@ -104,11 +90,11 @@ const HomePage: React.FC = () => {
         ></img>
         <div className="absolute inset-0 m-32 flex flex-col items-center justify-center xl:m-16 lg:m-4">
           <p className="font-inikaBold text-6xl font-bold text-white 2xl:text-5xl  xl:text-3xl">
-            {f.English}
+            {homepageResources.here.English}
           </p>
           <div className="my-4 h-[5px] w-[25%] rounded-full bg-white lg:my-2 lg:h-[3px]"></div>
           <p className="px-32 text-center font-inikaRegular text-4xl font-medium 2xl:text-2xl lg:px-12 lg:text-xl lg:leading-tight">
-            {g.English}
+            {homepageResources.hereDescription.English}
           </p>
         </div>
       </div>
@@ -121,9 +107,11 @@ const HomePage: React.FC = () => {
             <div className="mx-20 flex-initial xl:mx-10 md:mx-8">
               <div className="flex h-full w-[450px] flex-col justify-center xl:w-[300px] md:w-[100%]">
                 <h1 className="font-inikaBold text-5xl font-bold">
-                  {h.English}
+                  {homepageResources.whyUs.English}
                 </h1>
-                <p className="font-inikaRegular text-xl">{i.English}</p>
+                <p className="font-inikaRegular text-xl">
+                  {homepageResources.whyUsDescription.English}
+                </p>
               </div>
             </div>
             <div className="flex w-full justify-center">
@@ -153,9 +141,11 @@ const HomePage: React.FC = () => {
             <div className="mx-20 flex-initial xl:mx-10 md:mx-8">
               <div className="flex h-full w-[450px] flex-col justify-center xl:w-[300px] md:w-[100%]">
                 <h1 className="font-inikaBold text-5xl font-bold">
-                  {j.English}
+                  {homepageResources.whyDo.English}
                 </h1>
-                <p className="font-inikaRegular text-xl">{k.English}</p>
+                <p className="font-inikaRegular text-xl">
+                  {homepageResources.whyDoDescription.English}
+                </p>
               </div>
             </div>
           </div>
@@ -167,9 +157,11 @@ const HomePage: React.FC = () => {
             <div className="mx-20 flex-initial xl:mx-10 md:mx-8">
               <div className="flex h-full w-[450px] flex-col justify-center xl:w-[300px] md:w-[100%]">
                 <h1 className="font-inikaBold text-5xl font-bold">
-                  {l.English}
+                  {homepageResources.howItWorks.English}
                 </h1>
-                <p className="font-inikaRegular text-xl">{m.English}</p>
+                <p className="font-inikaRegular text-xl">
+                  {homepageResources.howItWorksDescription.English}
+                </p>
               </div>
             </div>
             <div className="flex w-full justify-center">

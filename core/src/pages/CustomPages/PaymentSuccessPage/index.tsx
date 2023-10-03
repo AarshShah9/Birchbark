@@ -3,7 +3,7 @@ import Navbar from "~/customComponents/Navbar";
 import Footer from "~/customComponents/Footer";
 import { motion } from "framer-motion";
 import { BsFillBox2HeartFill } from "react-icons/bs";
-import { a, b, c } from "../../../itlText/payment-success";
+import { paymentSuccessResources } from "../../../itlText/payment-success";
 
 const PaymentSuccess: React.FC = () => {
   return (
@@ -11,7 +11,7 @@ const PaymentSuccess: React.FC = () => {
       <Navbar />
       <div className="flex min-h-[90vh] flex-col items-center justify-center bg-[#232627] p-16">
         <h1 className="mb-4 text-center font-inikaBold text-6xl">
-          {a.English}
+          {paymentSuccessResources.thankYou.English}
         </h1>
         <motion.div
           className="m-10"
@@ -27,7 +27,7 @@ const PaymentSuccess: React.FC = () => {
           <BsFillBox2HeartFill size="200px" />
         </motion.div>
         <h2 className="mb-4 text-center font-inikaRegular text-3xl">
-          {b.English}
+          {paymentSuccessResources.orderPlaced.English}
         </h2>
         <motion.a
           className="font-inikaRegular text-xl underline"
@@ -35,7 +35,7 @@ const PaymentSuccess: React.FC = () => {
           whileHover={{ scale: 1.02, color: "#a1a1a1" }}
           whileTap={{ scale: 0.97 }}
         >
-          {c.English}
+          {paymentSuccessResources.returnHomepage.English}
         </motion.a>
       </div>
       <Footer />
