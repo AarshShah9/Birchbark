@@ -7,6 +7,7 @@ import { Inter } from "next/font/google";
 import { BiPlusMedical, BiMinus } from "react-icons/bi";
 import FAQComponent from "../../../customComponents/FAQS/FAQComponent";
 import { faq } from "../../../data/faq";
+import { contactResources } from "../../../itlText/contact";
 
 const ContactUsPage: React.FC = () => {
   return (
@@ -16,12 +17,10 @@ const ContactUsPage: React.FC = () => {
         <div className="relative w-[45%] flex-1 bg-[#000000] p-[7%] md:w-full">
           <div>
             <h1 className="mb-4 text-[60px] font-bold leading-tight">
-              Contact Us
+              {contactResources.contact.English}
             </h1>
             <p className="mb-14 font-inikaRegular text-[24px] leading-7">
-              Reach out to us with any questions you have using the form below.
-              Enter your name, email and mesage and we will get back to you as
-              soon as possible.
+              {contactResources.reachOut.English}
             </p>
           </div>
           <div>
@@ -32,7 +31,7 @@ const ContactUsPage: React.FC = () => {
                   type="text"
                   name="name"
                   id="name"
-                  placeholder="Name"
+                  placeholder={contactResources.name.English}
                 />
 
                 <input
@@ -40,14 +39,14 @@ const ContactUsPage: React.FC = () => {
                   type="email"
                   name="email"
                   id="email"
-                  placeholder="Email"
+                  placeholder={contactResources.email.English}
                 />
 
                 <textarea
                   className="mb-4 resize-none rounded-3xl px-4 py-3 text-white"
                   name="message"
                   id="message"
-                  placeholder="Message"
+                  placeholder={contactResources.message.English}
                   cols={30}
                   rows={10}
                 ></textarea>
@@ -60,7 +59,7 @@ const ContactUsPage: React.FC = () => {
                     href="/confirmation"
                   >
                     <span className="text-center text-2xl font-bold">
-                      Submit
+                      {contactResources.submit.English}
                     </span>
                   </motion.a>
                 </div>
@@ -87,7 +86,7 @@ const ContactUsPage: React.FC = () => {
           <div className="flex flex-col">
             <div className="w-[100%] text-left">
               <h1 className="mb-8 text-[60px] font-bold leading-tight">
-                FAQ's
+                {contactResources.faqs.English}
               </h1>
               <FAQComponent faq={faq.faq1} />
               <FAQComponent faq={faq.faq2} />
