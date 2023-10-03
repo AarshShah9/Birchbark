@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "~/components/Image";
 import Icon from "~/components/Icon";
 import { SignIn } from "@clerk/nextjs";
-import { signInResourses } from "~/itlText/signin";
+import { signInResources } from "~/itlText/signin";
 
 const SignInPage = () => {
   return (
@@ -10,9 +10,9 @@ const SignInPage = () => {
       <div className="relative w-[40rem] shrink-0 overflow-hidden p-20 2xl:w-[37.5rem] xl:w-[30rem] xl:p-10 lg:hidden">
         <div className="max-w-[25.4rem]">
           <div className="h2 mb-4 text-n-1">
-            {signInResourses.unlock.English}
+            {signInResources.unlock.English}
           </div>
-          <div className="body1 text-n-3">{signInResourses.chat.English}</div>
+          <div className="body1 text-n-3">{signInResources.chat.English}</div>
         </div>
         <div className="absolute left-5 right-5 top-52 h-[50rem] xl:top-24">
           <Image

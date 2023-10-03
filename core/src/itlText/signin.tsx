@@ -1,4 +1,4 @@
-export const signInResourses = {
+export const signInResources = {
   unlock: {
     English: "Unlock the power of AI",
   },
