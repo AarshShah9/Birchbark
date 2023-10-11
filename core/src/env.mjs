@@ -14,7 +14,10 @@ export const env = createEnv({
     STRIPE_SECRET_KEY: z.string(),
     STRIPE_WEBHOOK_SECRET: z.string(),
     VERCEL_URL: z.string(),
-    PORT: z.string()
+    PORT: z.string(),
+    CLOUDINARY_API_KEY: z.string(),
+    CLOUDINARY_API_SECRET: z.string(),
+    CLOUDINARY_CLOUD_NAME: z.string(),
   },
 
   /**
@@ -56,6 +59,9 @@ export const env = createEnv({
     NEXT_PUBLIC_SENDBIRD_APPID: process.env.NEXT_PUBLIC_SENDBIRD_APPID,
     PORT: process.env.PORT,
     VERCEL_URL: process.env.VERCEL_URL,
+    CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
+    CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
+    CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
