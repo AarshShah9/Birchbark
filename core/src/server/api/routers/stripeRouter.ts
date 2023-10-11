@@ -104,8 +104,8 @@ export const stripeRouter = createTRPCRouter({
             },
           ],
           mode: "subscription",
-          success_url: `${env.NEXT_PUBLIC_VERCEL_URL}/sign-in`,
-          cancel_url: `${env.NEXT_PUBLIC_VERCEL_URL}/stripePayment`,
+          success_url: `${env.NEXT_PUBLIC_VERCEL_URL}/payment-success`,
+          cancel_url: `${env.NEXT_PUBLIC_VERCEL_URL}/pricing`,
           metadata: { organizationId: org.id, doctorId: createdDoctor.id },
           customer: customer.id,
         });
