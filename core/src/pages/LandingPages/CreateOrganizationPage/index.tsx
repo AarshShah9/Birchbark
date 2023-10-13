@@ -13,28 +13,28 @@ const CreateOrganizationPage = () => {
                     Back
                 </motion.a>
             </div>
-            <div className='h-fit lg:w-[95%]  w-[80%] flex flex-col rounded-xl py-20 mb-24 '>
-                <div>
+            <div className='h-fit flex flex-col items-center rounded-xl py-20 mb-24 '>
+                <div className='w-[80%] '>
                     <h1 className='lg:text-5xl text-6xl font-bold text-center mb-8'>Create Organization</h1>
                     <p className='text-lg text-center mb-20' >This is the admin account you will have to manage all of your patients, schedule appointments, approve appoitnments, etc.</p>
                 </div>
-                <div className=''>
+                <div className='w-[80%] '>
                     <form className='flex flex-col justify-center items-center'>
                         <label className='lg:text-2xl text-3xl font-bold mt-8 mb-6 text-center'>Organization Details</label>
-                        <input className='bg-[#ffffff] h-14 w-[80%] text-black lg:text-xl text-2xl font-medium rounded-xl border p-4 mb-8' type='text' placeholder='Organization Name' />
-                        <input className='bg-[#ffffff] h-14 w-[80%] text-black lg:text-xl text-2xl font-medium rounded-xl border p-4 mb-8' type='text' placeholder='Organization Phone' />
-                        <input className='bg-[#ffffff] h-14 w-[80%] text-black lg:text-xl text-2xl font-medium rounded-xl border p-4 mb-8' type='text' placeholder='Organization Website' />
-                        <input className='bg-[#ffffff] h-14 w-[80%] text-black lg:text-xl text-2xl font-medium rounded-xl border p-4 mb-8' type='text' placeholder='Organization Email' />
-                        <input className='bg-[#ffffff] h-14 w-[80%] text-black lg:text-xl text-2xl font-medium rounded-xl border p-4 mb-8' type='text' placeholder='Organization Website' />
-                        <input className='bg-[#ffffff] h-14 w-[80%] text-black lg:text-xl text-2xl font-medium rounded-xl border p-4 mb-8' type='text' placeholder='Organization Doctor' />
-                        <input className='bg-[#ffffff] h-14 w-[80%] text-black lg:text-xl text-2xl font-medium rounded-xl border p-4 mb-8' type='text' placeholder='Organization Patients' />
+                        <input className='bg-[#ffffff] h-14 w-[80%] text-black text-xl font-medium rounded-lg p-4 mb-8' type='text' placeholder='Organization Name' />
+                        <input className='bg-[#ffffff] h-14 w-[80%] text-black text-xl font-medium rounded-lg p-4 mb-8' type='text' placeholder='Organization Phone' />
+                        <input className='bg-[#ffffff] h-14 w-[80%] text-black text-xl font-medium rounded-lg p-4 mb-8' type='text' placeholder='Organization Website' />
+                        <input className='bg-[#ffffff] h-14 w-[80%] text-black text-xl font-medium rounded-lg p-4 mb-8' type='text' placeholder='Organization Email' />
+                        <input className='bg-[#ffffff] h-14 w-[80%] text-black text-xl font-medium rounded-lg p-4 mb-8' type='text' placeholder='Organization Website' />
+                        <input className='bg-[#ffffff] h-14 w-[80%] text-black text-xl font-medium rounded-lg p-4 mb-8' type='text' placeholder='Organization Doctor' />
+                        <input className='bg-[#ffffff] h-14 w-[80%] text-black text-xl font-medium rounded-lg p-4 mb-8' type='text' placeholder='Organization Patients' />
 
                         <label className='lg:text-2xl text-3xl font-bold mt-8 mb-6 text-center'>Organization Address Information</label>
-                        <input className='bg-[#ffffff] h-14 w-[80%] text-black lg:text-xl text-2xl font-medium rounded-xl border p-4 mb-8' type='text' placeholder='Address' />
-                        <input className='bg-[#ffffff] h-14 w-[80%] text-black lg:text-xl text-2xl font-medium rounded-xl border p-4 mb-8' type='text' placeholder='Apt' />
-                        <input className='bg-[#ffffff] h-14 w-[80%] text-black lg:text-xl text-2xl font-medium rounded-xl border p-4 mb-8' type='text' placeholder='City' />
-                        <input className='bg-[#ffffff] h-14 w-[80%] text-black lg:text-xl text-2xl font-medium rounded-xl border p-4 mb-8' type='text' placeholder='Province' />
-                        <input className='bg-[#ffffff] h-14 w-[80%] text-black lg:text-xl text-2xl font-medium rounded-xl border mb-8 p-4' type='text' placeholder='Postal Code' />
+                        <input className='bg-[#ffffff] h-14 w-[80%] text-black text-xl font-medium rounded-lg p-4 mb-8' type='text' placeholder='Address' />
+                        <input className='bg-[#ffffff] h-14 w-[80%] text-black text-xl font-medium rounded-lg p-4 mb-8' type='text' placeholder='Apt' />
+                        <input className='bg-[#ffffff] h-14 w-[80%] text-black text-xl font-medium rounded-lg p-4 mb-8' type='text' placeholder='City' />
+                        <input className='bg-[#ffffff] h-14 w-[80%] text-black text-xl font-medium rounded-lg p-4 mb-8' type='text' placeholder='Province' />
+                        <input className='bg-[#ffffff] h-14 w-[80%] text-black text-xl font-medium rounded-lg mb-8 p-4' type='text' placeholder='Postal Code' />
 
                         <motion.a 
                             href='/' 
