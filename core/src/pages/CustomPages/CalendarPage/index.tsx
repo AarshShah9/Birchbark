@@ -1,18 +1,18 @@
 import React from 'react';
-import Head from 'next/head';
 import Layout from "~/components/Layout";
-import Calendar from "~/components/Calendar";
-import CalendarWrapper from "~/components/CalendarWrapper";
-import dynamic from 'next/dynamic';
 import SchedulerWrapper from '~/components/SchedulerWrapper';
 
 const IndexPage: React.FC = () => {
     return (
         <Layout>
-            <main>
+            <div>
                 {/* <CalendarWrapper /> */}
                 <SchedulerWrapper/>
-            </main>
+                
+            </div>
+            <div className='border bg-red-500 w-44 h-44'>
+                Test
+            </div>
         </Layout>
     );
 };

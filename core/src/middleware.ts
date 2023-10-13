@@ -6,7 +6,7 @@ import { authMiddleware } from "@clerk/nextjs";
 export default authMiddleware({
   debug: true,
   ignoredRoutes: ["/api/stripe/stripeWebhook"],
-  publicRoutes: ["/sign-in", "/sign-up", "/", "/about-us", "/contact-us", "/create-organization"],
+  publicRoutes: ["/sign-in", "/sign-up", "/", "/about-us", "/contact-us", "/create-organization", "/CustomPages/CalendarPage"],
 });
 
 export const config = {

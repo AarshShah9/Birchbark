@@ -5,31 +5,30 @@ import { SignIn } from "@clerk/nextjs";
 
 const SignInPage = () => {
   return (
-    <div className="min-h-screen-ios relative flex min-h-screen lg:p-6 md:px-6 md:pb-10 md:pt-16">
-      <div className="relative w-[40rem] shrink-0 overflow-hidden p-20 2xl:w-[37.5rem] xl:w-[30rem] xl:p-10 lg:hidden">
-        <div className="max-w-[25.4rem]">
-          <div className="h2 mb-4 text-n-1">Welcome to Symptom 360</div>
-          <div className="body1 text-n-3">
-            Chat with your doctor, and get the help you need all a tap away
+    <div className="bg-[#232627] min-h-screen-ios relative flex min-h-screen">
+      <div className="flex flex-col grow justify-center items-center bg-[#232627]">
+        <div className="md:p-0 md:bg-transparent bg-[#414141] p-12 z-2 rounded-xl">
+          <div className="mb-8 w-full flex items-center justify-center">
+            {/* <div className="h3 mb-4 text-n-1">Welcome to Symptom 360</div> */}
+            <Image
+              className="object-contain w-[80%]"
+              src="/Logos/S360Logo.svg"
+              height={95}
+              width={300}
+              alt=""
+            />
+          </div>
+          
+          <div className="flex justify-center items-center">
+            <SignIn signUpUrl={"/sign-up"} routing={"virtual"} />
           </div>
         </div>
-        <div className="absolute left-5 right-5 top-52 h-[50rem] xl:top-24 flex justify-center items-center">
-          <Image
-            className="object-contain"
-            src="/images/BuffaloGraphic.svg"
-            height={400}
-            width={400}
-            alt=""
-          />
-        </div>
-      </div>
-      <div className="my-6 mr-6 flex grow justify-center items-center rounded-[1.25rem] bg-n-7 p-10 align-middle lg:m-0 md:p-0">
-        <div className="z-2"><SignIn signUpUrl={"/sign-up"} routing={"virtual"} /></div>
+        
         <Image
-          className="absolute bottom-0 z-1"
+          className="absolute md:hidden bottom-0 z-1 w-[90%]"
           src="/images/mountain.svg"
-          height={700}
-          width={1200}
+          height={750}
+          width={1440}
           alt=""
         />
       </div>
