@@ -92,10 +92,6 @@ const pullingImages: NextPage = () => {
   if (myQuery.isLoading) return <div className={"text-white"}>Loading...</div>;
   if (myQuery.isError) return <div>Error</div>;
 
-  async function fetch() {
-    const next = await myQuery.fetchNextPage();
-  }
-
   return (
     <div className="min-h-full w-full">
       <div className="flex max-w-[90%] flex-col justify-center rounded-lg bg-slate-500 p-10">
@@ -125,7 +121,7 @@ const pullingImages: NextPage = () => {
           //   </button>
 
           <div className="flex items-center justify-center">
-            <InView onChange={(inView, entry) => fetch()}>
+            <InView onChange={(inView, entry) => myQuery.fetchNextPage()}>
               <div
                 className="flex h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent motion-reduce:animate-[spin_1.5s_linear_infinite]"
                 role="status"
