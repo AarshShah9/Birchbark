@@ -4,19 +4,13 @@ import "@sendbird/uikit-react/dist/index.css";
 import { InView } from "react-intersection-observer";
 import Icon from "~/components/Icon";
 
-// type SearchType = {
-//   id: string;
-//   title: string;
-// };
-// type SearchProps = {
-//   items: SearchType[];
-// };
 const PullingImages: React.FC = () => {
   const [search, setSearch] = React.useState<string>("");
 
-  const Query: React.FC = () => {
+  type SearchProps = { input: string };
+  const Query = ({ input }: SearchProps) => {
     const myQuery = api.image.getImages.useInfiniteQuery(
-      { limit: 12, search: "" },
+      { limit: 12, search: input },
       {
         getNextPageParam: (lastPage) => lastPage.nextCursor,
       }
@@ -48,7 +42,7 @@ const PullingImages: React.FC = () => {
 
           {myQuery.hasNextPage && (
             <div className="flex items-center justify-center">
-              <InView onChange={(inView, entry) => myQuery.fetchNextPage()}>
+              <InView onChange={() => myQuery.fetchNextPage()}>
                 <div
                   className="flex h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent motion-reduce:animate-[spin_1.5s_linear_infinite]"
                   role="status"
@@ -67,7 +61,7 @@ const PullingImages: React.FC = () => {
 
   return (
     <>
-      <form className="" action="" onSubmit={() => <Query />}>
+      <form className="" action="" onSubmit={() => <Query input={search} />}>
         <div className="relative border-b border-n-3 dark:border-n-6">
           <button
             className="group absolute left-10 top-7 outline-none md:hidden"
@@ -91,7 +85,7 @@ const PullingImages: React.FC = () => {
           <div className="mb-5 flex md:mb-0 md:block md:space-y-4"></div>
         </div>
       </form>
-      <Query />
+      <Query input={search} />
     </>
   );
 };
