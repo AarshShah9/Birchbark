@@ -5,6 +5,7 @@ import AppointmentTimeCard from '~/customComponents/AppointmentTimeCard';
 
 const IndexPage: React.FC = () => {
 
+    // These will be available appointment times
     const times = [
         "12:00 PM",
         "12:30 PM",
@@ -18,7 +19,7 @@ const IndexPage: React.FC = () => {
         <Layout>
             <div className='w-full h-full bg-[#ffffff]'>
                 <div className='w-full h-56 flex flex-col justify-center items-center'>
-                    <h2 className='h2 text-black text-center'>Schedule an Appointment with your doctor</h2>
+                    <h2 className='h2 mx-32 text-black text-center'>Schedule an Appointment with your doctor</h2>
                     <p className='h6 text-[#6C7275] font-medium mt-3'>Chat with an experience doctor - and get the care you need</p>
                 </div>
                 <div className='w-full flex items-center justify-center'>

@@ -2,6 +2,7 @@ import React from 'react';
 import Layout from "~/components/Layout";
 import SchedulerWrapper from '~/components/SchedulerWrapper';
 import PatientAppointmentRequestCard from '~/customComponents/PatientAppointmentRequestCard';
+import Message from '~/components/Message';
 
 const IndexPage: React.FC = () => {
 
@@ -34,19 +35,18 @@ const IndexPage: React.FC = () => {
     
     return (
         <Layout>
-            <div className='flex w-full h-full'>
-                <div className='flex w-full h-full'>
+            <div className='flex flex-row 3xl:flex-col w-full h-full'>
+                <div className='w-full '>
                     {/* <CalendarWrapper /> */}
                     <SchedulerWrapper/>
                     
                 </div>
+                {/* Right sidebar */}
                 <div className='bg-[#141718] flex-initial w-[550px] h-full flex'>
                     <div className='flex flex-col ml-8 m-4'>
                         <div className='h4 text-white text-center my-8'>
                             Patient requested appointments
                         </div>
-
-                        {/* This is where all the appointments go: */}
                         <div>
                             {appointmentsData.length == 0 
                                 ? 
