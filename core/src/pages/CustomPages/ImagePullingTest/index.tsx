@@ -1,17 +1,11 @@
 import React from "react";
-import { NextPage } from "next";
 import { api } from "~/utils/api";
 import Layout from "~/components/Layout";
 import { useUser } from "@clerk/nextjs";
 import "@sendbird/uikit-react/dist/index.css";
 import { useColorMode } from "@chakra-ui/color-mode";
-import dynamic from "next/dynamic";
-import styled from "styled-components";
-import { env } from "~/env.mjs";
 import { resultSearch } from "@/mocks/resultSearch";
 import Icon from "@/components/Icon";
-import Select from "@/components/Select";
-import Item from "~/components/Search/Item";
 import { InView } from "react-intersection-observer";
 
 const ChatsPage: React.FC = () => {
@@ -33,8 +27,6 @@ const ChatsPage: React.FC = () => {
   type SearchType = {
     id: string;
     title: string;
-    date?: string;
-    list: ItemsType[];
   };
 
   type SearchProps = {
@@ -43,7 +35,6 @@ const ChatsPage: React.FC = () => {
 
   const Search = ({ items }: SearchProps) => {
     const [search, setSearch] = React.useState<string>("");
-    const [searchTitle, setSearchTitle] = React.useState<string>("");
 
     return (
       <form className="" action="" onSubmit={() => console.log("Submit")}>
@@ -82,9 +73,9 @@ const ChatsPage: React.FC = () => {
   );
 };
 
-const pullingImages: NextPage = () => {
+const pullingImages: React.FC = () => {
   const myQuery = api.image.getImages.useInfiniteQuery(
-    { limit: 9, search: "" },
+    { limit: 12, search: "" },
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
     }
@@ -94,12 +85,12 @@ const pullingImages: NextPage = () => {
 
   return (
     <div className="min-h-full w-full">
-      <div className="flex max-w-[90%] flex-col justify-center rounded-lg bg-slate-500 p-10">
-        <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-12">
+      <div className="flex max-w-[100%] flex-col justify-center rounded-lg bg-slate-500 p-10">
+        <div className="container mx-auto px-5 py-2 ">
           {myQuery.data!.pages.map((page, index) => (
             <div className="mb-2 flex flex-wrap gap-2" key={index}>
               {page.images.map((url) => (
-                <div className="flex w-[32%] flex-wrap justify-center">
+                <div className="flex w-[32%] flex-wrap justify-center md:w-[46%] sm:w-[98%]">
                   <img
                     className="max-h-64 rounded-md"
                     src={url}
@@ -113,13 +104,6 @@ const pullingImages: NextPage = () => {
         </div>
 
         {myQuery.hasNextPage && (
-          //   <button
-          //     className={"text-white"}
-          //     onClick={() => myQuery.fetchNextPage()}
-          //   >
-          //     Load more
-          //   </button>
-
           <div className="flex items-center justify-center">
             <InView onChange={(inView, entry) => myQuery.fetchNextPage()}>
               <div

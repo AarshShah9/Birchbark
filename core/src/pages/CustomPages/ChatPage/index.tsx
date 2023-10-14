@@ -6,6 +6,8 @@ import { useColorMode } from "@chakra-ui/color-mode";
 import dynamic from "next/dynamic";
 import styled from "styled-components";
 import { env } from "~/env.mjs";
+import Modal from "@/components/Modal";
+import PullingImages from "../../../customComponents/Chats/infinite-scroll";
 
 const ChatsPage: React.FC = () => {
   const user = useUser();
@@ -18,18 +20,33 @@ const ChatsPage: React.FC = () => {
 
   const StyledSendbirdApp = styled(SendbirdApp)``;
 
-  return (
-    <Layout>
-      <div className={"h-screen rounded-2xl p-2"}>
-        <StyledSendbirdApp
-          appId={env.NEXT_PUBLIC_SENDBIRD_APPID}
-          userId={user?.user?.id ?? "null"}
-          theme={colorMode}
+  const [visibleSearch, setVisibleSearch] = React.useState<boolean>(false);
 
-          // nickname={user.user?.firstName ?? "Unknown"}
-        />
-      </div>
-    </Layout>
+  return (
+    <>
+      <Layout>
+        <div className={"h-screen rounded-2xl p-2"}>
+          <StyledSendbirdApp
+            appId={env.NEXT_PUBLIC_SENDBIRD_APPID}
+            userId={user?.user?.id ?? "null"}
+            theme={colorMode}
+
+            // nickname={user.user?.firstName ?? "Unknown"}
+          />
+        </div>
+        <button onClick={() => setVisibleSearch(true)}>Hello</button>
+      </Layout>
+      <Modal
+        className="md:!p-0"
+        classWrap="md:min-h-screen-ios md:rounded-none dark:shadow-[inset_0_0_0_0.0625rem_#232627,0_2rem_4rem_-1rem_rgba(0,0,0,0.33)] dark:md:shadow-none"
+        classButtonClose="hidden md:flex md:absolute md:top-6 md:left-6 dark:fill-n-1"
+        classOverlay="md:bg-n-1"
+        visible={visibleSearch}
+        onClose={() => setVisibleSearch(false)}
+      >
+        <PullingImages />
+      </Modal>
+    </>
   );
 };
 
