@@ -71,7 +71,7 @@ export const wikiRouter = createTRPCRouter({
           type: z.enum(["TEXT", "IMAGE", "VIDEO"]),
           content: z.string(),
           order: z.number(),
-          articleId: z.number(),
+          articleId: z.number().nullable(),
         })
       )
     )
@@ -94,5 +94,35 @@ export const wikiRouter = createTRPCRouter({
       }
 
       return article.content;
+    }),
+
+  searchArticlesByTitle: privateProcedure
+    .input(
+      z.object({
+        title: z.string(),
+      })
+    )
+    .output(
+      z.array(
+        z.object({
+          id: z.number(),
+          title: z.string(),
+          description: z.string().optional().nullable(),
+        })
+      )
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.prisma.article.findMany({
+        where: {
+          title: {
+            contains: input.title,
+          },
+        },
+        select: {
+          id: true,
+          title: true,
+          description: true,
+        },
+      });
     }),
 });

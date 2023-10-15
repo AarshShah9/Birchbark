@@ -63,8 +63,14 @@ const LeftSidebar = ({
     {
       title: "Wiki",
       icon: "container",
-      color: "fill-accent-1",
+      color: "fill-accent-5",
       url: "/app/articles",
+    },
+    {
+      title: "Events",
+      icon: "notification",
+      color: "fill-accent-3",
+      url: "/app/events",
     },
     {
       title: "Search",

@@ -198,18 +198,32 @@ model Article {
   @@index([categoryId])
 }
 
-model ContentBlock {
-  id        Int       @id @default(autoincrement())
-  type      BlockType
-  content   String // This will contain the text, or the URL for images/videos
-  order     Int // Order of appearance
-  articleId Int
-  article   Article   @relation(fields: [articleId], references: [id])
-
-  @@index([articleId])
+model Event {
+  id        Int            @id @default(autoincrement())
+  title     String
+  date      DateTime
+  content   ContentBlock[]
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
 }
 
-enum BlockType {
+model ContentBlock {
+  id        Int         @id @default(autoincrement())
+  type      ContentType
+  content   String
+  order     Int
+  article   Article?    @relation(fields: [articleId], references: [id])
+  articleId Int?
+  event     Event?      @relation(fields: [eventId], references: [id])
+  eventId   Int?
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  @@index([articleId])
+  @@index([eventId])
+}
+
+enum ContentType {
   TEXT
   IMAGE
   VIDEO
