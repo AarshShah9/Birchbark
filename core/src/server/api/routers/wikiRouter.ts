@@ -71,7 +71,7 @@ export const wikiRouter = createTRPCRouter({
           type: z.enum(["TEXT", "IMAGE", "VIDEO"]),
           content: z.string(),
           order: z.number(),
-          articleId: z.number(),
+          articleId: z.number().nullable(),
         })
       )
     )
