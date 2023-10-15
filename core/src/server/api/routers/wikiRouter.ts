@@ -26,15 +26,15 @@ export const wikiRouter = createTRPCRouter({
         id: z.number(),
       })
     )
-    // .output(
-    //   z.array(
-    //     z.object({
-    //       id: z.number(),
-    //       title: z.string(),
-    //       description: z.string(),
-    //     })
-    //   )
-    // )
+    .output(
+      z.array(
+        z.object({
+          id: z.number(),
+          title: z.string(),
+          description: z.string().optional().nullable(),
+        })
+      )
+    )
     .query(async ({ ctx, input }) => {
       const articles = await ctx.prisma.article.findMany({
         where: {
