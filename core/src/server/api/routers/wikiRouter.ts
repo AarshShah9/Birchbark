@@ -2,6 +2,62 @@ import { z } from "zod";
 import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 
 export const wikiRouter = createTRPCRouter({
+  getCategories: privateProcedure
+    .output(
+      z.array(
+        z.object({
+          id: z.number(),
+          name: z.string(),
+        })
+      )
+    )
+    .query(async ({ ctx }) => {
+      return await ctx.prisma.category.findMany({
+        select: {
+          id: true,
+          name: true,
+        },
+      });
+    }),
+
+  getArticlesByCategory: privateProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      })
+    )
+    .output(
+      z.array(
+        z.object({
+          id: z.number(),
+          title: z.string(),
+          description: z.string.optional(),
+        })
+      )
+    )
+    .query(async ({ ctx, input }) => {
+      const articles = await ctx.prisma.article.findMany({
+        where: {
+          categoryId: input.id,
+        },
+        select: {
+          id: true,
+          title: true,
+          description: true,
+        },
+      });
+      return await ctx.prisma.article.findMany({
+        where: {
+          categoryId: input.id,
+        },
+        select: {
+          id: true,
+          title: true,
+          description: true,
+        },
+      });
+    }),
+
   getArticleContent: privateProcedure
     .input(
       z.object({

@@ -189,9 +189,13 @@ model Article {
   title       String         @db.VarChar(255)
   description String?        @db.Text
   content     ContentBlock[]
+  categoryId  Int // Foreign key for Category relation
+  category    Category       @relation(fields: [categoryId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([categoryId])
 }
 
 model ContentBlock {
@@ -209,6 +213,12 @@ enum BlockType {
   TEXT
   IMAGE
   VIDEO
+}
+
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique @db.VarChar(255)
+  articles Article[] // Relation field for the articles in this category
 }
 
 // Enumerations
