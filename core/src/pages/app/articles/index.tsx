@@ -22,7 +22,7 @@ const WikiMain: NextPage = () => {
         <ul>
           {categories.map((category) => (
             <li key={category.id}>
-              <Link href={`/app/category?categoryId=${category.id}`}>
+              <Link href={`/app/articles/category?categoryId=${category.id}`}>
                 {category.name}
               </Link>
             </li>

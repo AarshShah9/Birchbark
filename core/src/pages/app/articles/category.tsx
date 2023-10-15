@@ -31,7 +31,7 @@ const CategoryPage: NextPage = () => {
         <ul>
           {articles.map((article) => (
             <li key={article.id}>
-              <Link href={`/app/article?id=${article.id}`}>
+              <Link href={`/app/articles/article?id=${article.id}`}>
                 {article.title}
               </Link>
             </li>
