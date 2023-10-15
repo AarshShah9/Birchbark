@@ -20,17 +20,17 @@ const PullingImages: React.FC = () => {
     if (myQuery.isError) return <div>Error</div>;
 
     return (
-      <div className="flex min-h-full w-full">
-        <div className="mx-5 mb-6 flex flex-col rounded-lg bg-n-5/50 pt-3">
+      <div className="flex max-h-[80vh] w-full">
+        <div className="mx-5 mb-6 flex w-full flex-col overflow-y-scroll rounded-lg bg-n-5/50 pt-3">
           {myQuery.data!.pages.map((page, index) => (
             <div
-              className="mb-2 flex flex-wrap justify-center gap-2"
+              className="mb-2 min-w-[100%] columns-3 flex-col justify-center gap-2 space-y-2 lg:columns-2 md:columns-1"
               key={index}
             >
               {page.images.map((url) => (
-                <div className="flex w-[31%] flex-wrap md:w-[46%] sm:w-[98%]">
+                <div className="flex h-min w-full justify-center">
                   <img
-                    className="max-h-64 rounded-md"
+                    className="max-h-64 rounded-md object-cover"
                     src={url}
                     alt="image"
                     key={url}
@@ -61,30 +61,28 @@ const PullingImages: React.FC = () => {
 
   return (
     <>
-      <form className="" action="" onSubmit={() => <Query input={search} />}>
-        <div className="relative border-b border-n-3 dark:border-n-6">
-          <button
-            className="group absolute left-10 top-7 outline-none md:hidden"
-            type="submit"
-          >
-            <Icon
-              className="h-8 w-8 fill-n-4/50 transition-colors group-hover:fill-n-7 dark:group-hover:fill-n-3"
-              name="search-1"
-            />
-          </button>
-          <input
-            className="h5 h-22 w-full border-none bg-transparent pl-24 pr-5 text-n-7 outline-none placeholder:text-n-4/50 dark:text-n-1 md:h-18 md:pl-18"
-            type="text"
-            name="search"
-            placeholder="Search"
-            value={search}
-            onChange={(e: any) => setSearch(e.target.value)}
+      <div className="relative border-b border-n-3 dark:border-n-6">
+        <button
+          className="group absolute left-10 top-7 outline-none md:hidden"
+          type="submit"
+        >
+          <Icon
+            className="h-8 w-8 fill-n-4/50 transition-colors group-hover:fill-n-7 dark:group-hover:fill-n-3"
+            name="search-1"
           />
-        </div>
-        <div className="px-10 pt-5 md:px-6">
-          <div className="mb-5 flex md:mb-0 md:block md:space-y-4"></div>
-        </div>
-      </form>
+        </button>
+        <input
+          className="h5 h-22 w-full border-none bg-transparent pl-24 pr-5 text-n-7 outline-none placeholder:text-n-4/50 dark:text-n-1 md:h-18 md:pl-18"
+          type="text"
+          name="search"
+          placeholder="Search"
+          value={search}
+          onChange={(e: any) => setSearch(e.target.value)}
+        />
+      </div>
+      <div className="px-10 pt-5 md:px-6">
+        <div className="mb-5 flex md:mb-0 md:block md:space-y-4"></div>
+      </div>
       <Query input={search} />
     </>
   );
