@@ -46,19 +46,25 @@ const LeftSidebar = ({
       title: "Calendar",
       icon: "calendar",
       color: "fill-accent-2",
-      url: "/calendar",
+      url: "/app/calendar",
     },
     {
       title: "Chats",
       icon: "chat",
       color: "fill-accent-4",
-      url: "/chats",
+      url: "/app/chats",
     },
     {
       title: "Images",
       icon: "image",
       color: "fill-accent-1",
-      url: "/images",
+      url: "/app/images",
+    },
+    {
+      title: "Wiki",
+      icon: "container",
+      color: "fill-accent-1",
+      url: "/app/articles",
     },
     {
       title: "Search",
