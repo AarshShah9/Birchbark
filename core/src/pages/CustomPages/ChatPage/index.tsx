@@ -32,18 +32,12 @@ const ChatsPage: React.FC = () => {
             theme={colorMode}
           />
         </div>
-        <button onClick={() => setVisibleSearch(true)}>Hello</button>
+        <button onClick={() => setVisibleSearch(true)}>Search</button>
       </Layout>
-      <ChatModal
-        className="md:!p-0"
-        classWrap="md:min-h-screen-ios dark:shadow-[inset_0_0_0_0.0625rem_#232627,0_2rem_4rem_-1rem_rgba(0,0,0,0.33)] dark:md:shadow-none"
-        classButtonClose="hidden md:flex md:absolute md:top-6 md:left-6 dark:fill-n-1"
-        classOverlay="md:bg-n-1"
-        visible={visibleSearch}
-        onClose={() => setVisibleSearch(false)}
-      >
-        <PullingImages />
-      </ChatModal>
+      <PullingImages
+        visibleSearch={visibleSearch}
+        setVisibleSearch={setVisibleSearch}
+      />
     </>
   );
 };
