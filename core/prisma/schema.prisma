@@ -184,6 +184,33 @@ model AppointmentOrganization {
   @@index([OrganizationId])
 }
 
+model Article {
+  id          Int            @id @default(autoincrement())
+  title       String         @db.VarChar(255)
+  description String?        @db.Text
+  content     ContentBlock[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ContentBlock {
+  id        Int       @id @default(autoincrement())
+  type      BlockType
+  content   String // This will contain the text, or the URL for images/videos
+  order     Int // Order of appearance
+  articleId Int
+  article   Article   @relation(fields: [articleId], references: [id])
+
+  @@index([articleId])
+}
+
+enum BlockType {
+  TEXT
+  IMAGE
+  VIDEO
+}
+
 // Enumerations
 enum StripeSubscriptionStatus {
   incomplete
