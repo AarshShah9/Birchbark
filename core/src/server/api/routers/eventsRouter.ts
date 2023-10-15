@@ -41,7 +41,7 @@ export const eventsRouter = createTRPCRouter({
         .then((events) =>
           events.map((event) => ({
             ...event,
-            imageUrl: event.content[0]?.value, // extract the image URL from the content block
+            imageUrl: event.content[0]?.content, // extract the image URL from the content block
           }))
         );
     }),
@@ -60,7 +60,7 @@ export const eventsRouter = createTRPCRouter({
         content: z.array(
           z.object({
             type: z.enum(["TEXT", "IMAGE", "VIDEO"]),
-            value: z.string(),
+            content: z.string(),
             order: z.number().optional(),
           })
         ),
