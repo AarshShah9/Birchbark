@@ -178,3 +178,19 @@
         @apply bg-n-3/50 dark:bg-n-6;
     }
 }
+
+
+.cl-formButtonPrimary {
+    background-color: #4CA9EE;
+}
+
+.cl-formButtonPrimary:hover{
+    background-color: #0080EC;
+}
+
+.cl-footerActionLink{
+    color: #4CA9EE;
+}
+.cl-footerActionLink:hover{
+    color: #0080EC;
+}

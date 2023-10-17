@@ -10,9 +10,9 @@ const SchedulerWrapper: React.FC = () => {
   }, []);
 
   return (
-    <>
+    <div className='h-full'>
       {isClient && <DynamicScheduler />}
-    </>
+    </div>
   );
 };
 
