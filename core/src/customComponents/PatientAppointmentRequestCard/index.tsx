@@ -5,12 +5,11 @@ interface Props {
     patient: string;
     patientPhoto: string;
     appointmentType: string;
-    date: string;
     time: string;
     duration: string;
 }
 
-const PatientAppointmentRequestCard: React.FC<Props> = ({patient, patientPhoto, appointmentType, date, time, duration}:Props) => {
+const PatientAppointmentRequestCard: React.FC<Props> = ({patient, patientPhoto, appointmentType, time, duration}:Props) => {
     return (
         <div className="bg-[#323337] rounded-xl flex flex-row justify-between text-white my-2">
             <div className='flex flex-row '>

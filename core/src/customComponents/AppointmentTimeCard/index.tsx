@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 
 interface Props {
     time: string;
-    onClick: () => void;
 }
 
 const AppointmentTimeCard: React.FC<Props> = ({time}:Props) => {

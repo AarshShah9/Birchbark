@@ -61,7 +61,6 @@ const IndexPage: React.FC = () => {
                                             patient={appointment.patient} 
                                             patientPhoto={appointment.patientPhoto}
                                             appointmentType={appointment.appointmentType}
-                                            date={appointment.date}
                                             time={appointment.time}
                                             duration={appointment.duration}
                                         />
