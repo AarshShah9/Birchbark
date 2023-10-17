@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "~/components/Image";
 import Icon from "~/components/Icon";
 import { SignIn } from "@clerk/nextjs";
+import { signInResources } from "~/itlText/signin";
 
 const SignInPage = () => {
   return (
@@ -22,6 +23,7 @@ const SignInPage = () => {
           <div className="flex justify-center items-center">
             <SignIn signUpUrl={"/sign-up"} routing={"virtual"} />
           </div>
+          <div className="body1 text-n-3">{signInResources.chat.English}</div>
         </div>
         
         <Image
