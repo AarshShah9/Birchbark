@@ -16,8 +16,6 @@ export default authMiddleware({
     "/confirmation",
     "/pricing",
     "/create-organization",
-    "/CustomPages/PatientCalendarPage",
-    "/CustomPages/DoctorCalendarPage"
   ],
 });
 
