@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "../../../customComponents/Navbar";
 import Footer from "../../../customComponents/Footer";
 import { motion } from "framer-motion";
-import { aboutUsResources } from "../../../itlText/aboutus";
+import { aboutUsResources } from "~/itlText/aboutus";
 
 const AboutUsPage: React.FC = () => {
   return (

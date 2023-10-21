@@ -1,4 +1,5 @@
-import { authMiddleware } from "@clerk/nextjs";
+import { authMiddleware, redirectToSignIn } from "@clerk/nextjs";
+import { NextResponse } from "next/server";
 
 // This example protects all routes including api/trpc routes
 // Please edit this to allow other routes to be public as needed.
@@ -17,6 +18,16 @@ export default authMiddleware({
     "/pricing",
     "/create-organization",
   ],
+  afterAuth(auth, req, evt) {
+    // handle users who aren't authenticated
+    if (!auth.userId && !auth.isPublicRoute) {
+      return redirectToSignIn({ returnBackUrl: req.url });
+    }
+    if (auth.userId && req.nextUrl.pathname === "/sign-in") {
+      const orgSelection = new URL("/app/calendar", req.url);
+      return NextResponse.redirect(orgSelection);
+    }
+  },
 });
 
 export const config = {
