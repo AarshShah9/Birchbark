@@ -15,6 +15,7 @@ export default authMiddleware({
     "/payment-success",
     "/confirmation",
     "/pricing",
+    "/create-organization",
   ],
 });
 

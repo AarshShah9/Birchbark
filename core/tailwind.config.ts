@@ -13,6 +13,8 @@ export default {
   ],
   theme: {
     screens: {
+      "3xl": {max: "1600px"},
+      // => @media (max-width: 1919px) { ... }
       "2xl": { max: "1419px" },
       // => @media (max-width: 1419px) { ... }
       xl: { max: "1179px" },
