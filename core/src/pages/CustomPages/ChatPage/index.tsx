@@ -20,8 +20,6 @@ const ChatsPage: React.FC = () => {
 
   const StyledSendbirdApp = styled(SendbirdApp)``;
 
-  const [visibleSearch, setVisibleSearch] = React.useState<boolean>(false);
-
   return (
     <>
       <Layout>
@@ -31,13 +29,9 @@ const ChatsPage: React.FC = () => {
             userId={user?.user?.id ?? "null"}
             theme={colorMode}
           />
+          <PullingImages />
         </div>
-        <button onClick={() => setVisibleSearch(true)}>Search</button>
       </Layout>
-      <PullingImages
-        visibleSearch={visibleSearch}
-        setVisibleSearch={setVisibleSearch}
-      />
     </>
   );
 };
