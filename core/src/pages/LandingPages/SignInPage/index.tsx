@@ -6,28 +6,32 @@ import { signInResources } from "~/itlText/signin";
 
 const SignInPage = () => {
   return (
-    <div className="bg-[#232627] min-h-screen-ios relative flex min-h-screen">
-      <div className="flex flex-col grow justify-center items-center bg-[#232627]">
-        <div className="md:p-0 md:bg-transparent bg-[#414141] p-12 z-2 rounded-xl">
-          <div className="mb-8 w-full flex items-center justify-center">
+    <div className="min-h-screen-ios relative flex min-h-screen bg-[#232627]">
+      <div className="flex grow flex-col items-center justify-center bg-[#232627]">
+        <div className="z-2 rounded-xl bg-[#414141] p-12 md:bg-transparent md:p-0">
+          <div className="mb-8 flex w-full items-center justify-center">
             {/* <div className="h3 mb-4 text-n-1">Welcome to Symptom 360</div> */}
             <Image
-              className="object-contain w-[80%]"
+              className="w-[80%] object-contain"
               src="/Logos/S360Logo.svg"
               height={95}
               width={300}
               alt=""
             />
           </div>
-          
-          <div className="flex justify-center items-center">
-            <SignIn signUpUrl={"/sign-up"} routing={"virtual"} />
+
+          <div className="flex items-center justify-center">
+            <SignIn
+              signUpUrl={"/sign-up"}
+              routing={"virtual"}
+              afterSignInUrl={"/app/calender"}
+            />
           </div>
           <div className="body1 text-n-3">{signInResources.chat.English}</div>
         </div>
-        
+
         <Image
-          className="absolute md:hidden bottom-0 z-1 w-[90%]"
+          className="absolute bottom-0 z-1 w-[90%] md:hidden"
           src="/images/mountain.svg"
           height={750}
           width={1440}

@@ -6,6 +6,8 @@ import { useColorMode } from "@chakra-ui/color-mode";
 import dynamic from "next/dynamic";
 import styled from "styled-components";
 import { env } from "~/env.mjs";
+import PullingImages from "../../../customComponents/Chats/chat-infinite-scroll";
+import ChatModal from "../../../customComponents/Chats/chat-modal";
 
 const ChatsPage: React.FC = () => {
   const user = useUser();
@@ -19,17 +21,18 @@ const ChatsPage: React.FC = () => {
   const StyledSendbirdApp = styled(SendbirdApp)``;
 
   return (
-    <Layout>
-      <div className={"h-screen rounded-2xl p-2"}>
-        <StyledSendbirdApp
-          appId={env.NEXT_PUBLIC_SENDBIRD_APPID}
-          userId={user?.user?.id ?? "null"}
-          theme={colorMode}
-
-          // nickname={user.user?.firstName ?? "Unknown"}
-        />
-      </div>
-    </Layout>
+    <>
+      <Layout>
+        <div className={"h-screen rounded-2xl p-2"}>
+          <StyledSendbirdApp
+            appId={env.NEXT_PUBLIC_SENDBIRD_APPID}
+            userId={user?.user?.id ?? "null"}
+            theme={colorMode}
+          />
+          <PullingImages />
+        </div>
+      </Layout>
+    </>
   );
 };
 
