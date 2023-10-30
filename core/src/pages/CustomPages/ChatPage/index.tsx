@@ -6,7 +6,7 @@ import { useColorMode } from "@chakra-ui/color-mode";
 import dynamic from "next/dynamic";
 import styled from "styled-components";
 import { env } from "~/env.mjs";
-import PullingImages from "../../../customComponents/Chats/infinite-scroll";
+import PullingImages from "../../../customComponents/Chats/chat-infinite-scroll";
 import ChatModal from "../../../customComponents/Chats/chat-modal";
 
 const ChatsPage: React.FC = () => {

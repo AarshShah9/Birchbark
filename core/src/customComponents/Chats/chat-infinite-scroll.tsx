@@ -5,13 +5,8 @@ import { InView } from "react-intersection-observer";
 import Icon from "~/components/Icon";
 import ChatModal from "../Chats/chat-modal";
 
-type PullingImagesProps = {
-  visibleSearch: boolean;
-  setVisibleSearch: (visible: boolean) => void;
-};
-
 const PullingImages: React.FC = () => {
-  const [visibleSearch, setVisibleSearch] = React.useState<boolean>(true);
+  const [visibleSearch, setVisibleSearch] = React.useState<boolean>(false);
 
   const handleClose = useCallback(() => {
     setVisibleSearch(false);
@@ -28,17 +23,17 @@ const PullingImages: React.FC = () => {
         visible={visibleSearch}
         onClose={() => setVisibleSearch(false)}
       >
-        <Hello someFunc={handleClose} />
+        <SendImageQuery someFunc={handleClose} />
       </ChatModal>
     </>
   );
 };
 
-type helloProps = {
+type closeProps = {
   someFunc: () => void;
 };
 
-const Hello = ({ someFunc }: helloProps) => {
+const SendImageQuery = ({ someFunc }: closeProps) => {
   const [search, setSearch] = React.useState<string>("");
 
   //  Create query
@@ -49,12 +44,9 @@ const Hello = ({ someFunc }: helloProps) => {
     }
   );
 
-  if (myQuery.isLoading)
-    return <div className={"p-4 text-white"}>Loading...</div>;
   if (myQuery.isError)
     return <div className={"p-4 text-white"}>Error: Could not Load Images</div>;
 
-  //  for closing the modal and (later) inserting image to chat
   function closeAndOutput(url: string) {
     // setVisibleSearch(false);
     someFunc();
@@ -87,24 +79,37 @@ const Hello = ({ someFunc }: helloProps) => {
       {/* Infinite scroll component */}
       <div className="flex max-h-[80vh] w-full">
         <div className="mx-5 mb-6 flex w-full flex-col overflow-y-scroll rounded-lg bg-n-5/50 pt-3">
-          {myQuery.data!.pages.map((page, index) => (
-            <div
-              className="mb-2 min-w-[100%] columns-3 gap-2 space-y-2 px-3 lg:columns-2 md:columns-1"
-              key={index}
-            >
-              {page.images.map((url) => (
-                <div className="flex h-min w-full justify-center">
-                  <img
-                    className="rounded-md object-cover hover:cursor-pointer hover:border-2 hover:border-sky-500 active:border-4 active:border-sky-500"
-                    src={url}
-                    alt="image"
-                    key={url}
-                    onDoubleClick={() => closeAndOutput(url)}
-                  />
-                </div>
-              ))}
+          {myQuery.isLoading && (
+            <div className="flex items-center justify-center">
+              <div
+                className="flex h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                role="status"
+              >
+                <span className="!-m-px flex !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                  Loading...
+                </span>
+              </div>
             </div>
-          ))}
+          )}
+          {!myQuery.isLoading &&
+            myQuery.data!.pages.map((page, index) => (
+              <div
+                className="mb-2 min-w-[100%] columns-3 gap-2 space-y-2 px-3 lg:columns-2 md:columns-1"
+                key={index}
+              >
+                {page.images.map((url) => (
+                  <div className="flex h-min w-full justify-center">
+                    <img
+                      className="rounded-md object-cover hover:cursor-pointer hover:border-2 hover:border-sky-500 active:border-4 active:border-sky-500"
+                      src={url}
+                      alt="image"
+                      key={url}
+                      onDoubleClick={() => closeAndOutput(url)}
+                    />
+                  </div>
+                ))}
+              </div>
+            ))}
 
           {myQuery.hasNextPage && (
             <div className="flex items-center justify-center">
