@@ -27,6 +27,7 @@ model Doctor {
   Organization      Organization?       @relation(fields: [OrganizationId], references: [id])
   OrganizationId    Int?
   AppointmentDoctor AppointmentDoctor[]
+  Availability      Availability[]
 
   @@index([patientId])
   @@index([OrganizationId])
@@ -109,11 +110,30 @@ model Appointment {
   isReadOnly     Boolean
   calendarId     Int
   doctorId       Int
-  status         String
+  statusM        Status?  @default(Pending)
 
   AppointmentDoctor       AppointmentDoctor[]
   AppointmentPatient      AppointmentPatient[]
   AppointmentOrganization AppointmentOrganization[]
+}
+
+model Availability {
+  id        Int      @id @default(autoincrement())
+  doctorId  Int
+  doctor    Doctor   @relation(fields: [doctorId], references: [id])
+  date      DateTime
+  startTime String
+  endTime   String
+
+  @@index([doctorId])
+}
+
+enum Status {
+  Confirmed
+  Pending
+  Cancelled
+  Stale
+  Completed
 }
 
 model Image {
@@ -261,11 +281,4 @@ enum provinces {
   QC
   SK
   YK
-}
-
-enum Status {
-  Pending
-  Confirmed
-  Cancelled
-  Completed
 }
