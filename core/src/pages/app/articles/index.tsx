@@ -5,7 +5,7 @@ import React, { FormEvent } from "react";
 import Layout from "~/components/Layout";
 import Icon from "~/components/Icon";
 import { BsArrowRight } from "react-icons/bs";
-import { number } from "prop-types";
+import { motion } from "framer-motion";
 
 const WikiMain: NextPage = () => {
   const { data: categories, error } = api.wiki.getCategories.useQuery();
@@ -23,52 +23,65 @@ const WikiMain: NextPage = () => {
   return (
     <Layout>
       <div className="relative flex h-[95vh] w-full overflow-auto bg-white font-inter text-[#141718]">
-        <div className="fixed right-14 top-14 flex w-[20%] rounded-md border-[1px] border-black bg-white">
+        <div className="fixed right-14 top-14 flex w-[20%] rounded-md border-[1px] border-black bg-white hover:shadow-md">
           <input className="w-full rounded-md border-none bg-white p-4 focus:border-none" />
-          <div className="group m-2 outline-none md:hidden">
+          <div className="group m-2 outline-none hover:cursor-pointer md:hidden">
             <Icon
               className="h-full w-10 fill-black transition-colors group-hover:fill-n-4"
               name="search-1"
             />
           </div>
         </div>
-        <div className="mx-10 flex w-full flex-col">
-          <div className="mb-8 mt-24 flex w-full flex-col">
-            <h1 className="flex justify-center text-center text-4xl font-bold">
-              Categories
-            </h1>
-            <h2 className="flex justify-center text-center text-2xl text-[#6C7275]">
-              View Articles based on Categories
-            </h2>
-          </div>
-          <ul className="grid grid-cols-2 gap-4 text-center md:grid-cols-1">
-            {/* {categories.map((category) => {
-                console.log(category);
-                return (
-                <li key={category.id}>
-                    <Link href={`/app/articles/category?categoryId=${category.id}`}>
-                    {category.name}
-                    </Link>
+        <div className="flex w-full flex-col items-center">
+          <div className="mx-8 flex w-auto flex-col">
+            <div className="mb-8 mt-24 flex w-full flex-col">
+              <h1 className="flex justify-center text-center text-4xl font-bold">
+                Categories
+              </h1>
+              <h2 className="flex justify-center text-center text-2xl text-[#6C7275]">
+                View Articles based on Categories
+              </h2>
+            </div>
+            <ul className="grid w-auto grid-cols-2 gap-6 text-center md:grid-cols-1">
+              {/* {categories.map((category) => {
+                    console.log(category);
+                    return (
+                    <li key={category.id}>
+                        <Link href={`/app/articles/category?categoryId=${category.id}`}>
+                        {category.name}
+                        </Link>
+                    </li>
+                    );
+                })} */}
+              {tempCategories.map((num) => (
+                <li className="flex justify-center">
+                  <Link href={`/app/articles/category?categoryId=${num}`}>
+                    <motion.div
+                      whileHover={{
+                        //   boxShadow: "0px 0px 15px rgb(76, 169, 238)",
+                        scale: [null, 1.05, 1.03],
+                        transition: { duration: 0.5 },
+                      }}
+                      whileTap={{
+                        scale: 0.95,
+                        transition: { duration: 0.75 },
+                      }}
+                      className="flex flex-row items-center space-x-4 rounded-lg border-2 p-4 hover:shadow-md hover:shadow-[#4CA9EE]"
+                    >
+                      <Icon
+                        className="h-full w-10 fill-black transition-colors group-hover:fill-n-4"
+                        name="search-1"
+                      />
+                      <h1 className="text-2xl font-semibold">Category {num}</h1>
+                      <div className="pl-[8vw] xl:pl-6">
+                        <BsArrowRight size={40} />
+                      </div>
+                    </motion.div>
+                  </Link>
                 </li>
-                );
-            })} */}
-            {tempCategories.map((num) => (
-              <li className="flex justify-center">
-                <Link href={`/app/articles/category?categoryId=${num}`}>
-                  <div className="flex flex-row items-center space-x-4 rounded-lg border-2 p-4">
-                    <Icon
-                      className="h-full w-10 fill-black transition-colors group-hover:fill-n-4"
-                      name="search-1"
-                    />
-                    <h1 className="text-2xl font-semibold">Category {num}</h1>
-                    <div className="pl-[10vw]">
-                      <BsArrowRight size={40} />
-                    </div>
-                  </div>
-                </Link>
-              </li>
-            ))}
-          </ul>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </Layout>
