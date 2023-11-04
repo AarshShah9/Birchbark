@@ -44,13 +44,31 @@ const WikiMain: NextPage = () => {
             </div>
             <ul className="grid w-auto grid-cols-2 gap-6 text-center md:grid-cols-1">
               {/* {categories.map((category) => {
-                    console.log(category);
                     return (
-                    <li key={category.id}>
-                        <Link href={`/app/articles/category?categoryId=${category.id}`}>
-                        {category.name}
-                        </Link>
-                    </li>
+                    <li className="flex justify-center">
+                  <Link href={`/app/articles/category?categoryId=${num}`}>
+                    <motion.div
+                      whileHover={{
+                        //   boxShadow: "0px 0px 15px rgb(76, 169, 238)",
+                        scale: [null, 1.05, 1.03],
+                        transition: { duration: 0.5 },
+                      }}
+                      whileTap={{
+                        scale: 0.95,
+                        transition: { duration: 0.75 },
+                      }}
+                      className="flex flex-row items-center space-x-4 rounded-lg border-2 p-4 hover:shadow-md hover:shadow-[#4CA9EE]"
+                    >
+                      <Icon
+                        className="h-full w-10 fill-black transition-colors group-hover:fill-n-4"
+                        name="search-1"
+                      />
+                      <h1 className="text-2xl font-semibold">Category {num}</h1>
+                      <div className="pl-[8vw] xl:pl-6">
+                        <BsArrowRight size={40} />
+                      </div>
+                    </motion.div>
+                  </Link>
                     );
                 })} */}
               {tempCategories.map((num) => (
