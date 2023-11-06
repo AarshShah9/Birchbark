@@ -4,7 +4,7 @@ import Layout from "~/components/Layout";
 import AppointmentTimeCard from '~/customComponents/AppointmentTimeCard';
 
 const IndexPage: React.FC = () => {
-
+    
     // These will be available appointment times
     const times = [
         "12:00 PM",
