@@ -2,7 +2,30 @@ import {createTRPCRouter, privateProcedure} from "~/server/api/trpc";
 import {z} from "zod";
 import {Status} from "@prisma/client";
 
-export const appointmentRouter = createTRPCRouter({
+export const appointmentDoctorRouter = createTRPCRouter({
+
+
+    getAllAppointments: privateProcedure
+        .query(async ({ input, ctx }) => {
+            // Find the doctor using ClerkId
+            const doctor = await ctx.prisma.doctor.findUnique({
+                where: {
+                    clerkId: ctx.userId as string,
+                },
+                // TODO If doctor has many appointments, consider using pagination here
+                include: {
+                    appointments: true,
+                },
+            });
+
+            if (!doctor) {
+                throw new Error('Doctor not found');
+            }
+
+            // Return the found appointments
+            return doctor.appointments;
+        }),
+
 
     rescheduleAppointment: privateProcedure
         .input(z.object({
@@ -12,6 +35,7 @@ export const appointmentRouter = createTRPCRouter({
             newEndTime: z.string(),
         }))
         .mutation(async ({ input, ctx }) => {
+            // TODO NEEDS TO BE TESTED FS
             // Parse the date and time strings into JavaScript Date objects
             const newStartDateTime = new Date(`${input.newDate.toISOString().split('T')[0]}T${input.newStartTime}`);
             const newEndDateTime = new Date(`${input.newDate.toISOString().split('T')[0]}T${input.newEndTime}`);
