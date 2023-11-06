@@ -258,8 +258,9 @@ const Overview = () => {
             case 'Agenda':
                 setCurrentView('Agenda');
                 break;
+            
+                // This is what happend when the New Appointment button is created
             case 'New Appointment':
-
                 const eventData: Record<string, any> = getEventData();
                 scheduleObj?.current?.openEditor(eventData, 'Add', true);
                 break;

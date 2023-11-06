@@ -1,12 +1,12 @@
 import { createTRPCRouter } from "~/server/api/trpc";
 import { soreThroatRouter } from "~/server/api/routers/soreThroatRouter";
-import { appointmentRouter } from "~/server/api/routers/appointmentRouter";
 import { pricingRouter } from "~/server/api/routers/pricingRouter";
 import { doctorRouter } from "~/server/api/routers/doctorRouter";
 import { stripeRouter } from "~/server/api/routers/stripeRouter";
 import { imageRouter } from "~/server/api/routers/imageRouter";
 import { wikiRouter } from "~/server/api/routers/wikiRouter";
 import { eventsRouter } from "~/server/api/routers/eventsRouter";
+import { AppointmentRouter } from "~/server/api/routers/AppointmentRouter";
 
 /*
  * This is the primary router for your server.
@@ -15,7 +15,7 @@ import { eventsRouter } from "~/server/api/routers/eventsRouter";
  */
 export const appRouter = createTRPCRouter({
   sourThroats: soreThroatRouter,
-  appointment: appointmentRouter,
+  appointment: AppointmentRouter,
   pricing: pricingRouter,
   doctor: doctorRouter,
   stripe: stripeRouter,

@@ -24,7 +24,7 @@ const SignInPage = () => {
             <SignUp
               signInUrl={"/sign-in"}
               routing={"virtual"}
-              afterSignInUrl={"/app/calender"}
+              afterSignInUrl={"/app/calendar"}
             />
           </div>
           <div className="body1 text-n-3">{signInResources.chat.English}</div>
