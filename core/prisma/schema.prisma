@@ -31,7 +31,6 @@ model Doctor {
 model Patient {
   id              Int     @id @default(autoincrement())
   name            String
-  Organization_id Int
   clerkId         String? @unique
   email           String
   phone_num       String
