@@ -5,6 +5,7 @@ import { api } from "~/utils/api";
 import React from "react";
 import Icon from "~/components/Icon";
 import { motion } from "framer-motion";
+import { BsArrowLeft } from "react-icons/bs";
 
 const article: NextPage = () => {
   const router = useRouter();
@@ -38,9 +39,24 @@ const article: NextPage = () => {
             />
           </div>
         </div>
-        <div className="fixed left-96 top-14 z-10 flex h-14 w-14 rounded-md border-[1px] border-black bg-white hover:shadow-md xl:left-32 md:left-9 md:top-9 md:h-9 md:w-9">
-          <a className="h-full w-full" href={`/app/articles/`}></a>
-        </div>
+        <motion.div
+          whileHover={{
+            scale: [null, 1.03, 1.02],
+            transition: { duration: 0.5 },
+          }}
+          whileTap={{
+            scale: 0.98,
+            transition: { duration: 0.75 },
+          }}
+          className="fixed left-96 top-14 z-10 flex h-14 w-14 rounded-md border-[1px] border-black bg-white hover:shadow-lg xl:left-32 md:left-9 md:top-9 md:h-9 md:w-9"
+        >
+          <a
+            className="flex h-full w-full items-center justify-center"
+            href={`/app/articles/`}
+          >
+            <BsArrowLeft className="flex h-[85%] w-[85%]" />
+          </a>
+        </motion.div>
         <div className="m-30 lg:m-24 md:m-9 md:mt-20">
           <header className="flex justify-start">
             <h1 className="text-4xl font-bold">Article Title</h1>
