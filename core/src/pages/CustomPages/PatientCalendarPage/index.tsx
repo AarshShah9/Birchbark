@@ -2,9 +2,21 @@ import App from 'next/app';
 import React from 'react';
 import Layout from "~/components/Layout";
 import AppointmentTimeCard from '~/customComponents/AppointmentTimeCard';
+import { useRouter } from "next/router";
+import { api } from "~/utils/api";
+import { PrismaClient } from '@prisma/client';
 
 const IndexPage: React.FC = () => {
-    
+    const { data: appointments, isLoading } = api.appointment.getAllAppointments.useQuery();
+    // console.log(appointments);
+
+    // const router = useRouter();
+    // console.log("ROUTER INFO HERE:");
+    // console.log(router.query.clerkId);
+    // const id = router.query.doctorId;
+
+    // const { data: doctorData } = api.appointment.
+
     // These will be available appointment times
     const times = [
         "12:00 PM",

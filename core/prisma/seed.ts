@@ -25,6 +25,16 @@ async function main() {
         },
     });
 
+    // Seed the `Availability` table
+    const availability = await prisma.availability.create({
+        data: {
+            doctorId: doctor.id,
+            date: new Date(),
+            startTime: "2021-04-20T09:00:00.000Z",
+            endTime: "2021-04-20T12:00:00.000Z"
+        },
+    });
+
     // Seed the `Patient` table
     const patient = await prisma.patient.create({
         data: {
