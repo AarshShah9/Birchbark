@@ -50,6 +50,35 @@ async function main() {
         },
     });
 
+    // Add seeding for required wiki models
+    const category = await prisma.category.create({
+        data: {
+            name: 'Category Name',
+        },
+    });
+
+    const article = await prisma.article.create({
+        data: {
+            title: 'Article Title',
+            description: 'Article Description',
+            categoryId: category.id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        },
+    });
+
+    const contentBlock = await prisma.contentBlock.create({
+        data: {
+            type: 'TEXT',
+            content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc eu ni',
+            order: 1,
+            articleId: article.id,
+            eventId: null,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        },
+    });
+
     // Add more seeding as required for other models
 }
 

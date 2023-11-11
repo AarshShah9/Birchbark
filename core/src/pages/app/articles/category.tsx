@@ -21,6 +21,7 @@ const CategoryPage: NextPage = () => {
 
   if (error) return <div>Error: {error.message}</div>;
   if (!articles)
+    // This ensures the query doesn't run until categoryId is defined
     return (
       <Layout>
         <div className="flex h-full items-center justify-center">
@@ -93,10 +94,8 @@ const SearchArticles: React.FC = () => {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // Set the search value to the current search before submitting
     setSearchVal(currentSearch);
-
-    // Trigger the tRPC query with the input title
-    // You may need to adjust this based on your tRPC hooks setup
   };
 
   return (
@@ -119,7 +118,9 @@ const SearchArticles: React.FC = () => {
           </button>
         </div>
       </form>
-      {isLoading && <p>Loading...</p>}
+      {isLoading && (
+        <p className="border-[1px] border-gray-200 px-4">Loading...</p>
+      )}
       {error && <p>Error: {error.message}</p>}
       {data && searchVal != "" && (
         <ul className="flex w-full justify-start border-[1px] border-gray-200">
