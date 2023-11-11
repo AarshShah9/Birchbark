@@ -1,5 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import Modal from '../../components/Modal';
+import { useState } from 'react';
+import { Dialog } from '@headlessui/react'
+
 
 interface Props {
     patient: string;
@@ -7,23 +11,181 @@ interface Props {
     appointmentType: string;
     time: string;
     duration: string;
+    date: string;
 }
+const PatientAppointmentRequestCard: React.FC<Props> = ({patient, patientPhoto, appointmentType, date, time, duration}:Props) => {
+    const [confirmModalState, setConfirmModalState] = useState(false);
+    const [rescheduleModal, setRescheduleModal] = useState(false);
+    const [initialDate, setInitialDate] = useState(date);
+    const [initialTime, setInitialTime] = useState(convertTime12to24(time)); // Uses 24 hour format
 
-const PatientAppointmentRequestCard: React.FC<Props> = ({patient, patientPhoto, appointmentType, time, duration}:Props) => {
+    const handleDateChange = (e: React.FormEvent<HTMLInputElement>) => {
+        setInitialDate(e.currentTarget.value);
+      };
+    const handleTimeChange = (e: React.FormEvent<HTMLInputElement>) => {
+        setInitialTime(e.currentTarget.value);
+      };
+    
+    // 4:00 PM -> 16:00
+    function convertTime12to24(time12h: string) {
+        if (time12h !== undefined) {
+
+            let [curTime, code] = time12h.split(" ");
+            if (curTime !== undefined && code === "PM") {
+
+                let [hours, minutes] = curTime.split(":");
+                if (hours !== undefined) {
+                    if (+hours === 12) {
+                        return curTime;
+                    } else {
+                        return +hours + 12 + ":" + minutes;
+                    }
+                }
+            } else {
+                return curTime;
+            }
+        }
+    }
+
+    // function convertDateToReadable(date: string) {
+    //     // Format: 2021-08-10 -> 8/10/2021
+    //     let [year, month, day] = date.split("-");
+    //     return month + "/" + day + "/" + year;
+    // }
+
+    const ConfirmModal = () => {
+        return (
+            <Modal
+                visible={confirmModalState}
+                onClose={() => setConfirmModalState(false)}
+                className="w-full h-full flex justify-center items-center"
+            >
+                {/* <Dialog.Overlay /> */}
+                <Dialog.Title className={"px-20 pt-8 font-bold"}>Are you sure you want to confirm this appointment?</Dialog.Title>
+                <Dialog.Description className={"px-20 pt-2 pb-8"}>
+                    <div className='flex flex-row justify-between'>
+                        <div className="flex justify-center items-center">
+                            <div className="flex flex-row">
+                                <div className='flex justify-center items-center'>
+                                    <img className='rounded-full w-16 h-16' src={patientPhoto} alt={patient} />
+                                </div>
+                                <div className="my-2 mx-2">
+                                    <div className="text-lg font-bold">{patient}</div>
+                                    <div className="text-md">{appointmentType}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='flex flex-col justify-center mr-4'>
+                            <div className='text-right text-lg font-bold'>{time}</div>
+                            <div className='text-right text-md'>{duration}</div>
+                        </div>
+                    </div>
+                </Dialog.Description>
+                <div className='flex justify-center items-center'>
+                    
+    
+                    <motion.button 
+                        whileHover={{ scale: 0.9 }}
+                        className='m-1 p-4 w-28 h-12 rounded-full bg-[#4CA9EE] flex justify-center items-center'
+                        onClick={() => setConfirmModalState(false)}
+                    >Continue</motion.button>
+                    <motion.button 
+                        whileHover={{ scale: 0.9 }}
+                        className='m-1 p-4 w-28 h-12 rounded-full bg-red-500 flex justify-center items-center'
+                        onClick={() => setConfirmModalState(false)}
+                    >Cancel</motion.button>
+                </div>
+            </Modal>
+        );
+    };
+
+    const RescheduleModal = () => {
+        return (
+            <Modal
+                visible={rescheduleModal}
+                onClose={() => setRescheduleModal(false)}
+                className="w-full h-full flex justify-center items-center"
+            >
+                {/* <Dialog.Overlay /> */}
+                <Dialog.Title className={"px-20 pt-8 font-bold"}>Reschedule appointment</Dialog.Title>
+                <Dialog.Description className={"px-20 pt-2 pb-8"}>
+                    <div>
+                        <div className='flex flex-row justify-between mb-8'>
+                            <div className="flex justify-center items-center">
+                                <div className="flex flex-row">
+                                    <div className='flex justify-center items-center'>
+                                        <img className='rounded-full w-16 h-16' src={patientPhoto} alt={patient} />
+                                    </div>
+                                    <div className="my-2 mx-2">
+                                        <div className="text-lg font-bold">{patient}</div>
+                                        <div className="text-md">{appointmentType}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='flex flex-col justify-center mr-4'>
+                                <div className='text-right text-lg font-bold'>{time}</div>
+                                <div className='text-right text-md'>{duration}</div>
+                                <div className='text-right text-md'>{date}</div>
+                            </div>
+                        </div>
+                        <form className='flex justify-center flex-col'>
+                            <label className='text-gray-400 text-sm' htmlFor="newDate" >New date</label>
+                            <input 
+                                className='rounded-md px-2 py-1 mb-4' 
+                                type="date" 
+                                name="newDate" 
+                                id='newDate'
+                                value={initialDate}
+                                onChange={handleDateChange}
+                            />
+
+                            <label className='text-gray-400 text-sm' htmlFor="newTime" >New time</label>
+                            <input 
+                                className='rounded-md px-2 py-1 mb-4' 
+                                type="time" 
+                                name="newTime" 
+                                id='newTime'
+                                value={initialTime}
+                                onChange={handleTimeChange}
+                            />
+                        </form>
+                    </div>
+                </Dialog.Description>
+                <div className='flex justify-center items-center'>
+                    
+    
+                    <motion.button 
+                        whileHover={{ scale: 0.9 }}
+                        className='m-1 p-4 w-28 h-12 rounded-full bg-[#4CA9EE] flex justify-center items-center'
+                        onClick={() => setRescheduleModal(false)}
+                    >Reschedule</motion.button>
+                    <motion.button 
+                        whileHover={{ scale: 0.9 }}
+                        className='m-1 p-4 w-28 h-12 rounded-full bg-red-500 flex justify-center items-center'
+                        onClick={() => setRescheduleModal(false)}
+                    >Cancel</motion.button>
+                </div>
+            </Modal>
+        );
+    };
+
     return (
         <div className="bg-[#323337] rounded-xl flex flex-row justify-between text-white my-2">
+            <ConfirmModal/>
+            <RescheduleModal/>
+            {/*  */}
             <div className='flex flex-row '>
                 {/* Buttons Div */}
                 <div className="flex flex-col justify-center items-center p-2">
                     <motion.button 
-                        onClick={() => {}}
+                        onClick={() => {setConfirmModalState(true)}}
                         whileHover={{ scale: 0.9 }}
                         className='m-1 w-8 h-8 rounded-full hover:bg-[#505253] bg-[#6C7275] flex justify-center items-center'
                     >
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" width="4" height="16" rx="2" fill="#323337"/><rect y="10" width="4" height="16" rx="2" transform="rotate(-90 0 10)" fill="#323337"/></svg>
                     </motion.button>
                     <motion.button 
-                        onClick={() => {}}
+                        onClick={() => {setRescheduleModal(true)}}
                         whileHover={{ scale: 0.9 }}
                         className='m-1 w-8 h-8 rounded-full hover:bg-[#505253] bg-[#6C7275] flex justify-center items-center'
                     >
@@ -48,8 +210,8 @@ const PatientAppointmentRequestCard: React.FC<Props> = ({patient, patientPhoto, 
 
             {/* Date & Time Div */}
             <div className='flex flex-col justify-center mr-4'>
+                <div className='text-right text-sm'>{date}</div>
                 <div className='text-right text-lg font-bold'>{time}</div>
-                {/* <div className='text-right text-md'>{date}</div> */}
                 <div className='text-right text-md'>{duration}</div>
             </div>
         </div>

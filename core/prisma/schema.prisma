@@ -1,9 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 datasource db {
   provider     = "mysql"
   url          = env("DATABASE_URL")
@@ -15,39 +12,37 @@ generator client {
 }
 
 model Doctor {
-  id             Int      @id @default(autoincrement())
+  id             Int       @id @default(autoincrement())
   name           String
-  clerkId        String?  @unique
+  clerkId        String?   @unique
   email          String
   phoneNumber    String
   notificationOn Boolean
-  patient        Patient? @relation(fields: [patientId], references: [id]) // Change to singular and use a relation to Patient model
+  patient        Patient[]
 
-  patientId         Int?
-  Organization      Organization?       @relation(fields: [OrganizationId], references: [id])
-  OrganizationId    Int?
-  AppointmentDoctor AppointmentDoctor[]
-  Availability      Availability[]
+  Organization   Organization?  @relation(fields: [OrganizationId], references: [id])
+  OrganizationId Int?
+  Availability   Availability[]
+  appointments   Appointment[]
 
-  @@index([patientId])
   @@index([OrganizationId])
 }
 
 model Patient {
-  id              Int    @id @default(autoincrement())
+  id              Int     @id @default(autoincrement())
   name            String
-  Organization_id Int
-  clerkId         Int
+  clerkId         String? @unique
   email           String
   phone_num       String
   notification_on String
   doctorId        Int
+  doctor          Doctor  @relation(fields: [doctorId], references: [id])
 
-  Doctor             Doctor[]
-  Organization       Organization?        @relation(fields: [OrganizationId], references: [id])
-  OrganizationId     Int?
-  AppointmentPatient AppointmentPatient[]
+  Organization   Organization? @relation(fields: [OrganizationId], references: [id])
+  OrganizationId Int?
+  appointments   Appointment[]
 
+  @@index([doctorId])
   @@index([OrganizationId])
 }
 
@@ -65,18 +60,17 @@ model StripeEvent {
 }
 
 model Organization {
-  id                       Int                       @id @default(autoincrement())
-  name                     String
-  createdAt                DateTime                  @default(now())
-  updatedAt                DateTime                  @updatedAt
-  phone                    String
-  email                    String
-  website                  String?
-  doctor                   Doctor[]
-  patients                 Patient[]
-  clerkId                  Int?
-  appointmentOrganizations AppointmentOrganization[]
-  address                  Address?
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  phone     String
+  email     String
+  website   String?
+  doctor    Doctor[]
+  patients  Patient[]
+  clerkId   String?   @unique
+  address   Address?
 
   activated Boolean @default(false)
 
@@ -99,22 +93,21 @@ model Address {
 }
 
 model Appointment {
-  id             Int      @id @default(autoincrement())
-  subject        String
-  startTime      DateTime
-  endTime        DateTime
-  location       String?
-  description    String?
-  recurrenceRule String?
-  isAllDay       Boolean
-  isReadOnly     Boolean
-  calendarId     Int
-  doctorId       Int
-  statusM        Status?  @default(Pending)
+  id          Int      @id @default(autoincrement())
+  subject     String
+  startTime   DateTime
+  endTime     DateTime
+  description String?
+  isAllDay    Boolean  @default(false)
+  isReadOnly  Boolean  @default(false)
+  statusM     Status   @default(Pending)
+  doctorId    Int
+  patientId   Int
+  doctor      Doctor   @relation(fields: [doctorId], references: [id])
+  patient     Patient  @relation(fields: [patientId], references: [id])
 
-  AppointmentDoctor       AppointmentDoctor[]
-  AppointmentPatient      AppointmentPatient[]
-  AppointmentOrganization AppointmentOrganization[]
+  @@index([doctorId])
+  @@index([patientId])
 }
 
 model Availability {
@@ -169,39 +162,6 @@ model GeneratedNote {
   requestQuoteId Int?
 
   @@index([requestQuoteId])
-}
-
-model AppointmentDoctor {
-  id            Int         @id @default(autoincrement())
-  appointmentId Int
-  doctorId      Int
-  appointment   Appointment @relation(fields: [appointmentId], references: [id])
-  doctor        Doctor      @relation(fields: [doctorId], references: [id])
-
-  @@index([appointmentId])
-  @@index([doctorId])
-}
-
-model AppointmentPatient {
-  id            Int         @id @default(autoincrement())
-  appointmentId Int
-  patientId     Int
-  appointment   Appointment @relation(fields: [appointmentId], references: [id])
-  patient       Patient     @relation(fields: [patientId], references: [id])
-
-  @@index([appointmentId])
-  @@index([patientId])
-}
-
-model AppointmentOrganization {
-  id             Int          @id @default(autoincrement())
-  appointmentId  Int
-  OrganizationId Int
-  appointment    Appointment  @relation(fields: [appointmentId], references: [id])
-  Organization   Organization @relation(fields: [OrganizationId], references: [id])
-
-  @@index([appointmentId])
-  @@index([OrganizationId])
 }
 
 model Article {
