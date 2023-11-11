@@ -18,6 +18,13 @@ const IndexPage: React.FC = () => {
     // const { data: doctorData } = api.appointment.
 
     // These will be available appointment times
+
+    const prisma = new PrismaClient();
+
+
+// Replace 1 with the actual doctor ID you want to query
+
+
     const times = [
         "12:00 PM",
         "12:30 PM",

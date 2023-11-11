@@ -60,7 +60,20 @@ async function main() {
         },
     });
 
-    // Add more seeding as required for other models
+
+    const event1 = await prisma.event.create({
+        data: {
+            title: 'Event 1',
+            date: new Date(),
+            content: {
+                create: {
+                    type: 'IMAGE',
+                    content: 'https://example.com/image1.png',
+                    order: 1, // Adjust the order based on your requirements      
+                },
+            },
+        },
+    });
 }
 
 main()
