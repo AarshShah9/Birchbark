@@ -20,7 +20,7 @@ export const imageRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const baseExpression = "resource_type:image";
       const searchExpression = input.search
-        ? `tags:${input.search} AND ${baseExpression}`
+        ? `tags:${input.search}* AND ${baseExpression}`
         : baseExpression;
 
       const searchQuery = cloudinary.v2.search
