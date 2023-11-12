@@ -49,7 +49,6 @@ const WikiMain: NextPage = () => {
                   >
                     <motion.div
                       whileHover={{
-                        //   boxShadow: "0px 0px 15px rgb(76, 169, 238)",
                         scale: [null, 1.05, 1.03],
                         transition: { duration: 0.5 },
                       }}
