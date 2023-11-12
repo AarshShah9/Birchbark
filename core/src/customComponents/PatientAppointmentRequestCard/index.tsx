@@ -3,9 +3,10 @@ import { motion } from 'framer-motion';
 import Modal from '../../components/Modal';
 import { useState } from 'react';
 import { Dialog } from '@headlessui/react'
-
+import { api } from "~/utils/api";
 
 interface Props {
+    patientId: number;
     patient: string;
     patientPhoto: string;
     appointmentType: string;
@@ -13,11 +14,11 @@ interface Props {
     duration: string;
     date: string;
 }
-const PatientAppointmentRequestCard: React.FC<Props> = ({patient, patientPhoto, appointmentType, date, time, duration}:Props) => {
+const PatientAppointmentRequestCard: React.FC<Props> = ({patientId, patient, patientPhoto, appointmentType, date, time, duration}:Props) => {
     const [confirmModalState, setConfirmModalState] = useState(false);
     const [rescheduleModal, setRescheduleModal] = useState(false);
     const [initialDate, setInitialDate] = useState(date);
-    const [initialTime, setInitialTime] = useState(convertTime12to24(time)); // Uses 24 hour format
+    const [initialTime, setInitialTime] = useState(time);
 
     const handleDateChange = (e: React.FormEvent<HTMLInputElement>) => {
         setInitialDate(e.currentTarget.value);
@@ -27,25 +28,26 @@ const PatientAppointmentRequestCard: React.FC<Props> = ({patient, patientPhoto, 
       };
     
     // 4:00 PM -> 16:00
-    function convertTime12to24(time12h: string) {
-        if (time12h !== undefined) {
+    // function convertTime12to24(time12h: string) {
+    //     console.log(time12h);
+    //     if (time12h !== undefined) {
 
-            let [curTime, code] = time12h.split(" ");
-            if (curTime !== undefined && code === "PM") {
+    //         let [curTime, code] = time12h.split(" ");
+    //         if (curTime !== undefined && code === "PM") {
 
-                let [hours, minutes] = curTime.split(":");
-                if (hours !== undefined) {
-                    if (+hours === 12) {
-                        return curTime;
-                    } else {
-                        return +hours + 12 + ":" + minutes;
-                    }
-                }
-            } else {
-                return curTime;
-            }
-        }
-    }
+    //             let [hours, minutes] = curTime.split(":");
+    //             if (hours !== undefined) {
+    //                 if (+hours === 12) {
+    //                     return curTime;
+    //                 } else {
+    //                     return +hours + 12 + ":" + minutes;
+    //                 }
+    //             }
+    //         } else {
+    //             return curTime;
+    //         }
+    //     }
+    // }
 
     // function convertDateToReadable(date: string) {
     //     // Format: 2021-08-10 -> 8/10/2021
@@ -169,6 +171,13 @@ const PatientAppointmentRequestCard: React.FC<Props> = ({patient, patientPhoto, 
         );
     };
 
+    // Gets the patient data for the appointment
+
+    const { data: patientName, error: patientError } = api.appointment.getPatient.useQuery({input: patientId})
+    if(patientError){
+      console.log("TRPC CALL ERROR: " + patientError)
+    }
+
     return (
         <div className="bg-[#323337] rounded-xl flex flex-row justify-between text-white my-2">
             <ConfirmModal/>
@@ -200,7 +209,7 @@ const PatientAppointmentRequestCard: React.FC<Props> = ({patient, patientPhoto, 
                             <img className='rounded-full w-16 h-16' src={patientPhoto} alt={patient} />
                         </div>
                         <div className="my-2 mx-2">
-                            <div className="text-lg font-bold">{patient}</div>
+                            <div className="text-lg font-bold">{patientName}</div>
                             <div className="text-md">{appointmentType}</div>
                         </div>
                     </div>

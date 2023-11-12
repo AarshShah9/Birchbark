@@ -1,4 +1,5 @@
 import * as React from 'react';
+import appointmentsList from "~/data/appointments";
 import {Fragment, useEffect, useRef, useState} from 'react';
 import {ButtonComponent, ChangeEventArgs as SwitchEventArgs, CheckBoxComponent} from '@syncfusion/ej2-react-buttons';
 import {ChangeEventArgs, MultiSelectChangeEventArgs, MultiSelectComponent} from '@syncfusion/ej2-react-dropdowns';
@@ -72,10 +73,12 @@ const Overview = () => {
         {text: 'Friday', value: 5},
         {text: 'Saturday', value: 6}
     ];
+
     const exportItems: ItemModel[] = [
         {text: 'iCalendar', iconCss: 'e-icons e-export'},
         {text: 'Excel', iconCss: 'e-icons e-export-excel'}
     ];
+
     const contextMenuItems: MenuItemModel[] = [
         {text: 'New Appointment', iconCss: 'e-icons e-plus', id: 'Add'},
         {text: 'New Recurring Appointment', iconCss: 'e-icons e-repeat', id: 'AddRecurrence'},
@@ -97,11 +100,14 @@ const Overview = () => {
             ]
         }
     ];
+
     const calendarCollections: Record<string, any>[] = [
         {CalendarText: 'Dr. Smith Appointments', CalendarId: 1, CalendarColor: '#0084FF'}, // Pick color here
+        {CalendarText: 'Unconfirmed', CalendarId: 2, CalendarColor: '#7d7d7d'},
         {CalendarText: 'Dr. Smith', CalendarId: 3, CalendarColor: '#AF27CD'},
         {CalendarText: 'Dr. Adam', CalendarId: 4, CalendarColor: '#808000'}
     ];
+
     const timezoneData: Record<string, any>[] = [
         {text: 'UTC -12:00', value: 'Etc/GMT+12'},
         {text: 'UTC -11:00', value: 'Etc/GMT+11'},
@@ -395,7 +401,7 @@ const Overview = () => {
         }
     }
 
-    // THIS GENERATES THE DUMMY DATA FOR THE CALENDAR SEE generateEvents2() for custom dummy events
+    // THIS GENERATES THE DUMMY DATA FOR THE CALENDAR SEE pushAppointmentData() for custom dummy events
     let generateEvents = (): Record<string, any>[] => {
         let eventData: Record<string, any>[] = [];
         let eventSubjects: string[] = [
@@ -454,22 +460,33 @@ const Overview = () => {
         return overviewEvents;
     };
 
-    let generateEvents2 = (): Record<string, any>[] => {
+    let pushAppointmentData = (): Record<string, any>[] => {
         let eventData: Record<string, any>[] = [];
-        let weekDate: Date = new Date(new Date().setDate(new Date().getDate() - new Date().getDay()));
-        eventData.push({
-            Id: 1,
-            Subject: 'Appointment with Dr. Smith',
-            StartTime: new Date(weekDate.getFullYear(), weekDate.getMonth(), weekDate.getDate(), 10, 0),
-            EndTime: new Date(weekDate.getFullYear(), weekDate.getMonth(), weekDate.getDate(), 11, 30),
-            Location: '123 Main St, Atlanta, GA 30303',
-            Description: 'Appointment regarding patient checkup and health status',
-            RecurrenceRule: 'FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=1;COUNT=10;',
-            IsAllDay: false,
-            IsReadonly: false,
-            CalendarId: 1,
-            DoctorID: 1 // THIS WILL BE THE DOCTORS ID
-        });
+        let weekDate: Date = new Date(new Date().setDate(new Date().getDate() - new Date().getDay())); // THis gets the current date
+        // eventData.push(
+        //     {
+        //         Id: 1,
+        //         Subject: 'TEST SUBJECT',
+        //         StartTime: new Date(weekDate.getFullYear(), weekDate.getMonth(), weekDate.getDate(), 10, 0),
+        //         EndTime: new Date(weekDate.getFullYear(), weekDate.getMonth(), weekDate.getDate(), 11, 30),
+        //         Location: '123 Main St, Atlanta, GA 30303',
+        //         Description: 'Appointment regarding patient checkup and health status',
+        //         RecurrenceRule: '',
+        //         IsAllDay: false,
+        //         IsReadonly: false,
+        //         CalendarId: 1,
+        //         DoctorID: 1 // THIS WILL BE THE DOCTORS ID
+        //     }
+        // );
+        // console.log(appointmentsList);
+        // eventData.push(appointmentsList[0]);
+        for (let i: number = 0; i < appointmentsList.length; i++) {
+            const appointment = appointmentsList[i];
+            if (appointment !== undefined) {
+                eventData.push(appointment);
+            }
+        }
+          
 
         let overviewEvents: { [key: string]: Date }[] = extend([], eventData, undefined, true) as {
             [key: string]: Date
@@ -676,17 +693,29 @@ const Overview = () => {
                         <div className='overview-content'>
                             <div className='left-panel'>
                                 <div className='overview-scheduler'>
-                                    <ScheduleComponent id='scheduler' cssClass='schedule-overview' ref={scheduleObj}
-                                                       width='100%' height='100%' currentView={currentView}
-                                                       group={{resources: ['Calendars']}} timezone='UTC'
-                                                       eventSettings={{dataSource: generateEvents2()}}
-                                                       dateHeaderTemplate={dateHeaderTemplate}>
+                                    <ScheduleComponent 
+                                        id='scheduler'
+                                        cssClass='schedule-overview' 
+                                        ref={scheduleObj}
+                                        width='100%' 
+                                        height='100%' 
+                                        currentView={currentView}
+                                        group={{resources: ['Calendars']}} 
+                                        timezone='UTC'  
+                                        eventSettings={{dataSource: pushAppointmentData()}}
+                                        dateHeaderTemplate={dateHeaderTemplate}
+                                    >
                                         <ResourcesDirective>
-                                            <ResourceDirective field='CalendarId' title='Calendars' name='Calendars'
-                                                               dataSource={calendarCollections}
-                                                               query={new Query().where('CalendarId', 'equal', 1)}
-                                                               textField='CalendarText' idField='CalendarId'
-                                                               colorField='CalendarColor'/>
+                                            <ResourceDirective 
+                                                field='CalendarId' 
+                                                title='Calendars' 
+                                                name='Calendars'
+                                                dataSource={calendarCollections}
+                                                query={new Query().where('CalendarId', 'equal', 1)}
+                                                textField='CalendarText' 
+                                                idField='CalendarId'
+                                                allowMultiple={true} 
+                                                colorField='CalendarColor'/>
                                         </ResourcesDirective>
                                         <ViewsDirective>
                                             <ViewDirective option='Day' startHour='08:00' endHour='18:00'/>

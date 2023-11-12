@@ -7,7 +7,7 @@ async function main() {
         data: {
             name: 'HealWell Hospital',
             phone: '123-456-7890',
-            email: 'contact@healwellhospital.com',
+            email: 'contact@healwellhospital.com', 
             activated: true,
             // Add other fields as necessary
         },
@@ -48,12 +48,13 @@ async function main() {
         },
     });
 
+
     // Seed the `Appointment` table
     const appointment = await prisma.appointment.create({
         data: {
             subject: 'Checkup',
-            startTime: new Date(),
-            endTime: new Date(),
+            startTime: new Date('2023-11-10T12:00:00'),
+            endTime: new Date('2023-11-10T12:30:00'),
             doctorId: doctor.id,
             patientId: patient.id,
             // Add other fields as necessary
