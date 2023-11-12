@@ -18,7 +18,8 @@ export const imageRouter = createTRPCRouter({
       })
     )
     .query(async ({ ctx, input }) => {
-      const baseExpression = "resource_type:image";
+      const folderPath = "symptom360";
+      const baseExpression = `folder:${folderPath} AND resource_type:image`;
       const searchExpression = input.search
         ? `tags:${input.search}* AND ${baseExpression}`
         : baseExpression;

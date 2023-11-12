@@ -7,14 +7,14 @@ def ImageETL():
     # Open the excel file and read the data into a pandas dataframe
     df = pd.read_excel("dermnet.xlsx")
     # Now call the function to push images to Cloudinary
-    cloudinary_push(df.head(1))
+    cloudinary_push(df)
 
 
 def cloudinary_push(df: pd.DataFrame):
     # Get the cloudinary config from the ENV variables
-    CLOUDINARY_API_KEY = os.environ.get('CLOUDINARY_API_KEY')
-    CLOUDINARY_API_SECRET = os.environ.get('CLOUDINARY_API_SECRET')
-    CLOUDINARY_CLOUD_NAME = os.environ.get('CLOUDINARY_CLOUD_NAME')
+    CLOUDINARY_API_KEY = "942673461688855"
+    CLOUDINARY_API_SECRET = "1W1a8NGmbydy5Qq5K0BOQwUBvlg"
+    CLOUDINARY_CLOUD_NAME = "duoghyw7n"
 
     # Configure Cloudinary with your credentials
     cloudinary.config(
@@ -23,10 +23,12 @@ def cloudinary_push(df: pd.DataFrame):
         api_secret=CLOUDINARY_API_SECRET
     )
 
+    folder_name = "symptom360"
+
     # Loop through each row in the dataframe
     for index, row in df.iterrows():
         # Construct the full path to the image file
-        file_path = 'images/' + row['image']
+        file_path = 'images/viral/' + row['image']
 
         # Combine the tags into a single list
         tags = [row['subject general'], row['condition']] + \
@@ -38,7 +40,9 @@ def cloudinary_push(df: pd.DataFrame):
         # Upload the image to Cloudinary
         response = cloudinary.uploader.upload(
             file_path,
-            tags=tags
+            tags=tags,
+            folder=folder_name,
+
         )
 
         # Handle the response from Cloudinary
