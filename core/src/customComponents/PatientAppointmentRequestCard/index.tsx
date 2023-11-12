@@ -6,6 +6,7 @@ import { Dialog } from '@headlessui/react'
 import { api } from "~/utils/api";
 
 interface Props {
+    appointmentId: number;
     patientId: number;
     patient: string;
     patientPhoto: string;
@@ -13,8 +14,8 @@ interface Props {
     time: string;
     duration: string;
     date: string;
-}
-const PatientAppointmentRequestCard: React.FC<Props> = ({patientId, patient, patientPhoto, appointmentType, date, time, duration}:Props) => {
+} 
+const PatientAppointmentRequestCard: React.FC<Props> = ({appointmentId, patientId, patient, patientPhoto, appointmentType, date, time, duration}:Props) => {
     const [confirmModalState, setConfirmModalState] = useState(false);
     const [rescheduleModal, setRescheduleModal] = useState(false);
     const [initialDate, setInitialDate] = useState(date);
@@ -27,33 +28,8 @@ const PatientAppointmentRequestCard: React.FC<Props> = ({patientId, patient, pat
         setInitialTime(e.currentTarget.value);
       };
     
-    // 4:00 PM -> 16:00
-    // function convertTime12to24(time12h: string) {
-    //     console.log(time12h);
-    //     if (time12h !== undefined) {
-
-    //         let [curTime, code] = time12h.split(" ");
-    //         if (curTime !== undefined && code === "PM") {
-
-    //             let [hours, minutes] = curTime.split(":");
-    //             if (hours !== undefined) {
-    //                 if (+hours === 12) {
-    //                     return curTime;
-    //                 } else {
-    //                     return +hours + 12 + ":" + minutes;
-    //                 }
-    //             }
-    //         } else {
-    //             return curTime;
-    //         }
-    //     }
-    // }
-
-    // function convertDateToReadable(date: string) {
-    //     // Format: 2021-08-10 -> 8/10/2021
-    //     let [year, month, day] = date.split("-");
-    //     return month + "/" + day + "/" + year;
-    // }
+    const updateAppointmentStatus = api.appointment.updateAppointmentStatus.useMutation();
+    const rescheduleAppointment = api.appointment.rescheduleAppointment.useMutation();
 
     const ConfirmModal = () => {
         return (
@@ -89,7 +65,11 @@ const PatientAppointmentRequestCard: React.FC<Props> = ({patientId, patient, pat
                     <motion.button 
                         whileHover={{ scale: 0.9 }}
                         className='m-1 p-4 w-28 h-12 rounded-full bg-[#4CA9EE] flex justify-center items-center'
-                        onClick={() => setConfirmModalState(false)}
+                        onClick={() => {
+                            setConfirmModalState(false)
+                            updateAppointmentStatus.mutate({appointmentId: appointmentId, newStatus: "Confirmed"})
+                            
+                        }}
                     >Continue</motion.button>
                     <motion.button 
                         whileHover={{ scale: 0.9 }}
@@ -159,7 +139,40 @@ const PatientAppointmentRequestCard: React.FC<Props> = ({patientId, patient, pat
                     <motion.button 
                         whileHover={{ scale: 0.9 }}
                         className='m-1 p-4 w-28 h-12 rounded-full bg-[#4CA9EE] flex justify-center items-center'
-                        onClick={() => setRescheduleModal(false)}
+                        onClick={() => {
+                            setRescheduleModal(false)
+                            
+                            // Setting the new start and end time
+                            let returnStartTime = new Date();
+                            let day = initialDate.split('-')[2];
+                            let month = initialDate.split('-')[1];
+                            let year = initialDate.split('-')[0];
+
+                            let minutes = initialTime.split(':')[1];
+                            let hours = initialTime.split(':')[0];
+
+                            if(day){ returnStartTime.setDate(Number(day))}
+                            if(month){ returnStartTime.setMonth(Number(month)-1)}
+                            if(year){ returnStartTime.setFullYear(Number(year))}
+                            
+                            if(minutes){ returnStartTime.setUTCMinutes(Number(minutes))}
+                            if(hours){ returnStartTime.setUTCHours(Number(hours))}
+
+                            let returnEndTime = new Date(returnStartTime);
+                            returnEndTime.setUTCMinutes(returnStartTime.getUTCMinutes() + 30);
+                            
+                            // console.log(initialDate)
+                            // console.log(initialTime)
+                            // console.log(returnStartTime)
+                            // console.log(returnEndTime)
+
+                            rescheduleAppointment.mutate({
+                                appointmentId: appointmentId, 
+                                newStartTime: returnStartTime, 
+                                newEndTime: returnEndTime
+                            })
+
+                        }}
                     >Reschedule</motion.button>
                     <motion.button 
                         whileHover={{ scale: 0.9 }}
@@ -170,12 +183,6 @@ const PatientAppointmentRequestCard: React.FC<Props> = ({patientId, patient, pat
             </Modal>
         );
     };
-
-    // Gets the patient data for the appointment
-    const { data: patientName, error: patientError } = api.appointment.getPatient.useQuery({input: patientId})
-    if(patientError){
-      console.log("TRPC CALL ERROR: " + patientError)
-    }
 
     return (
         <div className="bg-[#323337] rounded-xl flex flex-row justify-between text-white my-2">
@@ -208,7 +215,7 @@ const PatientAppointmentRequestCard: React.FC<Props> = ({patientId, patient, pat
                             <img className='rounded-full w-16 h-16' src={patientPhoto} alt={patient} />
                         </div>
                         <div className="my-2 mx-2">
-                            <div className="text-lg font-bold">{patientName}</div>
+                            <div className="text-lg font-bold">{patient}</div>
                             <div className="text-md">{appointmentType}</div>
                         </div>
                     </div>

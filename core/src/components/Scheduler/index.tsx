@@ -543,7 +543,10 @@ const Overview = () => {
             case 'EditSeries':
                 if (selectedMenuItem === 'EditSeries') {
                     let query: Query = new Query().where(scheduleObj?.current?.eventFields.id as string, 'equal', eventObj.RecurrenceID as string | number);
-                    eventObj = new DataManager(scheduleObj?.current?.eventsData).executeLocal(query)[0] as Record<string, any>;
+                    eventObj = new DataManager(
+                        scheduleObj?.current?.eventsData
+                    )
+                        .executeLocal(query)[0] as Record<string, any>;
                 }
                 scheduleObj?.current?.openEditor(eventObj, selectedMenuItem);
                 break;
@@ -586,73 +589,50 @@ const Overview = () => {
         }
     }
 
-    let remoteData = new DataManager({
-        url: 'http://localhost:3000/api/trpc/appointmentDoctorRouter/getAllAppointments',
-        adaptor: new WebApiAdaptor,
-        crossDomain: true
-    });
+    // let remoteData = new DataManager({
+    //     url: 'http://localhost:3000/api/trpc/appointmentDoctorRouter/getAllAppointments',
+    //     adaptor: new WebApiAdaptor,
+    //     crossDomain: true
+    // });
 
     // Get all the appointment data from the database
     const { data, error } = api.appointment.getAllAppointments.useQuery()
     if(error){
         console.log("TRPC CALL ERROR: " + error)
     }
-    if(!error){
-        console.log("TRPC CALL DATA: " + data)
-    }
 
     // Get all the appointment patients names from the database
-    function getNames(patientId:number){
-        const { data: patientName, error: patientError } = api.appointment.getPatient.useQuery({input: patientId})
-        if(patientError){
-        console.log("TRPC CALL ERROR: " + patientError)
-        }
-    }
+    // const { patient, patientError } = api.appointment.getPatient.useQuery({input: 2})
+    // if(patientError){
+    //     console.log("TRPC CALL ERROR: " + patientError)
+    // }
+    // if(patient){
+    //     console.log("PATIENT INFO"+JSON.stringify(patient.name))
+    // }
 
 
     let pushAppointmentData = (): Record<string, any>[] => {
         let eventData: Record<string, any>[] = [];
-        let weekDate: Date = new Date(new Date().setDate(new Date().getDate() - new Date().getDay())); // THis gets the current date
-        
-
-
-        // Example of how to push an appointment
-        // eventData.push(
-        //     {
-        //         Id: 1,
-        //         Subject: 'TEST SUBJECT',
-        //         StartTime: new Date(weekDate.getFullYear(), weekDate.getMonth(), weekDate.getDate(), 10, 0),
-        //         EndTime: new Date(weekDate.getFullYear(), weekDate.getMonth(), weekDate.getDate(), 11, 30),
-        //         Location: '123 Main St, Atlanta, GA 30303',
-        //         Description: 'Appointment regarding patient checkup and health status',
-        //         RecurrenceRule: '',
-        //         IsAllDay: false,
-        //         IsReadonly: false,
-        //         CalendarId: 1,
-        //         DoctorID: 1 // THIS WILL BE THE DOCTORS ID
-        //     }
-        // );
-
-
+        let weekDate: Date = new Date(new Date().setDate(new Date().getDate() - new Date().getDay())); // This gets the current date
 
         if(data){
             data.map((currentAppointment, index) => {
-                console.log(JSON.stringify(currentAppointment));
-                eventData.push(
-                    {
-                        Id: currentAppointment.id,
-                        Subject: currentAppointment.patientId.toString(),
-                        StartTime: currentAppointment.startTime,
-                        EndTime: currentAppointment.endTime,
-                        // Location: currentAppointment.location,
-                        Description: currentAppointment.subject,
-                        RecurrenceRule: '',
-                        IsAllDay: false,
-                        IsReadonly: false,
-                        CalendarId: 1,
-                        DoctorID: currentAppointment.doctorId
-                    }
-                )
+                if (currentAppointment.statusM === "Confirmed"){
+                    eventData.push(
+                        {
+                            Id: currentAppointment.id,
+                            Subject: currentAppointment.patient.name,
+                            StartTime: currentAppointment.startTime,
+                            EndTime: currentAppointment.endTime,
+                            Description: currentAppointment.subject,
+                            RecurrenceRule: '',
+                            IsAllDay: false,
+                            IsReadonly: false,
+                            CalendarId: 1,
+                            DoctorID: currentAppointment.doctorId
+                        }
+                    )
+                }
             })
         } 
 
@@ -806,6 +786,11 @@ const Overview = () => {
 
                                         // THIS IS WHERE THE DATA IS PASSED TO THE CALENDAR
                                         eventSettings={{dataSource: pushAppointmentData()}} 
+                                        allowDragAndDrop={false}
+                                        allowResizing={false}
+                                        // allowKeyboardInteraction={false}
+                                        // allowInline={false}
+                                        // showQuickInfo={false}
                                         dateHeaderTemplate={dateHeaderTemplate}
                                     >
                                         <ResourcesDirective>

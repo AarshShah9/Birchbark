@@ -37,7 +37,7 @@ export const appointmentDoctorRouter = createTRPCRouter({
             if(!patient){
                 throw new Error('patient not found');
             }
-            return patient.name;
+            return patient;
         }),
 
     getAllAppointments: privateProcedure
@@ -49,14 +49,18 @@ export const appointmentDoctorRouter = createTRPCRouter({
                 },
                 // TODO If doctor has many appointments, consider using pagination here
                 include: {
-                    appointments: true,
+                    appointments: {
+                        include: {
+                            patient: true, // Include patient information in the result
+                        },
+                    },
                 },
             });
 
             if (!doctor) {
                 throw new Error('Doctor not found');
             }
-            // console.log("Doctor Appointments: " + JSON.stringify(doctor.appointments, null, 2));
+
             return doctor.appointments;
         }),
 
@@ -64,24 +68,20 @@ export const appointmentDoctorRouter = createTRPCRouter({
     rescheduleAppointment: privateProcedure
         .input(z.object({
             appointmentId: z.number(),
-            newDate: z.date(),
-            newStartTime: z.string(),
-            newEndTime: z.string(),
+            newStartTime: z.date(),
+            newEndTime: z.date(),
         }))
         .mutation(async ({ input, ctx }) => {
-            // TODO NEEDS TO BE TESTED FS
-            // Parse the date and time strings into JavaScript Date objects
-            const newStartDateTime = new Date(`${input.newDate.toISOString().split('T')[0]}T${input.newStartTime}`);
-            const newEndDateTime = new Date(`${input.newDate.toISOString().split('T')[0]}T${input.newEndTime}`);
-
             // Update the appointment with the new date and time
+            console.log("START TIME:"+input.newStartTime+"END TIME:"+input.newEndTime)
             return await ctx.prisma.appointment.update({
                 where: {
                     id: input.appointmentId,
                 },
                 data: {
-                    startTime: newStartDateTime,
-                    endTime: newEndDateTime ,
+                    startTime: input.newStartTime,
+                    endTime: input.newEndTime ,
+                    statusM: 'Confirmed',
                 },
             });
         }),
