@@ -12,9 +12,9 @@ def ImageETL():
 
 def cloudinary_push(df: pd.DataFrame):
     # Get the cloudinary config from the ENV variables
-    CLOUDINARY_API_KEY = "942673461688855"
-    CLOUDINARY_API_SECRET = "1W1a8NGmbydy5Qq5K0BOQwUBvlg"
-    CLOUDINARY_CLOUD_NAME = "duoghyw7n"
+    CLOUDINARY_API_KEY = None
+    CLOUDINARY_API_SECRET = None
+    CLOUDINARY_CLOUD_NAME = None
 
     # Configure Cloudinary with your credentials
     cloudinary.config(
