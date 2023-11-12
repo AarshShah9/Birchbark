@@ -23,17 +23,17 @@ const PullingImages: React.FC = () => {
         visible={visibleSearch}
         onClose={() => setVisibleSearch(false)}
       >
-        <SendImageQuery someFunc={handleClose} />
+        <SendImageQuery propCloseHandler={handleClose} />
       </ChatModal>
     </>
   );
 };
 
 type closeProps = {
-  someFunc: () => void;
+  propCloseHandler: () => void;
 };
 
-const SendImageQuery = ({ someFunc }: closeProps) => {
+const SendImageQuery = ({ propCloseHandler }: closeProps) => {
   const [search, setSearch] = React.useState<string>("");
 
   //  Create query
@@ -48,8 +48,7 @@ const SendImageQuery = ({ someFunc }: closeProps) => {
     return <div className={"p-4 text-white"}>Error: Could not Load Images</div>;
 
   function closeAndOutput(url: string) {
-    // setVisibleSearch(false);
-    someFunc();
+    propCloseHandler();
     console.log(url);
   }
 
@@ -69,7 +68,7 @@ const SendImageQuery = ({ someFunc }: closeProps) => {
           name="search"
           placeholder="Search"
           value={search}
-          onChange={(e: any) => setSearch(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
         />
       </div>
       <div className="px-10 pt-5 md:px-6">

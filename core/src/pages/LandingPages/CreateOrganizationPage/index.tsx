@@ -6,7 +6,7 @@ const CreateOrganizationPage = () => {
         <div className='bg-[#232627] text-white w-full flex flex-col items-center'>
             <div className='lg:w-[95%] w-[80%]  my-8 flex flex-row justify-between items-center '>
                 <motion.a 
-                    href='/' 
+                    href='/pricing'
                     className='lg:m-3 m-8 lg:w-32 w-40 lg:h-11 h-14 bg-blue-500 flex justify-center items-center font-bold lg:text-xl text-2xl rounded-full'
                     whileHover={{ scale: 1.05 }}
                 >
