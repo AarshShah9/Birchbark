@@ -4,6 +4,25 @@ import {Status} from "@prisma/client";
 
 export const appointmentDoctorRouter = createTRPCRouter({
 
+    getDoctorAvailability: privateProcedure
+        .query(async ({ ctx }) => {
+            // Find the doctor using the clerkId provided
+            const doctor = await ctx.prisma.doctor.findUnique({
+                where: {
+                    clerkId: ctx.userId as string,
+                },
+                include: {
+                    Availability: true, // Include the availability in the result
+                },
+            });
+
+            if (!doctor) {
+                throw new Error('Doctor not found');
+            }
+
+            return doctor.Availability;
+        }),
+
     getPatient: privateProcedure
         .input(z.object({
             input: z.number(), // We are passing the patient ID as the input

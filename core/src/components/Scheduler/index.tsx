@@ -49,7 +49,7 @@ import {
   remove,
   removeClass
 } from '@syncfusion/ej2-base';
-import {DataManager, Predicate, Query} from '@syncfusion/ej2-data';
+import {DataManager, Predicate, Query, WebApiAdaptor} from '@syncfusion/ej2-data';
 import { api } from "~/utils/api";
 
 const Overview = () => {
@@ -586,6 +586,12 @@ const Overview = () => {
         }
     }
 
+    let remoteData = new DataManager({
+        url: 'http://localhost:3000/api/trpc/appointmentDoctorRouter/getAllAppointments',
+        adaptor: new WebApiAdaptor,
+        crossDomain: true
+    });
+
     // Get all the appointment data from the database
     const { data, error } = api.appointment.getAllAppointments.useQuery()
     if(error){
@@ -648,18 +654,7 @@ const Overview = () => {
                     }
                 )
             })
-        }
-        
-
-        // for (let i: number = 0; i < appointmentsList.length; i++) {
-        //     const appointment = appointmentsList[i];
-        //     if (appointment !== undefined) {
-        //         eventData.push(appointment);
-        //     }
-        // }
-
-        
-          
+        } 
 
         let overviewEvents: { [key: string]: Date }[] = extend([], eventData, undefined, true) as {
             [key: string]: Date
@@ -697,46 +692,105 @@ const Overview = () => {
                             <div className='flex flex-row'>
                                 <div className='rounded-lg border-2 border-n-4 flex justify-center items-center p-3'>
                                     <div className='control-panel calendar-export'>
-                                        <ButtonComponent id='printBtn' cssClass='title-bar-btn e-inherit'
-                                                         iconCss='e-icons e-print' onClick={(onPrint)} content='Print'/>
+                                        <ButtonComponent 
+                                            id='printBtn' 
+                                            cssClass='title-bar-btn e-inherit'     
+                                            iconCss='e-icons e-print' 
+                                            onClick={(onPrint)} 
+                                            content='Print'
+                                        />
                                     </div>
                                     <div className='control-panel calendar-export'>
-                                        <DropDownButtonComponent id='exportBtn' content='Export'
-                                                                 cssClass='title-bar-btn e-inherit' items={exportItems}
-                                                                 select={onExportClick} className='bg-white'/>
+                                        <DropDownButtonComponent 
+                                            id='exportBtn' 
+                                            content='Export'
+                                            cssClass='title-bar-btn e-inherit'
+                                            items={exportItems}
+                                            select={onExportClick} 
+                                            className='bg-white'
+                                        />
                                     </div>
-                                    <ButtonComponent id='settingsBtn' cssClass='overview-toolbar-settings e-inherit'
-                                                     iconCss='e-icons e-settings' iconPosition='Top' content=''
-                                                     onClick={btnClick}/>
+                                    <ButtonComponent
+                                        id='settingsBtn'
+                                        cssClass='overview-toolbar-settings e-inherit'
+                                        iconCss='e-icons e-settings'
+                                        iconPosition='Top'
+                                        content=''
+                                        onClick={btnClick}
+                                    />
                                 </div>
                             </div>
                         </div>
 
 
                         {/* </AppBarComponent> */}
-                        <ToolbarComponent id='toolbarOptions' cssClass='overview-toolbar' width='100%' height={40}
-                                          overflowMode='Scrollable' scrollStep={100}
-                                          created={() => liveTimeInterval = setInterval(() => {
-                                              updateLiveTime();
-                                          }, 1000)} clicked={onToolbarItemClicked}>
+                        <ToolbarComponent 
+                            id='toolbarOptions' 
+                            cssClass='overview-toolbar' 
+                            width='100%' 
+                            height={40}
+                            overflowMode='Scrollable'
+                            scrollStep={100}
+                            created={
+                                () => liveTimeInterval = setInterval(
+                                    () => {updateLiveTime();
+                                }, 1000)
+                            } 
+                            clicked={onToolbarItemClicked}
+                        >
                             <ItemsDirective>
-                                <ItemDirective prefixIcon='e-icons e-plus' tooltipText='New Appointment'
-                                               text='New Appointment' tabIndex={0}/>
-                                <ItemDirective prefixIcon='e-icons e-repeat' tooltipText='New Recurring Appointment'
-                                               text='New Recurring Appointment' tabIndex={0}/>
+                                <ItemDirective 
+                                    prefixIcon='e-icons e-plus' 
+                                    tooltipText='New Appointment'
+                                    text='New Appointment' 
+                                    tabIndex={0}
+                                />
+                                <ItemDirective 
+                                    prefixIcon='e-icons e-repeat' 
+                                    tooltipText='New Recurring Appointment'
+                                    text='New Recurring Appointment' 
+                                    tabIndex={0}
+                                />
                                 <ItemDirective type='Separator'/>
-                                <ItemDirective prefixIcon='e-icons e-day' tooltipText='Day' text='Day' tabIndex={0}/>
-                                <ItemDirective prefixIcon='e-icons e-week' tooltipText='Week' text='Week' tabIndex={0}/>
-                                <ItemDirective prefixIcon='e-icons e-week' tooltipText='WorkWeek' text='WorkWeek'
-                                               tabIndex={0}/>
-                                <ItemDirective prefixIcon='e-icons e-month' tooltipText='Month' text='Month'
-                                               tabIndex={0}/>
-                                <ItemDirective prefixIcon='e-icons e-month' tooltipText='Year' text='Year'
-                                               tabIndex={0}/>
-                                <ItemDirective prefixIcon='e-icons e-agenda-date-range' tooltipText='Agenda'
-                                               text='Agenda' tabIndex={0}/>
+                                <ItemDirective 
+                                    prefixIcon='e-icons e-day' 
+                                    tooltipText='Day' 
+                                    text='Day' 
+                                    tabIndex={0}
+                                />
+                                <ItemDirective 
+                                    prefixIcon='e-icons e-week' 
+                                    tooltipText='Week' 
+                                    text='Week' 
+                                    tabIndex={0}
+                                />
+                                <ItemDirective 
+                                    prefixIcon='e-icons e-week' 
+                                    tooltipText='WorkWeek' 
+                                    text='WorkWeek'
+                                    tabIndex={0}
+                                />
+                                <ItemDirective 
+                                    prefixIcon='e-icons e-month' 
+                                    tooltipText='Month' 
+                                    text='Month'
+                                    tabIndex={0}
+                                />
+                                <ItemDirective 
+                                    prefixIcon='e-icons e-month' 
+                                    tooltipText='Year' 
+                                    text='Year'
+                                    tabIndex={0}
+                                />
+                                <ItemDirective 
+                                    prefixIcon='e-icons e-agenda-date-range' 
+                                    tooltipText='Agenda'
+                                    text='Agenda' 
+                                    tabIndex={0}
+                                />
                             </ItemsDirective>
                         </ToolbarComponent>
+
                         <div className='overview-content'>
                             <div className='left-panel'>
                                 <div className='overview-scheduler'>
@@ -748,8 +802,10 @@ const Overview = () => {
                                         height='100%' 
                                         currentView={currentView}
                                         group={{resources: ['Calendars']}} 
-                                        timezone='UTC'  
-                                        eventSettings={{dataSource: pushAppointmentData()}}
+                                        timezone='UTC'
+
+                                        // THIS IS WHERE THE DATA IS PASSED TO THE CALENDAR
+                                        eventSettings={{dataSource: pushAppointmentData()}} 
                                         dateHeaderTemplate={dateHeaderTemplate}
                                     >
                                         <ResourcesDirective>
@@ -764,21 +820,32 @@ const Overview = () => {
                                                 allowMultiple={true} 
                                                 colorField='CalendarColor'/>
                                         </ResourcesDirective>
+
+                                        {/* Adds the different views */}
                                         <ViewsDirective>
-                                            <ViewDirective option='Day' startHour='08:00' endHour='18:00'/>
-                                            <ViewDirective option='Week' startHour='08:00' endHour='18:00'/>
+                                            <ViewDirective option='Day' startHour='07:00' endHour='20:00'/>
+                                            <ViewDirective option='Week' startHour='07:00' endHour='20:00'/>
                                             <ViewDirective option='WorkWeek'/>
                                             <ViewDirective option='Month'/>
                                             <ViewDirective option='Year'/>
                                             <ViewDirective option='Agenda'/>
                                         </ViewsDirective>
+                                        
+                                        {/*  */}
                                         <Inject
-                                            services={[Day, Week, WorkWeek, Month, Year, Agenda, DragAndDrop, Resize, Print, ExcelExport, ICalendarImport, ICalendarExport]}/>
+                                            // services={[Day, Week, WorkWeek, Month, Year, Agenda, DragAndDrop, Resize, Print, ExcelExport, ICalendarImport, ICalendarExport]}
+                                            services={[Day, Week, WorkWeek, Month, Year, Agenda]}
+                                        />
                                     </ScheduleComponent>
-                                    <ContextMenuComponent id='overviewContextMenu' cssClass='schedule-context-menu'
-                                                          ref={contextMenuObj} target='.e-schedule'
-                                                          items={contextMenuItems} beforeOpen={contextMenuOpen}
-                                                          select={contextMenuSelect}/>
+                                    <ContextMenuComponent 
+                                        id='overviewContextMenu' 
+                                        cssClass='schedule-context-menu'
+                                        ref={contextMenuObj} 
+                                        target='.e-schedule'                      
+                                        items={contextMenuItems} 
+                                        beforeOpen={contextMenuOpen}
+                                        select={contextMenuSelect}
+                                    />
                                 </div>
                             </div>
                             <div className='right-panel hide bg-green-600'>
@@ -787,113 +854,113 @@ const Overview = () => {
                                     {/* WE MIGHT WANT TO KEEP THIS, ITS THE CODE FOR THE SETTINGS DROPDOWN */}
 
                                     {/* <div className='col-row '>
-                    <div className='col-left '>
-                      <label style={{ lineHeight: '34px', margin: '0' }}>Calendar</label>
-                    </div>
-                    <div className='col-right'>
-                      <MultiSelectComponent id="resources" cssClass='schedule-resource' ref={resourceObj} dataSource={calendarCollections as Record<string, any>[]} mode='CheckBox' fields={{ text: 'CalendarText', value: 'CalendarId' }} enableSelectionOrder={false} showClearButton={false} showDropDownIcon={true} popupHeight={300} value={[1]} change={onResourceChange}>
-                        <Inject services={[CheckBoxSelection]} />
-                      </MultiSelectComponent>
-                    </div>
-                  </div>
-                  <div className='col-row'>
-                    <div className='col-left'>
-                      <label style={{ lineHeight: '34px', margin: '0' }}>First Day of Week</label>
-                    </div>
-                    <div className='col-right'>
-                      <DropDownListComponent id="weekFirstDay" dataSource={weekDays} fields={{ text: 'text', value: 'value' }} value={0} popupHeight={400} change={(args: ChangeEventArgs) => { scheduleObj.current.firstDayOfWeek = args.value as number; }} />
-                    </div>
-                  </div>
-                  <div className='col-row'>
-                    <div className='col-left'>
-                      <label style={{ lineHeight: '34px', margin: '0' }}>Work week</label>
-                    </div>
-                    <div className='col-right'>
-                      <MultiSelectComponent id="workWeekDays" cssClass='schedule-workweek' ref={workWeekObj} dataSource={weekDays} mode='CheckBox' fields={{ text: 'text', value: 'value' }} enableSelectionOrder={false} showClearButton={false} showDropDownIcon={true} value={[1, 2, 3, 4, 5]} change={(args: MultiSelectChangeEventArgs) => scheduleObj.current.workDays = args.value as number[]}>
-                        <Inject services={[CheckBoxSelection]} />
-                      </MultiSelectComponent>
-                    </div>
-                  </div>
-                  <div className='col-row'>
-                    <div className='col-left'>
-                      <label style={{ lineHeight: '34px', margin: '0' }}>Timezone</label>
-                    </div>
-                    <div className='col-right'>
-                      <DropDownListComponent id="timezone" dataSource={timezoneData} fields={{ text: 'text', value: 'value' }} value='Etc/GMT' popupHeight={150} change={timezoneChange} />
-                    </div>
-                  </div>
-                  <div className='col-row'>
-                    <div className='col-left'>
-                      <label style={{ lineHeight: '34px', margin: '0' }}>Day Start Hour</label>
-                    </div>
-                    <div className='col-right'>
-                      <TimePickerComponent id='dayStartHour' showClearButton={false} value={new Date(new Date().setHours(0, 0, 0))} change={(args: TimeEventArgs) => scheduleObj.current.startHour = intl.formatDate(args.value as Date, { skeleton: 'Hm' })} />
-                    </div>
-                  </div>
-                  <div className='col-row'>
-                    <div className='col-left'>
-                      <label style={{ lineHeight: '34px', margin: '0' }}>Day End Hour</label>
-                    </div>
-                    <div className='col-right'>
-                      <TimePickerComponent id='dayEndHour' showClearButton={false} value={new Date(new Date().setHours(23, 59, 59))} change={(args: TimeEventArgs) => scheduleObj.current.endHour = intl.formatDate(args.value as Date, { skeleton: 'Hm' })} />
-                    </div>
-                  </div>
-                  <div className='col-row'>
-                    <div className='col-left'>
-                      <label style={{ lineHeight: '34px', margin: '0' }}>Work Start Hour</label>
-                    </div>
-                    <div className='col-right'>
-                      <TimePickerComponent id='workHourStart' showClearButton={false} value={new Date(new Date().setHours(9, 0, 0))} change={(args: TimeEventArgs) => scheduleObj.current.workHours.start = intl.formatDate(args.value as Date, { skeleton: 'Hm' })} />
-                    </div>
-                  </div>
-                  <div className='col-row'>
-                    <div className='col-left'>
-                      <label style={{ lineHeight: '34px', margin: '0' }}>Work End Hour</label>
-                    </div>
-                    <div className='col-right'>
-                      <TimePickerComponent id='workHourEnd' showClearButton={false} value={new Date(new Date().setHours(18, 0, 0))} change={(args: TimeEventArgs) => scheduleObj.current.workHours.end = intl.formatDate(args.value as Date, { skeleton: 'Hm' })} />
-                    </div>
-                  </div>
-                  <div className='col-row'>
-                    <div className='col-left'>
-                      <label style={{ lineHeight: '34px', margin: '0' }}>Slot Duration</label>
-                    </div>
-                    <div className='col-right'>
-                      <DropDownListComponent id="slotDuration" dataSource={majorSlotData} fields={{ text: 'Name', value: 'Value' }} value={60} popupHeight={150} change={(args: ChangeEventArgs) => { scheduleObj.current.timeScale.interval = args.value as number; }} />
-                    </div>
-                  </div>
-                  <div className='col-row'>
-                    <div className='col-left'>
-                      <label style={{ lineHeight: '34px', margin: '0' }}>Slot Interval</label>
-                    </div>
-                    <div className='col-right'>
-                      <DropDownListComponent id="slotInterval" dataSource={minorSlotData} value={2} popupHeight={150} change={(args: ChangeEventArgs) => { scheduleObj.current.timeScale.slotCount = args.value as number; }} />
-                    </div>
-                  </div>
-                  <div className='col-row'>
-                    <div className='col-left'>
-                      <label style={{ lineHeight: '34px', margin: '0' }}>Time Format</label>
-                    </div>
-                    <div className='col-right'>
-                      <DropDownListComponent id="timeFormat" dataSource={timeFormatData} fields={{ text: 'Name', value: 'Value' }} value={"hh:mm a"} popupHeight={150} change={(args: ChangeEventArgs) => { scheduleObj.current.timeFormat = args.value as any; }} />
-                    </div>
-                  </div>
-                  <div className='col-row'>
-                    <div className='col-left'>
-                      <label style={{ lineHeight: '34px', margin: '0' }}>Week Numbers</label>
-                    </div>
-                    <div className='col-right'>
-                      <DropDownListComponent id="weekNumber" dataSource={weekNumberData} fields={{ text: 'Name', value: 'Value' }} value={"Off"} popupHeight={150} change={weekNumberChange} />
-                    </div>
-                  </div>
-                  <div className='col-row'>
-                    <div className='col-left'>
-                      <label style={{ lineHeight: '34px', margin: '0' }}>Tooltip</label>
-                    </div>
-                    <div className='col-right'>
-                      <DropDownListComponent id="tooltip" dataSource={tooltipData} fields={{ text: 'Name', value: 'Value' }} value={"Off"} popupHeight={150} change={tooltipChange} />
-                    </div>
-                  </div> */}
+                                            <div className='col-left '>
+                                            <label style={{ lineHeight: '34px', margin: '0' }}>Calendar</label>
+                                            </div>
+                                            <div className='col-right'>
+                                            <MultiSelectComponent id="resources" cssClass='schedule-resource' ref={resourceObj} dataSource={calendarCollections as Record<string, any>[]} mode='CheckBox' fields={{ text: 'CalendarText', value: 'CalendarId' }} enableSelectionOrder={false} showClearButton={false} showDropDownIcon={true} popupHeight={300} value={[1]} change={onResourceChange}>
+                                                <Inject services={[CheckBoxSelection]} />
+                                            </MultiSelectComponent>
+                                            </div>
+                                        </div>
+                                        <div className='col-row'>
+                                            <div className='col-left'>
+                                            <label style={{ lineHeight: '34px', margin: '0' }}>First Day of Week</label>
+                                            </div>
+                                            <div className='col-right'>
+                                            <DropDownListComponent id="weekFirstDay" dataSource={weekDays} fields={{ text: 'text', value: 'value' }} value={0} popupHeight={400} change={(args: ChangeEventArgs) => { scheduleObj.current.firstDayOfWeek = args.value as number; }} />
+                                            </div>
+                                        </div>
+                                        <div className='col-row'>
+                                            <div className='col-left'>
+                                            <label style={{ lineHeight: '34px', margin: '0' }}>Work week</label>
+                                            </div>
+                                            <div className='col-right'>
+                                            <MultiSelectComponent id="workWeekDays" cssClass='schedule-workweek' ref={workWeekObj} dataSource={weekDays} mode='CheckBox' fields={{ text: 'text', value: 'value' }} enableSelectionOrder={false} showClearButton={false} showDropDownIcon={true} value={[1, 2, 3, 4, 5]} change={(args: MultiSelectChangeEventArgs) => scheduleObj.current.workDays = args.value as number[]}>
+                                                <Inject services={[CheckBoxSelection]} />
+                                            </MultiSelectComponent>
+                                            </div>
+                                        </div>
+                                        <div className='col-row'>
+                                            <div className='col-left'>
+                                            <label style={{ lineHeight: '34px', margin: '0' }}>Timezone</label>
+                                            </div>
+                                            <div className='col-right'>
+                                            <DropDownListComponent id="timezone" dataSource={timezoneData} fields={{ text: 'text', value: 'value' }} value='Etc/GMT' popupHeight={150} change={timezoneChange} />
+                                            </div>
+                                        </div>
+                                        <div className='col-row'>
+                                            <div className='col-left'>
+                                            <label style={{ lineHeight: '34px', margin: '0' }}>Day Start Hour</label>
+                                            </div>
+                                            <div className='col-right'>
+                                            <TimePickerComponent id='dayStartHour' showClearButton={false} value={new Date(new Date().setHours(0, 0, 0))} change={(args: TimeEventArgs) => scheduleObj.current.startHour = intl.formatDate(args.value as Date, { skeleton: 'Hm' })} />
+                                            </div>
+                                        </div>
+                                        <div className='col-row'>
+                                            <div className='col-left'>
+                                            <label style={{ lineHeight: '34px', margin: '0' }}>Day End Hour</label>
+                                            </div>
+                                            <div className='col-right'>
+                                            <TimePickerComponent id='dayEndHour' showClearButton={false} value={new Date(new Date().setHours(23, 59, 59))} change={(args: TimeEventArgs) => scheduleObj.current.endHour = intl.formatDate(args.value as Date, { skeleton: 'Hm' })} />
+                                            </div>
+                                        </div>
+                                        <div className='col-row'>
+                                            <div className='col-left'>
+                                            <label style={{ lineHeight: '34px', margin: '0' }}>Work Start Hour</label>
+                                            </div>
+                                            <div className='col-right'>
+                                            <TimePickerComponent id='workHourStart' showClearButton={false} value={new Date(new Date().setHours(9, 0, 0))} change={(args: TimeEventArgs) => scheduleObj.current.workHours.start = intl.formatDate(args.value as Date, { skeleton: 'Hm' })} />
+                                            </div>
+                                        </div>
+                                        <div className='col-row'>
+                                            <div className='col-left'>
+                                            <label style={{ lineHeight: '34px', margin: '0' }}>Work End Hour</label>
+                                            </div>
+                                            <div className='col-right'>
+                                            <TimePickerComponent id='workHourEnd' showClearButton={false} value={new Date(new Date().setHours(18, 0, 0))} change={(args: TimeEventArgs) => scheduleObj.current.workHours.end = intl.formatDate(args.value as Date, { skeleton: 'Hm' })} />
+                                            </div>
+                                        </div>
+                                        <div className='col-row'>
+                                            <div className='col-left'>
+                                            <label style={{ lineHeight: '34px', margin: '0' }}>Slot Duration</label>
+                                            </div>
+                                            <div className='col-right'>
+                                            <DropDownListComponent id="slotDuration" dataSource={majorSlotData} fields={{ text: 'Name', value: 'Value' }} value={60} popupHeight={150} change={(args: ChangeEventArgs) => { scheduleObj.current.timeScale.interval = args.value as number; }} />
+                                            </div>
+                                        </div>
+                                        <div className='col-row'>
+                                            <div className='col-left'>
+                                            <label style={{ lineHeight: '34px', margin: '0' }}>Slot Interval</label>
+                                            </div>
+                                            <div className='col-right'>
+                                            <DropDownListComponent id="slotInterval" dataSource={minorSlotData} value={2} popupHeight={150} change={(args: ChangeEventArgs) => { scheduleObj.current.timeScale.slotCount = args.value as number; }} />
+                                            </div>
+                                        </div>
+                                        <div className='col-row'>
+                                            <div className='col-left'>
+                                            <label style={{ lineHeight: '34px', margin: '0' }}>Time Format</label>
+                                            </div>
+                                            <div className='col-right'>
+                                            <DropDownListComponent id="timeFormat" dataSource={timeFormatData} fields={{ text: 'Name', value: 'Value' }} value={"hh:mm a"} popupHeight={150} change={(args: ChangeEventArgs) => { scheduleObj.current.timeFormat = args.value as any; }} />
+                                            </div>
+                                        </div>
+                                        <div className='col-row'>
+                                            <div className='col-left'>
+                                            <label style={{ lineHeight: '34px', margin: '0' }}>Week Numbers</label>
+                                            </div>
+                                            <div className='col-right'>
+                                            <DropDownListComponent id="weekNumber" dataSource={weekNumberData} fields={{ text: 'Name', value: 'Value' }} value={"Off"} popupHeight={150} change={weekNumberChange} />
+                                            </div>
+                                        </div>
+                                        <div className='col-row'>
+                                            <div className='col-left'>
+                                            <label style={{ lineHeight: '34px', margin: '0' }}>Tooltip</label>
+                                            </div>
+                                            <div className='col-right'>
+                                            <DropDownListComponent id="tooltip" dataSource={tooltipData} fields={{ text: 'Name', value: 'Value' }} value={"Off"} popupHeight={150} change={tooltipChange} />
+                                            </div>
+                                        </div> */}
                                 </div>
                             </div>
                         </div>
