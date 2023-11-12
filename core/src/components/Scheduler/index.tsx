@@ -50,7 +50,7 @@ import {
   removeClass
 } from '@syncfusion/ej2-base';
 import {DataManager, Predicate, Query} from '@syncfusion/ej2-data';
-
+import { api } from "~/utils/api";
 
 const Overview = () => {
     const [currentView, setCurrentView] = useState<View>('Week');
@@ -460,49 +460,6 @@ const Overview = () => {
         return overviewEvents;
     };
 
-    let pushAppointmentData = (): Record<string, any>[] => {
-        let eventData: Record<string, any>[] = [];
-        let weekDate: Date = new Date(new Date().setDate(new Date().getDate() - new Date().getDay())); // THis gets the current date
-        // eventData.push(
-        //     {
-        //         Id: 1,
-        //         Subject: 'TEST SUBJECT',
-        //         StartTime: new Date(weekDate.getFullYear(), weekDate.getMonth(), weekDate.getDate(), 10, 0),
-        //         EndTime: new Date(weekDate.getFullYear(), weekDate.getMonth(), weekDate.getDate(), 11, 30),
-        //         Location: '123 Main St, Atlanta, GA 30303',
-        //         Description: 'Appointment regarding patient checkup and health status',
-        //         RecurrenceRule: '',
-        //         IsAllDay: false,
-        //         IsReadonly: false,
-        //         CalendarId: 1,
-        //         DoctorID: 1 // THIS WILL BE THE DOCTORS ID
-        //     }
-        // );
-        // console.log(appointmentsList);
-        // eventData.push(appointmentsList[0]);
-        for (let i: number = 0; i < appointmentsList.length; i++) {
-            const appointment = appointmentsList[i];
-            if (appointment !== undefined) {
-                eventData.push(appointment);
-            }
-        }
-          
-
-        let overviewEvents: { [key: string]: Date }[] = extend([], eventData, undefined, true) as {
-            [key: string]: Date
-        }[];
-        let timezone: Timezone = new Timezone();
-        let currentTimezone: never = timezone.getLocalTimezoneName() as never;
-        for (let event of overviewEvents) {
-            if (event.StartTime && event.EndTime) {
-                event.StartTime = timezone.convert(event.StartTime, 'UTC', currentTimezone);
-                event.EndTime = timezone.convert(event.EndTime, 'UTC', currentTimezone);
-            }
-        }
-        return overviewEvents;
-    };
-
-
     const createUpload = () => {
         const element = document.querySelector('.calendar-import .e-css.e-btn');
         element?.classList.add('e-inherit');
@@ -628,6 +585,96 @@ const Overview = () => {
             }
         }
     }
+
+    // Get all the appointment data from the database
+    const { data, error } = api.appointment.getAllAppointments.useQuery()
+    if(error){
+        console.log("TRPC CALL ERROR: " + error)
+    }
+    if(!error){
+        console.log("TRPC CALL DATA: " + data)
+    }
+
+    // Get all the appointment patients names from the database
+    function getNames(patientId:number){
+        const { data: patientName, error: patientError } = api.appointment.getPatient.useQuery({input: patientId})
+        if(patientError){
+        console.log("TRPC CALL ERROR: " + patientError)
+        }
+    }
+
+
+    let pushAppointmentData = (): Record<string, any>[] => {
+        let eventData: Record<string, any>[] = [];
+        let weekDate: Date = new Date(new Date().setDate(new Date().getDate() - new Date().getDay())); // THis gets the current date
+        
+
+
+        // Example of how to push an appointment
+        // eventData.push(
+        //     {
+        //         Id: 1,
+        //         Subject: 'TEST SUBJECT',
+        //         StartTime: new Date(weekDate.getFullYear(), weekDate.getMonth(), weekDate.getDate(), 10, 0),
+        //         EndTime: new Date(weekDate.getFullYear(), weekDate.getMonth(), weekDate.getDate(), 11, 30),
+        //         Location: '123 Main St, Atlanta, GA 30303',
+        //         Description: 'Appointment regarding patient checkup and health status',
+        //         RecurrenceRule: '',
+        //         IsAllDay: false,
+        //         IsReadonly: false,
+        //         CalendarId: 1,
+        //         DoctorID: 1 // THIS WILL BE THE DOCTORS ID
+        //     }
+        // );
+
+
+
+        if(data){
+            data.map((currentAppointment, index) => {
+                console.log(JSON.stringify(currentAppointment));
+                eventData.push(
+                    {
+                        Id: currentAppointment.id,
+                        Subject: currentAppointment.patientId.toString(),
+                        StartTime: currentAppointment.startTime,
+                        EndTime: currentAppointment.endTime,
+                        // Location: currentAppointment.location,
+                        Description: currentAppointment.subject,
+                        RecurrenceRule: '',
+                        IsAllDay: false,
+                        IsReadonly: false,
+                        CalendarId: 1,
+                        DoctorID: currentAppointment.doctorId
+                    }
+                )
+            })
+        }
+        
+
+        // for (let i: number = 0; i < appointmentsList.length; i++) {
+        //     const appointment = appointmentsList[i];
+        //     if (appointment !== undefined) {
+        //         eventData.push(appointment);
+        //     }
+        // }
+
+        
+          
+
+        let overviewEvents: { [key: string]: Date }[] = extend([], eventData, undefined, true) as {
+            [key: string]: Date
+        }[];
+        let timezone: Timezone = new Timezone();
+        let currentTimezone: never = timezone.getLocalTimezoneName() as never;
+        for (let event of overviewEvents) {
+            if (event.StartTime && event.EndTime) {
+                event.StartTime = timezone.convert(event.StartTime, 'UTC', currentTimezone);
+                event.EndTime = timezone.convert(event.EndTime, 'UTC', currentTimezone);
+            }
+        }
+        return overviewEvents;
+    };
+
 
     return (
         <div className='schedule-control-section'>

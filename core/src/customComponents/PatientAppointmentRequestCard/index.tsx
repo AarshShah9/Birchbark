@@ -172,7 +172,6 @@ const PatientAppointmentRequestCard: React.FC<Props> = ({patientId, patient, pat
     };
 
     // Gets the patient data for the appointment
-
     const { data: patientName, error: patientError } = api.appointment.getPatient.useQuery({input: patientId})
     if(patientError){
       console.log("TRPC CALL ERROR: " + patientError)
