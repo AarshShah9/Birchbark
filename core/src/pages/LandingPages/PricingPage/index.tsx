@@ -79,7 +79,7 @@ const PricingPage: React.FC = () => {
                   </div>
                   <motion.a
                     whileHover={{ scale: 1.1 }}
-                    href=""
+                    href="/create-organization?plan=starter"
                     className="mb-2 flex h-14 items-center justify-center rounded-[8px] bg-[#4CA9EE] text-center text-xl font-bold"
                   >
                     {pricingResources.getStarted.English}

@@ -37,10 +37,10 @@ const CreateOrganizationPage = () => {
                         <input className='bg-[#ffffff] h-14 w-[80%] text-black text-xl font-medium rounded-lg mb-8 p-4' type='text' placeholder='Postal Code' />
 
                         <motion.a 
-                            href='/' 
+                            href='/payment'
                             className='bg-blue-500 lg:h-12 h-14 w-64 flex justify-center items-center font-bold text-2xl rounded-full'
                             whileHover={{ scale: 1.05 }}
-                        >Create</motion.a>
+                        >Next</motion.a>
                     </form>
                 </div>
             </div>
