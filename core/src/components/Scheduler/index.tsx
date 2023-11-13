@@ -1,55 +1,17 @@
 import * as React from 'react';
-import appointmentsList from "~/data/appointments";
 import {Fragment, useEffect, useRef, useState} from 'react';
 import {ButtonComponent, ChangeEventArgs as SwitchEventArgs, CheckBoxComponent} from '@syncfusion/ej2-react-buttons';
 import {ChangeEventArgs, MultiSelectChangeEventArgs, MultiSelectComponent} from '@syncfusion/ej2-react-dropdowns';
 import {SelectedEventArgs} from '@syncfusion/ej2-react-inputs';
+import { 
+    BeforeOpenCloseMenuEventArgs, ClickEventArgs, ContextMenuComponent, ItemDirective, ItemsDirective, 
+    MenuEventArgs as ContextMenuEventArgs, MenuItemModel, ToolbarComponent } from '@syncfusion/ej2-react-navigations';
 import {
-  BeforeOpenCloseMenuEventArgs,
-  ClickEventArgs,
-  ContextMenuComponent,
-  ItemDirective,
-  ItemsDirective,
-  MenuEventArgs as ContextMenuEventArgs,
-  MenuItemModel,
-  ToolbarComponent
-} from '@syncfusion/ej2-react-navigations';
-import {
-  Agenda,
-  CellClickEventArgs,
-  Day,
-  DragAndDrop,
-  ExcelExport,
-  ICalendarExport,
-  ICalendarImport,
-  Inject,
-  Month,
-  Print,
-  Resize,
-  ResourceDirective,
-  ResourcesDirective,
-  ResourcesModel,
-  ScheduleComponent,
-  Timezone,
-  View,
-  ViewDirective,
-  ViewsDirective,
-  Week,
-  WorkWeek,
-  Year
-} from '@syncfusion/ej2-react-schedule';
-import {DropDownButtonComponent, ItemModel, MenuEventArgs} from '@syncfusion/ej2-react-splitbuttons';
-import {
-  addClass,
-  closest,
-  compile,
-  extend,
-  Internationalization,
-  isNullOrUndefined,
-  remove,
-  removeClass
-} from '@syncfusion/ej2-base';
-import {DataManager, Predicate, Query, WebApiAdaptor} from '@syncfusion/ej2-data';
+  Agenda, CellClickEventArgs, Day, Inject, Month, Print, Resize, ResourceDirective, ResourcesDirective, ResourcesModel, ScheduleComponent, Timezone,
+  View, ViewDirective, ViewsDirective, Week, WorkWeek, Year } from '@syncfusion/ej2-react-schedule';
+import { DropDownButtonComponent, ItemModel, MenuEventArgs} from '@syncfusion/ej2-react-splitbuttons';
+import { addClass, closest, compile, extend, Internationalization, isNullOrUndefined, remove, removeClass } from '@syncfusion/ej2-base';
+import { DataManager, Predicate, Query } from '@syncfusion/ej2-data';
 import { api } from "~/utils/api";
 
 const Overview = () => {
@@ -64,7 +26,7 @@ const Overview = () => {
     let resourceObj = useRef<MultiSelectComponent>(null);
     let liveTimeInterval: NodeJS.Timeout | number;
 
-    const weekDays: Record<string, any>[] = [
+    const weekDays: Record<string, string | number>[] = [
         {text: 'Sunday', value: 0},
         {text: 'Monday', value: 1},
         {text: 'Tuesday', value: 2},
@@ -101,14 +63,12 @@ const Overview = () => {
         }
     ];
 
-    const calendarCollections: Record<string, any>[] = [
-        {CalendarText: 'Dr. Smith Appointments', CalendarId: 1, CalendarColor: '#0084FF'}, // Pick color here
-        {CalendarText: 'Unconfirmed', CalendarId: 2, CalendarColor: '#7d7d7d'},
-        {CalendarText: 'Dr. Smith', CalendarId: 3, CalendarColor: '#AF27CD'},
-        {CalendarText: 'Dr. Adam', CalendarId: 4, CalendarColor: '#808000'}
+    const calendarCollections: Record<string, string | number>[] = [
+        {CalendarText: 'Confirmed Appointments',    CalendarId: 1, CalendarColor: '#0084FF'}, // Pick color here
+        {CalendarText: 'Unconfirmed',               CalendarId: 2, CalendarColor: '#7d7d7d'},
     ];
 
-    const timezoneData: Record<string, any>[] = [
+    const timezoneData: Record<string, string>[] = [
         {text: 'UTC -12:00', value: 'Etc/GMT+12'},
         {text: 'UTC -11:00', value: 'Etc/GMT+11'},
         {text: 'UTC -10:00', value: 'Etc/GMT+10'},
@@ -138,7 +98,7 @@ const Overview = () => {
         {text: 'UTC +13:00', value: 'Etc/GMT-13'},
         {text: 'UTC +14:00', value: 'Etc/GMT-14'}
     ];
-    const majorSlotData: Record<string, any>[] = [
+    const majorSlotData: Record<string, string | number>[] = [
         {Name: '1 hour', Value: 60},
         {Name: '1.5 hours', Value: 90},
         {Name: '2 hours', Value: 120},
@@ -164,26 +124,22 @@ const Overview = () => {
         {Name: '12 hours', Value: 720}
     ];
     const minorSlotData: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    const timeFormatData: Record<string, any>[] = [
+    const timeFormatData: Record<string, string>[] = [
         {Name: "12 hours", Value: "hh:mm a"},
         {Name: "24 hours", Value: "HH:mm"}
     ];
-    const weekNumberData: Record<string, any>[] = [
+    const weekNumberData: Record<string, string>[] = [
         {Name: 'Off', Value: 'Off'},
         {Name: 'First Day of Year', Value: 'FirstDay'},
         {Name: 'First Full Week', Value: 'FirstFullWeek'},
         {Name: 'First Four-Day Week', Value: 'FirstFourDayWeek'}
     ];
-    const tooltipData: Record<string, any>[] = [
+    const tooltipData: Record<string, string>[] = [
         {Name: 'Off', Value: 'Off'},
         {Name: 'On', Value: 'On'}
     ];
 
-    const importTemplateFn = (data: Record<string, any>): NodeList => {
-        const template: string = '<div class="e-template-btn"><span class="e-btn-icon e-icons e-upload-1 e-icon-left"></span>${text}</div>';
-        return compile(template.trim())(data) as NodeList;
-    }
-
+    // Live time counter
     const updateLiveTime = (): void => {
         let scheduleTimezone: string = scheduleObj?.current?.timezone || 'Etc/GMT';
         let liveTime;
@@ -264,8 +220,6 @@ const Overview = () => {
             case 'Agenda':
                 setCurrentView('Agenda');
                 break;
-            
-                // This is what happend when the New Appointment button is created
             case 'New Appointment':
                 const eventData: Record<string, any> = getEventData();
                 scheduleObj?.current?.openEditor(eventData, 'Add', true);
@@ -315,62 +269,6 @@ const Overview = () => {
         }
     }
 
-    const timelineTemplate = () => {
-        return (
-            <div className='template'>
-                <div className='icon-child'>
-                    <CheckBoxComponent id='timeline_views' checked={false} change={onChange}/>
-                </div>
-                <div className='text-child'>Timeline Views</div>
-            </div>
-        );
-    }
-
-    const groupTemplate = () => {
-        return (
-            <div className='template'>
-                <div className='icon-child'>
-                    <CheckBoxComponent id='grouping' checked={true} change={(args: SwitchEventArgs) => {
-                        if (scheduleObj.current) {
-                            scheduleObj.current.group.resources = args.checked ? ['Calendars'] : [];
-                        }
-                    }}/>
-                </div>
-                <div className='text-child'>Grouping</div>
-            </div>
-        );
-    }
-
-    const gridlineTemplate = () => {
-        return (
-            <div className='template'>
-                <div className='icon-child'>
-                    <CheckBoxComponent id='timeSlots' checked={true} change={(args: SwitchEventArgs) => {
-                        if (scheduleObj.current) {
-                            scheduleObj.current.timeScale.enable = args.checked as boolean;
-                        }
-                    }}/>
-                </div>
-                <div className='text-child'>Gridlines</div>
-            </div>
-        );
-    }
-
-    const autoHeightTemplate = () => {
-        return (
-            <div className='template'>
-                <div className='icon-child'>
-                    <CheckBoxComponent id='row_auto_height' checked={false} change={(args: SwitchEventArgs) => {
-                        if (scheduleObj.current) {
-                            scheduleObj.current.rowAutoHeight = args.checked as boolean;
-                        }
-                    }}/>
-                </div>
-                <div className='text-child'>Row Auto Height</div>
-            </div>
-        );
-    }
-
     const getDateHeaderDay = (value: Date): string => {
         return intl.formatDate(value, {skeleton: 'E'});
     }
@@ -400,65 +298,6 @@ const Overview = () => {
             scheduleObj.current.resources[0].query = resourcePredicate ? new Query().where(resourcePredicate) : new Query().where('CalendarId', 'equal', 1);
         }
     }
-
-    // THIS GENERATES THE DUMMY DATA FOR THE CALENDAR SEE pushAppointmentData() for custom dummy events
-    let generateEvents = (): Record<string, any>[] => {
-        let eventData: Record<string, any>[] = [];
-        let eventSubjects: string[] = [
-            'Doctor Appointment'
-        ];
-        let weekDate: Date = new Date(new Date().setDate(new Date().getDate() - new Date().getDay()));
-        let startDate: Date = new Date(weekDate.getFullYear(), weekDate.getMonth(), weekDate.getDate(), 10, 0);
-        let endDate: Date = new Date(weekDate.getFullYear(), weekDate.getMonth(), weekDate.getDate(), 11, 30);
-        eventData.push({
-            Id: 1,
-            Subject: eventSubjects[0],
-            StartTime: startDate,
-            EndTime: endDate,
-            Location: '',
-            Description: 'Event Scheduled',
-            RecurrenceRule: 'FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=1;COUNT=10;',
-            IsAllDay: false,
-            IsReadonly: false,
-            CalendarId: 1
-        });
-        for (let a: number = 0, id: number = 2; a < 500; a++) {
-            let month: number = Math.floor(Math.random() * (11 - 0 + 1) + 0);
-            let date: number = Math.floor(Math.random() * (28 - 1 + 1) + 1);
-            let hour: number = Math.floor(Math.random() * (23 - 0 + 1) + 0);
-            let minutes: number = Math.floor(Math.random() * (59 - 0 + 1) + 0);
-            let start: Date = new Date(new Date().getFullYear(), month, date, hour, minutes, 0);
-            let end: Date = new Date(start.getTime());
-            end.setHours(end.getHours() + 2);
-            let startDate: Date = new Date(start.getTime());
-            let endDate: Date = new Date(end.getTime());
-            eventData.push({
-                Id: id,
-                Subject: eventSubjects[Math.floor(Math.random() * (24 - 0 + 1) + 0)],
-                StartTime: startDate,
-                EndTime: endDate,
-                Location: '',
-                Description: 'Event Scheduled',
-                IsAllDay: id % 10 === 0,
-                IsReadonly: endDate < new Date(),
-                CalendarId: (a % 4) + 1
-            });
-            id++;
-        }
-
-        let overviewEvents: { [key: string]: Date }[] = extend([], eventData, undefined, true) as {
-            [key: string]: Date
-        }[];
-        let timezone: Timezone = new Timezone();
-        let currentTimezone: never = timezone.getLocalTimezoneName() as never;
-        for (let event of overviewEvents) {
-            if (event.StartTime && event.EndTime) {
-                event.StartTime = timezone.convert(event.StartTime, 'UTC', currentTimezone);
-                event.EndTime = timezone.convert(event.EndTime, 'UTC', currentTimezone);
-            }
-        }
-        return overviewEvents;
-    };
 
     const createUpload = () => {
         const element = document.querySelector('.calendar-import .e-css.e-btn');
@@ -589,34 +428,21 @@ const Overview = () => {
         }
     }
 
-    // let remoteData = new DataManager({
-    //     url: 'http://localhost:3000/api/trpc/appointmentDoctorRouter/getAllAppointments',
-    //     adaptor: new WebApiAdaptor,
-    //     crossDomain: true
-    // });
-
     // Get all the appointment data from the database
     const { data, error } = api.appointment.getAllAppointments.useQuery()
     if(error){
         console.log("TRPC CALL ERROR: " + error)
     }
 
-    // Get all the appointment patients names from the database
-    // const { patient, patientError } = api.appointment.getPatient.useQuery({input: 2})
-    // if(patientError){
-    //     console.log("TRPC CALL ERROR: " + patientError)
-    // }
-    // if(patient){
-    //     console.log("PATIENT INFO"+JSON.stringify(patient.name))
-    // }
-
-
     let pushAppointmentData = (): Record<string, any>[] => {
         let eventData: Record<string, any>[] = [];
         let weekDate: Date = new Date(new Date().setDate(new Date().getDate() - new Date().getDay())); // This gets the current date
 
+        // Check if the data is there
         if(data){
-            data.map((currentAppointment, index) => {
+
+            // For each appointment, push the data to the eventData array
+            data.forEach((currentAppointment) => {
                 if (currentAppointment.statusM === "Confirmed"){
                     eventData.push(
                         {
@@ -636,17 +462,11 @@ const Overview = () => {
             })
         } 
 
-        let overviewEvents: { [key: string]: Date }[] = extend([], eventData, undefined, true) as {
-            [key: string]: Date
-        }[];
-        let timezone: Timezone = new Timezone();
-        let currentTimezone: never = timezone.getLocalTimezoneName() as never;
-        for (let event of overviewEvents) {
-            if (event.StartTime && event.EndTime) {
-                event.StartTime = timezone.convert(event.StartTime, 'UTC', currentTimezone);
-                event.EndTime = timezone.convert(event.EndTime, 'UTC', currentTimezone);
-            }
-        }
+        // Create a deep copy of the eventData array with an array of objects with keys of type string and values of type Date
+        let overviewEvents: { [key: string]: Date }[] = extend([], eventData, undefined, true) as { [key: string]: Date }[];
+        let timezone: Timezone = new Timezone(); // Create a new time zone
+        let currentTimezone: never = timezone.getLocalTimezoneName() as never; // Get the current time zone
+        
         return overviewEvents;
     };
 
@@ -810,15 +630,14 @@ const Overview = () => {
                                         <ViewsDirective>
                                             <ViewDirective option='Day' startHour='07:00' endHour='20:00'/>
                                             <ViewDirective option='Week' startHour='07:00' endHour='20:00'/>
-                                            <ViewDirective option='WorkWeek'/>
+                                            <ViewDirective option='WorkWeek' startHour='07:00' endHour='20:00'/>
                                             <ViewDirective option='Month'/>
                                             <ViewDirective option='Year'/>
                                             <ViewDirective option='Agenda'/>
                                         </ViewsDirective>
                                         
-                                        {/*  */}
+                                        {/* Inject different things */}
                                         <Inject
-                                            // services={[Day, Week, WorkWeek, Month, Year, Agenda, DragAndDrop, Resize, Print, ExcelExport, ICalendarImport, ICalendarExport]}
                                             services={[Day, Week, WorkWeek, Month, Year, Agenda]}
                                         />
                                     </ScheduleComponent>
@@ -835,7 +654,6 @@ const Overview = () => {
                             </div>
                             <div className='right-panel hide bg-green-600'>
                                 <div className='control-panel e-css'>
-
                                     {/* WE MIGHT WANT TO KEEP THIS, ITS THE CODE FOR THE SETTINGS DROPDOWN */}
 
                                     {/* <div className='col-row '>

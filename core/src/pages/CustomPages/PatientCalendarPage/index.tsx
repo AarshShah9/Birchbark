@@ -12,7 +12,7 @@ const IndexPage: React.FC = () => {
 
     let dates : string[] = []
     let times : string[] = []
-    let months: Record<number, string> = {
+    const months: Record<number, string> = {
         0: "January",
         1: "Febuary",
         2: "March",
