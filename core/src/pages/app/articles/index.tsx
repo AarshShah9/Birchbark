@@ -4,7 +4,7 @@ import { api } from "~/utils/api";
 import React, { FormEvent } from "react";
 import Layout from "~/components/Layout";
 import Icon from "~/components/Icon";
-import { BsArrowRight } from "react-icons/bs";
+import { BsArrowRight, BsArrowLeft } from "react-icons/bs";
 import { motion } from "framer-motion";
 
 const WikiMain: NextPage = () => {
@@ -31,9 +31,10 @@ const WikiMain: NextPage = () => {
     <Layout>
       <div className="flex h-[95vh] w-full overflow-auto bg-white font-inter text-[#141718]">
         <SearchArticles />
+
         <div className="flex w-full flex-col items-center">
           <div className="mx-8 flex w-auto flex-col">
-            <div className="mb-8 mt-10 flex w-full flex-col">
+            <div className="mb-8 mt-28 flex w-full flex-col">
               <h1 className="flex justify-center text-center text-4xl font-bold">
                 Categories
               </h1>

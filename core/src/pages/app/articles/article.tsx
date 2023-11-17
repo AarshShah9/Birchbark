@@ -58,7 +58,7 @@ const article: NextPage = () => {
             <BsArrowLeft className="flex h-[85%] w-[85%]" />
           </a>
         </motion.div>
-        <div className="m-30 lg:m-24 md:m-9 md:mt-20">
+        <div className="m-30 lg:m-24 md:m-10 md:mt-20">
           <header className="flex justify-start">
             <h1 className="text-4xl font-bold">Article Title</h1>
             <div className="ml-4 flex items-center">

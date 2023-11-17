@@ -5,7 +5,7 @@ import Link from "next/link";
 import { api } from "~/utils/api";
 import Layout from "~/components/Layout";
 import Icon from "~/components/Icon";
-import { BsArrowRight } from "react-icons/bs";
+import { BsArrowRight, BsArrowLeft } from "react-icons/bs";
 import { motion } from "framer-motion";
 
 const CategoryPage: NextPage = () => {
@@ -41,9 +41,27 @@ const CategoryPage: NextPage = () => {
     <Layout>
       <div className="relative flex h-[95vh] w-full overflow-auto bg-white font-inter text-[#141718]">
         <SearchArticles />
+        <motion.div
+          whileHover={{
+            scale: [null, 1.03, 1.02],
+            transition: { duration: 0.5 },
+          }}
+          whileTap={{
+            scale: 0.98,
+            transition: { duration: 0.75 },
+          }}
+          className="fixed left-96 top-14 z-10 flex h-14 w-14 rounded-md border-[1px] border-black bg-white hover:shadow-lg xl:left-32 md:left-9 md:top-9 md:h-9 md:w-9"
+        >
+          <a
+            className="flex h-full w-full items-center justify-center"
+            href={`/app/articles/`}
+          >
+            <BsArrowLeft className="flex h-[85%] w-[85%]" />
+          </a>
+        </motion.div>
         <div className="flex w-full flex-col items-center">
           <div className="mx-8 flex w-auto flex-col">
-            <div className="mb-8 mt-10 flex w-full flex-col items-center">
+            <div className="mb-8 mt-28 flex w-full flex-col items-center">
               <h1 className="flex max-w-md justify-center text-center text-4xl font-bold">
                 Articles in this Category
               </h1>
