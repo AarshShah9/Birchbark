@@ -3,23 +3,20 @@ const prisma = new PrismaClient();
 
 async function main() {
   // Seed the `Organization` table
-
   // Check if the Organization already exists
   let organization = await prisma.organization.findFirst({
     where: { name: "HealWell Hospital" },
   });
 
-  if (!organization) {
-    organization = await prisma.organization.create({
-      data: {
-        name: "HealWell Hospital",
-        phone: "123-456-7890",
-        email: "contact@healwellhospital.com",
-        activated: true,
-        // Add other fields as necessary
-      },
-    });
-  }
+  if (!organization) { organization = await prisma.organization.create({
+    data: {
+      name: "HealWell Hospital",
+      phone: "123-456-7890",
+      email: "contact@healwellhospital.com",
+      activated: true,
+      // Add other fields as necessary
+    },
+  });}
 
   // Check if the Doctor already exists
   let doctor = await prisma.doctor.findFirst({
@@ -27,17 +24,16 @@ async function main() {
   });
 
   if (!doctor) {
-    doctor = await prisma.doctor.create({
-      data: {
-        name: "Dr. Smith",
-        email: "dr.smith@healwellhospital.com",
-        phoneNumber: "321-654-0987",
-        notificationOn: true,
-        OrganizationId: organization.id,
-        // Add other fields as necessary
-      },
-    });
-  }
+   doctor = await prisma.doctor.create({
+    data: {
+      name: "Dr. Smith",
+      email: "dr.smith@healwellhospital.com",
+      phoneNumber: "321-654-0987",
+      notificationOn: true,
+      OrganizationId: organization.id,
+      // Add other fields as necessary
+    },
+  });}
 
   // Check if the Patient already exists
   let patient = await prisma.patient.findFirst({
@@ -45,14 +41,14 @@ async function main() {
   });
 
   if (!patient) {
-    patient = await prisma.patient.create({
-      data: {
-        name: "John Doe",
-        email: "john.doe@example.com",
-        phone_num: "987-654-3210",
-        notification_on: "true",
-        doctorId: doctor.id,
-        OrganizationId: organization.id,
+   patient = await prisma.patient.create({
+    data: {
+      name: "John Doe",
+      email: "john.doe@example.com",
+      phone_num: "987-654-3210",
+      notification_on: "true",
+      doctorId: doctor.id,
+      OrganizationId: organization.id,
       },
     });
   }
@@ -62,18 +58,16 @@ async function main() {
     where: { doctorId: doctor.id, patientId: patient.id },
   });
 
-  if (!appointment) {
-    appointment = await prisma.appointment.create({
-      data: {
-        subject: "Checkup",
-        startTime: new Date(),
-        endTime: new Date(),
-        doctorId: doctor.id,
-        patientId: patient.id,
-        // Add other fields as necessary
-      },
-    });
-  }
+  if (!appointment) { appointment = await prisma.appointment.create({
+    data: {
+      subject: "Checkup",
+      startTime: new Date(),
+      endTime: new Date(),
+      doctorId: doctor.id,
+      patientId: patient.id,
+      // Add other fields as necessary
+    },
+  });}
 
   // Add seeding for required wiki models
   let category = await prisma.category.findFirst({
