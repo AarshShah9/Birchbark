@@ -14,7 +14,12 @@ const handleSemantics = (searchTerm: string | undefined) => {
     if (tagsList.includes(searchTerm)) {
         return searchTerm;
     } else {
-        return findSimilarWords(searchTerm, tagsList);
+        try {
+            return findSimilarWords(searchTerm, tagsList);
+        }
+        catch (err) {
+            return searchTerm;
+        }
     }
 }
 
@@ -40,8 +45,6 @@ export const imageRouter = createTRPCRouter({
 
       // NLP based search
      let searchTerm = handleSemantics(input.search);
-     console.log("searchTerm", searchTerm);
-
       const searchExpression = input.search
         ? `tags:${searchTerm}* AND ${baseExpression}`
         : baseExpression;

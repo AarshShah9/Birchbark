@@ -17,6 +17,10 @@ const findSimilarWords = (searchTerm: string, tagsList: string[]) => {
         }
     });
 
+    if (highestScore < 0.7) {
+        throw new Error("No similar word found");
+    }
+
     return mostSimilarWord;
 }
 
