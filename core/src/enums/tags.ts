@@ -1,3 +1,6 @@
 export default [
-    'mouth'
+    'mouth',
+    'teeth',
+    'tooth',
+    'gum',
 ]
