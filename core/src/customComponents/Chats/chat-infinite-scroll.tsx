@@ -4,6 +4,8 @@ import "@sendbird/uikit-react/dist/index.css";
 import { InView } from "react-intersection-observer";
 import Icon from "~/components/Icon";
 import ChatModal from "../Chats/chat-modal";
+import _ from "lodash"; // Import Lodash for debouncing
+
 
 const PullingImages: React.FC = () => {
   const [visibleSearch, setVisibleSearch] = React.useState<boolean>(false);
@@ -35,10 +37,26 @@ type closeProps = {
 
 const SendImageQuery = ({ propCloseHandler }: closeProps) => {
   const [search, setSearch] = React.useState<string>("");
+  const [debouncedSearch, setDebouncedSearch] = React.useState<string>("");
+
+    // Debounce function to delay the search
+    const debouncedSetSearch = useCallback(
+        _.debounce((value) => {
+            setDebouncedSearch(value);
+            console.log("debounced");
+        }, 250), // 500 milliseconds delay
+        []
+    );
+
+    // Handle search input changes
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(e.target.value);
+        debouncedSetSearch(e.target.value);
+    };
 
   //  Create query
   const myQuery = api.image.getImages.useInfiniteQuery(
-    { limit: 12, search: search },
+    { limit: 12, search: debouncedSearch },
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
     }
@@ -68,7 +86,7 @@ const SendImageQuery = ({ propCloseHandler }: closeProps) => {
           name="search"
           placeholder="Search"
           value={search}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
+          onChange={handleSearchChange}
         />
       </div>
       <div className="px-10 pt-5 md:px-6">

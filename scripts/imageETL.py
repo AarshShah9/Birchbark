@@ -5,16 +5,16 @@ import os
 
 def ImageETL():
     # Open the excel file and read the data into a pandas dataframe
-    df = pd.read_excel("dermnet.xlsx")
+    df = pd.read_excel("dermnet2.xlsx")
     # Now call the function to push images to Cloudinary
     cloudinary_push(df)
 
 
 def cloudinary_push(df: pd.DataFrame):
     # Get the cloudinary config from the ENV variables
-    CLOUDINARY_API_KEY = None
-    CLOUDINARY_API_SECRET = None
-    CLOUDINARY_CLOUD_NAME = None
+    CLOUDINARY_API_KEY = "942673461688855"
+    CLOUDINARY_API_SECRET = "1W1a8NGmbydy5Qq5K0BOQwUBvlg"
+    CLOUDINARY_CLOUD_NAME = "duoghyw7n"
 
     # Configure Cloudinary with your credentials
     cloudinary.config(
@@ -28,11 +28,17 @@ def cloudinary_push(df: pd.DataFrame):
     # Loop through each row in the dataframe
     for index, row in df.iterrows():
         # Construct the full path to the image file
-        file_path = 'images/viral/' + row['image']
+        file_path = 'images/' + row['image']
 
-        # Combine the tags into a single list
+        key_terms_tags = row['key terms'].split(
+            ',') if isinstance(row['key terms'], str) else []
+        general_tags = row['General'].split(
+            ',') if isinstance(row['General'], str) else []
+        med_terms_tags = row['med terms'].split(
+            ',') if isinstance(row['med terms'], str) else []
+
         tags = [row['subject general'], row['condition']] + \
-            row['key terms'].split(',')
+            key_terms_tags + general_tags + med_terms_tags
 
         # Remove any leading/trailing whitespace from each tag
         tags = [tag.strip() for tag in tags if tag.strip()]
@@ -42,7 +48,6 @@ def cloudinary_push(df: pd.DataFrame):
             file_path,
             tags=tags,
             folder=folder_name,
-
         )
 
         # Handle the response from Cloudinary
