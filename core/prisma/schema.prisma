@@ -13,11 +13,11 @@ generator client {
 
 model Doctor {
   id             Int       @id @default(autoincrement())
-  name           String
+  name           String /// @encrypted
   clerkId        String?   @unique
-  email          String
-  phoneNumber    String
-  notificationOn Boolean
+  email          String /// @encrypted
+  phoneNumber    String /// @encrypted
+  notificationOn Boolean   @default(false)
   patient        Patient[]
 
   Organization   Organization?  @relation(fields: [OrganizationId], references: [id])
@@ -29,14 +29,14 @@ model Doctor {
 }
 
 model Patient {
-  id              Int     @id @default(autoincrement())
-  name            String
-  clerkId         String? @unique
-  email           String
-  phone_num       String
-  notification_on String
-  doctorId        Int
-  doctor          Doctor  @relation(fields: [doctorId], references: [id])
+  id             Int     @id @default(autoincrement())
+  name           String /// @encrypted
+  clerkId        String? @unique
+  email          String /// @encrypted
+  phoneNumber    String /// @encrypted
+  notificationOn Boolean @default(false)
+  doctorId       Int
+  doctor         Doctor  @relation(fields: [doctorId], references: [id])
 
   Organization   Organization? @relation(fields: [OrganizationId], references: [id])
   OrganizationId Int?
@@ -241,4 +241,9 @@ enum provinces {
   QC
   SK
   YK
+}
+
+model TestEncryption {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(255) ///@encrypted
 }
