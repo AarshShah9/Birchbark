@@ -49,7 +49,7 @@ const Footer: React.FC = () => {
                 </div>
             </div>
             <div className='flex justify-center items-center py-6'>
-                &copy; 2023 Symptom 360. All rights reserved.
+                &copy; 2023 Birchbark Health. All rights reserved.
             </div>
         </footer>
         <footer className='hidden md:flex flex-col w-full h-full bg-blue-400'>
@@ -71,7 +71,7 @@ const Footer: React.FC = () => {
                 </ul>
             </div>
             <div className='flex justify-center items-center py-6 text-white'>
-                &copy; 2023 Symptom 360. All rights reserved.
+                &copy; 2023 Birchbark Health. All rights reserved.
             </div>
 
         </footer>
