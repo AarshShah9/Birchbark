@@ -15,9 +15,9 @@ const Navbar: React.FC = () => {
           {/* LOGO */}
           <div className="flex h-full flex-initial items-center justify-center">
             <img
-              className="aspect-[22/7] xl:w-[200px] lg:w-[175px]"
-              alt="Symptom360 Logo"
-              src="/images/BlueNavLogo.svg"
+              className="h-[40%]"
+              alt="Birchbark Health Logo"
+              src="/images/BirchbarkLogo3.svg"
             />
           </div>
 

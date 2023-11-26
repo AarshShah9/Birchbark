@@ -1,6 +1,6 @@
 export const aboutUsResources = {
   welcome: {
-    English: "Welcome to Symptom 360",
+    English: "Welcome to Birchbark Health",
   },
   welcomeDescription: {
     English:
@@ -42,7 +42,7 @@ export const aboutUsResources = {
       "Text: If you are in a hurry, you can quickly send a text to your doctor.",
   },
   howItWorks: {
-    English: "How Symptom 360 works",
+    English: "How Birchbark Health works",
   },
   answerQuestions: {
     English:
