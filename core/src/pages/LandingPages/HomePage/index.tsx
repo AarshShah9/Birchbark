@@ -56,10 +56,10 @@ const HomePage: React.FC = () => {
                   <div>
                     <motion.a
                       whileHover={{ scale: 1.1, backgroundColor: "#045de9" }}
-                      className="my-6 flex h-14 w-48 items-center justify-center rounded-full bg-blue-500 lg:my-4 lg:h-10 lg:w-36"
-                      href="/CustomPages/PricingPage"
+                      className="my-6 flex h-14 w-72 items-center justify-center rounded-full bg-blue-500 lg:my-4 lg:h-12 sm:w-64 md:w-48"
+                      href="/about-us"
                     >
-                      <span className="text-center text-2xl font-bold text-white lg:text-xl">
+                      <span className="text-center text-xl font-bold text-white">
                         {homepageResources.pricing.English}
                       </span>
                     </motion.a>

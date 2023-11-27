@@ -38,13 +38,13 @@ const Navbar: React.FC = () => {
               >
                 About Us
               </motion.a>
-              <motion.a
+              {/* <motion.a
                 whileHover={{ scale: 1.2, color: "#0084FF" }}
                 className=" m-6 text-2xl font-bold text-white lg:m-4 lg:text-lg"
                 href="/pricing"
               >
                 Pricing
-              </motion.a>
+              </motion.a> */}
               <motion.a
                 whileHover={{ scale: 1.2, color: "#0084FF" }}
                 className=" m-6 text-2xl font-bold text-white lg:m-4 lg:text-lg"
