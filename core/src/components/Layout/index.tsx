@@ -42,7 +42,7 @@ const Layout = ({
   return (
     <>
       <Head>
-        <title>Symptom360</title>
+        <title>Birchbark Health</title>
       </Head>
       <div
         className={`bg-n-7 pr-6 md:overflow-hidden md:bg-n-1 md:p-0 dark:md:bg-n-6 ${

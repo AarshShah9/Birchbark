@@ -32,7 +32,7 @@ const SignInPage = () => {
               afterSignInUrl={"/app/calendar"}
             />
           </div>
-          <div className="body1 text-n-3">{signInResources.chat.English}</div>
+          <div className="body1 text-n-3 text-center mt-6">{signInResources.chat.English}</div>
         </div>
 
         <Image

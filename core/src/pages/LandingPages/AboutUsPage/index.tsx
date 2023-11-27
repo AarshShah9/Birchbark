@@ -34,9 +34,9 @@ const AboutUsPage: React.FC = () => {
                 >
                   <div>
                     <img
-                      src="/icons/heart.svg"
+                      src="/icons/newBlueHeartIcon.svg"
                       alt="icon"
-                      className="w-12 lg:w-8"
+                      className="w-16 lg:w-8"
                     />
                   </div>
                   <h1 className="mb-4 font-inikaBold text-5xl font-bold xl:text-4xl lg:text-3xl">
@@ -53,9 +53,9 @@ const AboutUsPage: React.FC = () => {
                 >
                   <div>
                     <img
-                      src="/icons/handshake.svg"
+                      src="/icons/newHandshakeIcon.svg"
                       alt="icon"
-                      className="w-12 lg:w-8"
+                      className="w-16 lg:w-8"
                     />
                   </div>
                   <h1 className="mb-4 font-inikaBold text-5xl font-bold xl:text-4xl lg:text-3xl">
@@ -72,9 +72,9 @@ const AboutUsPage: React.FC = () => {
                 >
                   <div>
                     <img
-                      src="/icons/healingCircle.svg"
+                      src="/icons/newHealingCircleIcon2.svg"
                       alt="icon"
-                      className="w-12 lg:w-8"
+                      className="w-16 lg:w-8"
                     />
                   </div>
                   <h1 className="mb-4 font-inikaBold text-5xl font-bold xl:text-4xl lg:text-3xl">
@@ -107,6 +107,7 @@ const AboutUsPage: React.FC = () => {
                     <div className="flex aspect-[1/1] h-20 w-20 items-center justify-center rounded-full bg-[#4CA9EE] lg:h-12 lg:w-12">
                       <img
                         src="/icons/video.svg"
+                        alt="video icon"
                         className="aspect-[1/1] h-14 w-14 lg:h-8 lg:w-8"
                       ></img>
                     </div>
@@ -122,6 +123,7 @@ const AboutUsPage: React.FC = () => {
                     <div className="flex aspect-[1/1] h-20 w-20 items-center justify-center rounded-full bg-[#4CA9EE] lg:h-12 lg:w-12">
                       <img
                         src="/icons/phone.svg"
+                        alt="phone icon"
                         className="aspect-[1/1] h-14 w-14 lg:h-8 lg:w-8"
                       ></img>
                     </div>
@@ -137,6 +139,7 @@ const AboutUsPage: React.FC = () => {
                     <div className="flex aspect-[1/1] h-20 w-20 items-center justify-center rounded-full bg-[#4CA9EE] lg:h-12 lg:w-12">
                       <img
                         src="/icons/texts.svg"
+                        alt="texting bubbles icon"
                         className="aspect-[1/1] h-14 w-14 lg:h-8 lg:w-8"
                       ></img>
                     </div>
@@ -158,13 +161,16 @@ const AboutUsPage: React.FC = () => {
           <h1 className="mb-12 text-center font-inikaBold text-6xl text-white 2xl:text-5xl md:text-3xl">
             {aboutUsResources.howItWorks.English}
           </h1>
-          <div className="md:flex md:justify-center">
-            <div className="flex h-full flex-col pl-48  xl:pl-10">
-              {/* CARD HOLDER */}
-              <div className="justify-left flex h-[80%] w-full flex-row">
-                <div className="relative m-5 flex h-72 w-[480px] items-center justify-center rounded-2xl bg-[#303334] xl:h-64 xl:w-96 lg:w-80 md:h-80 md:w-64 sm:h-64">
-                  <p className="pl-15 pr-5 text-2xl leading-7 text-white xl:text-lg xl:leading-6 sm:text-sm">
-                    {aboutUsResources.answerQuestions.English}
+          <div className="flex justify-center">
+
+            {/* Card Holder */}
+            <div className="grid grid-cols-2 lg:grid-cols-1 gap-7 lg:gap-1">
+
+              {/* Card 1 */}
+              <div className="w-fit">
+                <div className="relative m-5 flex h-64 w-96 items-center justify-center rounded-2xl bg-[#303334] xl:h-32 xl:w-72 lg:h-44 lg:w-96">
+                  <p className="pl-15 pr-5 text-3xl leading-8 text-white xl:text-lg xl:leading-6 lg:text-lg">
+                    {aboutUsResources.step1.English}
                   </p>
                   <span className="white absolute -left-10 h-20 w-20 rounded-full bg-[#4CA9EE] font-inikaBold text-5xl">
                     <div className="flex h-full w-full items-center justify-center text-white">
@@ -173,12 +179,12 @@ const AboutUsPage: React.FC = () => {
                   </span>
                 </div>
               </div>
-
-              {/* CARD HOLDER */}
-              <div className="justify-right flex h-[80%] w-full flex-row">
-                <div className="relative m-5 ml-auto flex h-72 w-[480px] items-center justify-center rounded-2xl bg-[#303334] xl:h-64 xl:w-96 md:ml-5 md:h-80 md:w-64 sm:h-64">
-                  <p className="pl-15 pr-5 text-2xl leading-7 text-white xl:text-lg xl:leading-6 sm:text-sm">
-                    {aboutUsResources.pickATime.English}
+              
+              {/* Card 2 */}
+              <div className="w-fit">
+                <div className="relative m-5 flex h-64 w-96 items-center justify-center rounded-2xl bg-[#303334] xl:h-32 xl:w-72 lg:h-44 lg:w-96">
+                  <p className="pl-15 pr-5 text-3xl leading-8 text-white xl:text-lg xl:leading-6 lg:text-lg">
+                    {aboutUsResources.step2.English}
                   </p>
                   <span className="white absolute -left-10 h-20 w-20 rounded-full bg-[#4CA9EE] font-inikaBold text-5xl">
                     <div className="flex h-full w-full items-center justify-center text-white">
@@ -187,16 +193,58 @@ const AboutUsPage: React.FC = () => {
                   </span>
                 </div>
               </div>
-
-              {/* CARD HOLDER */}
-              <div className="justify-left flex h-[80%] w-full flex-row">
-                <div className="relative m-5 flex h-72 w-[480px] items-center justify-center rounded-2xl bg-[#303334] xl:h-64 xl:w-96 lg:w-80 md:h-80 md:w-64 sm:h-64">
-                  <p className="pl-15 pr-5 text-2xl leading-7 text-white xl:text-lg xl:leading-6 sm:text-sm">
-                    {aboutUsResources.bestCare.English}
+              
+              {/* Card 3 */}
+              <div className="w-fit">
+                <div className="relative m-5 flex h-64 w-96 items-center justify-center rounded-2xl bg-[#303334] xl:h-32 xl:w-72 lg:h-44 lg:w-96">
+                  <p className="pl-15 pr-5 text-3xl leading-8 text-white xl:text-lg xl:leading-6 lg:text-lg">
+                    {aboutUsResources.step3.English}
                   </p>
                   <span className="white absolute -left-10 h-20 w-20 rounded-full bg-[#4CA9EE] font-inikaBold text-5xl">
                     <div className="flex h-full w-full items-center justify-center text-white">
                       3
+                    </div>
+                  </span>
+                </div>
+              </div>
+
+              {/* Card 4 */}
+              <div className="w-fit">
+                <div className="relative m-5 flex h-64 w-96 items-center justify-center rounded-2xl bg-[#303334] xl:h-32 xl:w-72 lg:h-44 lg:w-96">
+                  <p className="pl-15 pr-5 text-3xl leading-8 text-white xl:text-lg xl:leading-6 lg:text-lg">
+                    {aboutUsResources.step4.English}
+                  </p>
+                  <span className="white absolute -left-10 h-20 w-20 rounded-full bg-[#4CA9EE] font-inikaBold text-5xl">
+                    <div className="flex h-full w-full items-center justify-center text-white">
+                      4
+                    </div>
+                  </span>
+                </div>
+              </div>
+              
+              {/* Card 5 */}
+              <div className="w-fit">
+                <div className="relative m-5 flex h-64 w-96 items-center justify-center rounded-2xl bg-[#303334] xl:h-32 xl:w-72 lg:h-44 lg:w-96">
+                  <p className="pl-15 pr-5 text-3xl leading-8 text-white xl:text-lg xl:leading-6 lg:text-lg">
+                    {aboutUsResources.step5.English}
+                  </p>
+                  <span className="white absolute -left-10 h-20 w-20 rounded-full bg-[#4CA9EE] font-inikaBold text-5xl">
+                    <div className="flex h-full w-full items-center justify-center text-white">
+                      5
+                    </div>
+                  </span>
+                </div>
+              </div>
+
+              {/* Card 6 */}
+              <div className="w-fit">
+                <div className="relative m-5 flex h-64 w-96 items-center justify-center rounded-2xl bg-[#303334] xl:h-32 xl:w-72 lg:h-44 lg:w-96">
+                  <p className="pl-15 pr-5 text-3xl leading-8 text-white xl:text-lg xl:leading-6 lg:text-lg">
+                    {aboutUsResources.step6.English}
+                  </p>
+                  <span className="white absolute -left-10 h-20 w-20 rounded-full bg-[#4CA9EE] font-inikaBold text-5xl">
+                    <div className="flex h-full w-full items-center justify-center text-white">
+                      6
                     </div>
                   </span>
                 </div>

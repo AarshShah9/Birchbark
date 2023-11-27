@@ -22,8 +22,8 @@ const Footer: React.FC = () => {
                         <h1 className='text-2xl font-bold'>Pricing</h1>
                         <div className='h-1 w-[100%] bg-white mt-1 mb-4'/>
                         <ul className='flex flex-col'>
-                            <motion.a whileHover={{ scale:1.1 }} className="m-1" href='#'>Pricing Overview</motion.a>
-                            <motion.a whileHover={{ scale:1.1 }} className="m-1" href='#'>Coverage</motion.a>
+                            {/* <motion.a whileHover={{ scale:1.1 }} className="m-1" href='#'>Pricing Overview</motion.a> */}
+                            {/* <motion.a whileHover={{ scale:1.1 }} className="m-1" href='#'>Coverage</motion.a> */}
                             <motion.a whileHover={{ scale:1.1 }} className="m-1" href='#'>Register</motion.a>
                             <motion.a whileHover={{ scale:1.1 }} className="m-1" href='#'>Sign in</motion.a>
                         </ul>
