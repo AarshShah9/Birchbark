@@ -45,8 +45,8 @@ async function main() {
     data: {
       name: "John Doe",
       email: "john.doe@example.com",
-      phone_num: "987-654-3210",
-      notification_on: "true",
+      phoneNumber: "987-654-3210",
+      notificationOn: true,
       doctorId: doctor.id,
       OrganizationId: organization.id,
       },
