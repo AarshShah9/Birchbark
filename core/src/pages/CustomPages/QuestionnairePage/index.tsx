@@ -48,14 +48,14 @@ const Questionnaire: React.FC = () => {
   };
   return (
     <div className="bg-[#232627]">
-      <div className="ml-12 flex h-24 flex-initial p-6">
+      <div className="ml-12 flex h-[10vh] flex-initial p-6">
         <img
           className="h-full"
           alt="Birchbark Health Logo"
           src="/images/BirchbarkLogo3.svg"
         />
       </div>
-      <div className="flex min-h-screen flex-col items-center justify-center p-16 font-inter lg:p-8">
+      <div className="flex min-h-[90vh] flex-col items-center justify-center p-16 font-inter lg:p-8">
         <h1 className="mb-8 text-center text-7xl font-bold md:text-4xl">
           {questionnaireResources.title.English}
         </h1>
