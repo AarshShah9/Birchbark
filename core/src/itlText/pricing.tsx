@@ -13,7 +13,7 @@ export const pricingResources = {
     English: "Diagnostic Tool",
   },
   chatbot: {
-    English: "Symptom360 AI Chatbot",
+    English: "Birchbark Health AI Chatbot",
   },
   conferencing: {
     English: "Video + Chat Conferencing",

@@ -1,59 +1,71 @@
 export const aboutUsResources = {
   welcome: {
-    English: "Welcome to Symptom 360",
+    English: "Welcome",
   },
   welcomeDescription: {
     English:
-      "Your health is important to us. We understand that it can sometimes be difficult to access healthcare on reserves. We partnered with the largest reserve in Canada, the Blood Tribe, to build a platform to provide you the virtual care you deserve.",
+      "We are here to support your healthcare needs. Whether you need to see a doctor, talk with a counselor, or just want to learn more about how you can stay healthy, we’ve got you covered.",
   },
   trust: {
     English: "Trust",
   },
   trustDescription: {
     English:
-      "Trust is important in us. Our platform connects you with local doctors who are trusted members of your community.",
+      "Trust is important to us. Our platform connects you with local doctors and healthcare professionals who are already trusted by those in your community.",
   },
   partnership: {
     English: "Partnership",
   },
   partnershipDescription: {
     English:
-      "This platform was built in partnership with the Blood Tribe to meet the specific needs of Indigenous Peoples in Canada.",
+      "We partnered with a dedicated team of organizations and people who care deeply about your healthcare needs.",
   },
   culture: {
     English: "Culture",
   },
   cultureDescription: {
     English:
-      "Through our website, you can connect with Elders and traditional healers in addition to doctors.",
+      "Healthcare is more than just doctors. We can help you connect you with Elders and Traditional Healers in your community.",
   },
   chooseHow: {
-    English: "You choose how you want to talk to your healthcare team",
+    English: "Choose how you want to talk to your doctor",
   },
   video: {
-    English: "Video: You and your doctor can see one-another while talking",
+    English: "You and your doctor can see each other while you talk",
   },
   phone: {
     English:
-      "Phone: Just call your doctor and talk about your health over the phone.",
+      "Call your doctor and talk over the phone",
   },
   text: {
     English:
-      "Text: If you are in a hurry, you can quickly send a text to your doctor.",
+      "If you are in a hurry, you can text your doctor for some quick help",
   },
   howItWorks: {
-    English: "How Symptom 360 works",
+    English: "How Birchbark Health works",
   },
-  answerQuestions: {
+  step1: {
     English:
-      "You will answer some easy questions about your health. This helps your doctor understand what is going on. Your answers go to your doctor in a really safe way.",
+      "Choose a time to meet with your doctor.",
   },
-  pickATime: {
+  step2: {
     English:
-      "You can pick a time to have a virtual meeting with your doctor using video, phone, or text. Your doctor will get a detailed report with your answers, which helps them understand your health status during the online visit.",
+      "Create an account on our secure platform.",
   },
-  bestCare: {
+  step3: {
     English:
-      "We really want to make sure you get the best care possible, your health is important to us, and we are here to help you the whole way. If you have any questions, just let us know!",
+      "Answer a few quick questions to help your doctor better understand your medical needs.",
+  },
+  step4: {
+    English:
+      "You will be sent a video link for your medical visit.",
+  },
+  step5: {
+    English:
+      "Click on the link when it is time for your visit and meet with your doctor.",
+  },
+  step6: {
+    English:
+      "Ready to book an appointment?",// Click to book an appointmnet
   },
 };

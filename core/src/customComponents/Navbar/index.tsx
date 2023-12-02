@@ -15,9 +15,9 @@ const Navbar: React.FC = () => {
           {/* LOGO */}
           <div className="flex h-full flex-initial items-center justify-center">
             <img
-              className="aspect-[22/7] xl:w-[200px] lg:w-[175px]"
-              alt="Symptom360 Logo"
-              src="/images/BlueNavLogo.svg"
+              className="h-[40%]"
+              alt="Birchbark Health Logo"
+              src="/images/BirchbarkLogo3.svg"
             />
           </div>
 
@@ -38,13 +38,13 @@ const Navbar: React.FC = () => {
               >
                 About Us
               </motion.a>
-              <motion.a
+              {/* <motion.a
                 whileHover={{ scale: 1.2, color: "#0084FF" }}
                 className=" m-6 text-2xl font-bold text-white lg:m-4 lg:text-lg"
                 href="/pricing"
               >
                 Pricing
-              </motion.a>
+              </motion.a> */}
               <motion.a
                 whileHover={{ scale: 1.2, color: "#0084FF" }}
                 className=" m-6 text-2xl font-bold text-white lg:m-4 lg:text-lg"
@@ -56,7 +56,7 @@ const Navbar: React.FC = () => {
             <div className="ml-8 flex h-full items-center justify-center lg:ml-4">
               <motion.a
                 whileHover={{ scale: 1.1, backgroundColor: "#045de9" }}
-                className="flex h-16 w-48 items-center justify-center rounded-full bg-blue-500 lg:h-12 lg:w-32"
+                className="flex h-16 w-48 items-center justify-center rounded-full bg-[#4CA9EE] lg:h-12 lg:w-32"
                 href="/sign-in"
               >
                 <span className="text-center text-2xl font-bold">Login</span>
