@@ -22,7 +22,6 @@ const Questionnaire: React.FC = () => {
         <div className="flex flex-wrap items-center justify-center gap-6">
           <motion.div
             whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
             className="flex h-64 w-64 flex-col items-center justify-center rounded-xl bg-[#303334] shadow-lg"
           >
             <h3 className="font-inikaRegular text-2xl">
@@ -36,7 +35,6 @@ const Questionnaire: React.FC = () => {
           </motion.div>
           <motion.div
             whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
             className="flex h-64 w-64 flex-col items-center justify-center rounded-xl bg-[#303334] shadow-lg"
           >
             <h3 className="font-inikaRegular text-2xl">
@@ -50,7 +48,6 @@ const Questionnaire: React.FC = () => {
           </motion.div>
           <motion.div
             whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
             className="flex h-64 w-64 flex-col items-center justify-center rounded-xl bg-[#303334] shadow-lg"
           >
             <h3 className="font-inikaRegular text-2xl">
