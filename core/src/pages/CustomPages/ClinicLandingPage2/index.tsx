@@ -27,11 +27,15 @@ const Questionnaire: React.FC = () => {
             <h3 className="font-inikaRegular text-2xl">
               {clinicLandingResources.psychologist.English}
             </h3>
-            <img
-              className="h-38 w-38 rounded-full shadow-md"
-              alt="Psychologist Icon"
-              src="/images/psychologist.svg"
-            />
+            <div className="h-38 w-38 rounded-full bg-[#4CA9EE] shadow-md">
+              <a href="/CustomPages/ClinicLandingPage2">
+                <img
+                  className="p-6"
+                  alt="Psychologist Icon"
+                  src="/images/brain.svg"
+                />
+              </a>
+            </div>
           </motion.div>
           <motion.div
             whileHover={{ scale: 1.05 }}
@@ -40,11 +44,15 @@ const Questionnaire: React.FC = () => {
             <h3 className="font-inikaRegular text-2xl">
               {clinicLandingResources.doctor.English}
             </h3>
-            <img
-              className="h-38 w-38 rounded-full shadow-md"
-              alt="Doctor Icon"
-              src="/images/doctor.svg"
-            />
+            <div className="h-38 w-38 rounded-full bg-[#4CA9EE] shadow-md">
+              <a href="/CustomPages/ClinicLandingPage2">
+                <img
+                  className="p-6"
+                  alt="Doctor Icon"
+                  src="/images/doctor.svg"
+                />
+              </a>
+            </div>
           </motion.div>
           <motion.div
             whileHover={{ scale: 1.05 }}
@@ -53,11 +61,15 @@ const Questionnaire: React.FC = () => {
             <h3 className="font-inikaRegular text-2xl">
               {clinicLandingResources.councillor.English}
             </h3>
-            <img
-              className="h-38 w-38 rounded-full shadow-md"
-              alt="Councillor Icon"
-              src="/images/councillor.svg"
-            />
+            <div className="h-38 w-38 rounded-full bg-[#4CA9EE] shadow-md">
+              <a href="/CustomPages/ClinicLandingPage2">
+                <img
+                  className="p-6"
+                  alt="Councillor Icon"
+                  src="/images/clipboard.svg"
+                />
+              </a>
+            </div>
           </motion.div>
         </div>
       </div>

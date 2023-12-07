@@ -64,10 +64,10 @@ const Questionnaire: React.FC = () => {
             <div className="flex flex-row p-5">
               <input
                 type="checkbox"
-                onChange={(e) => {
+                onChange={() => {
                   setConfirmAppointment(!confirmAppointment);
                 }}
-                className="border-w mr-4 h-8 w-8 cursor-pointer border-2 bg-[#FFF] accent-blue-400"
+                className="border-w mr-4 h-8 w-8 cursor-pointer border-2 accent-blue-400 dark:bg-white"
               />
               <label className="flex">
                 <span className="font-bold">
