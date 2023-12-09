@@ -4,7 +4,7 @@ import { api } from "~/utils/api";
 import React, { FormEvent } from "react";
 import Layout from "~/components/Layout";
 import Icon from "~/components/Icon";
-import { BsArrowRight, BsArrowLeft } from "react-icons/bs";
+import { BsArrowRight } from "react-icons/bs";
 import { motion } from "framer-motion";
 
 const WikiMain: NextPage = () => {
