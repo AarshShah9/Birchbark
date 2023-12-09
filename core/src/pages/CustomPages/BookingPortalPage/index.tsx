@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import Navbar from "~/customComponents/Navbar";
 import { motion } from "framer-motion";
-import { questionnaireResources } from "../../../itlText/questionnaire";
+import { BsFillBox2HeartFill } from "react-icons/bs";
 
 const Questionnaire: React.FC = () => {
   const [confirmAppointment, setConfirmAppointment] = useState(false);
