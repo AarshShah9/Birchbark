@@ -2,53 +2,28 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { BsArrowRight } from "react-icons/bs";
 import Modal from "~/components/Modal";
-import { add } from "lodash";
 
 const Questionnaire: React.FC = () => {
   const [visibleSlot, setVisibleSlot] = useState<boolean>(false);
-  const [day, setDay] = useState<string>("");
+  const [day, setDay] = useState<Date>(new Date());
   const [time, setTime] = useState<string>("");
+  const today = new Date();
   const timeslotProps = [
     {
-      day: "December 13th 2023",
+      day: new Date(today.setDate(today.getDate() + 1)),
       times: ["11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM"],
     },
     {
-      day: "December 14th 2023",
+      day: new Date(today.setDate(today.getDate() + 1)),
       times: ["11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM"],
     },
     {
-      day: "December 15th 2023",
+      day: new Date(today.setDate(today.getDate() + 1)),
       times: ["11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM"],
     },
   ];
 
-  function Day(date: { day: string; times: string[] }) {
-    return (
-      <div className="flex w-full flex-col gap-2">
-        <h1 className="text-xl font-bold">{date.day}</h1>
-        {/* Line separator */}
-        <div className="h-[2px] w-[100%] bg-black" />
-        {/* Times */}
-        {date.times.map((time) => (
-          <motion.button
-            key={time}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
-            className="flex flex-row justify-between rounded-2xl border-2 border-black"
-            onClick={() => handleClickedTime(date.day, time)}
-          >
-            <p className="flex px-5 py-2 text-lg font-semibold">{time}</p>
-            <div className="flex px-5 py-2">
-              <BsArrowRight size={30} />
-            </div>
-          </motion.button>
-        ))}
-      </div>
-    );
-  }
-
-  function handleClickedTime(day: string, time: string) {
+  function handleClickedTime(day: Date, time: string) {
     setDay(day);
     setTime(time);
     setVisibleSlot(true);
@@ -56,8 +31,6 @@ const Questionnaire: React.FC = () => {
 
   function handleClose() {
     setVisibleSlot(false);
-    setDay("");
-    setTime("");
   }
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -65,7 +38,7 @@ const Questionnaire: React.FC = () => {
   };
 
   function getDayOfWeek() {
-    const dayOfWeek = new Date(day.replace(/th/g, "") + ", 00:00:00").getDay();
+    const dayOfWeek = day.getDay();
     return isNaN(dayOfWeek)
       ? null
       : [
@@ -103,10 +76,13 @@ const Questionnaire: React.FC = () => {
               <div className="my-6 flex flex-row gap-4 lg:flex-col">
                 {timeslotProps.map((date) => (
                   <div
-                    key={date.day}
+                    key={date.day.toDateString()}
                     className="flex w-full flex-row justify-center"
                   >
-                    <Day day={date.day} times={date.times} />
+                    <Day
+                      clicked={handleClickedTime}
+                      date={{ day: date.day, times: date.times }}
+                    />
                   </div>
                 ))}
               </div>
@@ -114,7 +90,7 @@ const Questionnaire: React.FC = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
-              className="mt-4 flex w-[200px] items-center justify-center rounded-full bg-[#4CA9EE] text-white"
+              className="mt-4 flex w-[200px] select-none items-center justify-center rounded-full bg-[#4CA9EE] text-white"
               onClick={handleSubmit}
             >
               <p className="p-3 font-inikaBold text-2xl">Next</p>
@@ -138,18 +114,18 @@ const Questionnaire: React.FC = () => {
             <div className="flex flex-row items-center justify-center gap-4">
               <div className="h-full rounded-full bg-[#222222] shadow-lg">
                 <img
-                  className="p-2"
+                  className="select-none p-2"
                   alt="Calendar Check"
                   src="/images/CalendarCheck.svg"
                 />
               </div>
               <div className="flex flex-col">
                 <h1 className="text-lg font-semibold">{getDayOfWeek()}</h1>
-                <p className="text-sm font-extralight">{day}</p>
+                <p className="text-sm font-extralight">{day.toDateString()}</p>
                 <p className="text-sm font-extralight">{time}</p>
               </div>
             </div>
-            <div className="flex flex-row justify-center gap-4">
+            <div className="flex select-none flex-row justify-center gap-4">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
@@ -173,5 +149,37 @@ const Questionnaire: React.FC = () => {
     </>
   );
 };
+
+const DayProps = {
+  clicked: (day: Date, time: string) => {},
+  date: {
+    day: new Date(),
+    times: ["11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM"],
+  },
+};
+function Day({ clicked, date }: typeof DayProps) {
+  return (
+    <div className="flex w-full flex-col gap-2">
+      <h1 className="text-xl font-bold">{date.day.toDateString()}</h1>
+      {/* Line separator */}
+      <div className="h-[2px] w-[100%] bg-black" />
+      {/* Times */}
+      {date.times.map((time) => (
+        <motion.button
+          key={time}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.98 }}
+          className="flex select-none flex-row justify-between rounded-2xl border-2 border-black"
+          onClick={() => clicked(date.day, time)}
+        >
+          <p className="flex px-5 py-2 text-lg font-semibold">{time}</p>
+          <div className="flex px-5 py-2">
+            <BsArrowRight size={30} />
+          </div>
+        </motion.button>
+      ))}
+    </div>
+  );
+}
 
 export default Questionnaire;
