@@ -5,8 +5,8 @@ import Modal from "~/components/Modal";
 
 const Questionnaire: React.FC = () => {
   const [visibleSlot, setVisibleSlot] = useState<boolean>(false);
-  const [day, setDay] = useState<Date>(new Date());
-  const [time, setTime] = useState<string>("");
+  const [curDay, setCurDay] = useState<Date>(new Date());
+  const [curTime, setCurTime] = useState<string>("");
   const today = new Date();
   const timeslotProps = [
     {
@@ -24,21 +24,34 @@ const Questionnaire: React.FC = () => {
   ];
 
   function handleClickedTime(day: Date, time: string) {
-    setDay(day);
-    setTime(time);
+    setCurDay(day);
+    setCurTime(time);
     setVisibleSlot(true);
+    console.log(day, time);
+    console.log(curDay, time);
   }
 
   function handleClose() {
     setVisibleSlot(false);
   }
 
+  function handleCancel() {
+    setVisibleSlot(false);
+    setCurTime("");
+    setCurDay(new Date());
+  }
+
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+    if (curTime === "") {
+      alert("Please select a time");
+    } else {
+      alert("Submitted");
+    }
   };
 
   function getDayOfWeek() {
-    const dayOfWeek = day.getDay();
+    const dayOfWeek = curDay.getDay();
     return isNaN(dayOfWeek)
       ? null
       : [
@@ -79,10 +92,57 @@ const Questionnaire: React.FC = () => {
                     key={date.day.toDateString()}
                     className="flex w-full flex-row justify-center"
                   >
-                    <Day
-                      clicked={handleClickedTime}
-                      date={{ day: date.day, times: date.times }}
-                    />
+                    <div className="flex w-full flex-col gap-2">
+                      <h1 className="text-xl font-bold">
+                        {date.day.toDateString()}
+                      </h1>
+                      {/* Line separator */}
+                      <div className="h-[2px] w-[100%] bg-black" />
+                      {/* Times */}
+                      {date.times.map((time) => (
+                        <motion.button
+                          key={time}
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.98 }}
+                          className={`flex select-none flex-row justify-between rounded-2xl border-2 ${
+                            date.day.getDate() === curDay.getDate() &&
+                            date.day.getMonth() === curDay.getMonth() &&
+                            date.day.getFullYear() === curDay.getFullYear() &&
+                            time === curTime
+                              ? "border-[#3779ab] bg-[#4CA9EE]"
+                              : "border-black"
+                          }`}
+                          onClick={() => handleClickedTime(date.day, time)}
+                        >
+                          <p
+                            className={`flex px-5 py-2 text-lg font-semibold ${
+                              date.day.getDate() === curDay.getDate() &&
+                              date.day.getMonth() === curDay.getMonth() &&
+                              date.day.getFullYear() === curDay.getFullYear() &&
+                              time === curTime
+                                ? "text-white"
+                                : "text-black"
+                            }`}
+                          >
+                            {time}
+                          </p>
+                          <div className="flex px-5 py-2">
+                            <BsArrowRight
+                              size={30}
+                              color={`${
+                                date.day.getDate() === curDay.getDate() &&
+                                date.day.getMonth() === curDay.getMonth() &&
+                                date.day.getFullYear() ===
+                                  curDay.getFullYear() &&
+                                time === curTime
+                                  ? "white"
+                                  : "black"
+                              }`}
+                            />
+                          </div>
+                        </motion.button>
+                      ))}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -104,7 +164,7 @@ const Questionnaire: React.FC = () => {
         classButtonClose="hidden md:flex md:absolute md:top-6 md:left-6 dark:fill-n-1"
         classOverlay="md:bg-n-1"
         visible={visibleSlot}
-        onClose={() => handleClose()}
+        onClose={() => handleCancel()}
       >
         <div className="flex items-center justify-center p-12 font-inter text-white">
           <div className="flex flex-col gap-y-4">
@@ -121,8 +181,10 @@ const Questionnaire: React.FC = () => {
               </div>
               <div className="flex flex-col">
                 <h1 className="text-lg font-semibold">{getDayOfWeek()}</h1>
-                <p className="text-sm font-extralight">{day.toDateString()}</p>
-                <p className="text-sm font-extralight">{time}</p>
+                <p className="text-sm font-extralight">
+                  {curDay.toDateString()}
+                </p>
+                <p className="text-sm font-extralight">{curTime}</p>
               </div>
             </div>
             <div className="flex select-none flex-row justify-center gap-4">
@@ -132,15 +194,15 @@ const Questionnaire: React.FC = () => {
                 className="mt-4 flex w-[125px] items-center justify-center rounded-full bg-[#4CA9EE] text-white"
                 onClick={handleClose}
               >
-                <p className="p-3 font-inter text-lg">Continue</p>
+                <p className="p-3 font-inter text-lg">Yes</p>
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
                 className="mt-4 flex w-[125px] items-center justify-center rounded-full bg-[#EF4444] text-white"
-                onClick={handleClose}
+                onClick={handleCancel}
               >
-                <p className="p-3 font-inter text-lg">Cancel</p>
+                <p className="p-3 font-inter text-lg">No</p>
               </motion.button>
             </div>
           </div>
@@ -149,37 +211,5 @@ const Questionnaire: React.FC = () => {
     </>
   );
 };
-
-const DayProps = {
-  clicked: (day: Date, time: string) => {},
-  date: {
-    day: new Date(),
-    times: ["11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM"],
-  },
-};
-function Day({ clicked, date }: typeof DayProps) {
-  return (
-    <div className="flex w-full flex-col gap-2">
-      <h1 className="text-xl font-bold">{date.day.toDateString()}</h1>
-      {/* Line separator */}
-      <div className="h-[2px] w-[100%] bg-black" />
-      {/* Times */}
-      {date.times.map((time) => (
-        <motion.button
-          key={time}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.98 }}
-          className="flex select-none flex-row justify-between rounded-2xl border-2 border-black"
-          onClick={() => clicked(date.day, time)}
-        >
-          <p className="flex px-5 py-2 text-lg font-semibold">{time}</p>
-          <div className="flex px-5 py-2">
-            <BsArrowRight size={30} />
-          </div>
-        </motion.button>
-      ))}
-    </div>
-  );
-}
 
 export default Questionnaire;
