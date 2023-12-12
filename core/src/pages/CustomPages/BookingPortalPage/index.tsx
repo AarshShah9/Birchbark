@@ -4,6 +4,7 @@ import { BsArrowRight, BsArrowLeft } from "react-icons/bs";
 import Modal from "~/components/Modal";
 
 const Booking: React.FC = () => {
+  // Initialize timeslots
   const initTimeslots = [
     {
       day: new Date(),
@@ -18,6 +19,8 @@ const Booking: React.FC = () => {
       times: [""],
     },
   ];
+
+  // States
   const [visibleSlot, setVisibleSlot] = useState<boolean>(false);
   const [curDay, setCurDay] = useState<Date>(new Date());
   const [curTime, setCurTime] = useState<string>("");
@@ -25,25 +28,28 @@ const Booking: React.FC = () => {
   const [firstDate, setFirstDate] = useState<Date>(new Date());
   const [secondDate, setSecondDate] = useState<Date>(new Date());
   const [thirdDate, setThirdDate] = useState<Date>(new Date());
-
   const [timeslots, setTimeslots] = useState<typeof initTimeslots>([]);
 
+  // Function to handle clicked time
   function handleClickedTime(day: Date, time: string) {
     setCurDay(day);
     setCurTime(time);
     setVisibleSlot(true);
   }
 
-  function handleClose() {
+  // Function to handle clicking yes on modal
+  function handleConfirm() {
     setVisibleSlot(false);
   }
 
+  // Function to handle clicking no or closing on modal
   function handleCancel() {
     setVisibleSlot(false);
     setCurTime("");
     setCurDay(new Date());
   }
 
+  // Function to get day of week
   function getDayOfWeek() {
     const dayOfWeek = curDay.getDay();
     return isNaN(dayOfWeek)
@@ -59,16 +65,7 @@ const Booking: React.FC = () => {
         ][dayOfWeek];
   }
 
-  function handleStartDate(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.id === "calendar" && e.target.value) {
-      setStartDate(new Date(e.target.value));
-      return;
-    } else if (e.target.id === "calendar" && !e.target.value) {
-      setStartDate(new Date());
-      return;
-    }
-  }
-
+  // Function to handle left arrow
   const handleLeft = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     const date = new Date(startDate);
@@ -84,6 +81,7 @@ const Booking: React.FC = () => {
     return;
   };
 
+  // Function to handle right arrow
   const handleRight = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     const date = new Date(startDate);
@@ -91,6 +89,18 @@ const Booking: React.FC = () => {
     return;
   };
 
+  // Function to handle changing start date off the calendar
+  function handleStartDate(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.id === "calendar" && e.target.value) {
+      setStartDate(new Date(e.target.value));
+      return;
+    } else if (e.target.id === "calendar" && !e.target.value) {
+      setStartDate(new Date());
+      return;
+    }
+  }
+
+  // Function to handle submit
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     if (curTime === "") {
@@ -100,6 +110,7 @@ const Booking: React.FC = () => {
     }
   };
 
+  // Use effect to update timeslots
   React.useEffect(() => {
     const date = new Date(startDate);
     setFirstDate(new Date(firstDate.setDate(date.getDate() + 1)));
@@ -135,6 +146,7 @@ const Booking: React.FC = () => {
           <h1 className="mb-8 text-center text-6xl font-bold text-white md:text-2xl">
             Appointment Time
           </h1>
+          {/* Booking Container */}
           <div className="flex w-[85%] flex-col items-center justify-center rounded-[48px] bg-white p-14 text-lg text-black lg:p-8 md:w-[95%] md:text-sm">
             <div className="w-full">
               <div className="m-6 flex justify-center">
@@ -142,7 +154,9 @@ const Booking: React.FC = () => {
                   Please pick the best time to meet with your doctor
                 </h2>
               </div>
+              {/* Scheduling Component */}
               <div className="flex w-full flex-row items-center justify-center gap-2 lg:flex-col lg:gap-0">
+                {/* Left / Bottom Buttons */}
                 <div className="my-0 flex flex-row gap-4 lg:my-2">
                   <div className="">
                     <motion.button
@@ -167,6 +181,8 @@ const Booking: React.FC = () => {
                     </motion.button>
                   </div>
                 </div>
+
+                {/* Timeslots by day */}
                 <div className="my-6 flex w-full flex-row gap-4 lg:flex-col">
                   {timeslots.map((date) => (
                     <div
@@ -177,8 +193,10 @@ const Booking: React.FC = () => {
                         <h1 className="text-xl font-bold">
                           {date.day.toDateString()}
                         </h1>
+
                         {/* Line separator */}
                         <div className="h-[2px] w-[100%] bg-black" />
+
                         {/* Times */}
                         {date.times.map((time) => (
                           <motion.button
@@ -228,6 +246,7 @@ const Booking: React.FC = () => {
                     </div>
                   ))}
                 </div>
+                {/* Right/Bottom Buttons */}
                 <div className="my-0 flex flex-row gap-4 lg:my-2">
                   <div className="">
                     <motion.button
@@ -255,6 +274,7 @@ const Booking: React.FC = () => {
               </div>
             </div>
 
+            {/* Calendar component */}
             <p className="items-center font-inikaBold text-2xl">
               Select More Days:
             </p>
@@ -267,7 +287,11 @@ const Booking: React.FC = () => {
               onChange={(e) => handleStartDate(e)}
               min={new Date().toISOString().split("T")[0]}
             />
+
+            {/* Line separation */}
             <div className="h-[2px] w-[50%] bg-black md:w-[100%]" />
+
+            {/* Submit */}
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
@@ -279,6 +303,8 @@ const Booking: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Modal Component */}
       <Modal
         className="md:!p-0"
         classWrap="md:min-h-screen-ios dark:shadow-[inset_0_0_0_0.0625rem_#232627,0_2rem_4rem_-1rem_rgba(0,0,0,0.33)] dark:md:shadow-none"
@@ -319,7 +345,7 @@ const Booking: React.FC = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
                 className="mt-4 flex w-[125px] items-center justify-center rounded-full bg-[#4CA9EE] text-white"
-                onClick={handleClose}
+                onClick={handleConfirm}
               >
                 <p className="p-3 font-inter text-lg">Yes</p>
               </motion.button>
