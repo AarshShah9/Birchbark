@@ -106,7 +106,18 @@ const Booking: React.FC = () => {
     if (curTime === "") {
       alert("Please select a time");
     } else {
-      alert(curDay + " at " + curTime);
+      const ampm = curTime.split(" ")[1];
+      const timeSplit = curTime.split(":");
+      if (ampm === "PM" && curDay.getHours() !== 12) {
+        curDay.setHours(parseInt(timeSplit[0] ?? "0") + 12);
+      } else if (ampm === "AM" && curDay.getHours() === 12) {
+        curDay.setHours(0);
+      } else {
+        curDay.setHours(parseInt(timeSplit[0] ?? "0"));
+      }
+      curDay.setMinutes(parseInt(timeSplit[1] ?? "0"));
+      curDay.setSeconds(0);
+      alert(curDay);
     }
   };
 
