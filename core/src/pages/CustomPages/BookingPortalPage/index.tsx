@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { BsArrowRight, BsArrowLeft } from "react-icons/bs";
 import Modal from "~/components/Modal";
@@ -43,15 +43,6 @@ const Booking: React.FC = () => {
     setCurTime("");
     setCurDay(new Date());
   }
-
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-    if (curTime === "") {
-      alert("Please select a time");
-    } else {
-      alert("Submitted");
-    }
-  };
 
   function getDayOfWeek() {
     const dayOfWeek = curDay.getDay();
@@ -100,9 +91,17 @@ const Booking: React.FC = () => {
     return;
   };
 
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    if (curTime === "") {
+      alert("Please select a time");
+    } else {
+      alert(curDay + " at " + curTime);
+    }
+  };
+
   React.useEffect(() => {
     const date = new Date(startDate);
-    console.log(date);
     setFirstDate(new Date(firstDate.setDate(date.getDate() + 1)));
     setSecondDate(new Date(secondDate.setDate(date.getDate() + 2)));
     setThirdDate(new Date(thirdDate.setDate(date.getDate() + 3)));
