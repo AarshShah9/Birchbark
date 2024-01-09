@@ -12,10 +12,10 @@ export const homepageResources = {
     English: "solutions",
   },
   pricing: {
-    English: "See Pricing",
+    English: "Learn how we can help",
   },
   here: {
-    English: "We're here for you",
+    English: "Your Health is Important to Us",
   },
   hereDescription: {
     English:
@@ -26,20 +26,20 @@ export const homepageResources = {
   },
   whyUsDescription: {
     English:
-      "We worked very closely with Canada’s largest Reserve, the Blood Tribe, to develop a product that meets the specific needs of people living on reserves. Community is important to us, so we provide community centered care.",
+      "Your healthcare is important to us. We understand that healthcare is more than just seeing a doctor. We teamed up with Canada’s largest Reserve, the Blood Tribe, to build a platform that is easy to use, secure, and reliable. We connect with your doctor and have lots of resources to help you learn more about your health.",
   },
   whyDo: {
-    English: "Why do we do what we do?",
+    English: "How it works?",
   },
   whyDoDescription: {
     English:
-      "We are proudly serving Indigenous communities across Canada. We know that accessing medical care on reserves can be difficult and that you may not always be able to go visit a doctor in-person. We connect you by phone or video with trusted doctors, so that you can access the care you need.",
+      "You first sign up for a free account. After that, you can book video or phone visits with amazing doctors who are already serving many people in your community. We are here to connect you to fantastic doctors who can provide you with the care you deserve.",
   },
   howItWorks: {
-    English: "How it works",
+    English: "What do we do?",
   },
   howItWorksDescription: {
     English:
-      "You first sign up for a free account and can book video or phone visits with experienced doctors who are already serving people in your community. We are here to connect you to fantastic doctors who can provide you with the care you deserve.",
+      "We are proudly serving Indigenous communities across Canada. We know that accessing medical care on reserves can be difficult and that you may not always be able to go visit a doctor in-person. We connect you by phone or video with amazing doctors, so that you can access the high-quality care you deserve.",
   },
 };

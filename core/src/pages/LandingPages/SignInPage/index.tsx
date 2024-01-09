@@ -11,12 +11,17 @@ const SignInPage = () => {
         <div className="z-2 rounded-xl bg-[#414141] p-12 md:bg-transparent md:p-0">
           <div className="mb-8 flex w-full items-center justify-center">
             {/* <div className="h3 mb-4 text-n-1">Welcome to Symptom 360</div> */}
-            <Image
+            {/* <Image
               className="w-[80%] object-contain"
               src="/Logos/S360Logo.svg"
               height={95}
               width={300}
               alt=""
+            /> */}
+            <img
+            className="h-32"
+            alt="Birchbark Health Logo"
+              src="/images/BirchbarkLogo.svg"
             />
           </div>
 
@@ -27,7 +32,7 @@ const SignInPage = () => {
               afterSignInUrl={"/app/calendar"}
             />
           </div>
-          <div className="body1 text-n-3">{signInResources.chat.English}</div>
+          <div className="body1 text-n-3 text-center mt-6">{signInResources.chat.English}</div>
         </div>
 
         <Image

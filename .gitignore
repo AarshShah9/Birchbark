@@ -1,3 +1,5 @@
 .idea
 core/public/MockImages
 stripe.exe
+scripts/.env
+scripts/images

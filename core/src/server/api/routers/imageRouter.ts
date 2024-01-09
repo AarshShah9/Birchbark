@@ -1,6 +1,27 @@
-import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
-import { z } from "zod";
+import {createTRPCRouter, privateProcedure} from "~/server/api/trpc";
+import {z} from "zod";
 import cloudinary from "~/utils/cloudinary";
+import findSimilarWords from "~/utils/semantic";
+import tagsList from "~/enums/tags";
+
+
+const handleSemantics = (searchTerm: string | undefined) => {
+    if (!searchTerm) {
+        return "";
+    }
+
+    // Check if the term is in the tags list, else find a similar word
+    if (tagsList.includes(searchTerm)) {
+        return searchTerm;
+    } else {
+        try {
+            return findSimilarWords(searchTerm, tagsList);
+        }
+        catch (err) {
+            return searchTerm;
+        }
+    }
+}
 
 export const imageRouter = createTRPCRouter({
   getImages: privateProcedure
@@ -18,9 +39,14 @@ export const imageRouter = createTRPCRouter({
       })
     )
     .query(async ({ ctx, input }) => {
-      const baseExpression = "resource_type:image";
+      const folderPath = "symptom360";
+      const baseExpression = `folder:${folderPath} AND resource_type:image`;
+
+
+      // NLP based search
+     let searchTerm = handleSemantics(input.search);
       const searchExpression = input.search
-        ? `tags:${input.search} AND ${baseExpression}`
+        ? `tags:${searchTerm}* AND ${baseExpression}`
         : baseExpression;
 
       const searchQuery = cloudinary.v2.search
