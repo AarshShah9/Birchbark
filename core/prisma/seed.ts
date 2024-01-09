@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+
 const prisma = new PrismaClient();
 
 async function main() {
@@ -8,15 +9,17 @@ async function main() {
     where: { name: "HealWell Hospital" },
   });
 
-  if (!organization) { organization = await prisma.organization.create({
-    data: {
-      name: "HealWell Hospital",
-      phone: "123-456-7890",
-      email: "contact@healwellhospital.com",
-      activated: true,
-      // Add other fields as necessary
-    },
-  });}
+  if (!organization) {
+    organization = await prisma.organization.create({
+      data: {
+        name: "HealWell Hospital",
+        phone: "123-456-7890",
+        email: "contact@healwellhospital.com",
+        activated: true,
+        // Add other fields as necessary
+      },
+    });
+  }
 
   // Check if the Doctor already exists
   let doctor = await prisma.doctor.findFirst({
@@ -24,16 +27,17 @@ async function main() {
   });
 
   if (!doctor) {
-   doctor = await prisma.doctor.create({
-    data: {
-      name: "Dr. Smith",
-      email: "dr.smith@healwellhospital.com",
-      phoneNumber: "321-654-0987",
-      notificationOn: true,
-      OrganizationId: organization.id,
-      // Add other fields as necessary
-    },
-  });}
+    doctor = await prisma.doctor.create({
+      data: {
+        name: "Dr. Smith",
+        email: "dr.smith@healwellhospital.com",
+        phoneNumber: "321-654-0987",
+        notificationOn: true,
+        OrganizationId: organization.id,
+        // Add other fields as necessary
+      },
+    });
+  }
 
   // Check if the Patient already exists
   let patient = await prisma.patient.findFirst({
@@ -41,42 +45,49 @@ async function main() {
   });
 
   if (!patient) {
-   patient = await prisma.patient.create({
-    data: {
-      name: "John Doe",
-      email: "john.doe@example.com",
-      phone_num: "987-654-3210",
-      notification_on: "true",
-      doctorId: doctor.id,
-      OrganizationId: organization.id,
+    patient = await prisma.patient.create({
+      data: {
+        name: "John Doe",
+        email: "john.doe@example.com",
+        phone_num: "987-654-3210",
+        notification_on: "true",
+        doctorId: doctor.id,
+        OrganizationId: organization.id,
       },
-    // Seed the `Availability` table
-    const availability = await prisma.availability.create({
-        data: {
-            doctorId: doctor.id,
-            date: new Date(),
-            startTime: "2021-04-20T09:00:00.000Z",
-            endTime: "2021-04-20T12:00:00.000Z"
-        },
     });
+  }
 
+  let availability = await prisma.availability.findFirst({
+    where: { doctorId: doctor.id },
+  });
 
+  if (!availability) {
+    availability = await prisma.availability.create({
+      data: {
+        doctorId: doctor.id,
+        date: new Date(),
+        startTime: "2021-04-20T09:00:00.000Z",
+        endTime: "2021-04-20T12:00:00.000Z",
+      },
+    });
+  }
 
-    // Seed the `Appointment` table
-    let appointment = await prisma.appointment.findFirst({
+  // Seed the `Appointment` table
+  let appointment = await prisma.appointment.findFirst({
     where: { doctorId: doctor.id, patientId: patient.id },
   });
 
-  if (!appointment) { appointment = await prisma.appointment.create({
-    data: {
-      subject: "Checkup",
-      startTime: new Date('2023-11-10T12:00:00'),
-      endTime: new Date('2023-11-10T12:30:00'),
-      doctorId: doctor.id,
-      patientId: patient.id,
-      // Add other fields as necessary
-    },
-  });}
+  if (!appointment) {
+    appointment = await prisma.appointment.create({
+      data: {
+        subject: "Checkup",
+        startTime: new Date("2023-11-10T12:00:00"),
+        endTime: new Date("2023-11-10T12:30:00"),
+        doctorId: doctor.id,
+        patientId: patient.id,
+      },
+    });
+  }
 
   // Add seeding for required wiki models
   let category = await prisma.category.findFirst({
@@ -126,20 +137,25 @@ async function main() {
     });
   }
 
+  let event1 = await prisma.event.findFirst({
+    where: { title: "Event 1" },
+  });
 
-    const event1 = await prisma.event.create({
-        data: {
-            title: 'Event 1',
-            date: new Date(),
-            content: {
-                create: {
-                    type: 'IMAGE',
-                    content: 'https://example.com/image1.png',
-                    order: 1, // Adjust the order based on your requirements
-                },
-            },
+  if (!event1) {
+    event1 = await prisma.event.create({
+      data: {
+        title: "Event 1",
+        date: new Date(),
+        content: {
+          create: {
+            type: "IMAGE",
+            content: "https://example.com/image1.png",
+            order: 1, // Adjust the order based on your requirements
+          },
         },
+      },
     });
+  }
 }
 
 main()
