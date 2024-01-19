@@ -1,5 +1,4 @@
 import React from "react";
-import Layout from "~/components/Layout";
 import SchedulerWrapper from "~/components/SchedulerWrapper";
 import PatientAppointmentRequestCard from "~/customComponents/PatientAppointmentRequestCard";
 import { api } from "~/utils/api";
@@ -17,70 +16,75 @@ const MONTHS: Record<number, string> = {
   9: "October",
   10: "November",
   11: "December",
-}
+};
 
 const IndexPage: React.FC = () => {
-
-  const { data, error } = api.appointment.getAllAppointments.useQuery()
-  if(error){
-    console.log("TRPC CALL ERROR: " + JSON.stringify(error))
+  const { data, error } = api.appointment.getAllAppointments.useQuery();
+  if (error) {
+    console.log("TRPC CALL ERROR: " + JSON.stringify(error));
   }
 
   // Outlining the appointmentData Types
-  let appointmentData:{ 
-    appointmentId: number,
-    patientId: number,
-    patient: string, 
-    patientPhoto: string, 
-    appointmentType: string, 
-    date: string, 
-    time:string, 
-    duration:number,
+  let appointmentData: {
+    appointmentId: number;
+    patientId: number;
+    patient: string;
+    patientPhoto: string;
+    appointmentType: string;
+    date: string;
+    time: string;
+    duration: number;
   }[] = [];
 
   // Check if the data is null
-  if(data){
-
+  if (data) {
     // Loops through all the appointments in db
     data.forEach((currentAppointment) => {
-      if(currentAppointment?.statusM == "Pending"){
-
+      if (currentAppointment?.statusM == "Pending") {
         // Calculates duration
-        let startDate = currentAppointment?.startTime.valueOf()
-        let endDate = currentAppointment?.endTime.valueOf()
+        let startDate = currentAppointment?.startTime.valueOf();
+        let endDate = currentAppointment?.endTime.valueOf();
         const durationInMilliseconds = endDate - startDate; // Find a way to get the duration of the appointment
         const minutes = durationInMilliseconds / 60000;
-        let displayTime = currentAppointment?.startTime.getUTCHours().toString() + ":" + currentAppointment?.startTime.getUTCMinutes().toString();
-        
+        let displayTime =
+          currentAppointment?.startTime.getUTCHours().toString() +
+          ":" +
+          currentAppointment?.startTime.getUTCMinutes().toString();
+
         // Adds a 0 to the time if the minutes are less than 10
-        if (currentAppointment?.startTime.getMinutes() < 10){
-          displayTime += "0"
+        if (currentAppointment?.startTime.getMinutes() < 10) {
+          displayTime += "0";
         }
 
         // Adds AM or PM to the time
-        if (currentAppointment?.startTime.getUTCHours() > 12){
+        if (currentAppointment?.startTime.getUTCHours() > 12) {
           let bits = displayTime.split(":");
-          let firstNum = (parseInt(bits[0]||'0') - 12).toString();
+          let firstNum = (parseInt(bits[0] || "0") - 12).toString();
           displayTime = firstNum + ":" + bits[1];
-          displayTime += " PM"
+          displayTime += " PM";
         } else {
-          displayTime += " AM"
+          displayTime += " AM";
         }
 
         // Adds 1 to month because it starts at 0
-        let newMonth = currentAppointment?.startTime.getMonth() + 1
-        
+        let newMonth = currentAppointment?.startTime.getMonth() + 1;
+
         // Creates the appointment object
         let appointment = {
-          appointmentId:    currentAppointment?.id,
-          patientId:        currentAppointment?.patientId,
-          patient:          currentAppointment?.patient.name,
-          patientPhoto:     "/images/avatar.jpg", // TODO: Need to make a call to get the patients photo
-          appointmentType:  currentAppointment?.subject,
-          date:             newMonth.toString() + "/" + currentAppointment?.startTime.getDate().toString() + "/" + currentAppointment?.startTime.getFullYear().toString(),
-          time:             displayTime,
-          duration:         minutes,
-        }
+          appointmentId: currentAppointment?.id,
+          patientId: currentAppointment?.patientId,
+          patient: currentAppointment?.patient.name,
+          patientPhoto: "/images/avatar.jpg", // TODO: Need to make a call to get the patients photo
+          appointmentType: currentAppointment?.subject,
+          date:
+            newMonth.toString() +
+            "/" +
+            currentAppointment?.startTime.getDate().toString() +
+            "/" +
+            currentAppointment?.startTime.getFullYear().toString(),
+          time: displayTime,
+          duration: minutes,
+        };
 
         appointmentData.push(appointment);
       }
@@ -95,7 +99,7 @@ const IndexPage: React.FC = () => {
   const DateLineBreak: React.FC<DateLineBreakProps> = ({ date }) => {
     return (
       <>
-        <p className="mt-4 text-white font-bold">{date}</p>
+        <p className="mt-4 font-bold text-white">{date}</p>
         <hr className="h-[2px] w-full bg-white" />
       </>
     );
@@ -103,7 +107,7 @@ const IndexPage: React.FC = () => {
 
   // TODO: Need to either sort the appointments first by date, or fix to make appointments of same date render under same break point
   const AppointmentRenderer: React.FC = () => {
-    let currentDate = '';
+    let currentDate = "";
     return (
       <>
         {/* <DateLineBreak date={MONTHS[0]||''} /> */}
@@ -114,18 +118,16 @@ const IndexPage: React.FC = () => {
 
           // Parse the date to a pretier display date
           let bits = appointment.date.split("/");
-          let curMonth = bits[0] || '';
+          let curMonth = bits[0] || "";
           let curDay = bits[1];
           let curYear = bits[2];
-          let displayString = (MONTHS[parseInt(curMonth) - 1]) + " " + curDay + ", " + curYear;
+          let displayString =
+            MONTHS[parseInt(curMonth) - 1] + " " + curDay + ", " + curYear;
 
-          return(
+          return (
             <React.Fragment key={index}>
               {/* Insert line break if the date has changed */}
-              {
-                
-                isNewDate && <DateLineBreak date={displayString} />
-              }
+              {isNewDate && <DateLineBreak date={displayString} />}
 
               {/* Render the appointment */}
               <PatientAppointmentRequestCard
@@ -140,40 +142,36 @@ const IndexPage: React.FC = () => {
                 date={appointment.date}
               />
             </React.Fragment>
-            
           );
         })}
       </>
     );
-  }
+  };
 
   return (
-    <Layout>
-      <div className="flex h-full w-full flex-row 3xl:flex-col">
-        <div className="w-full ">
-          {/* <CalendarWrapper /> */}
-          <SchedulerWrapper />
-        </div>
-        {/* Right sidebar */}
-        <div className="flex h-full w-[550px] flex-initial bg-[#141718]">
-          <div className="m-4 ml-8 flex flex-col">
-            <div className="h4 my-8 text-center text-white">
-              Patient requested appointments
-            </div>
-            <div className="overflow-auto">
-              
-              {appointmentData.length == 0 ? (
-                <div className="my-8 rounded-lg bg-slate-700 p-4 text-center text-white">
-                  No appointments requested
-                </div>
-              ) : (
-                <AppointmentRenderer />
-              )}
-            </div>
+    <div className="flex h-full w-full flex-row 3xl:flex-col">
+      <div className="w-full">
+        {/* <CalendarWrapper /> */}
+        <SchedulerWrapper />
+      </div>
+      {/* Right sidebar */}
+      <div className="flex h-full w-[550px] flex-initial bg-[#141718]">
+        <div className="m-4 ml-8 flex flex-col">
+          <div className="h4 my-8 text-center text-white">
+            Patient requested appointments
+          </div>
+          <div className="overflow-auto">
+            {appointmentData.length == 0 ? (
+              <div className="my-8 rounded-lg bg-slate-700 p-4 text-center text-white">
+                No appointments requested
+              </div>
+            ) : (
+              <AppointmentRenderer />
+            )}
           </div>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 };
 
