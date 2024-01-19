@@ -149,3 +149,4 @@ const SendImageQuery = ({ propCloseHandler }: closeProps) => {
 };
 
 export default PullingImages;
+export { SendImageQuery };

@@ -1,4 +1,4 @@
-import PricingPage from "./LandingPages/PricingPage";
+import PricingPage from "../LandingPages/PricingPage";
 import React from "react";
 import { NextPage } from "next";
 

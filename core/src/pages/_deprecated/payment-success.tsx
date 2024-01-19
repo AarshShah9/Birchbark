@@ -1,4 +1,4 @@
-import PaymentSuccessPage from "./CustomPages/PaymentSuccessPage";
+import PaymentSuccessPage from "../CustomPages/PaymentSuccessPage";
 import React from "react";
 import { NextPage } from "next";
 
