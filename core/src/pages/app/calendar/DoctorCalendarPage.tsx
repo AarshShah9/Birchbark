@@ -1,5 +1,5 @@
 import React from "react";
-import SchedulerWrapper from "~/components/SchedulerWrapper";
+import SchedulerWrapper from "src/customComponents/SchedulerWrapper";
 import PatientAppointmentRequestCard from "~/customComponents/PatientAppointmentRequestCard";
 import { api } from "~/utils/api";
 
@@ -151,7 +151,6 @@ const IndexPage: React.FC = () => {
   return (
     <div className="flex h-full w-full flex-row 3xl:flex-col">
       <div className="w-full">
-        {/* <CalendarWrapper /> */}
         <SchedulerWrapper />
       </div>
       {/* Right sidebar */}
