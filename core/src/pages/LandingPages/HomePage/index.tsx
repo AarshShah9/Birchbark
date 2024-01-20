@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "../../../customComponents/Navbar";
 import Footer from "../../../customComponents/Footer";
 import { motion } from "framer-motion";
-import { homepageResources } from "../../../itlText/homepage";
+import { homepageResources } from "~/resources/homepage";
 
 const HomePage: React.FC = () => {
   return (
@@ -56,7 +56,7 @@ const HomePage: React.FC = () => {
                   <div>
                     <motion.a
                       whileHover={{ scale: 1.1, backgroundColor: "#045de9" }}
-                      className="my-6 flex h-14 w-72 items-center justify-center rounded-full bg-blue-500 lg:my-4 lg:h-12 sm:w-64 md:w-48"
+                      className="my-6 flex h-14 w-72 items-center justify-center rounded-full bg-blue-500 lg:my-4 lg:h-12 md:w-48 sm:w-64"
                       href="/about-us"
                     >
                       <span className="text-center text-xl font-bold text-white">

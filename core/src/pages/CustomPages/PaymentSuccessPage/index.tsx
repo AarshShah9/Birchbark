@@ -3,7 +3,7 @@ import Navbar from "~/customComponents/Navbar";
 import Footer from "~/customComponents/Footer";
 import { motion } from "framer-motion";
 import { BsFillBox2HeartFill } from "react-icons/bs";
-import { paymentSuccessResources } from "../../../itlText/payment-success";
+import { paymentSuccessResources } from "~/resources/payment-success";
 
 const PaymentSuccess: React.FC = () => {
   return (

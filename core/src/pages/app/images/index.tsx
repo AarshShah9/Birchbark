@@ -1,8 +1,14 @@
 import type { NextPage } from "next";
-import ImagesPage from "~/pages/app/images/ImagesPage";
+import Layout from "~/components/Layout";
+import React from "react";
+import ImageLibrary from "~/customComponents/ImageGallery";
 
 const Index: NextPage = () => {
-  return <ImagesPage />;
+  return (
+    <Layout>
+      <ImageLibrary />
+    </Layout>
+  );
 };
 
 export default Index;
