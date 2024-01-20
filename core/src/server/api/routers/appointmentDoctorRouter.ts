@@ -78,6 +78,28 @@ export const appointmentDoctorRouter = createTRPCRouter({
       });
     }),
 
+  rescheduleAppointment: privateProcedure
+    .input(
+      z.object({
+        appointmentId: z.number(),
+        newStartTime: z.date(),
+        newEndTime: z.date(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Update the appointment with the new date and time
+      return await ctx.prisma.appointment.update({
+        where: {
+          id: input.appointmentId,
+        },
+        data: {
+          startTime: input.newStartTime,
+          endTime: input.newEndTime,
+          statusM: "Confirmed",
+        },
+      });
+    }),
+
   updateAppointment: privateProcedure
     .input(
       z.object({
