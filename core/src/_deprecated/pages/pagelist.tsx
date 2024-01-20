@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import PageListPage from "../../pages/templates/PageListPage";
+import PageListPage from "../templates/PageListPage";
 
 const PageList: NextPage = () => {
   return <PageListPage />;
