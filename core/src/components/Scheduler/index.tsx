@@ -543,17 +543,17 @@ const Overview = () => {
 
     // Handle the successful completion of a CRUD action
     if (args.requestType === "eventCreated" && args.addedRecords) {
-      data = args.addedRecords.map((x) => {
-        return {
-          startTime: x.StartTime,
-          endTime: x.EndTime,
-          subject: x.Subject,
-          description: x.Description,
-          isAllDay: x.IsAllDay,
-          isReadOnly: false,
-        };
-      });
-      console.log(data);
+      // data = args.addedRecords.map((x) => {
+      //   return {
+      //     startTime: x.StartTime,
+      //     endTime: x.EndTime,
+      //     subject: x.Subject,
+      //     description: x.Description,
+      //     isAllDay: x.IsAllDay,
+      //     isReadOnly: false,
+      //   };
+      // });
+      console.log(args.addedRecords);
 
       // createMutation.mutate(data);
     } else if (args.requestType === "eventChanged") {
