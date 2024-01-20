@@ -56,6 +56,12 @@ import { DataManager, Predicate, Query } from "@syncfusion/ej2-data";
 import { api } from "~/utils/api";
 import styled from "styled-components";
 import { ActionEventArgs } from "@syncfusion/ej2-schedule/src/schedule/base/interface";
+import { Appointment } from ".prisma/client";
+import {
+  calendarCollections,
+  contextMenuItems,
+  exportItems,
+} from "~/customComponents/Scheduler/assets";
 
 const Overview = () => {
   const [currentView, setCurrentView] = useState<View>("Week");
@@ -68,50 +74,15 @@ const Overview = () => {
   let workWeekObj = useRef<MultiSelectComponent>(null);
   let resourceObj = useRef<MultiSelectComponent>(null);
   let liveTimeInterval: NodeJS.Timeout | number;
-
-  const exportItems: ItemModel[] = [
-    { text: "iCalendar", iconCss: "e-icons e-export" },
-    { text: "Excel", iconCss: "e-icons e-export-excel" },
-  ];
-
-  const contextMenuItems: MenuItemModel[] = [
-    { text: "New Appointment", iconCss: "e-icons e-plus", id: "Add" },
-    {
-      text: "New Recurring Appointment",
-      iconCss: "e-icons e-repeat",
-      id: "AddRecurrence",
-    },
-    { text: "Today", iconCss: "e-icons e-timeline-today", id: "Today" },
-    { text: "Edit Appointment", iconCss: "e-icons e-edit", id: "Save" },
-    { text: "Delete Appointment", iconCss: "e-icons e-trash", id: "Delete" },
-    {
-      text: "Delete Appointment",
-      id: "DeleteRecurrenceEvent",
-      iconCss: "e-icons e-trash",
-      items: [
-        { text: "Delete Occurrence", id: "DeleteOccurrence" },
-        { text: "Delete Series", id: "DeleteSeries" },
-      ],
-    },
-    {
-      text: "Edit Appointment",
-      id: "EditRecurrenceEvent",
-      iconCss: "e-icons e-edit",
-      items: [
-        { text: "Edit Occurrence", id: "EditOccurrence" },
-        { text: "Edit Series", id: "EditSeries" },
-      ],
-    },
-  ];
-
-  const calendarCollections: Record<string, string | number>[] = [
-    {
-      CalendarText: "Confirmed Appointments",
-      CalendarId: 1,
-      CalendarColor: "#0084FF",
-    }, // Pick color here
-    { CalendarText: "Unconfirmed", CalendarId: 2, CalendarColor: "#7d7d7d" },
-  ];
+  const { data, error } = api.appointment.getAllAppointments.useQuery();
+  if (error) {
+    console.log("TRPC CALL ERROR: " + error);
+  }
+  // Get all the appointment data from the database
+  const [stateData, setStateData] = useState<Appointment[]>(data);
+  const createMutation = api.appointment.createAppointmentDoctor.useMutation();
+  const updateMutation = api.appointment.updateAppointment.useMutation();
+  const removeMutation = api.appointment.removeAppointment.useMutation();
 
   // Live time counter
   const updateLiveTime = (): void => {
@@ -260,12 +231,6 @@ const Overview = () => {
     }
   }, [isTimelineView]);
 
-  const onChange = (args: SwitchEventArgs) => {
-    if (args.checked) {
-      setIsTimelineView(args.checked);
-    }
-  };
-
   const getDateHeaderDay = (value: Date): string => {
     return intl.formatDate(value, { skeleton: "E" });
   };
@@ -280,29 +245,6 @@ const Overview = () => {
         <div>{getDateHeaderDate(props.date)}</div>
       </Fragment>
     );
-  };
-
-  const onResourceChange = (args: MultiSelectChangeEventArgs): void => {
-    let resourcePredicate: Predicate & any;
-    for (let value of args.value) {
-      if (resourcePredicate) {
-        resourcePredicate = resourcePredicate.or(
-          new Predicate("CalendarId", "equal", value)
-        );
-      } else {
-        resourcePredicate = new Predicate("CalendarId", "equal", value);
-      }
-    }
-    if (scheduleObj.current?.resources[0]) {
-      scheduleObj.current.resources[0].query = resourcePredicate
-        ? new Query().where(resourcePredicate)
-        : new Query().where("CalendarId", "equal", 1);
-    }
-  };
-
-  const createUpload = () => {
-    const element = document.querySelector(".calendar-import .e-css.e-btn");
-    element?.classList.add("e-inherit");
   };
 
   const btnClick = () => {
@@ -480,15 +422,6 @@ const Overview = () => {
     }
   };
 
-  // Get all the appointment data from the database
-  const { data, error } = api.appointment.getAllAppointments.useQuery();
-  if (error) {
-    console.log("TRPC CALL ERROR: " + error);
-  }
-  const createMutation = api.appointment.createAppointmentDoctor.useMutation();
-  const updateMutation = api.appointment.updateAppointment.useMutation();
-  const removeMutation = api.appointment.removeAppointment.useMutation();
-
   let pushAppointmentData = (): Record<string, any>[] => {
     let eventData: Record<string, any>[] = [];
     let weekDate: Date = new Date(
@@ -496,9 +429,9 @@ const Overview = () => {
     ); // This gets the current date
 
     // Check if the data is there
-    if (data) {
+    if (stateData) {
       // For each appointment, push the data to the eventData array
-      data.forEach((currentAppointment) => {
+      stateData.forEach((currentAppointment) => {
         if (
           currentAppointment.statusM === "Confirmed" &&
           currentAppointment.startTime != null &&
