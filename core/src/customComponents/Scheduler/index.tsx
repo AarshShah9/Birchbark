@@ -77,9 +77,9 @@ const Overview = () => {
   const { data, error } = api.appointment.getAllAppointments.useQuery();
   if (error) {
     console.log("TRPC CALL ERROR: " + error);
+    return <div>error</div>;
   }
   // Get all the appointment data from the database
-  const [stateData, setStateData] = useState<Appointment[]>(data);
   const createMutation = api.appointment.createAppointmentDoctor.useMutation();
   const updateMutation = api.appointment.updateAppointment.useMutation();
   const removeMutation = api.appointment.removeAppointment.useMutation();
@@ -429,18 +429,14 @@ const Overview = () => {
     ); // This gets the current date
 
     // Check if the data is there
-    if (stateData) {
+    if (data) {
       // For each appointment, push the data to the eventData array
-      stateData.forEach((currentAppointment) => {
-        if (
-          currentAppointment.statusM === "Confirmed" &&
-          currentAppointment.startTime != null &&
-          currentAppointment.endTime
-        ) {
+      data.forEach((currentAppointment) => {
+        if (currentAppointment.statusM === "Confirmed") {
           eventData.push({
             Id: currentAppointment.id,
             Subject: currentAppointment.subject,
-            StartTime: currentAppointment.startTime ?? "",
+            StartTime: currentAppointment.startTime ?? new Date(0, 0, 1),
             EndTime: currentAppointment.endTime,
             Description: currentAppointment.description,
             RecurrenceRule: "",
@@ -473,18 +469,18 @@ const Overview = () => {
       args.requestType === "eventChange" ||
       args.requestType === "eventRemove"
     ) {
+      console.log(args);
       // Show loading indicator or perform other actions
     }
   };
 
   const onActionComplete = async (args: ActionEventArgs) => {
-    console.log("ARGS", args);
     let data;
     if (args.requestType === "eventCreated" && args.addedRecords) {
       const record = args.addedRecords[0];
       if (record) {
         data = {
-          startTime: record.StartTime as Date,
+          startTime: (record.StartTime as Date) ?? new Date(0, 0, 1),
           endTime: record.EndTime as Date,
           subject: record.Subject as string,
           description: record.Description || "",
