@@ -49,7 +49,6 @@
     "@types/scroll-lock": "^2.1.0",
     "cloudinary": "^1.41.0",
     "clsx": "^2.0.0",
-    "copy-image-clipboard": "^2.1.2",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
     "framer-motion": "^10.16.0",
