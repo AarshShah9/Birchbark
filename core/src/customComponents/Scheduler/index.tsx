@@ -485,7 +485,9 @@ const Overview = () => {
   if (error) {
     console.log("TRPC CALL ERROR: " + error);
   }
-  const createMutation = api.appointment.createAppointment.useMutation();
+  const createMutation = api.appointment.createAppointmentDoctor.useMutation();
+  const updateMutation = api.appointment.updateAppointment.useMutation();
+  const removeMutation = api.appointment.removeAppointment.useMutation();
 
   let pushAppointmentData = (): Record<string, any>[] => {
     let eventData: Record<string, any>[] = [];
@@ -497,13 +499,17 @@ const Overview = () => {
     if (data) {
       // For each appointment, push the data to the eventData array
       data.forEach((currentAppointment) => {
-        if (currentAppointment.statusM === "Confirmed") {
+        if (
+          currentAppointment.statusM === "Confirmed" &&
+          currentAppointment.startTime != null &&
+          currentAppointment.endTime
+        ) {
           eventData.push({
             Id: currentAppointment.id,
-            Subject: currentAppointment.patient.name,
-            StartTime: currentAppointment.startTime,
+            Subject: currentAppointment.subject,
+            StartTime: currentAppointment.startTime ?? "",
             EndTime: currentAppointment.endTime,
-            Description: currentAppointment.subject,
+            Description: currentAppointment.description,
             RecurrenceRule: "",
             IsAllDay: false,
             IsReadonly: false,
@@ -539,27 +545,42 @@ const Overview = () => {
   };
 
   const onActionComplete = async (args: ActionEventArgs) => {
+    console.log("ARGS", args);
     let data;
-
-    // Handle the successful completion of a CRUD action
     if (args.requestType === "eventCreated" && args.addedRecords) {
-      // data = args.addedRecords.map((x) => {
-      //   return {
-      //     startTime: x.StartTime,
-      //     endTime: x.EndTime,
-      //     subject: x.Subject,
-      //     description: x.Description,
-      //     isAllDay: x.IsAllDay,
-      //     isReadOnly: false,
-      //   };
-      // });
-      console.log(args.addedRecords);
-
-      // createMutation.mutate(data);
-    } else if (args.requestType === "eventChanged") {
-      // await api.appointment.updateAppointment(args.data);
-    } else if (args.requestType === "eventRemoved") {
-      // await api.appointment.deleteAppointment(args.data);
+      const record = args.addedRecords[0];
+      if (record) {
+        data = {
+          startTime: record.StartTime as Date,
+          endTime: record.EndTime as Date,
+          subject: record.Subject as string,
+          description: record.Description || "",
+          isAllDay: record.IsAllDay || false,
+          isReadOnly: false,
+          patientId: 1, // TODO test,
+        };
+      }
+      if (data != null) createMutation.mutate(data);
+    } else if (args.requestType === "eventChanged" && args.changedRecords) {
+      const changedRecord = args.changedRecords[0];
+      if (changedRecord) {
+        data = {
+          appointmentId: changedRecord.Id,
+          startTime: changedRecord.StartTime as Date,
+          endTime: changedRecord.EndTime as Date,
+          subject: changedRecord.Subject as string,
+          description: changedRecord.Description || "",
+          isAllDay: changedRecord.IsAllDay || false,
+          patientId: 1,
+        };
+        updateMutation.mutate(data);
+      }
+    } else if (args.requestType === "eventRemoved" && args.deletedRecords) {
+      const removedRecord = args.deletedRecords[0];
+      if (removedRecord)
+        removeMutation.mutate({
+          appointmentId: removedRecord.Id,
+        });
     }
   };
 

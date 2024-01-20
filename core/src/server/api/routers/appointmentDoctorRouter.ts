@@ -63,27 +63,48 @@ export const appointmentDoctorRouter = createTRPCRouter({
     return doctor.appointments;
   }),
 
-  rescheduleAppointment: privateProcedure
+  removeAppointment: privateProcedure
     .input(
       z.object({
         appointmentId: z.number(),
-        newStartTime: z.date(),
-        newEndTime: z.date(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Remove the appointment with the given ID
+      return await ctx.prisma.appointment.delete({
+        where: {
+          id: input.appointmentId,
+        },
+      });
+    }),
+
+  updateAppointment: privateProcedure
+    .input(
+      z.object({
+        appointmentId: z.number(),
+        subject: z.string(),
+        startTime: z.date(),
+        endTime: z.date(),
+        description: z.string().optional(),
+        isAllDay: z.boolean().optional(),
+        isReadOnly: z.boolean().optional(),
+        patientId: z.number(),
       })
     )
     .mutation(async ({ input, ctx }) => {
       // Update the appointment with the new date and time
-      console.log(
-        "START TIME:" + input.newStartTime + "END TIME:" + input.newEndTime
-      );
       return await ctx.prisma.appointment.update({
         where: {
           id: input.appointmentId,
         },
         data: {
-          startTime: input.newStartTime,
-          endTime: input.newEndTime,
-          statusM: "Confirmed",
+          startTime: input.startTime,
+          endTime: input.endTime,
+          subject: input.subject,
+          description: input.description,
+          isAllDay: input.isAllDay || false,
+          isReadOnly: input.isReadOnly || false,
+          patientId: input.patientId,
         },
       });
     }),
@@ -133,16 +154,14 @@ export const appointmentDoctorRouter = createTRPCRouter({
 
   createAppointment: privateProcedure
     .input(
-      z.array(
-        z.object({
-          subject: z.string(),
-          startTime: z.date(),
-          endTime: z.date(),
-          description: z.string().optional(),
-          isAllDay: z.boolean().optional(),
-          isReadOnly: z.boolean().optional(),
-        })
-      )
+      z.object({
+        subject: z.string(),
+        startTime: z.date(),
+        endTime: z.date(),
+        description: z.string().optional(),
+        isAllDay: z.boolean().optional(),
+        isReadOnly: z.boolean().optional(),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       // Start a transaction to ensure atomicity
@@ -165,34 +184,70 @@ export const appointmentDoctorRouter = createTRPCRouter({
           throw new Error("Associated doctor for the patient not found");
         }
 
-        return await prisma.appointment.createMany({
-          data: input.map((appointment) => ({
-            subject: appointment.subject,
-            startTime: appointment.startTime,
-            endTime: appointment.endTime,
-            description: appointment.description,
-            isAllDay: appointment.isAllDay || false,
-            isReadOnly: appointment.isReadOnly || false,
+        // Create a new appointment in a "Pending" state, directly linking to the found Doctor and Patient
+        return await prisma.appointment.create({
+          data: {
+            subject: input.subject,
+            startTime: input.startTime,
+            endTime: input.endTime,
+            description: input.description,
+            isAllDay: input.isAllDay || false,
+            isReadOnly: input.isReadOnly || false,
             statusM: "Pending",
             doctorId: patientWithDoctor.doctorId, // Use the associated doctor's ID
             patientId: patientWithDoctor.id, // Use the patient's ID
-          })),
+          },
+        });
+      });
+    }),
+  createAppointmentDoctor: privateProcedure
+    .input(
+      z.object({
+        subject: z.string(),
+        startTime: z.date(),
+        endTime: z.date(),
+        description: z.string().optional(),
+        isAllDay: z.boolean().optional(),
+        isReadOnly: z.boolean().optional(),
+        patientId: z.number(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      // Start a transaction to ensure atomicity
+      return await ctx.prisma.$transaction(async (prisma) => {
+        const doctor = await prisma.doctor.findUnique({
+          where: {
+            clerkId: ctx.userId as string,
+          },
         });
 
-        // // Create a new appointment in a "Pending" state, directly linking to the found Doctor and Patient
-        // return await prisma.appointment.create({
-        //   data: {
-        //     subject: input.subject,
-        //     startTime: input.startTime,
-        //     endTime: input.endTime,
-        //     description: input.description,
-        //     isAllDay: input.isAllDay || false,
-        //     isReadOnly: input.isReadOnly || false,
-        //     statusM: "Pending",
-        //     doctorId: patientWithDoctor.doctorId, // Use the associated doctor's ID
-        //     patientId: patientWithDoctor.id, // Use the patient's ID
-        //   },
-        // });
+        if (!doctor) {
+          throw new Error("Doctor not found");
+        }
+
+        const patient = await prisma.patient.findUnique({
+          where: {
+            id: input.patientId,
+          },
+        });
+
+        if (!patient) {
+          throw new Error("Patient not found");
+        }
+
+        return await prisma.appointment.create({
+          data: {
+            subject: input.subject,
+            startTime: input.startTime,
+            endTime: input.endTime,
+            description: input.description,
+            isAllDay: input.isAllDay || false,
+            isReadOnly: input.isReadOnly || false,
+            statusM: "Confirmed",
+            doctorId: doctor.id,
+            patientId: patient.id,
+          },
+        });
       });
     }),
 });
