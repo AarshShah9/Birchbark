@@ -3,7 +3,6 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import {
   ButtonComponent,
   ChangeEventArgs as SwitchEventArgs,
-  CheckBoxComponent,
 } from "@syncfusion/ej2-react-buttons";
 import {
   ChangeEventArgs,
@@ -27,8 +26,6 @@ import {
   Day,
   Inject,
   Month,
-  Print,
-  Resize,
   ResourceDirective,
   ResourcesDirective,
   ResourcesModel,
@@ -49,7 +46,6 @@ import {
 import {
   addClass,
   closest,
-  compile,
   extend,
   Internationalization,
   isNullOrUndefined,
@@ -59,6 +55,7 @@ import {
 import { DataManager, Predicate, Query } from "@syncfusion/ej2-data";
 import { api } from "~/utils/api";
 import styled from "styled-components";
+import { ActionEventArgs } from "@syncfusion/ej2-schedule/src/schedule/base/interface";
 
 const Overview = () => {
   const [currentView, setCurrentView] = useState<View>("Week");
@@ -71,16 +68,6 @@ const Overview = () => {
   let workWeekObj = useRef<MultiSelectComponent>(null);
   let resourceObj = useRef<MultiSelectComponent>(null);
   let liveTimeInterval: NodeJS.Timeout | number;
-
-  const weekDays: Record<string, string | number>[] = [
-    { text: "Sunday", value: 0 },
-    { text: "Monday", value: 1 },
-    { text: "Tuesday", value: 2 },
-    { text: "Wednesday", value: 3 },
-    { text: "Thursday", value: 4 },
-    { text: "Friday", value: 5 },
-    { text: "Saturday", value: 6 },
-  ];
 
   const exportItems: ItemModel[] = [
     { text: "iCalendar", iconCss: "e-icons e-export" },
@@ -124,77 +111,6 @@ const Overview = () => {
       CalendarColor: "#0084FF",
     }, // Pick color here
     { CalendarText: "Unconfirmed", CalendarId: 2, CalendarColor: "#7d7d7d" },
-  ];
-
-  const timezoneData: Record<string, string>[] = [
-    { text: "UTC -12:00", value: "Etc/GMT+12" },
-    { text: "UTC -11:00", value: "Etc/GMT+11" },
-    { text: "UTC -10:00", value: "Etc/GMT+10" },
-    { text: "UTC -09:00", value: "Etc/GMT+9" },
-    { text: "UTC -08:00", value: "Etc/GMT+8" },
-    { text: "UTC -07:00", value: "Etc/GMT+7" },
-    { text: "UTC -06:00", value: "Etc/GMT+6" },
-    { text: "UTC -05:00", value: "Etc/GMT+5" },
-    { text: "UTC -04:00", value: "Etc/GMT+4" },
-    { text: "UTC -03:00", value: "Etc/GMT+3" },
-    { text: "UTC -02:00", value: "Etc/GMT+2" },
-    { text: "UTC -01:00", value: "Etc/GMT+1" },
-    { text: "UTC +00:00", value: "Etc/GMT" },
-    { text: "UTC +01:00", value: "Etc/GMT-1" },
-    { text: "UTC +02:00", value: "Etc/GMT-2" },
-    { text: "UTC +03:00", value: "Etc/GMT-3" },
-    { text: "UTC +04:00", value: "Etc/GMT-4" },
-    { text: "UTC +05:00", value: "Etc/GMT-5" },
-    { text: "UTC +05:30", value: "Asia/Calcutta" },
-    { text: "UTC +06:00", value: "Etc/GMT-6" },
-    { text: "UTC +07:00", value: "Etc/GMT-7" },
-    { text: "UTC +08:00", value: "Etc/GMT-8" },
-    { text: "UTC +09:00", value: "Etc/GMT-9" },
-    { text: "UTC +10:00", value: "Etc/GMT-10" },
-    { text: "UTC +11:00", value: "Etc/GMT-11" },
-    { text: "UTC +12:00", value: "Etc/GMT-12" },
-    { text: "UTC +13:00", value: "Etc/GMT-13" },
-    { text: "UTC +14:00", value: "Etc/GMT-14" },
-  ];
-  const majorSlotData: Record<string, string | number>[] = [
-    { Name: "1 hour", Value: 60 },
-    { Name: "1.5 hours", Value: 90 },
-    { Name: "2 hours", Value: 120 },
-    { Name: "2.5 hours", Value: 150 },
-    { Name: "3 hours", Value: 180 },
-    { Name: "3.5 hours", Value: 210 },
-    { Name: "4 hours", Value: 240 },
-    { Name: "4.5 hours", Value: 270 },
-    { Name: "5 hours", Value: 300 },
-    { Name: "5.5 hours", Value: 330 },
-    { Name: "6 hours", Value: 360 },
-    { Name: "6.5 hours", Value: 390 },
-    { Name: "7 hours", Value: 420 },
-    { Name: "7.5 hours", Value: 450 },
-    { Name: "8 hours", Value: 480 },
-    { Name: "8.5 hours", Value: 510 },
-    { Name: "9 hours", Value: 540 },
-    { Name: "9.5 hours", Value: 570 },
-    { Name: "10 hours", Value: 600 },
-    { Name: "10.5 hours", Value: 630 },
-    { Name: "11 hours", Value: 660 },
-    { Name: "11.5 hours", Value: 690 },
-    { Name: "12 hours", Value: 720 },
-  ];
-  const minorSlotData: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  const timeFormatData: Record<string, string>[] = [
-    { Name: "12 hours", Value: "hh:mm a" },
-    { Name: "24 hours", Value: "HH:mm" },
-  ];
-  const weekNumberData: Record<string, string>[] = [
-    { Name: "Off", Value: "Off" },
-    { Name: "First Day of Year", Value: "FirstDay" },
-    { Name: "First Full Week", Value: "FirstFullWeek" },
-    { Name: "First Four-Day Week", Value: "FirstFourDayWeek" },
-  ];
-  const tooltipData: Record<string, string>[] = [
-    { Name: "Off", Value: "Off" },
-    { Name: "On", Value: "On" },
   ];
 
   // Live time counter
@@ -569,6 +485,7 @@ const Overview = () => {
   if (error) {
     console.log("TRPC CALL ERROR: " + error);
   }
+  const createMutation = api.appointment.createAppointment.useMutation();
 
   let pushAppointmentData = (): Record<string, any>[] => {
     let eventData: Record<string, any>[] = [];
@@ -608,6 +525,47 @@ const Overview = () => {
     let currentTimezone: never = timezone.getLocalTimezoneName() as never; // Get the current time zone
 
     return overviewEvents;
+  };
+
+  const onActionBegin = (args: ActionEventArgs) => {
+    // Handle the start of a CRUD action
+    if (
+      args.requestType === "eventCreate" ||
+      args.requestType === "eventChange" ||
+      args.requestType === "eventRemove"
+    ) {
+      // Show loading indicator or perform other actions
+    }
+  };
+
+  const onActionComplete = async (args: ActionEventArgs) => {
+    let data;
+
+    // Handle the successful completion of a CRUD action
+    if (args.requestType === "eventCreated" && args.addedRecords) {
+      data = args.addedRecords.map((x) => {
+        return {
+          startTime: x.StartTime,
+          endTime: x.EndTime,
+          subject: x.Subject,
+          description: x.Description,
+          isAllDay: x.IsAllDay,
+          isReadOnly: false,
+        };
+      });
+      console.log(data);
+
+      // createMutation.mutate(data);
+    } else if (args.requestType === "eventChanged") {
+      // await api.appointment.updateAppointment(args.data);
+    } else if (args.requestType === "eventRemoved") {
+      // await api.appointment.deleteAppointment(args.data);
+    }
+  };
+
+  const onActionFailure = (args: ActionEventArgs) => {
+    // Handle any errors during CRUD actions
+    console.error("CRUD action failed", args.event);
   };
 
   return (
@@ -751,10 +709,11 @@ const Overview = () => {
                       eventSettings={{ dataSource: pushAppointmentData() }}
                       allowDragAndDrop={false}
                       allowResizing={false}
-                      // allowKeyboardInteraction={false}
-                      // allowInline={false}
-                      // showQuickInfo={false}
                       dateHeaderTemplate={dateHeaderTemplate}
+                      // Data is updated here
+                      actionBegin={onActionBegin}
+                      actionComplete={onActionComplete}
+                      actionFailure={onActionFailure}
                     >
                       <ResourcesDirective>
                         <ResourceDirective
@@ -807,120 +766,6 @@ const Overview = () => {
                     beforeOpen={contextMenuOpen}
                     select={contextMenuSelect}
                   />
-                </div>
-              </div>
-              <div className="right-panel hide bg-green-600">
-                <div className="control-panel e-css">
-                  {/* WE MIGHT WANT TO KEEP THIS, ITS THE CODE FOR THE SETTINGS DROPDOWN */}
-
-                  {/* <div className='col-row '>
-                                            <div className='col-left '>
-                                            <label style={{ lineHeight: '34px', margin: '0' }}>Calendar</label>
-                                            </div>
-                                            <div className='col-right'>
-                                            <MultiSelectComponent id="resources" cssClass='schedule-resource' ref={resourceObj} dataSource={calendarCollections as Record<string, any>[]} mode='CheckBox' fields={{ text: 'CalendarText', value: 'CalendarId' }} enableSelectionOrder={false} showClearButton={false} showDropDownIcon={true} popupHeight={300} value={[1]} change={onResourceChange}>
-                                                <Inject services={[CheckBoxSelection]} />
-                                            </MultiSelectComponent>
-                                            </div>
-                                        </div>
-                                        <div className='col-row'>
-                                            <div className='col-left'>
-                                            <label style={{ lineHeight: '34px', margin: '0' }}>First Day of Week</label>
-                                            </div>
-                                            <div className='col-right'>
-                                            <DropDownListComponent id="weekFirstDay" dataSource={weekDays} fields={{ text: 'text', value: 'value' }} value={0} popupHeight={400} change={(args: ChangeEventArgs) => { scheduleObj.current.firstDayOfWeek = args.value as number; }} />
-                                            </div>
-                                        </div>
-                                        <div className='col-row'>
-                                            <div className='col-left'>
-                                            <label style={{ lineHeight: '34px', margin: '0' }}>Work week</label>
-                                            </div>
-                                            <div className='col-right'>
-                                            <MultiSelectComponent id="workWeekDays" cssClass='schedule-workweek' ref={workWeekObj} dataSource={weekDays} mode='CheckBox' fields={{ text: 'text', value: 'value' }} enableSelectionOrder={false} showClearButton={false} showDropDownIcon={true} value={[1, 2, 3, 4, 5]} change={(args: MultiSelectChangeEventArgs) => scheduleObj.current.workDays = args.value as number[]}>
-                                                <Inject services={[CheckBoxSelection]} />
-                                            </MultiSelectComponent>
-                                            </div>
-                                        </div>
-                                        <div className='col-row'>
-                                            <div className='col-left'>
-                                            <label style={{ lineHeight: '34px', margin: '0' }}>Timezone</label>
-                                            </div>
-                                            <div className='col-right'>
-                                            <DropDownListComponent id="timezone" dataSource={timezoneData} fields={{ text: 'text', value: 'value' }} value='Etc/GMT' popupHeight={150} change={timezoneChange} />
-                                            </div>
-                                        </div>
-                                        <div className='col-row'>
-                                            <div className='col-left'>
-                                            <label style={{ lineHeight: '34px', margin: '0' }}>Day Start Hour</label>
-                                            </div>
-                                            <div className='col-right'>
-                                            <TimePickerComponent id='dayStartHour' showClearButton={false} value={new Date(new Date().setHours(0, 0, 0))} change={(args: TimeEventArgs) => scheduleObj.current.startHour = intl.formatDate(args.value as Date, { skeleton: 'Hm' })} />
-                                            </div>
-                                        </div>
-                                        <div className='col-row'>
-                                            <div className='col-left'>
-                                            <label style={{ lineHeight: '34px', margin: '0' }}>Day End Hour</label>
-                                            </div>
-                                            <div className='col-right'>
-                                            <TimePickerComponent id='dayEndHour' showClearButton={false} value={new Date(new Date().setHours(23, 59, 59))} change={(args: TimeEventArgs) => scheduleObj.current.endHour = intl.formatDate(args.value as Date, { skeleton: 'Hm' })} />
-                                            </div>
-                                        </div>
-                                        <div className='col-row'>
-                                            <div className='col-left'>
-                                            <label style={{ lineHeight: '34px', margin: '0' }}>Work Start Hour</label>
-                                            </div>
-                                            <div className='col-right'>
-                                            <TimePickerComponent id='workHourStart' showClearButton={false} value={new Date(new Date().setHours(9, 0, 0))} change={(args: TimeEventArgs) => scheduleObj.current.workHours.start = intl.formatDate(args.value as Date, { skeleton: 'Hm' })} />
-                                            </div>
-                                        </div>
-                                        <div className='col-row'>
-                                            <div className='col-left'>
-                                            <label style={{ lineHeight: '34px', margin: '0' }}>Work End Hour</label>
-                                            </div>
-                                            <div className='col-right'>
-                                            <TimePickerComponent id='workHourEnd' showClearButton={false} value={new Date(new Date().setHours(18, 0, 0))} change={(args: TimeEventArgs) => scheduleObj.current.workHours.end = intl.formatDate(args.value as Date, { skeleton: 'Hm' })} />
-                                            </div>
-                                        </div>
-                                        <div className='col-row'>
-                                            <div className='col-left'>
-                                            <label style={{ lineHeight: '34px', margin: '0' }}>Slot Duration</label>
-                                            </div>
-                                            <div className='col-right'>
-                                            <DropDownListComponent id="slotDuration" dataSource={majorSlotData} fields={{ text: 'Name', value: 'Value' }} value={60} popupHeight={150} change={(args: ChangeEventArgs) => { scheduleObj.current.timeScale.interval = args.value as number; }} />
-                                            </div>
-                                        </div>
-                                        <div className='col-row'>
-                                            <div className='col-left'>
-                                            <label style={{ lineHeight: '34px', margin: '0' }}>Slot Interval</label>
-                                            </div>
-                                            <div className='col-right'>
-                                            <DropDownListComponent id="slotInterval" dataSource={minorSlotData} value={2} popupHeight={150} change={(args: ChangeEventArgs) => { scheduleObj.current.timeScale.slotCount = args.value as number; }} />
-                                            </div>
-                                        </div>
-                                        <div className='col-row'>
-                                            <div className='col-left'>
-                                            <label style={{ lineHeight: '34px', margin: '0' }}>Time Format</label>
-                                            </div>
-                                            <div className='col-right'>
-                                            <DropDownListComponent id="timeFormat" dataSource={timeFormatData} fields={{ text: 'Name', value: 'Value' }} value={"hh:mm a"} popupHeight={150} change={(args: ChangeEventArgs) => { scheduleObj.current.timeFormat = args.value as any; }} />
-                                            </div>
-                                        </div>
-                                        <div className='col-row'>
-                                            <div className='col-left'>
-                                            <label style={{ lineHeight: '34px', margin: '0' }}>Week Numbers</label>
-                                            </div>
-                                            <div className='col-right'>
-                                            <DropDownListComponent id="weekNumber" dataSource={weekNumberData} fields={{ text: 'Name', value: 'Value' }} value={"Off"} popupHeight={150} change={weekNumberChange} />
-                                            </div>
-                                        </div>
-                                        <div className='col-row'>
-                                            <div className='col-left'>
-                                            <label style={{ lineHeight: '34px', margin: '0' }}>Tooltip</label>
-                                            </div>
-                                            <div className='col-right'>
-                                            <DropDownListComponent id="tooltip" dataSource={tooltipData} fields={{ text: 'Name', value: 'Value' }} value={"Off"} popupHeight={150} change={tooltipChange} />
-                                            </div>
-                                        </div> */}
                 </div>
               </div>
             </div>
