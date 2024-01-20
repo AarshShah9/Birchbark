@@ -1,12 +1,8 @@
 import * as React from "react";
 import { Fragment, useEffect, useRef, useState } from "react";
-import {
-  ButtonComponent,
-  ChangeEventArgs as SwitchEventArgs,
-} from "@syncfusion/ej2-react-buttons";
+import { ButtonComponent } from "@syncfusion/ej2-react-buttons";
 import {
   ChangeEventArgs,
-  MultiSelectChangeEventArgs,
   MultiSelectComponent,
 } from "@syncfusion/ej2-react-dropdowns";
 import { SelectedEventArgs } from "@syncfusion/ej2-react-inputs";
@@ -17,7 +13,6 @@ import {
   ItemDirective,
   ItemsDirective,
   MenuEventArgs as ContextMenuEventArgs,
-  MenuItemModel,
   ToolbarComponent,
 } from "@syncfusion/ej2-react-navigations";
 import {
@@ -40,7 +35,6 @@ import {
 } from "@syncfusion/ej2-react-schedule";
 import {
   DropDownButtonComponent,
-  ItemModel,
   MenuEventArgs,
 } from "@syncfusion/ej2-react-splitbuttons";
 import {
@@ -52,11 +46,10 @@ import {
   remove,
   removeClass,
 } from "@syncfusion/ej2-base";
-import { DataManager, Predicate, Query } from "@syncfusion/ej2-data";
+import { DataManager, Query } from "@syncfusion/ej2-data";
 import { api } from "~/utils/api";
 import styled from "styled-components";
 import { ActionEventArgs } from "@syncfusion/ej2-schedule/src/schedule/base/interface";
-import { Appointment } from ".prisma/client";
 import {
   calendarCollections,
   contextMenuItems,
@@ -77,7 +70,6 @@ const Overview = () => {
   const { data, error } = api.appointment.getAllAppointments.useQuery();
   if (error) {
     console.log("TRPC CALL ERROR: " + error);
-    return <div>error</div>;
   }
   // Get all the appointment data from the database
   const createMutation = api.appointment.createAppointmentDoctor.useMutation();
@@ -664,6 +656,7 @@ const Overview = () => {
                       actionBegin={onActionBegin}
                       actionComplete={onActionComplete}
                       actionFailure={onActionFailure}
+                      showQuickInfo={false}
                     >
                       <ResourcesDirective>
                         <ResourceDirective
