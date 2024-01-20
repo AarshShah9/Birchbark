@@ -1,58 +1,28 @@
-import React, { useCallback } from "react";
+import type { NextPage } from "next";
+import React, { useCallback, useState } from "react";
+import _ from "lodash";
 import { api } from "~/utils/api";
-import "@sendbird/uikit-react/dist/index.css";
-import { InView } from "react-intersection-observer";
 import Icon from "~/components/Icon";
-import ChatModal from "../Chats/chat-modal";
-import _ from "lodash"; // Import Lodash for debouncing
+import { InView } from "react-intersection-observer";
+const ImageLibrary = () => {
+  const [search, setSearch] = useState<string>("");
+  const [debouncedSearch, setDebouncedSearch] = useState<string>("");
 
+  const [copied, setCopied] = useState(false);
 
-const PullingImages: React.FC = () => {
-  const [visibleSearch, setVisibleSearch] = React.useState<boolean>(false);
-
-  const handleClose = useCallback(() => {
-    setVisibleSearch(false);
-  }, []);
-
-  return (
-    <>
-      <button onClick={() => setVisibleSearch(true)}>Search</button>
-      <ChatModal
-        className="md:!p-0"
-        classWrap="md:min-h-screen-ios dark:shadow-[inset_0_0_0_0.0625rem_#232627,0_2rem_4rem_-1rem_rgba(0,0,0,0.33)] dark:md:shadow-none"
-        classButtonClose="hidden md:flex md:absolute md:top-6 md:left-6 dark:fill-n-1"
-        classOverlay="md:bg-n-1"
-        visible={visibleSearch}
-        onClose={() => setVisibleSearch(false)}
-      >
-        <SendImageQuery propCloseHandler={handleClose} />
-      </ChatModal>
-    </>
+  // Debounce function to delay the search
+  const debouncedSetSearch = useCallback(
+    _.debounce((value) => {
+      setDebouncedSearch(value);
+    }, 250), // 500 milliseconds delay
+    []
   );
-};
 
-type closeProps = {
-  propCloseHandler: () => void;
-};
-
-const SendImageQuery = ({ propCloseHandler }: closeProps) => {
-  const [search, setSearch] = React.useState<string>("");
-  const [debouncedSearch, setDebouncedSearch] = React.useState<string>("");
-
-    // Debounce function to delay the search
-    const debouncedSetSearch = useCallback(
-        _.debounce((value) => {
-            setDebouncedSearch(value);
-            console.log("debounced");
-        }, 250), // 500 milliseconds delay
-        []
-    );
-
-    // Handle search input changes
-    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearch(e.target.value);
-        debouncedSetSearch(e.target.value);
-    };
+  // Handle search input changes
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+    debouncedSetSearch(e.target.value);
+  };
 
   //  Create query
   const myQuery = api.image.getImages.useInfiniteQuery(
@@ -65,15 +35,59 @@ const SendImageQuery = ({ propCloseHandler }: closeProps) => {
   if (myQuery.isError)
     return <div className={"p-4 text-white"}>Error: Could not Load Images</div>;
 
-  function closeAndOutput(url: string) {
-    propCloseHandler();
-    console.log(url);
-  }
+  const copy = async (url: string) => {
+    try {
+      const response = await fetch(url);
+      const blobData = await response.blob();
+      let clipboardItemInput;
+
+      if (blobData.type === "image/jpeg") {
+        // Convert JPEG to PNG
+        const pngBlob = await convertToPNG(blobData);
+        clipboardItemInput = new ClipboardItem({ "image/png": pngBlob });
+      } else {
+        clipboardItemInput = new ClipboardItem({ [blobData.type]: blobData });
+      }
+
+      await navigator.clipboard.write([clipboardItemInput]);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // Function to convert blob to PNG
+  const convertToPNG = (blob: Blob): Promise<Blob> => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = URL.createObjectURL(blob);
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+          ctx.drawImage(img, 0, 0);
+          canvas.toBlob((resultBlob) => {
+            if (resultBlob) {
+              resolve(resultBlob);
+            } else {
+              reject(new Error("Failed to convert image to PNG"));
+            }
+          }, "image/png");
+        } else {
+          reject(new Error("Failed to get canvas context"));
+        }
+      };
+      img.onerror = () => reject(new Error("Image loading error"));
+    });
+  };
 
   return (
     <>
       {/* Search component */}
-      <div className="relative min-h-[70%] border-b border-n-3 dark:border-n-6">
+      <div className="relative min-h-[10%] border-b border-n-3 dark:border-n-6">
         <div className="group absolute left-10 top-7 outline-none md:hidden">
           <Icon
             className="h-8 w-8 fill-n-4/50 transition-colors group-hover:fill-n-7 dark:group-hover:fill-n-3"
@@ -81,10 +95,11 @@ const SendImageQuery = ({ propCloseHandler }: closeProps) => {
           />
         </div>
         <input
-          className="h5 h-22 w-full border-none bg-transparent pl-24 pr-5 text-n-7 outline-none placeholder:text-n-4/50 dark:text-n-1 md:h-18 md:pl-18"
+          className="h5 h-22 w-full border-none bg-transparent pl-24 pr-5 text-n-7 text-white outline-none placeholder:text-n-4/50 dark:text-n-1 md:h-18 md:pl-18"
           type="text"
           name="search"
-          placeholder="Search"
+          placeholder="Search Images"
+          autoComplete="disabled"
           value={search}
           onChange={handleSearchChange}
         />
@@ -121,7 +136,7 @@ const SendImageQuery = ({ propCloseHandler }: closeProps) => {
                       src={url}
                       alt="image"
                       key={url}
-                      onDoubleClick={() => closeAndOutput(url)}
+                      onClick={() => copy(url)}
                     />
                   </div>
                 ))}
@@ -144,9 +159,13 @@ const SendImageQuery = ({ propCloseHandler }: closeProps) => {
           )}
         </div>
       </div>
+      {copied && (
+        <div className="absolute right-5 top-5 z-10 rounded-md bg-green-500 p-2 text-white">
+          Copied To Clipboard
+        </div>
+      )}
     </>
   );
 };
 
-export default PullingImages;
-export { SendImageQuery };
+export default ImageLibrary;

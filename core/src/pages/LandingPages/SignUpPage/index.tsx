@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "~/components/Image";
 import Icon from "~/components/Icon";
 import { SignUp } from "@clerk/nextjs";
-import { signInResources } from "~/itlText/signin";
+import { signInResources } from "~/resources/signin";
 
 const SignInPage = () => {
   return (
@@ -19,8 +19,8 @@ const SignInPage = () => {
               alt=""
             /> */}
             <img
-            className="h-32"
-            alt="Birchbark Health Logo"
+              className="h-32"
+              alt="Birchbark Health Logo"
               src="/images/BirchbarkLogo.svg"
             />
           </div>
@@ -32,7 +32,9 @@ const SignInPage = () => {
               afterSignInUrl={"/app/calendar"}
             />
           </div>
-          <div className="body1 text-n-3 text-center mt-6">{signInResources.chat.English}</div>
+          <div className="body1 mt-6 text-center text-n-3">
+            {signInResources.chat.English}
+          </div>
         </div>
 
         <Image

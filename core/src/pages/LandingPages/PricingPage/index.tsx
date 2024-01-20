@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "~/customComponents/Navbar";
 import Footer from "~/customComponents/Footer";
 import { motion } from "framer-motion";
-import { pricingResources } from "~/itlText/pricing";
+import { pricingResources } from "~/resources/pricing";
 
 const PricingPage: React.FC = () => {
   return (

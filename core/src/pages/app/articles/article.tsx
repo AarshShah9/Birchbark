@@ -53,7 +53,7 @@ const article: NextPage = () => {
         >
           <a
             className="flex h-full w-full items-center justify-center"
-            href={`/app/articles/`}
+            onClick={() => router.back()}
           >
             <BsArrowLeft className="flex h-[85%] w-[85%]" />
           </a>

@@ -1,99 +1,178 @@
-import {createTRPCRouter, privateProcedure} from "~/server/api/trpc";
-import {z} from "zod";
-import {Status} from "@prisma/client";
+import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
+import { z } from "zod";
+import { Status } from "@prisma/client";
 
 export const appointmentDoctorRouter = createTRPCRouter({
+  getDoctorAvailability: privateProcedure.query(async ({ ctx }) => {
+    // Find the doctor using the clerkId provided
+    const doctor = await ctx.prisma.doctor.findUnique({
+      where: {
+        clerkId: ctx.userId as string,
+      },
+      include: {
+        Availability: true, // Include the availability in the result
+      },
+    });
 
+    if (!doctor) {
+      throw new Error("Doctor not found");
+    }
 
-    getAllAppointments: privateProcedure
-        .query(async ({ input, ctx }) => {
-            // Find the doctor using ClerkId
-            const doctor = await ctx.prisma.doctor.findUnique({
-                where: {
-                    clerkId: ctx.userId as string,
-                },
-                // TODO If doctor has many appointments, consider using pagination here
-                include: {
-                    appointments: true,
-                },
-            });
+    return doctor.Availability;
+  }),
 
-            if (!doctor) {
-                throw new Error('Doctor not found');
-            }
+  getPatient: privateProcedure
+    .input(
+      z.object({
+        input: z.number(), // We are passing the patient ID as the input
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const patient = await ctx.prisma.patient.findUnique({
+        where: {
+          id: input.input, // This is the appointment ID
+        },
+      });
 
-            // Return the found appointments
-            return doctor.appointments;
-        }),
+      if (!patient) {
+        throw new Error("patient not found");
+      }
+      return patient;
+    }),
 
+  getAllAppointments: privateProcedure.query(async ({ input, ctx }) => {
+    // Find the doctor using ClerkId
+    const doctor = await ctx.prisma.doctor.findUnique({
+      where: {
+        clerkId: ctx.userId as string,
+      },
+      // TODO If doctor has many appointments, consider using pagination here
+      include: {
+        appointments: {
+          include: {
+            patient: true, // Include patient information in the result
+          },
+        },
+      },
+    });
 
-    rescheduleAppointment: privateProcedure
-        .input(z.object({
-            appointmentId: z.number(),
-            newDate: z.date(),
-            newStartTime: z.string(),
-            newEndTime: z.string(),
-        }))
-        .mutation(async ({ input, ctx }) => {
-            // TODO NEEDS TO BE TESTED FS
-            // Parse the date and time strings into JavaScript Date objects
-            const newStartDateTime = new Date(`${input.newDate.toISOString().split('T')[0]}T${input.newStartTime}`);
-            const newEndDateTime = new Date(`${input.newDate.toISOString().split('T')[0]}T${input.newEndTime}`);
+    if (!doctor) {
+      throw new Error("Doctor not found");
+    }
 
-            // Update the appointment with the new date and time
-            return await ctx.prisma.appointment.update({
-                where: {
-                    id: input.appointmentId,
-                },
-                data: {
-                    startTime: newStartDateTime,
-                    endTime: newEndDateTime ,
-                },
-            });
-        }),
+    return doctor.appointments;
+  }),
 
-    updateAppointmentStatus: privateProcedure
-        .input(z.object({
-            appointmentId: z.number(),
-            newStatus: z.nativeEnum(Status),
-        }))
-        .mutation(async ({ input, ctx }) => {
-            // Update the status of the appointment
-            return await ctx.prisma.appointment.update({
-                where: {
-                    id: input.appointmentId,
-                },
-                data: {
-                    statusM: input.newStatus,
-                },
-            });
-        }),
+  removeAppointment: privateProcedure
+    .input(
+      z.object({
+        appointmentId: z.number(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Remove the appointment with the given ID
+      return await ctx.prisma.appointment.delete({
+        where: {
+          id: input.appointmentId,
+        },
+      });
+    }),
 
+  rescheduleAppointment: privateProcedure
+    .input(
+      z.object({
+        appointmentId: z.number(),
+        newStartTime: z.date(),
+        newEndTime: z.date(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Update the appointment with the new date and time
+      return await ctx.prisma.appointment.update({
+        where: {
+          id: input.appointmentId,
+        },
+        data: {
+          startTime: input.newStartTime,
+          endTime: input.newEndTime,
+          statusM: "Confirmed",
+        },
+      });
+    }),
 
-    pendingAppointments: privateProcedure
-        .query(async ({ctx }) => {
-            // Find the doctor using the clerkId provided
-            const doctor = await ctx.prisma.doctor.findUnique({
-                where: {
-                    clerkId: ctx.userId as string,
-                },
-            });
+  updateAppointment: privateProcedure
+    .input(
+      z.object({
+        appointmentId: z.number(),
+        subject: z.string(),
+        startTime: z.date(),
+        endTime: z.date(),
+        description: z.string().optional(),
+        isAllDay: z.boolean().optional(),
+        isReadOnly: z.boolean().optional(),
+        patientId: z.number(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Update the appointment with the new date and time
+      return await ctx.prisma.appointment.update({
+        where: {
+          id: input.appointmentId,
+        },
+        data: {
+          startTime: input.startTime,
+          endTime: input.endTime,
+          subject: input.subject,
+          description: input.description,
+          isAllDay: input.isAllDay || false,
+          isReadOnly: input.isReadOnly || false,
+          patientId: input.patientId,
+        },
+      });
+    }),
 
-            if (!doctor) {
-                throw new Error('Doctor not found');
-            }
+  updateAppointmentStatus: privateProcedure
+    .input(
+      z.object({
+        appointmentId: z.number(),
+        newStatus: z.nativeEnum(Status),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Update the status of the appointment
+      return await ctx.prisma.appointment.update({
+        where: {
+          id: input.appointmentId,
+        },
+        data: {
+          statusM: input.newStatus,
+        },
+      });
+    }),
 
-            // Fetch all pending appointments for the found doctor
-            return await ctx.prisma.appointment.findMany({
-                where: {
-                    doctorId: doctor.id,
-                    statusM: 'Pending',
-                },
-                include: {
-                    patient: true, // Include patient information in the result
-                },
-            });
-        }),
+  pendingAppointments: privateProcedure.query(async ({ ctx }) => {
+    // Find the doctor using the clerkId provided
+    const doctor = await ctx.prisma.doctor.findUnique({
+      where: {
+        clerkId: ctx.userId as string,
+      },
+    });
+
+    if (!doctor) {
+      throw new Error("Doctor not found");
+    }
+
+    // Fetch all pending appointments for the found doctor
+    return await ctx.prisma.appointment.findMany({
+      where: {
+        doctorId: doctor.id,
+        statusM: "Pending",
+      },
+      include: {
+        patient: true, // Include patient information in the result
+      },
+    });
+  }),
 
   createAppointment: privateProcedure
     .input(
@@ -139,6 +218,56 @@ export const appointmentDoctorRouter = createTRPCRouter({
             statusM: "Pending",
             doctorId: patientWithDoctor.doctorId, // Use the associated doctor's ID
             patientId: patientWithDoctor.id, // Use the patient's ID
+          },
+        });
+      });
+    }),
+  createAppointmentDoctor: privateProcedure
+    .input(
+      z.object({
+        subject: z.string(),
+        startTime: z.date(),
+        endTime: z.date(),
+        description: z.string().optional(),
+        isAllDay: z.boolean().optional(),
+        isReadOnly: z.boolean().optional(),
+        patientId: z.number(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      // Start a transaction to ensure atomicity
+      return await ctx.prisma.$transaction(async (prisma) => {
+        const doctor = await prisma.doctor.findUnique({
+          where: {
+            clerkId: ctx.userId as string,
+          },
+        });
+
+        if (!doctor) {
+          throw new Error("Doctor not found");
+        }
+
+        const patient = await prisma.patient.findUnique({
+          where: {
+            id: input.patientId,
+          },
+        });
+
+        if (!patient) {
+          throw new Error("Patient not found");
+        }
+
+        return await prisma.appointment.create({
+          data: {
+            subject: input.subject,
+            startTime: input.startTime,
+            endTime: input.endTime,
+            description: input.description,
+            isAllDay: input.isAllDay || false,
+            isReadOnly: input.isReadOnly || false,
+            statusM: "Confirmed",
+            doctorId: doctor.id,
+            patientId: patient.id,
           },
         });
       });

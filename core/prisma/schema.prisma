@@ -115,8 +115,8 @@ model Availability {
   doctorId  Int
   doctor    Doctor   @relation(fields: [doctorId], references: [id])
   date      DateTime
-  startTime String
-  endTime   String
+  startTime DateTime
+  endTime   DateTime
 
   @@index([doctorId])
 }
