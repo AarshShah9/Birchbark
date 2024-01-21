@@ -5,14 +5,14 @@ export const questionnaireResources = {
   confirmAppointment: {
     English: "Confirm Appointment Booking",
   },
-  name: {
-    English: "Patient Name",
+  firstName: {
+    English: "Patient First Name",
+  },
+  lastName: {
+    English: "Patient Last Name",
   },
   birthday: {
-    English: "Birthday",
-  },
-  age: {
-    English: "Age",
+    English: "Birthday (yyyy-mm-dd)",
   },
   status: {
     English: "Status Number",
@@ -21,6 +21,6 @@ export const questionnaireResources = {
     English: "Why are you coming in today?",
   },
   medicalIssue: {
-    English: "Please tell us about your medical issue",
+    English: "Please tell us about your medical issue.",
   },
 };
