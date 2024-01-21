@@ -32,10 +32,12 @@ import {
   Week,
   WorkWeek,
   Year,
+  ExcelExport
 } from "@syncfusion/ej2-react-schedule";
 import {
   DropDownButtonComponent,
   MenuEventArgs,
+  
 } from "@syncfusion/ej2-react-splitbuttons";
 import {
   addClass,
@@ -45,16 +47,31 @@ import {
   isNullOrUndefined,
   remove,
   removeClass,
+  L10n
 } from "@syncfusion/ej2-base";
 import { DataManager, Query } from "@syncfusion/ej2-data";
 import { api } from "~/utils/api";
 import styled from "styled-components";
 import { ActionEventArgs } from "@syncfusion/ej2-schedule/src/schedule/base/interface";
+import { DropDownListComponent } from "@syncfusion/ej2-react-dropdowns";
+import { DateTimePickerComponent } from "@syncfusion/ej2-react-calendars";
 import {
   calendarCollections,
   contextMenuItems,
   exportItems,
 } from "~/customComponents/Scheduler/assets";
+
+// L10n.load({
+//   'en-US': {
+//     'schedule': {
+//       'saveButton': 'Save',
+//       'cancelButton': 'Close',
+//       'deleteButton': 'Delete',
+//       'newEvent': 'New Appointment',
+//     },
+//   }
+// });
+
 
 const Overview = () => {
   const [currentView, setCurrentView] = useState<View>("Week");
@@ -183,10 +200,6 @@ const Overview = () => {
       case "New Appointment":
         const eventData: Record<string, any> = getEventData();
         scheduleObj?.current?.openEditor(eventData, "Add", true);
-        break;
-      case "New Recurring Appointment":
-        const recEventData: Record<string, any> = getEventData();
-        scheduleObj?.current?.openEditor(recEventData, "Add", true, 1);
         break;
     }
   };
@@ -510,6 +523,82 @@ const Overview = () => {
     console.error("CRUD action failed", args.event);
   };
 
+  // This is the custom editor 
+  const editorTemplate = (props: any) => {
+    // All Inputs have to have 'e-field', also make sure that they all have 'data-name atributte'
+    return (
+      <table className="custom-event-editor w-full">
+        <tbody>
+          <tr>
+            <td className="e-textlabel">Patient</td>
+            <td colSpan={4}>
+              <label htmlFor="Summary" className="e-textlabel hidden">Summary</label>
+              <input
+                id="Summary"
+                className="e-field e-input"
+                type="text"
+                name="Subject"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td className="e-textlabel">Status</td>
+            <td colSpan={4}>
+              <DropDownListComponent
+                id="EventType"
+                placeholder="Choose status"
+                data-name="EventType"
+                className="e-field"
+                value={props.EventType || null}
+                dataSource={["Unconfirmed", "Confirmed", "Reschedule", "Disapproved"]}
+              ></DropDownListComponent>
+            </td>
+          </tr>
+          <tr>
+            <td className="e-textlabel">From</td>
+            <td colSpan={4}>
+              <DateTimePickerComponent
+                format="dd/MM/yy hh:mm a"
+                id="StartTime"
+                data-name="StartTime"
+                value={new Date(props.startTime || props.StartTime)} // Need to fix here
+                className="e-field"
+              ></DateTimePickerComponent>
+            </td>
+          </tr>
+          <tr>
+            <td className="e-textlabel">To</td>
+            <td colSpan={4}>
+              <DateTimePickerComponent
+                format="dd/MM/yy hh:mm a"
+                id="EndTime"
+                data-name="EndTime"
+                value={new Date(props.endTime || props.EndTime)} // Need to fix here
+                className="e-field"
+              ></DateTimePickerComponent>
+            </td>
+          </tr>
+                
+          <tr>
+            <td className="e-textlabel">Description</td>
+            <td colSpan={4}>
+              <label htmlFor="Description" className="e-textlabel hidden">Description</label>
+              <textarea
+                id="Description"
+                className="e-field e-input"
+                name="Description"
+                rows={3}
+                cols={50}
+                value={props.Description || ""}
+              ></textarea>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    );
+  }
+
+
   return (
     <div className="schedule-control-section">
       <div className="col-lg-12 control-section">
@@ -588,13 +677,7 @@ const Overview = () => {
                   text="New Appointment"
                   tabIndex={0}
                 />
-                <ItemDirective
-                  prefixIcon="e-icons e-repeat"
-                  tooltipText="New Recurring Appointment"
-                  text="New Recurring Appointment"
-                  tabIndex={0}
-                />
-                <ItemDirective type="Separator" />
+                {/* <ItemDirective type="Separator" />
                 <ItemDirective
                   prefixIcon="e-icons e-day"
                   tooltipText="Day"
@@ -630,7 +713,7 @@ const Overview = () => {
                   tooltipText="Agenda"
                   text="Agenda"
                   tabIndex={0}
-                />
+                /> */}
               </ItemsDirective>
             </ToolbarComponent>
 
@@ -657,6 +740,7 @@ const Overview = () => {
                       actionComplete={onActionComplete}
                       actionFailure={onActionFailure}
                       showQuickInfo={false}
+                      editorTemplate={editorTemplate.bind(this)}
                     >
                       <ResourcesDirective>
                         <ResourceDirective
@@ -700,6 +784,7 @@ const Overview = () => {
                       />
                     </ScheduleComponent>
                   </CalendarC>
+
                   <ContextMenuComponent
                     id="overviewContextMenu"
                     cssClass="schedule-context-menu"
