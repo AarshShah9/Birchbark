@@ -7,7 +7,7 @@ import { Inter } from "next/font/google";
 import { BiPlusMedical, BiMinus } from "react-icons/bi";
 import FAQComponent from "../../../customComponents/FAQS/FAQComponent";
 import { faq } from "../../../data/faq";
-import { contactResources } from "../../../itlText/contact";
+import { contactResources } from "~/resources/contact";
 
 const ContactUsPage: React.FC = () => {
   return (
