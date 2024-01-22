@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "../../../customComponents/Navbar";
 import Footer from "../../../customComponents/Footer";
 import { motion } from "framer-motion";
-import { aboutUsResources } from "~/itlText/aboutus";
+import { aboutUsResources } from "~/resources/aboutus";
 
 const AboutUsPage: React.FC = () => {
   return (
@@ -162,10 +162,8 @@ const AboutUsPage: React.FC = () => {
             {aboutUsResources.howItWorks.English}
           </h1>
           <div className="flex justify-center">
-
             {/* Card Holder */}
-            <div className="grid grid-cols-2 lg:grid-cols-1 gap-7 lg:gap-1">
-
+            <div className="grid grid-cols-2 gap-7 lg:grid-cols-1 lg:gap-1">
               {/* Card 1 */}
               <div className="w-fit">
                 <div className="relative m-5 flex h-64 w-96 items-center justify-center rounded-2xl bg-[#303334] xl:h-32 xl:w-72 lg:h-44 lg:w-96">
@@ -179,7 +177,7 @@ const AboutUsPage: React.FC = () => {
                   </span>
                 </div>
               </div>
-              
+
               {/* Card 2 */}
               <div className="w-fit">
                 <div className="relative m-5 flex h-64 w-96 items-center justify-center rounded-2xl bg-[#303334] xl:h-32 xl:w-72 lg:h-44 lg:w-96">
@@ -193,7 +191,7 @@ const AboutUsPage: React.FC = () => {
                   </span>
                 </div>
               </div>
-              
+
               {/* Card 3 */}
               <div className="w-fit">
                 <div className="relative m-5 flex h-64 w-96 items-center justify-center rounded-2xl bg-[#303334] xl:h-32 xl:w-72 lg:h-44 lg:w-96">
@@ -221,7 +219,7 @@ const AboutUsPage: React.FC = () => {
                   </span>
                 </div>
               </div>
-              
+
               {/* Card 5 */}
               <div className="w-fit">
                 <div className="relative m-5 flex h-64 w-96 items-center justify-center rounded-2xl bg-[#303334] xl:h-32 xl:w-72 lg:h-44 lg:w-96">

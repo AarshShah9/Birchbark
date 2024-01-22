@@ -5,6 +5,7 @@ import Layout from "~/components/Layout";
 
 const EventsMain: React.FC = () => {
   const { data, error, isLoading } = api.events.getAllUpcomingEvents.useQuery();
+  console.log("EVENT DATA:\n" + data);
 
   return (
     <Layout>

@@ -2,18 +2,76 @@ import App from 'next/app';
 import React from 'react';
 import Layout from "~/components/Layout";
 import AppointmentTimeCard from '~/customComponents/AppointmentTimeCard';
+import { api } from "~/utils/api";
 
 const IndexPage: React.FC = () => {
+    const { data, error } = api.appointment.getDoctorAvailability.useQuery()
+    if(error){
+        console.log("TRPC CALL ERROR: " + error)
+    }
+
+    let dates : string[] = []
+    let times : string[] = []
+    const months: Record<number, string> = {
+        0: "January",
+        1: "Febuary",
+        2: "March",
+        3: "April",
+        4: "May",
+        5: "June",
+        6: "July",
+        7: "August",
+        8: "September",
+        9: "October",
+        10: "November",
+        11: "December",
+    }
+
+    if(data){
+        // Adding the dates to the array for the line break UI component
+        data.forEach(
+            item => {
+                dates.push(
+                    months[item.date.getMonth()]+
+                    ","
+                    +item.date.getDate().toString()+
+                    " "+
+                    item.date.getFullYear().toString()
+                )
+            }
+        )
+
+        // Add the times in 30 minute appointment slots
+        data.forEach(
+            item => {
+                let startHour = item.startTime.getHours()
+                let endHour = item.endTime.getHours()
+                for (let i = startHour; i < endHour; i++) {
+                    times.push(i.toString()+":00")
+                    times.push(i.toString()+":30")
+                }
+            }
+        )
+    }
+
     
-    // These will be available appointment times
-    const times = [
-        "12:00 PM",
-        "12:30 PM",
-        "1:00 PM",
-        "1:30 PM",
-        "2:00 PM",
-        "2:30 PM"
-    ]
+
+    
+
+    interface DateLineBreakProps {
+        date: string;
+      }
+    
+    const DateLineBreak: React.FC<DateLineBreakProps> = ({ date }) => {
+        return (
+        <div className="mt-4 flex flex-col font-bold w-[60%] px-32">
+            <div>
+            <p className="text-black">{date}</p>
+            </div>
+            <div className="h-[2px] w-full bg-black"></div>
+        </div>
+        );
+    };
 
     return (
         <Layout>
@@ -24,9 +82,16 @@ const IndexPage: React.FC = () => {
                 </div>
                 <div className='w-full flex items-center justify-center'>
                     <div className='w-[60%] flex flex-col justify-center items-center '>
-                        {times.map((time, index) => (
-                            <AppointmentTimeCard time={time} key={index} />
-                        ))}
+                        {
+                            dates.map((date, index) => (
+                                <DateLineBreak date={date} key={index} />
+                            ))
+                        }
+                        {
+                            times.map((time, index) => (
+                                <AppointmentTimeCard time={time} key={index} />
+                            ))
+                        }
                     </div>
                 </div>
                 
