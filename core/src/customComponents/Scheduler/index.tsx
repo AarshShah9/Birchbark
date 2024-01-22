@@ -32,12 +32,11 @@ import {
   Week,
   WorkWeek,
   Year,
-  ExcelExport
+  ExcelExport,
 } from "@syncfusion/ej2-react-schedule";
 import {
   DropDownButtonComponent,
   MenuEventArgs,
-  
 } from "@syncfusion/ej2-react-splitbuttons";
 import {
   addClass,
@@ -47,7 +46,7 @@ import {
   isNullOrUndefined,
   remove,
   removeClass,
-  L10n
+  L10n,
 } from "@syncfusion/ej2-base";
 import { DataManager, Query } from "@syncfusion/ej2-data";
 import { api } from "~/utils/api";
@@ -72,7 +71,6 @@ import {
 //   }
 // });
 
-
 const Overview = () => {
   const [currentView, setCurrentView] = useState<View>("Week");
   const [isTimelineView, setIsTimelineView] = useState<boolean>(false);
@@ -84,7 +82,8 @@ const Overview = () => {
   let workWeekObj = useRef<MultiSelectComponent>(null);
   let resourceObj = useRef<MultiSelectComponent>(null);
   let liveTimeInterval: NodeJS.Timeout | number;
-  const { data, error } = api.appointment.getAllAppointments.useQuery();
+  const { data, error, isLoading } =
+    api.appointment.getAllAppointments.useQuery();
   if (error) {
     console.log("TRPC CALL ERROR: " + error);
   }
@@ -523,81 +522,21 @@ const Overview = () => {
     console.error("CRUD action failed", args.event);
   };
 
-  // This is the custom editor 
-  const editorTemplate = (props: any) => {
-    // All Inputs have to have 'e-field', also make sure that they all have 'data-name atributte'
+  // This is the custom editor
+  if (isLoading) {
     return (
-      <table className="custom-event-editor w-full">
-        <tbody>
-          <tr>
-            <td className="e-textlabel">Patient</td>
-            <td colSpan={4}>
-              <label htmlFor="Summary" className="e-textlabel hidden">Summary</label>
-              <input
-                id="Summary"
-                className="e-field e-input"
-                type="text"
-                name="Subject"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td className="e-textlabel">Status</td>
-            <td colSpan={4}>
-              <DropDownListComponent
-                id="EventType"
-                placeholder="Choose status"
-                data-name="EventType"
-                className="e-field"
-                value={props.EventType || null}
-                dataSource={["Unconfirmed", "Confirmed", "Reschedule", "Disapproved"]}
-              ></DropDownListComponent>
-            </td>
-          </tr>
-          <tr>
-            <td className="e-textlabel">From</td>
-            <td colSpan={4}>
-              <DateTimePickerComponent
-                format="dd/MM/yy hh:mm a"
-                id="StartTime"
-                data-name="StartTime"
-                value={new Date(props.startTime || props.StartTime)} // Need to fix here
-                className="e-field"
-              ></DateTimePickerComponent>
-            </td>
-          </tr>
-          <tr>
-            <td className="e-textlabel">To</td>
-            <td colSpan={4}>
-              <DateTimePickerComponent
-                format="dd/MM/yy hh:mm a"
-                id="EndTime"
-                data-name="EndTime"
-                value={new Date(props.endTime || props.EndTime)} // Need to fix here
-                className="e-field"
-              ></DateTimePickerComponent>
-            </td>
-          </tr>
-                
-          <tr>
-            <td className="e-textlabel">Description</td>
-            <td colSpan={4}>
-              <label htmlFor="Description" className="e-textlabel hidden">Description</label>
-              <textarea
-                id="Description"
-                className="e-field e-input"
-                name="Description"
-                rows={3}
-                cols={50}
-                value={props.Description || ""}
-              ></textarea>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div className="flex h-full items-center justify-center">
+        <div
+          className="flex h-8 w-8 animate-spin items-center justify-center rounded-full border-4 border-solid border-current border-r-transparent motion-reduce:animate-[spin_1.5s_linear_infinite]"
+          role="status"
+        >
+          <span className="!-m-px flex !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+            Loading...
+          </span>
+        </div>
+      </div>
     );
   }
-
 
   return (
     <div className="schedule-control-section">
@@ -677,43 +616,6 @@ const Overview = () => {
                   text="New Appointment"
                   tabIndex={0}
                 />
-                {/* <ItemDirective type="Separator" />
-                <ItemDirective
-                  prefixIcon="e-icons e-day"
-                  tooltipText="Day"
-                  text="Day"
-                  tabIndex={0}
-                />
-                <ItemDirective
-                  prefixIcon="e-icons e-week"
-                  tooltipText="Week"
-                  text="Week"
-                  tabIndex={0}
-                />
-                <ItemDirective
-                  prefixIcon="e-icons e-week"
-                  tooltipText="WorkWeek"
-                  text="WorkWeek"
-                  tabIndex={0}
-                />
-                <ItemDirective
-                  prefixIcon="e-icons e-month"
-                  tooltipText="Month"
-                  text="Month"
-                  tabIndex={0}
-                />
-                <ItemDirective
-                  prefixIcon="e-icons e-month"
-                  tooltipText="Year"
-                  text="Year"
-                  tabIndex={0}
-                />
-                <ItemDirective
-                  prefixIcon="e-icons e-agenda-date-range"
-                  tooltipText="Agenda"
-                  text="Agenda"
-                  tabIndex={0}
-                /> */}
               </ItemsDirective>
             </ToolbarComponent>
 
@@ -801,6 +703,89 @@ const Overview = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const editorTemplate = (props: any) => {
+  // All Inputs have to have 'e-field', also make sure that they all have 'data-name atributte'
+  return (
+    <table className="custom-event-editor w-full">
+      <tbody>
+        <tr>
+          <td className="e-textlabel">Patient</td>
+          <td colSpan={4}>
+            <label htmlFor="Summary" className="e-textlabel hidden">
+              Summary
+            </label>
+            <input
+              id="Summary"
+              className="e-field e-input"
+              type="text"
+              name="Subject"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td className="e-textlabel">Status</td>
+          <td colSpan={4}>
+            <DropDownListComponent
+              id="EventType"
+              placeholder="Choose status"
+              data-name="EventType"
+              className="e-field"
+              value={props.EventType || null}
+              dataSource={[
+                "Unconfirmed",
+                "Confirmed",
+                "Reschedule",
+                "Disapproved",
+              ]}
+            ></DropDownListComponent>
+          </td>
+        </tr>
+        <tr>
+          <td className="e-textlabel">From</td>
+          <td colSpan={4}>
+            <DateTimePickerComponent
+              format="dd/MM/yy hh:mm a"
+              id="StartTime"
+              data-name="StartTime"
+              value={new Date(props.startTime || props.StartTime)} // Need to fix here
+              className="e-field"
+            ></DateTimePickerComponent>
+          </td>
+        </tr>
+        <tr>
+          <td className="e-textlabel">To</td>
+          <td colSpan={4}>
+            <DateTimePickerComponent
+              format="dd/MM/yy hh:mm a"
+              id="EndTime"
+              data-name="EndTime"
+              value={new Date(props.endTime || props.EndTime)} // Need to fix here
+              className="e-field"
+            ></DateTimePickerComponent>
+          </td>
+        </tr>
+
+        <tr>
+          <td className="e-textlabel">Description</td>
+          <td colSpan={4}>
+            <label htmlFor="Description" className="e-textlabel hidden">
+              Description
+            </label>
+            <textarea
+              id="Description"
+              className="e-field e-input"
+              name="Description"
+              rows={3}
+              cols={50}
+              value={props.Description || ""}
+            ></textarea>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   );
 };
 
