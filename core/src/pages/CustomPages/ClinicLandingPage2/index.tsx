@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { clinicLandingResources } from "../../../itlText/clinic-landing";
+import { clinicLandingResources } from "~/resources/clinic-landing";
 
 const Questionnaire: React.FC = () => {
   return (

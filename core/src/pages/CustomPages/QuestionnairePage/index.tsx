@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { questionnaireResources } from "../../../itlText/questionnaire";
+import { questionnaireResources } from "~/resources/questionnaire";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 type patientInputs = {
@@ -179,6 +179,8 @@ const Questionnaire: React.FC = () => {
               type="submit"
             />
           </div>
+          <button>back</button>
+          <button>forward</button>
         </form>
       </div>
     </div>
