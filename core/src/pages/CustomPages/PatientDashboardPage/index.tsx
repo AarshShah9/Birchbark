@@ -8,11 +8,34 @@ import AppointmentsTab from '~/customComponents/PatientDashboardTabs/Appointment
 import ProfileTab from '~/customComponents/PatientDashboardTabs/ProfileTab';
 import WikiTab from '~/customComponents/PatientDashboardTabs/WikiTab';
 
+
+
 const PatientDashboard: React.FC = () => {    
 
     const [currentTab, setCurrentTab] = useState("Home");
     const [input, setInput] = useState('');
     const [results, setResults] = useState([]);
+
+    interface Tabs {
+        tabName: string;
+        tabLink: string;
+        tabIcon: string;
+    }
+    
+    const Tab: React.FC<Tabs> = ({ tabName, tabLink, tabIcon }) => {
+        return(
+            <a href='#' className='h-20 py-4 space-x-[22px] flex items-center justify-center bg-[#4CA9EE]'>
+                <motion.div 
+                    className='h-20 py-4 pl-6 flex items-center justify-start bg-[#141718] w-full'
+                    whileHover={{ marginLeft: '6px', marginRight: '6px', color: '#4CA9EE' }}
+                    onClick={() => setCurrentTab(tabLink)}
+                >
+                    <img src={tabIcon} alt='profile' className='w-10 h-10 mr-5'/>
+                    <h1 className='text-white font-bold text-2xl'>{tabName}</h1>
+                </motion.div>
+            </a>
+        )
+    }
 
     // TODO: Change this to fetch data and sort/filter it on the backend
     const fetchData = (value: string) => {
@@ -40,56 +63,20 @@ const PatientDashboard: React.FC = () => {
         <div className='w-full bg-blue-500 flex flex-row'>
             
             {/* Left Side */}
-            <div className='w-1/6 2xl:w-1/4 sm:w-1/3 bg-[#141718]'>
+            <div className='flex-none w-72 2xl:bg-blue-500 xl:bg-green-500 lg:bg-yellow-500 md:bg-orange-500 sm:bg-red-500 xs:bg-red-500  bg-[#141718]'>
                 <a href='#'><img src={'/Logos/Logo.svg'} alt='logo' className=''/></a>
                 
                 {/* Background for nav items */}
                 <div className=' flex flex-col'>
-                    <a href='#' className='h-20 py-4 space-x-[22px] flex items-center justify-center bg-[#4CA9EE]'>
-                        <motion.div 
-                            className='h-20 py-4 pl-6 flex items-center justify-start bg-[#141718] w-full'
-                            whileHover={{ marginLeft: '6px', marginRight: '6px', color: '#4CA9EE' }}
-                            onClick={() => setCurrentTab("Home")}
-                        >
-                            <img src={'/icons/HouseIcon.svg'} alt='home' className='w-10 h-10 mr-5'/>
-                            <span className='font-bold text-2xl'>Home</span>
-                        </motion.div>
-                    </a>
-                    <a href='#' className='h-20 py-4 space-x-[22px] flex items-center justify-center bg-[#4CA9EE]'>
-                        <motion.div 
-                            className='h-20 py-4 pl-6 flex items-center justify-start bg-[#141718] w-full'
-                            whileHover={{ marginLeft: '6px', marginRight: '6px', color: '#4CA9EE' }}
-                            onClick={() => setCurrentTab("Appointments")}
-                        >
-                            <img src={'/icons/CalendarIcon.svg'} alt='home' className='w-10 h-10 mr-5'/>
-                            <span className='font-bold text-2xl'>Appointments</span>
-                        </motion.div>
-                    </a>
-                    <a href='#' className='h-20 py-4 space-x-[22px] flex items-center justify-center bg-[#4CA9EE]'>
-                        <motion.div 
-                            className='h-20 py-4 pl-6 flex items-center justify-start bg-[#141718] w-full'
-                            whileHover={{ marginLeft: '6px', marginRight: '6px', color: '#4CA9EE' }}
-                            onClick={() => setCurrentTab("Profile")}
-                        >
-                            <img src={'/icons/PersonIcon.svg'} alt='profile' className='w-10 h-10 mr-5'/>
-                            <span className='font-bold text-2xl'>Profile</span>
-                        </motion.div>
-                    </a>
-                    <a href='#' className='h-20 py-4 space-x-[22px] flex items-center justify-center bg-[#4CA9EE]'>
-                        <motion.div 
-                            className='h-20 py-4 pl-6 flex items-center justify-start bg-[#141718] w-full'
-                            whileHover={{ marginLeft: '6px', marginRight: '6px', color: '#4CA9EE' }}
-                            onClick={() => setCurrentTab("Wiki")}
-                        >
-                            <img src={'/icons/BookIcon.svg'} alt='Wiki' className='w-10 h-10 mr-5'/>
-                            <span className='font-bold text-2xl'>Wiki</span>
-                        </motion.div>
-                    </a>
+                    <Tab tabName='Home' tabLink="Home" tabIcon="/icons/HouseIcon.svg"></Tab>
+                    <Tab tabName='Appointments' tabLink="Appointments" tabIcon="/icons/CalendarIcon.svg"></Tab>
+                    <Tab tabName='Profile' tabLink="Profile" tabIcon="/icons/PersonIcon.svg"></Tab>
+                    <Tab tabName='Wiki' tabLink="Wiki" tabIcon="/icons/BookIcon.svg"></Tab>
                 </div>
             </div>
 
             {/* Right Side */}
-            <div className='w-5/6 2xl:w-3/4 sm:w-2/3  flex flex-col'>
+            <div className='w-full flex flex-col'>
                 {/* Top Bar */}
                 <div className='bg-[#232627] py-8 px-10 flex justify-between flex-row'>
                     
@@ -147,7 +134,7 @@ const PatientDashboard: React.FC = () => {
                         
                     </div>
                 </div>
-                <div className='h-full border border-red-500'>
+                <div className='h-full'>
                     {
                         currentTab === "Home" ? (
                             <HomeTab></HomeTab>

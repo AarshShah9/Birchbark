@@ -15,7 +15,7 @@ const TimeDisplay = () => {
 
     return (
         <div className='flex flex-col'>
-            <span className='text-2xl font-bold'>
+            <span className='text-white text-2xl font-bold'>
                 {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </span>
             <span className='text-[#C2C2C2] text-xl'>
