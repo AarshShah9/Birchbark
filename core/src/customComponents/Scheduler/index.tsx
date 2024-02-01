@@ -479,6 +479,7 @@ const Overview = () => {
   };
 
   const onActionComplete = async (args: ActionEventArgs) => {
+    console.log(args, "action complete");
     let data;
     if (args.requestType === "eventCreated" && args.addedRecords) {
       const record = args.addedRecords[0];
@@ -490,7 +491,7 @@ const Overview = () => {
           description: record.Description || "",
           isAllDay: record.IsAllDay || false,
           isReadOnly: false,
-          patientId: 1, // TODO test,
+          patientId: record.PatientId,
         };
       }
       if (data != null) createMutation.mutate(data);
@@ -504,7 +505,7 @@ const Overview = () => {
           subject: changedRecord.Subject as string,
           description: changedRecord.Description || "",
           isAllDay: changedRecord.IsAllDay || false,
-          patientId: 1,
+          patientId: changedRecord.PatientId,
         };
         updateMutation.mutate(data);
       }
@@ -706,41 +707,56 @@ const Overview = () => {
   );
 };
 
+type dropDownData = {
+  text: string;
+  value: string;
+};
+
 const editorTemplate = (props: any) => {
-  // All Inputs have to have 'e-field', also make sure that they all have 'data-name atributte'
+  const { data } = api.patient.getDoctorsPatients.useQuery();
+  const [description, setDescription] = useState<string>(props.Description);
+  //
+  let patientDataFlattened: { [key: string]: Object }[] = [];
+  if (data) {
+    patientDataFlattened = data.map((patient) => ({
+      name: patient.name,
+      id: patient.id,
+    }));
+  }
+  //
+  const fields = { text: "name", value: "id" };
+
+  // All Inputs have to have 'e-field', also make sure that they all have 'data-name attribute'
   return (
     <table className="custom-event-editor w-full">
       <tbody>
         <tr>
-          <td className="e-textlabel">Patient</td>
+          <td className="e-textlabel">Subject</td>
           <td colSpan={4}>
-            <label htmlFor="Summary" className="e-textlabel hidden">
-              Summary
+            <label htmlFor="Subject" className="e-textlabel hidden">
+              Subject
             </label>
             <input
-              id="Summary"
+              id="Subject"
               className="e-field e-input"
               type="text"
               name="Subject"
+              defaultValue={props.Subject}
             />
           </td>
         </tr>
         <tr>
-          <td className="e-textlabel">Status</td>
+          <td className="e-textlabel">Patient</td>
           <td colSpan={4}>
             <DropDownListComponent
-              id="EventType"
-              placeholder="Choose status"
-              data-name="EventType"
+              id="PatientId"
+              placeholder="Choose Patient"
+              data-name="PatientId"
               className="e-field"
-              value={props.EventType || null}
-              dataSource={[
-                "Unconfirmed",
-                "Confirmed",
-                "Reschedule",
-                "Disapproved",
-              ]}
-            ></DropDownListComponent>
+              fields={fields} // Specify which fields to use for display text and value
+              dataSource={patientDataFlattened}
+              value={props.PatientId || null} // Adjust this to use patient ID
+            />
           </td>
         </tr>
         <tr>
@@ -780,7 +796,8 @@ const editorTemplate = (props: any) => {
               name="Description"
               rows={3}
               cols={50}
-              value={props.Description || ""}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             ></textarea>
           </td>
         </tr>
