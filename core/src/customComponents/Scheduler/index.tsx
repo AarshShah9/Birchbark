@@ -59,17 +59,7 @@ import {
   contextMenuItems,
   exportItems,
 } from "~/customComponents/Scheduler/assets";
-
-// L10n.load({
-//   'en-US': {
-//     'schedule': {
-//       'saveButton': 'Save',
-//       'cancelButton': 'Close',
-//       'deleteButton': 'Delete',
-//       'newEvent': 'New Appointment',
-//     },
-//   }
-// });
+import { Appointment } from "@prisma/client";
 
 const Overview = () => {
   const [currentView, setCurrentView] = useState<View>("Week");
@@ -82,11 +72,12 @@ const Overview = () => {
   let workWeekObj = useRef<MultiSelectComponent>(null);
   let resourceObj = useRef<MultiSelectComponent>(null);
   let liveTimeInterval: NodeJS.Timeout | number;
+
   const { data, error, isLoading } =
     api.appointment.getAllAppointments.useQuery();
-  if (error) {
-    console.log("TRPC CALL ERROR: " + error);
-  }
+
+  const [stateData, setStateData] = useState(data);
+
   // Get all the appointment data from the database
   const createMutation = api.appointment.createAppointmentDoctor.useMutation();
   const updateMutation = api.appointment.updateAppointment.useMutation();
@@ -405,27 +396,6 @@ const Overview = () => {
       args.itemData.text;
   };
 
-  const weekNumberChange = (args: ChangeEventArgs) => {
-    if (args.value == "Off" && scheduleObj.current) {
-      scheduleObj.current.showWeekNumber = false;
-    } else {
-      if (scheduleObj.current) {
-        scheduleObj.current.showWeekNumber = true;
-        scheduleObj.current.weekRule = args.value as any;
-      }
-    }
-  };
-
-  const tooltipChange = (args: ChangeEventArgs) => {
-    if (args.value === "Off" && scheduleObj.current) {
-      scheduleObj.current.eventSettings.enableTooltip = false;
-    } else {
-      if (scheduleObj.current) {
-        scheduleObj.current.eventSettings.enableTooltip = true;
-      }
-    }
-  };
-
   let pushAppointmentData = (): Record<string, any>[] => {
     let eventData: Record<string, any>[] = [];
     let weekDate: Date = new Date(
@@ -433,9 +403,9 @@ const Overview = () => {
     ); // This gets the current date
 
     // Check if the data is there
-    if (data) {
+    if (stateData) {
       // For each appointment, push the data to the eventData array
-      data.forEach((currentAppointment) => {
+      stateData.forEach((currentAppointment) => {
         if (currentAppointment.statusM === "Confirmed") {
           eventData.push({
             Id: currentAppointment.id,
@@ -448,6 +418,10 @@ const Overview = () => {
             IsReadonly: false,
             CalendarId: 1,
             DoctorID: currentAppointment.doctorId,
+            Patient: {
+              name: currentAppointment.patient.name,
+              id: currentAppointment.patient.id,
+            },
           });
         }
       });
@@ -466,18 +440,6 @@ const Overview = () => {
     return overviewEvents;
   };
 
-  const onActionBegin = (args: ActionEventArgs) => {
-    // Handle the start of a CRUD action
-    if (
-      args.requestType === "eventCreate" ||
-      args.requestType === "eventChange" ||
-      args.requestType === "eventRemove"
-    ) {
-      console.log(args);
-      // Show loading indicator or perform other actions
-    }
-  };
-
   const onActionComplete = async (args: ActionEventArgs) => {
     console.log(args, "action complete");
     let data;
@@ -494,7 +456,9 @@ const Overview = () => {
           patientId: record.PatientId,
         };
       }
-      if (data != null) createMutation.mutate(data);
+      if (data != null) {
+        createMutation.mutate(data);
+      }
     } else if (args.requestType === "eventChanged" && args.changedRecords) {
       const changedRecord = args.changedRecords[0];
       if (changedRecord) {
@@ -639,7 +603,6 @@ const Overview = () => {
                       allowResizing={false}
                       dateHeaderTemplate={dateHeaderTemplate}
                       // Data is updated here
-                      actionBegin={onActionBegin}
                       actionComplete={onActionComplete}
                       actionFailure={onActionFailure}
                       showQuickInfo={false}
@@ -707,11 +670,6 @@ const Overview = () => {
   );
 };
 
-type dropDownData = {
-  text: string;
-  value: string;
-};
-
 const editorTemplate = (props: any) => {
   const { data } = api.patient.getDoctorsPatients.useQuery();
   const [description, setDescription] = useState<string>(props.Description);
@@ -755,7 +713,7 @@ const editorTemplate = (props: any) => {
               className="e-field"
               fields={fields} // Specify which fields to use for display text and value
               dataSource={patientDataFlattened}
-              value={props.PatientId || null} // Adjust this to use patient ID
+              value={props.Patient || null}
             />
           </td>
         </tr>
