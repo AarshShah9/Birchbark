@@ -1,17 +1,28 @@
 import { PrismaClient } from "@prisma/client";
+import { fieldEncryptionExtension } from "prisma-field-encryption";
+const prisma = new PrismaClient().$extends(fieldEncryptionExtension());
 
-const prisma = new PrismaClient();
+async function clearDB() {
+  await prisma.appointment.deleteMany({});
+  await prisma.contentBlock.deleteMany({});
+  await prisma.article.deleteMany({});
+  await prisma.category.deleteMany({});
+  await prisma.patient.deleteMany({});
+  await prisma.doctor.deleteMany({});
+  await prisma.organization.deleteMany({});
+}
 
 async function main() {
   // Seed the `Organization` table
   // Check if the Organization already exists
   let organization = await prisma.organization.findFirst({
-    where: { name: "HealWell Hospital" },
+    where: { id: 1 },
   });
 
   if (!organization) {
     organization = await prisma.organization.create({
       data: {
+        id: 1,
         name: "HealWell Hospital",
         phone: "123-456-7890",
         email: "contact@healwellhospital.com",
@@ -23,17 +34,19 @@ async function main() {
 
   // Check if the Doctor already exists
   let doctor = await prisma.doctor.findFirst({
-    where: { email: "dr.smith@healwellhospital.com" },
+    where: { id: 1 },
   });
 
   if (!doctor) {
     doctor = await prisma.doctor.create({
       data: {
+        id: 1,
         name: "Dr. Smith",
         email: "dr.smith@healwellhospital.com",
         phoneNumber: "321-654-0987",
         notificationOn: true,
         OrganizationId: organization.id,
+        clerkId: "user_2YjfKNxNa2zJKIZgBQF49DfsBdr",
         // Add other fields as necessary
       },
     });
@@ -41,33 +54,19 @@ async function main() {
 
   // Check if the Patient already exists
   let patient = await prisma.patient.findFirst({
-    where: { email: "john.doe@example.com" },
+    where: { id: 1 },
   });
 
   if (!patient) {
     patient = await prisma.patient.create({
       data: {
+        id: 1,
         name: "John Doe",
         email: "john.doe@example.com",
-        phone_num: "987-654-3210",
-        notification_on: "true",
+        phoneNumber: "987-654-3210",
+        notificationOn: true,
         doctorId: doctor.id,
         OrganizationId: organization.id,
-      },
-    });
-  }
-
-  let availability = await prisma.availability.findFirst({
-    where: { doctorId: doctor.id },
-  });
-
-  if (!availability) {
-    availability = await prisma.availability.create({
-      data: {
-        doctorId: doctor.id,
-        date: new Date(),
-        startTime: "2021-04-20T09:00:00.000Z",
-        endTime: "2021-04-20T12:00:00.000Z",
       },
     });
   }
@@ -81,34 +80,37 @@ async function main() {
     appointment = await prisma.appointment.create({
       data: {
         subject: "Checkup",
-        startTime: new Date("2023-11-10T12:00:00"),
-        endTime: new Date("2023-11-10T12:30:00"),
+        startTime: new Date(),
+        endTime: new Date(),
         doctorId: doctor.id,
         patientId: patient.id,
+        // Add other fields as necessary
       },
     });
   }
 
   // Add seeding for required wiki models
   let category = await prisma.category.findFirst({
-    where: { name: "Category Name" },
+    where: { id: 1 },
   });
 
   if (!category) {
     category = await prisma.category.create({
       data: {
+        id: 1,
         name: "Category Name",
       },
     });
   }
 
   let article = await prisma.article.findFirst({
-    where: { title: "Article Title" },
+    where: { id: 1 },
   });
 
   if (!article) {
     article = await prisma.article.create({
       data: {
+        id: 1,
         title: "Article Title",
         description: "Article Description",
         categoryId: category.id,
@@ -137,28 +139,13 @@ async function main() {
     });
   }
 
-  let event1 = await prisma.event.findFirst({
-    where: { title: "Event 1" },
-  });
-
-  if (!event1) {
-    event1 = await prisma.event.create({
-      data: {
-        title: "Event 1",
-        date: new Date(),
-        content: {
-          create: {
-            type: "IMAGE",
-            content: "https://example.com/image1.png",
-            order: 1, // Adjust the order based on your requirements
-          },
-        },
-      },
-    });
-  }
+  // Add more seeding as required for other models
 }
 
-main()
+clearDB()
+  .then(() => {
+    main();
+  })
   .then(async () => {
     await prisma.$disconnect();
   })

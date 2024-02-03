@@ -3,3 +3,5 @@ core/public/MockImages
 stripe.exe
 scripts/.env
 scripts/images
+scripts/dermnet.xlsx
+scripts/dermnet2.xlsx
