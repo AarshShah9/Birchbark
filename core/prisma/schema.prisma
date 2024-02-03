@@ -122,11 +122,11 @@ model Availability {
 }
 
 enum Status {
-  Confirmed /// @encrypted
-  Pending /// @encrypted
-  Cancelled /// @encrypted
-  Stale /// @encrypted
-  Completed /// @encrypted
+  Confirmed
+  Pending
+  Cancelled
+  Stale
+  Completed
 }
 
 model Image {
