@@ -7,7 +7,6 @@ import { imageRouter } from "~/server/api/routers/imageRouter";
 import { wikiRouter } from "~/server/api/routers/wikiRouter";
 import { eventsRouter } from "~/server/api/routers/eventsRouter";
 import { appointmentDoctorRouter } from "~/server/api/routers/appointmentDoctorRouter";
-import { testRouter } from "~/server/api/routers/testRouter";
 import { configRouter } from "~/server/api/routers/configRouter";
 
 /*
@@ -25,7 +24,6 @@ export const appRouter = createTRPCRouter({
   wiki: wikiRouter,
   events: eventsRouter,
   config: configRouter,
-  test: testRouter,
 });
 
 // export type definition of API
