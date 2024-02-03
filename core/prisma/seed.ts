@@ -1,16 +1,28 @@
 import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { fieldEncryptionExtension } from "prisma-field-encryption";
+const prisma = new PrismaClient().$extends(fieldEncryptionExtension());
+
+async function clearDB() {
+  await prisma.appointment.deleteMany({});
+  await prisma.contentBlock.deleteMany({});
+  await prisma.article.deleteMany({});
+  await prisma.category.deleteMany({});
+  await prisma.patient.deleteMany({});
+  await prisma.doctor.deleteMany({});
+  await prisma.organization.deleteMany({});
+}
 
 async function main() {
   // Seed the `Organization` table
   // Check if the Organization already exists
   let organization = await prisma.organization.findFirst({
-    where: { name: "HealWell Hospital" },
+    where: { id: 1 },
   });
 
   if (!organization) {
     organization = await prisma.organization.create({
       data: {
+        id: 1,
         name: "HealWell Hospital",
         phone: "123-456-7890",
         email: "contact@healwellhospital.com",
@@ -22,17 +34,19 @@ async function main() {
 
   // Check if the Doctor already exists
   let doctor = await prisma.doctor.findFirst({
-    where: { email: "dr.smith@healwellhospital.com" },
+    where: { id: 1 },
   });
 
   if (!doctor) {
     doctor = await prisma.doctor.create({
       data: {
+        id: 1,
         name: "Dr. Smith",
         email: "dr.smith@healwellhospital.com",
         phoneNumber: "321-654-0987",
         notificationOn: true,
         OrganizationId: organization.id,
+        clerkId: "user_2YjfKNxNa2zJKIZgBQF49DfsBdr",
         // Add other fields as necessary
       },
     });
@@ -40,12 +54,13 @@ async function main() {
 
   // Check if the Patient already exists
   let patient = await prisma.patient.findFirst({
-    where: { email: "john.doe@example.com" },
+    where: { id: 1 },
   });
 
   if (!patient) {
     patient = await prisma.patient.create({
       data: {
+        id: 1,
         name: "John Doe",
         email: "john.doe@example.com",
         phoneNumber: "987-654-3210",
@@ -76,24 +91,26 @@ async function main() {
 
   // Add seeding for required wiki models
   let category = await prisma.category.findFirst({
-    where: { name: "Category Name" },
+    where: { id: 1 },
   });
 
   if (!category) {
     category = await prisma.category.create({
       data: {
+        id: 1,
         name: "Category Name",
       },
     });
   }
 
   let article = await prisma.article.findFirst({
-    where: { title: "Article Title" },
+    where: { id: 1 },
   });
 
   if (!article) {
     article = await prisma.article.create({
       data: {
+        id: 1,
         title: "Article Title",
         description: "Article Description",
         categoryId: category.id,
@@ -125,7 +142,10 @@ async function main() {
   // Add more seeding as required for other models
 }
 
-main()
+clearDB()
+  .then(() => {
+    main();
+  })
   .then(async () => {
     await prisma.$disconnect();
   })
