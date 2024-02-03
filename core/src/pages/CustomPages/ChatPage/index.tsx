@@ -21,18 +21,14 @@ const ChatsPage: React.FC = () => {
   const StyledSendbirdApp = styled(SendbirdApp)``;
 
   return (
-    <>
-      <Layout>
-        <div className={"h-screen rounded-2xl p-2"}>
-          <StyledSendbirdApp
-            appId={env.NEXT_PUBLIC_SENDBIRD_APPID}
-            userId={user?.user?.id ?? "null"}
-            theme={colorMode}
-          />
-          <PullingImages />
-        </div>
-      </Layout>
-    </>
+    <div className={"h-screen rounded-2xl p-2"}>
+      <StyledSendbirdApp
+        appId={env.NEXT_PUBLIC_SENDBIRD_APPID}
+        userId={user?.user?.id ?? "null"}
+        theme={colorMode}
+      />
+      <PullingImages />
+    </div>
   );
 };
 
