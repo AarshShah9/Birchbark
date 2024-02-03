@@ -1,8 +1,11 @@
-import {PrismaClient} from "@prisma/client";
-import {fieldEncryptionExtension} from "prisma-field-encryption";
-import {globalForPrisma} from "~/server/globalForPrisma";
+import { PrismaClient } from "@prisma/client";
+import { fieldEncryptionExtension } from "prisma-field-encryption";
 
-const prismaC =
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClient | undefined;
+};
+
+const prisma =
   globalForPrisma.prisma ??
   new PrismaClient({
     log:
@@ -11,7 +14,6 @@ const prismaC =
         : ["error"],
   });
 
-export const prisma = prismaC.$extends(fieldEncryptionExtension())
+export { prisma };
 
-
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prismaC;
+if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;

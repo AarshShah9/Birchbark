@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-
 const prisma = new PrismaClient();
 
 async function main() {
@@ -49,25 +48,10 @@ async function main() {
       data: {
         name: "John Doe",
         email: "john.doe@example.com",
-        phone_num: "987-654-3210",
-        notification_on: "true",
+        phoneNumber: "987-654-3210",
+        notificationOn: true,
         doctorId: doctor.id,
         OrganizationId: organization.id,
-      },
-    });
-  }
-
-  let availability = await prisma.availability.findFirst({
-    where: { doctorId: doctor.id },
-  });
-
-  if (!availability) {
-    availability = await prisma.availability.create({
-      data: {
-        doctorId: doctor.id,
-        date: new Date(),
-        startTime: "2021-04-20T09:00:00.000Z",
-        endTime: "2021-04-20T12:00:00.000Z",
       },
     });
   }
@@ -81,10 +65,11 @@ async function main() {
     appointment = await prisma.appointment.create({
       data: {
         subject: "Checkup",
-        startTime: new Date("2023-11-10T12:00:00"),
-        endTime: new Date("2023-11-10T12:30:00"),
+        startTime: new Date(),
+        endTime: new Date(),
         doctorId: doctor.id,
         patientId: patient.id,
+        // Add other fields as necessary
       },
     });
   }
@@ -137,25 +122,7 @@ async function main() {
     });
   }
 
-  let event1 = await prisma.event.findFirst({
-    where: { title: "Event 1" },
-  });
-
-  if (!event1) {
-    event1 = await prisma.event.create({
-      data: {
-        title: "Event 1",
-        date: new Date(),
-        content: {
-          create: {
-            type: "IMAGE",
-            content: "https://example.com/image1.png",
-            order: 1, // Adjust the order based on your requirements
-          },
-        },
-      },
-    });
-  }
+  // Add more seeding as required for other models
 }
 
 main()

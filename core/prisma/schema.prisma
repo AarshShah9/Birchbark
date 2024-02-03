@@ -81,11 +81,11 @@ model Organization {
 
 model Address {
   id             Int           @id @default(autoincrement())
-  street         String
-  city           String
+  street         String /// @encrypted
+  city           String /// @encrypted
   province       provinces
-  postalCode     String
-  apt            String?
+  postalCode     String /// @encrypted
+  apt            String? /// @encrypted
   Organization   Organization? @relation(fields: [OrganizationId], references: [id])
   OrganizationId Int?          @unique
 
@@ -94,10 +94,10 @@ model Address {
 
 model Appointment {
   id          Int      @id @default(autoincrement())
-  subject     String
+  subject     String /// @encrypted
   startTime   DateTime
   endTime     DateTime
-  description String?
+  description String? /// @encrypted
   isAllDay    Boolean  @default(false)
   isReadOnly  Boolean  @default(false)
   statusM     Status   @default(Pending)
@@ -122,11 +122,11 @@ model Availability {
 }
 
 enum Status {
-  Confirmed
-  Pending
-  Cancelled
-  Stale
-  Completed
+  Confirmed /// @encrypted
+  Pending /// @encrypted
+  Cancelled /// @encrypted
+  Stale /// @encrypted
+  Completed /// @encrypted
 }
 
 model Image {
@@ -228,22 +228,22 @@ enum StripeSubscriptionStatus {
 }
 
 enum provinces {
-  AB
-  BC
-  MB
-  NB
-  NL
-  NS
-  NT
-  NU
-  ON
-  PEI
-  QC
-  SK
-  YK
+  AB /// @encrypted
+  BC /// @encrypted
+  MB /// @encrypted
+  NB /// @encrypted
+  NL /// @encrypted
+  NS /// @encrypted
+  NT /// @encrypted
+  NU /// @encrypted
+  ON /// @encrypted
+  PEI /// @encrypted
+  QC /// @encrypted
+  SK /// @encrypted
+  YK /// @encrypted
 }
 
 model TestEncryption {
   id   Int    @id @default(autoincrement())
-  name String @db.VarChar(255) ///@encrypted
+  name String @db.VarChar(255) /// @encrypted
 }

@@ -14,6 +14,7 @@ import superjson from "superjson";
 import { ZodError } from "zod";
 import { prisma } from "~/server/db";
 import { getAuth } from "@clerk/nextjs/server";
+import { fieldEncryptionExtension } from "prisma-field-encryption";
 
 /**
  * 1. CONTEXT
@@ -57,7 +58,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
   const userId = sessionObject.userId;
 
   return {
-    prisma,
+    prisma: prisma.$extends(fieldEncryptionExtension()),
     userId,
   };
 };
