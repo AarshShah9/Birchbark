@@ -4,8 +4,62 @@ import { motion } from 'framer-motion';
 const AppointmentTab = () => {
     const [UpcommingAppointmentsSelected, setUpcommingAppointmentsSelected] = useState(true);
 
-    const dummyUpcommingAppointmentData = [
-        
+    // Upcomming Appointments
+    type Appointment = {
+        date: string;
+        time: string;
+        doctor: string;
+        clinic: string;
+    };
+    
+    const dummyUpcommingAppointmentData: Appointment[] = [
+        {
+            date: '10/10/2021',
+            time: '10:00 AM',
+            doctor: 'Dr. John Doe',
+            clinic: '123 Main St.'
+        },
+        {
+            date: '10/10/2021',
+            time: '10:00 AM',
+            doctor: 'Dr. John Doe',
+            clinic: '123 Main St.'
+        },
+        {
+            date: '10/10/2021',
+            time: '10:00 AM',
+            doctor: 'Dr. John Doe',
+            clinic: '123 Main St.'
+        }
+    ];
+
+    // Past Appointments
+    type PastAppointment = {
+        date: string;
+        time: string;
+        doctor: string;
+        clinic: string;
+    };
+
+    const dummyPastAppointmentData: PastAppointment[] = [
+        {
+            date: '10/4/2020',
+            time: '11:00 AM',
+            doctor: 'Dr. John Doe',
+            clinic: 'Eastview Clinic.'
+        },
+        {
+            date: '10/17/2020',
+            time: '4:00 AM',
+            doctor: 'Dr. Adam Smith',
+            clinic: 'Eastview Clinic.'
+        },
+        {
+            date: '10/22/2019',
+            time: '9:00 AM',
+            doctor: 'Dr. Brown',
+            clinic: 'Spruce heights.'
+        }
     ];
 
     return (
@@ -39,56 +93,86 @@ const AppointmentTab = () => {
                 </div>
 
                 {/* Render either the upcomming appointments or Past appointments table data */}
-                {UpcommingAppointmentsSelected ? (
-                    <div className='mt-8 flex flex-col border'>
-                        {dummyUpcommingAppointmentData.length > 0 ? (
-                            <table className='w-full'>
-                                <thead>
-                                    <tr>
-                                        <th className='text-left pl-4 text-white'>Date</th>
-                                        <th className='text-left pl-4 text-white'>Time</th>
-                                        <th className='text-left pl-4 text-white'>Doctor</th>
-                                        <th className='text-left pl-4 text-white'>Location</th>
-                                    </tr>
-                                </thead>
-                                <tbody className=''>
-                                    {dummyUpcommingAppointmentData.map((appointment) => (
-                                        <tr key={appointment.date} className='bg-[#2D2D2D]'>
-                                            <td className='text-white py-4 pl-4'>{appointment.date}</td>
-                                            <td className='text-white py-4 pl-4'>{appointment.time}</td>
-                                            <td className='text-white py-4 pl-4'>{appointment.doctor}</td>
-                                            <td className='text-white py-4 pl-4'>{appointment.clinic}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        ) : (
-                            <div className='mt-8'>
-                                <p className='text-white font-bold text-2xl'>No Appointments</p>
-                                <p className='text-white'>You have no appointments scheduled</p>
-                                <motion.a 
-                                    href='#'
-                                    className='bg-[#4CA9EE] text-white font-bold text-2xl px-12 py-4 rounded-md'
-                                    whileHover={{ scale: 1.025 }}   
-                                >
-                                    Schedule an Appointment
-                                </motion.a>
-                            </div>
-                        )}
-                    </div>
-                ) : (
-                    <div className='flex flex-col border border-red-500'>
-                        <p className='text-white font-bold text-2xl'>No Appointments</p>
-                        <p className='text-white'>You have no appointments scheduled</p>
-                        <motion.a 
-                            href='#'
-                            className='bg-[#4CA9EE] text-white font-bold text-2xl px-12 py-4 rounded-md'
-                            whileHover={{ scale: 1.025 }}   
-                        >
-                            Schedule an Appointment
-                        </motion.a>
-                    </div>
-                )}
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5 }}
+                >
+                    {UpcommingAppointmentsSelected ? (
+                        <div className='mt-8 flex flex-col'>
+                            {dummyUpcommingAppointmentData.length > 0 ? (
+                                <div>
+
+                                    <div className='p-4 mb-4 flex flex-row justify-between'>
+                                        <p className='text-white font-bold text-2xl'>Date</p>
+                                        <p className='text-white font-bold text-2xl'>Time</p>
+                                        <p className='text-white font-bold text-2xl'>Doctor</p>
+                                        <p className='text-white font-bold text-2xl'>Clinic</p>
+                                    </div>
+                                    <div className='flex flex-col'>
+                                        {dummyUpcommingAppointmentData.map((appointment) => (
+                                            <div key={appointment.date} className='bg-[#2D2D2D] rounded-md p-4 mb-4 flex flex-row justify-between'>
+                                                <p className='text-white font-bold text-xl'>{appointment.date}</p>
+                                                <p className='text-white font-bold text-xl'>{appointment.time}</p>
+                                                <p className='text-white font-bold text-xl'>{appointment.doctor}</p>
+                                                <p className='text-white font-bold text-xl'>{appointment.clinic}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className='mt-8 flex flex-col items-center '>
+                                    <p className='text-white font-bold text-2xl'>No Appointments</p>
+                                    <p className='text-white'>You have no appointments scheduled</p>
+                                    <motion.a 
+                                        href='#'
+                                        className='bg-[#4CA9EE] text-white font-bold text-2xl px-12 py-4 mt-12 rounded-md'
+                                        whileHover={{ scale: 1.025 }}   
+                                    >
+                                        Schedule an Appointment
+                                    </motion.a>
+                                </div>
+                            )}
+                        </div>
+                    ) : (
+                        <div className='mt-8 flex flex-col'>
+                            {dummyPastAppointmentData.length > 0 ? (
+                                <div>
+
+                                    <div className='p-4 mb-4 flex flex-row justify-between'>
+                                        <p className='text-white font-bold text-2xl'>Date</p>
+                                        <p className='text-white font-bold text-2xl'>Time</p>
+                                        <p className='text-white font-bold text-2xl'>Doctor</p>
+                                        <p className='text-white font-bold text-2xl'>Clinic</p>
+                                    </div>
+                                    <div className='flex flex-col'>
+                                        {dummyPastAppointmentData.map((appointment) => (
+                                            <div key={appointment.date} className='bg-[#2D2D2D] rounded-md p-4 mb-4 flex flex-row justify-between'>
+                                                <p className='text-white font-bold text-xl'>{appointment.date}</p>
+                                                <p className='text-white font-bold text-xl'>{appointment.time}</p>
+                                                <p className='text-white font-bold text-xl'>{appointment.doctor}</p>
+                                                <p className='text-white font-bold text-xl'>{appointment.clinic}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className='mt-8 flex flex-col items-center '>
+                                    <p className='text-white font-bold text-2xl'>No Appointments</p>
+                                    <p className='text-white'>You have no past appointments</p>
+                                    <motion.a 
+                                        href='#'
+                                        className='bg-[#4CA9EE] text-white font-bold text-2xl px-12 py-4 mt-12 rounded-md'
+                                        whileHover={{ scale: 1.025 }}   
+                                    >
+                                        Schedule an Appointment
+                                    </motion.a>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </motion.div>
             </div>
         </div>
     );
