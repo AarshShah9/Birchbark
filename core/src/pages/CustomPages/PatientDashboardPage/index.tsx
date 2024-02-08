@@ -60,10 +60,10 @@ const PatientDashboard: React.FC = () => {
     };
 
     return (
-        <div className='w-full bg-blue-500 flex flex-row'>
+        <div className='w-full h-screen flex flex-row'>
             
             {/* Left Side */}
-            <div className='flex-none w-72 2xl:bg-blue-500 xl:bg-green-500 lg:bg-yellow-500 md:bg-orange-500 sm:bg-red-500 xs:bg-red-500  bg-[#141718]'>
+            <div className='flex-none w-72 bg-[#141718]'>
                 <a href='#'><img src={'/Logos/Logo.svg'} alt='logo' className=''/></a>
                 
                 {/* Background for nav items */}

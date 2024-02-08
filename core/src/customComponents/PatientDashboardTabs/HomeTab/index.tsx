@@ -40,7 +40,7 @@ interface AppointmentTypeProps {
 
 const AppointmentType: React.FC<AppointmentTypeProps> = ({ type, icon }) => {
     return(
-        <motion.a whileHover={{scale: 1.05}} className='bg-[#383838] rounded-lg flex items-center flex-col m-1 p-6 aspect-square h-36 w-36'>
+        <motion.a whileHover={{scale: 1.05}} href='#' className='bg-[#383838] rounded-lg flex items-center flex-col m-1 p-6 aspect-square h-36 w-36'>
             <img src={icon} alt={type} className='w-14 h-14'></img>
             <h1 className='text-white text-xl font-bold text-center leading-tight mt-1'>{type}</h1>
         </motion.a>
@@ -84,11 +84,11 @@ const HomeTab = () => {
 
                         </div>
                         <div className='flex flex-row m-4 space-x-4 overflow-x-scroll h-48'>
-                            <AppointmentType type='PC Provider' icon='/Icons/DoctorIcon.svg'></AppointmentType>
-                            <AppointmentType type='Cardiology' icon='/Icons/HeartIcon.svg'></AppointmentType>
-                            <AppointmentType type='Respiratory' icon='/Icons/LungsIcon.svg'></AppointmentType>
-                            <AppointmentType type='Eye Doctor' icon='/Icons/EyeIcon.svg'></AppointmentType>
-                            <AppointmentType type='Dermatologist' icon='/Icons/SkinIcon.svg'></AppointmentType>
+                            <AppointmentType type='Doctor' icon='/Icons/DoctorIcon.svg'></AppointmentType>
+                            {/* <AppointmentType type='Cardiology' icon='/Icons/HeartIcon.svg'></AppointmentType> */}
+                            {/* <AppointmentType type='Respiratory' icon='/Icons/LungsIcon.svg'></AppointmentType> */}
+                            {/* <AppointmentType type='Eye Doctor' icon='/Icons/EyeIcon.svg'></AppointmentType> */}
+                            {/* <AppointmentType type='Dermatologist' icon='/Icons/SkinIcon.svg'></AppointmentType> */}
                         </div>
                     </div>
                 </div>
