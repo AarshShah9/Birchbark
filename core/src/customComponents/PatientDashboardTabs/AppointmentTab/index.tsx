@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
+
+// TODO: Heres the list
+// 1. Add Icons to table headers
+// 2. Add a button to schedule an appointment
+// 3. Make the table dynamic to work on ipad view
+
+
 const AppointmentTab = () => {
     const [UpcommingAppointmentsSelected, setUpcommingAppointmentsSelected] = useState(true);
 
