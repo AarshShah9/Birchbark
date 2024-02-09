@@ -15,6 +15,7 @@ const PatientDashboard: React.FC = () => {
     const [currentTab, setCurrentTab] = useState("Home");
     const [input, setInput] = useState('');
     const [results, setResults] = useState([]);
+    const [smallNav, setSmallNav] = useState(false);
 
     interface Tabs {
         tabName: string;
@@ -34,6 +35,19 @@ const PatientDashboard: React.FC = () => {
                     <h1 className='text-white font-bold text-2xl'>{tabName}</h1>
                 </motion.div>
             </a>
+        )
+    }
+
+    const SmallTab: React.FC<Tabs> = ({ tabName, tabLink, tabIcon }) => {
+        return(
+                <motion.a 
+                    href='#'
+                    className='h-16 w-16 py-4 pl-6 flex items-center justify-center'
+                    whileHover={{ marginLeft: '6px'}}
+                    onClick={() => setCurrentTab(tabLink)}
+                >
+                    <img src={tabIcon} alt='profile' className='w-16 h-16'/>
+                </motion.a>
         )
     }
 
@@ -60,19 +74,38 @@ const PatientDashboard: React.FC = () => {
     };
 
     return (
-        <div className='w-full h-screen flex flex-row'>
+        <div className='w-full h-screen flex flex-row '>
             
             {/* Left Side */}
-            <div className='flex-none w-72 bg-[#141718]'>
-                <a href='#'><img src={'/Logos/Logo.svg'} alt='logo' className=''/></a>
-                
-                {/* Background for nav items */}
-                <div className=' flex flex-col'>
-                    <Tab tabName='Home' tabLink="Home" tabIcon="/icons/HouseIcon.svg"></Tab>
-                    <Tab tabName='Appointments' tabLink="Appointments" tabIcon="/icons/CalendarIcon.svg"></Tab>
-                    <Tab tabName='Profile' tabLink="Profile" tabIcon="/icons/PersonIcon.svg"></Tab>
-                    <Tab tabName='Wiki' tabLink="Wiki" tabIcon="/icons/BookIcon.svg"></Tab>
+            <div className={`flex-none w-${smallNav === true ? "24" : "72"} bg-[#141718] `}>
+                <div className='flex flex-col justify-between h-full'>
+                    <div>
+                        <a href='#'><img src={smallNav ? '/Logos/LogoIcon.svg' : '/Logos/Logo.svg'} alt='logo' className=''/></a>
+                        
+                        {/* Background for nav items */}
+                        <div className=' flex flex-col'>
+                            {smallNav ? <SmallTab tabName='Home' tabLink="Home" tabIcon="/icons/HouseIcon.svg"></SmallTab> : <Tab tabName='Home' tabLink="Home" tabIcon="/icons/HouseIcon.svg"></Tab>}
+                            {smallNav ? <SmallTab tabName='Appointments' tabLink="Appointments" tabIcon="/icons/CalendarIcon.svg"></SmallTab> : <Tab tabName='Appointments' tabLink="Appointments" tabIcon="/icons/CalendarIcon.svg"></Tab>}
+                            {smallNav ? <SmallTab tabName='Profile' tabLink="Profile" tabIcon="/icons/PersonIcon.svg"></SmallTab> : <Tab tabName='Profile' tabLink="Profile" tabIcon="/icons/PersonIcon.svg"></Tab>}
+                            {smallNav ? <SmallTab tabName='Wiki' tabLink="Wiki" tabIcon="/icons/BookIcon.svg"></SmallTab> : <Tab tabName='Wiki' tabLink="Wiki" tabIcon="/icons/BookIcon.svg"></Tab>}
+                        </div>
+                    </div>
+
+                    {/* Switch Button */}
+                    <div className='w-full flex justify-end'>
+                        <motion.button
+                            whileHover={{scale: 1.05}}
+                            onClick={() => smallNav == false ? setSmallNav(true) : setSmallNav(false)}
+                            className='w-16 h-16 m-4 rounded-full flex items-center justify-center'
+                        >
+                            {
+                                smallNav ? <img src='/Icons/MenuOpen.svg' alt='Menu Icon' className='w-12 h-12'></img> : <img src='/Icons/MenuClose.svg' alt='Menu Icon' className='w-12 h-12'></img>
+                            }
+                        </motion.button>
+                    </div>
+                    
                 </div>
+                
             </div>
 
             {/* Right Side */}
