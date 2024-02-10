@@ -8,6 +8,7 @@ import { wikiRouter } from "~/server/api/routers/wikiRouter";
 import { eventsRouter } from "~/server/api/routers/eventsRouter";
 import { appointmentDoctorRouter } from "~/server/api/routers/appointmentDoctorRouter";
 import { configRouter } from "~/server/api/routers/configRouter";
+import { organizationRouter } from "~/server/api/routers/organizationRouter";
 
 /*
  * This is the primary router for your server.
@@ -24,6 +25,7 @@ export const appRouter = createTRPCRouter({
   wiki: wikiRouter,
   events: eventsRouter,
   config: configRouter,
+  organization: organizationRouter,
 });
 
 // export type definition of API

@@ -13,20 +13,24 @@ export default authMiddleware({
     "/",
     "/about-us",
     "/contact-us",
-    "/payment-success",
     "/confirmation",
-    "/pricing",
-    "/create-organization",
+    "/organization-selection",
+    "/api/trpc/organization.getAllOrganizations",
   ],
   afterAuth(auth, req, evt) {
     // handle users who aren't authenticated
     if (!auth.userId && !auth.isPublicRoute) {
       return redirectToSignIn({ returnBackUrl: req.url });
     }
+
+    console.log(req.url);
+
     if (auth.userId && req.nextUrl.pathname === "/sign-in") {
       const orgSelection = new URL("/app/calendar", req.url);
       return NextResponse.redirect(orgSelection);
     }
+
+    return NextResponse.next();
   },
 });
 
