@@ -6,15 +6,15 @@ import { useState } from "react";
 const ClinicLandingPage: React.FC = () => {
   const [language, setLanguage] = useState("English");
   return (
-    <div className="h-screen w-screen bg-[#232627]">
-      <div className="absolute top-0 z-1 h-screen w-screen">
+    <div className="min-h-screen w-full bg-[#232627]">
+      {/* <div className="absolute top-0 z-1 h-screen w-screen">
         <img
           src="/images/ChiefMountain3.svg"
           alt="Chief Mountain"
           className="relative h-screen w-auto object-cover object-center"
         />
-      </div>
-      <div className="absolute z-2 w-screen">
+      </div> */}
+      <div className=" z-2 w-full">
         <div className="z-10 ml-12 flex h-[10vh] flex-initial p-6">
           <img
             className="h-full"

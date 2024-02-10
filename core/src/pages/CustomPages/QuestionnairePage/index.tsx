@@ -21,7 +21,9 @@ const Questionnaire: React.FC = () => {
     formState: { errors },
   } = useForm<patientInputs>();
 
-  const onSubmit: SubmitHandler<patientInputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<patientInputs> = (data) => {
+    console.log(data);
+  };
 
   var today = new Date();
   var dd = today.getDate().toString();
@@ -179,8 +181,6 @@ const Questionnaire: React.FC = () => {
               type="submit"
             />
           </div>
-          <button>back</button>
-          <button>forward</button>
         </form>
       </div>
     </div>

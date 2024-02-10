@@ -10,6 +10,14 @@ const Booking: React.FC = () => {
       day: new Date(),
       times: [""],
     },
+    {
+      day: new Date(),
+      times: [""],
+    },
+    {
+      day: new Date(),
+      times: [""],
+    },
   ];
 
   // States
@@ -17,6 +25,9 @@ const Booking: React.FC = () => {
   const [curDay, setCurDay] = useState<Date>(new Date());
   const [curTime, setCurTime] = useState<string>("");
   const [startDate, setStartDate] = useState<Date>(new Date());
+  const [firstDate, setFirstDate] = useState<Date>(new Date());
+  const [secondDate, setSecondDate] = useState<Date>(new Date());
+  const [thirdDate, setThirdDate] = useState<Date>(new Date());
   const [timeslots, setTimeslots] = useState<typeof initTimeslots>([]);
 
   // Function to handle clicked time
@@ -54,6 +65,30 @@ const Booking: React.FC = () => {
         ][dayOfWeek];
   }
 
+  // Function to handle left arrow
+  const handleLeft = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    const date = new Date(startDate);
+    const today = new Date();
+    if (
+      date.getDate() < today.getDate() &&
+      date.getMonth() <= today.getMonth() &&
+      date.getFullYear() <= today.getFullYear()
+    ) {
+      return;
+    }
+    setStartDate(new Date(date.setDate(date.getDate() - 1)));
+    return;
+  };
+
+  // Function to handle right arrow
+  const handleRight = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    const date = new Date(startDate);
+    setStartDate(new Date(date.setDate(date.getDate() + 1)));
+    return;
+  };
+
   // Function to handle changing start date off the calendar
   function handleStartDate(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.id === "calendar" && e.target.value) {
@@ -74,7 +109,7 @@ const Booking: React.FC = () => {
       const ampm = curTime.split(" ")[1];
       const timeSplit = curTime.split(":");
       if (ampm === "PM" && curDay.getHours() !== 12) {
-        curDay.setHours(parseInt(timeSplit[0] ?? "0") + 12);
+        curDay.setHours(parseInt(timeSplit[0] ?? "0"));
       } else if (ampm === "AM" && curDay.getHours() === 12) {
         curDay.setHours(0);
       } else {
@@ -89,10 +124,20 @@ const Booking: React.FC = () => {
   // Use effect to update timeslots
   React.useEffect(() => {
     const date = new Date(startDate);
-    date.setDate(date.getDate() + 1);
+    setFirstDate(new Date(firstDate.setDate(date.getDate() + 1)));
+    setSecondDate(new Date(secondDate.setDate(date.getDate() + 2)));
+    setThirdDate(new Date(thirdDate.setDate(date.getDate() + 3)));
     setTimeslots([
       {
-        day: date,
+        day: new Date(firstDate),
+        times: ["11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM"],
+      },
+      {
+        day: new Date(secondDate),
+        times: ["11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM"],
+      },
+      {
+        day: new Date(thirdDate),
         times: ["11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM"],
       },
     ]);
@@ -114,34 +159,46 @@ const Booking: React.FC = () => {
           </h1>
           {/* Booking Container */}
           <div className="flex w-[85%] flex-col items-center justify-center rounded-[48px] bg-white p-14 text-lg text-black lg:p-8 md:w-[95%] md:text-sm">
-            {/* Calendar component */}
-            <p className="items-center font-inikaBold text-2xl">
-              Select More Days:
-            </p>
-            <motion.input
-              whileHover={{ scale: 1.02 }}
-              className="my-4 flex min-w-[200px] items-center justify-center rounded-full bg-[#2a3943] p-3 text-white focus:outline-none"
-              type="date"
-              id="calendar"
-              value={startDate.toISOString().split("T")[0]}
-              onChange={(e) => handleStartDate(e)}
-              min={new Date().toISOString().split("T")[0]}
-            />
-
             <div className="w-full">
-              <div className="m-4 flex justify-center">
+              <div className="m-6 flex justify-center">
                 <h2 className="text-xl font-semibold">
                   Please pick the best time to meet with your doctor
                 </h2>
               </div>
               {/* Scheduling Component */}
               <div className="flex w-full flex-row items-center justify-center gap-2 lg:flex-col lg:gap-0">
+                {/* Left / Bottom Buttons */}
+                <div className="my-0 flex flex-row gap-4 lg:my-2">
+                  <div className="">
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.98 }}
+                      id="left"
+                      className="rounded-full border-2 border-[#2a3943] bg-[#4CA9EE] p-1 text-white"
+                      onClick={(e) => handleLeft(e)}
+                    >
+                      <BsArrowLeft size={20} color="white" />
+                    </motion.button>
+                  </div>
+                  <div className="">
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.98 }}
+                      id="right"
+                      className="hidden rounded-full border-2 border-[#2a3943] bg-[#4CA9EE] p-1 text-white lg:block"
+                      onClick={(e) => handleRight(e)}
+                    >
+                      <BsArrowRight size={20} color="white" />
+                    </motion.button>
+                  </div>
+                </div>
+
                 {/* Timeslots by day */}
-                <div className="my-6 flex w-1/3 flex-row items-center justify-center gap-4 lg:flex-col">
+                <div className="my-6 flex w-full flex-row gap-4 lg:flex-col">
                   {timeslots.map((date) => (
                     <div
                       key={date.day.toDateString()}
-                      className="flex w-full flex-row items-center justify-center"
+                      className="flex w-full flex-row justify-center"
                     >
                       <div className="flex w-full flex-col gap-2">
                         <h1 className="text-xl font-bold">
@@ -200,8 +257,47 @@ const Booking: React.FC = () => {
                     </div>
                   ))}
                 </div>
+                {/* Right/Bottom Buttons */}
+                <div className="my-0 flex flex-row gap-4 lg:my-2">
+                  <div className="">
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.98 }}
+                      id="left"
+                      className="hidden rounded-full border-2 border-[#2a3943] bg-[#4CA9EE] p-1 text-white lg:block"
+                      onClick={(e) => handleLeft(e)}
+                    >
+                      <BsArrowLeft size={20} color="white" />
+                    </motion.button>
+                  </div>
+                  <div className="">
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.98 }}
+                      id="right"
+                      className="rounded-full border-2 border-[#2a3943] bg-[#4CA9EE] p-1 text-white"
+                      onClick={(e) => handleRight(e)}
+                    >
+                      <BsArrowRight size={20} color="white" />
+                    </motion.button>
+                  </div>
+                </div>
               </div>
             </div>
+
+            {/* Calendar component */}
+            <p className="items-center font-inikaBold text-2xl">
+              Select More Days:
+            </p>
+            <motion.input
+              whileHover={{ scale: 1.02 }}
+              className="my-4 flex min-w-[200px] items-center justify-center rounded-full bg-[#2a3943] p-3 text-white focus:outline-none"
+              type="date"
+              id="calendar"
+              value={startDate.toISOString().split("T")[0]}
+              onChange={(e) => handleStartDate(e)}
+              min={new Date().toISOString().split("T")[0]}
+            />
 
             {/* Line separation */}
             <div className="h-[2px] w-[50%] bg-black md:w-[100%]" />
