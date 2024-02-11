@@ -12,27 +12,27 @@ const ProfileTab = () => {
             <div className='bg-[#141718] w-96 h-fit mx-10 p-8 rounded-lg flex flex-none flex-col'>
                 <div className='flex flex-row items-center mb-4'>
                     <img src='/Icons/Profile2.svg' alt='Profile' className='w-14 h-14'></img>
-                    <h2 className='text-2xl font-bold ml-4'>Details about me</h2>
+                    <h2 className='text-3xl font-bold ml-4'>Details about me</h2>
                 </div>
                 <div className=''>
                     <div className='flex flex-col'>
-                        <h2 className='text-2xl font-bold'>Preferred First Name</h2>
+                        <h2 className='text-2xl font-medium'>Preferred First Name</h2>
                         <h3 className='text-[#B7B7B7] text-xl '>John</h3>
                     </div>
                     <div className='flex flex-col'>
-                        <h2 className='text-2xl font-bold'>Gender Identity</h2>
+                        <h2 className='text-2xl font-medium'>Gender Identity</h2>
                         <h3 className='text-[#B7B7B7] text-xl '>Male</h3>
                     </div>
                     <div className='flex flex-col'>
-                        <h2 className='text-2xl font-bold'>Sexual Orientation</h2>
+                        <h2 className='text-2xl font-medium'>Sexual Orientation</h2>
                         <h3 className='text-[#B7B7B7] text-xl '>Straight</h3>
                     </div>
                     <div className='flex flex-col'>
-                        <h2 className='text-2xl font-bold'>Race</h2>
+                        <h2 className='text-2xl font-medium'>Race</h2>
                         <h3 className='text-[#B7B7B7] text-xl '>Asian</h3>
                     </div>
                     <div className='flex flex-col'>
-                        <h2 className='text-2xl font-bold'>Ethnicity</h2>
+                        <h2 className='text-2xl font-medium'>Ethnicity</h2>
                         <h3 className='text-[#B7B7B7] text-xl '>Non Hispanic or Latino</h3>
                     </div>
                 </div>
@@ -81,33 +81,33 @@ const ProfileTab = () => {
                 <div className='flex flex-row'>
                     <div className='mx-2'>
                         <div className='flex flex-col'>
-                            <h2 className='text-2xl font-bold'>Name</h2>
+                            <h2 className='text-2xl font-medium'>Name</h2>
                             <h3 className='text-[#B7B7B7] text-xl '>Alice Jones</h3>
                         </div>
                         <div className='flex flex-col'>
-                            <h2 className='text-2xl font-bold'>Relation</h2>
+                            <h2 className='text-2xl font-medium'>Relation</h2>
                             <h3 className='text-[#B7B7B7] text-xl '>Mother</h3>
                         </div>
                         <div className='flex flex-col'>
-                            <h2 className='text-2xl font-bold'>Address</h2>
+                            <h2 className='text-2xl font-medium'>Address</h2>
                             <h3 className='text-[#B7B7B7] text-xl '>682 Toronto Street...</h3>
                         </div>
                     </div>
                     <div className='mx-2'>
                         <div className='flex flex-col'>
-                            <h2 className='text-2xl font-bold'>Email</h2>
+                            <h2 className='text-2xl font-medium'>Email</h2>
                             <h3 className='text-[#B7B7B7] text-xl '>alice.jones@gmail.com</h3>
                         </div>
                         <div className='flex flex-col'>
-                            <h2 className='text-2xl font-bold'>Mobile Phone</h2>
+                            <h2 className='text-2xl font-medium'>Mobile Phone</h2>
                             <h3 className='text-[#B7B7B7] text-xl '>682-902-2344</h3>
                         </div>
                         <div className='flex flex-col'>
-                            <h2 className='text-2xl font-bold'>Home Phone</h2>
+                            <h2 className='text-2xl font-medium'>Home Phone</h2>
                             <h3 className='text-[#B7B7B7] text-xl '>682-902-2344</h3>
                         </div>
                         <div className='flex flex-col'>
-                            <h2 className='text-2xl font-bold'>Work Phone</h2>
+                            <h2 className='text-2xl font-medium'>Work Phone</h2>
                             <h3 className='text-[#B7B7B7] text-xl '>682-902-2344</h3>
                         </div>
                     </div>

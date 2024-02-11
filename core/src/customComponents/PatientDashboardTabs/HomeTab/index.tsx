@@ -52,12 +52,12 @@ const HomeTab = () => {
     const activeChats = [];
 
     return (
-        <div className='bg-[#232627] w-full h-full p-12'>
+        <div className='bg-[#232627] w-full h-full xl:h-max p-12'>
             <h1 className='text-white text-5xl font-bold mb-8'>Welcome, <span>{patientName.split(' ')[0]}</span></h1>
             
             {/* This is the */}
-            <div className='flex flex-row w-full space-x-4'>
-                <div className='bg-[#141718] rounded-lg w-2/5 flex flex-col'>
+            <div className='flex xl:flex-col flex-row w-full space-x-4 xl:space-x-0 xl:space-y-4'>
+                <div className='bg-[#141718] rounded-lg w-2/5 xl:w-full flex flex-col'>
                     <div className=''>
                         <h1 className='text-white text-3xl font-bold mt-4 mx-8'>Active Chats</h1>
                     </div>
@@ -67,7 +67,8 @@ const HomeTab = () => {
                         <Chat doctorName='Dr. Smith' link='#'></Chat>
                     </div>
                 </div>
-                <div className='flex flex-col w-3/5'>
+
+                <div className='flex flex-col space-y-4 w-3/5 xl:w-full'>
                     <div className='bg-[#141718] rounded-lg'>
                         <div className=''>
                             <h1 className='text-white text-3xl font-bold mt-4 mx-8'>Upcomming Appointments</h1>

@@ -70,33 +70,33 @@ const AppointmentTab = () => {
     ];
 
     return (
-        <div className='bg-[#232627] w-full h-full flex'>
+        <div className='bg-[#232627] w-full h-full flex '>
             
             {/* appointments background */}
             <div className='bg-[#141718] w-full m-8 p-8 rounded-md'>
                 <div className='flex space-x-2'>
-                <motion.a 
-                    href='#' 
-                    className={`text-white font-bold text-2xl px-12 py-4 rounded-md`}
-                    style={{ backgroundColor: UpcommingAppointmentsSelected ? '#4CA9EE' : '#505151' }}
-                    onClick={() => setUpcommingAppointmentsSelected(true)}
-                    whileHover={{ scale: 1.025 }}
-                    animate={{ backgroundColor: UpcommingAppointmentsSelected ? '#4CA9EE' : '#505151' }}
-                    transition={{ duration: 0.5 }}
-                >
-                    Upcomming Appointments
-                </motion.a>
-                <motion.a 
-                    href='#' 
-                    className={`text-white font-bold text-2xl px-12 py-4 rounded-md`}
-                    style={{ backgroundColor: UpcommingAppointmentsSelected ? '#505151' : '#4CA9EE' }}
-                    onClick={() => setUpcommingAppointmentsSelected(false)}
-                    whileHover={{ scale: 1.025}}
-                    animate={{ backgroundColor: UpcommingAppointmentsSelected ? '#505151' : '#4CA9EE' }}
-                    transition={{ duration: 0.5 }}
-                >
-                    Past Appointments
-                </motion.a>
+                    <motion.a 
+                        href='#' 
+                        className={`xl:w-1/2 text-white font-bold xl:text-[13px] text-center text-2xl xl:px-6 px-12 py-4 xl:py-1 rounded-md`}
+                        style={{ backgroundColor: UpcommingAppointmentsSelected ? '#4CA9EE' : '#505151' }}
+                        onClick={() => setUpcommingAppointmentsSelected(true)}
+                        whileHover={{ scale: 1.025 }}
+                        animate={{ backgroundColor: UpcommingAppointmentsSelected ? '#4CA9EE' : '#505151' }}
+                        transition={{ duration: 0.5 }}
+                    >
+                        Upcomming Appointments
+                    </motion.a>
+                    <motion.a 
+                        href='#' 
+                        className={`xl:w-1/2 text-white font-bold xl:text-[13px] text-center text-2xl xl:px-6 px-12 py-4 xl:py-1 rounded-md`}
+                        style={{ backgroundColor: UpcommingAppointmentsSelected ? '#505151' : '#4CA9EE' }}
+                        onClick={() => setUpcommingAppointmentsSelected(false)}
+                        whileHover={{ scale: 1.025}}
+                        animate={{ backgroundColor: UpcommingAppointmentsSelected ? '#505151' : '#4CA9EE' }}
+                        transition={{ duration: 0.5 }}
+                    >
+                        Past Appointments
+                    </motion.a>
                 </div>
 
                 {/* Render either the upcomming appointments or Past appointments table data */}
@@ -107,23 +107,22 @@ const AppointmentTab = () => {
                     transition={{ duration: 0.5 }}
                 >
                     {UpcommingAppointmentsSelected ? (
-                        <div className='mt-8 flex flex-col'>
+                        <div className='xl:mt-4 mt-8 flex flex-col'>
                             {dummyUpcommingAppointmentData.length > 0 ? (
-                                <div>
-
+                                <div className='flex flex-col'>
                                     <div className='p-4 mb-4 flex flex-row justify-between'>
-                                        <p className='text-white font-bold text-2xl'>Date</p>
-                                        <p className='text-white font-bold text-2xl'>Time</p>
-                                        <p className='text-white font-bold text-2xl'>Doctor</p>
-                                        <p className='text-white font-bold text-2xl'>Clinic</p>
+                                        <p className='text-white font-bold xl:text-xl text-2xl'>Date</p>
+                                        <p className='text-white font-bold xl:text-xl text-2xl'>Time</p>
+                                        <p className='text-white font-bold xl:text-xl text-2xl'>Doctor</p>
+                                        <p className='text-white font-bold xl:text-xl text-2xl'>Clinic</p>
                                     </div>
-                                    <div className='flex flex-col'>
+                                    <div className='flex flex-col '>
                                         {dummyUpcommingAppointmentData.map((appointment) => (
                                             <div key={appointment.date} className='bg-[#2D2D2D] rounded-md p-4 mb-4 flex flex-row justify-between'>
-                                                <p className='text-white font-bold text-xl'>{appointment.date}</p>
-                                                <p className='text-white font-bold text-xl'>{appointment.time}</p>
-                                                <p className='text-white font-bold text-xl'>{appointment.doctor}</p>
-                                                <p className='text-white font-bold text-xl'>{appointment.clinic}</p>
+                                                <p className='text-white xl:font-medium font-bold xl:text-sm text-xl'>{appointment.date}</p>
+                                                <p className='text-white xl:font-medium font-bold xl:text-sm text-xl'>{appointment.time}</p>
+                                                <p className='text-white xl:font-medium font-bold xl:text-sm text-xl'>{appointment.doctor}</p>
+                                                <p className='text-white xl:font-medium font-bold xl:text-sm text-xl'>{appointment.clinic}</p>
                                             </div>
                                         ))}
                                     </div>
@@ -143,23 +142,23 @@ const AppointmentTab = () => {
                             )}
                         </div>
                     ) : (
-                        <div className='mt-8 flex flex-col'>
+                        <div className='xl:mt-4 mt-8 flex flex-col'>
                             {dummyPastAppointmentData.length > 0 ? (
                                 <div>
 
                                     <div className='p-4 mb-4 flex flex-row justify-between'>
-                                        <p className='text-white font-bold text-2xl'>Date</p>
-                                        <p className='text-white font-bold text-2xl'>Time</p>
-                                        <p className='text-white font-bold text-2xl'>Doctor</p>
-                                        <p className='text-white font-bold text-2xl'>Clinic</p>
+                                        <p className='text-white font-bold xl:text-xl text-2xl'>Date</p>
+                                        <p className='text-white font-bold xl:text-xl text-2xl'>Time</p>
+                                        <p className='text-white font-bold xl:text-xl text-2xl'>Doctor</p>
+                                        <p className='text-white font-bold xl:text-xl text-2xl'>Clinic</p>
                                     </div>
                                     <div className='flex flex-col'>
                                         {dummyPastAppointmentData.map((appointment) => (
                                             <div key={appointment.date} className='bg-[#2D2D2D] rounded-md p-4 mb-4 flex flex-row justify-between'>
-                                                <p className='text-white font-bold text-xl'>{appointment.date}</p>
-                                                <p className='text-white font-bold text-xl'>{appointment.time}</p>
-                                                <p className='text-white font-bold text-xl'>{appointment.doctor}</p>
-                                                <p className='text-white font-bold text-xl'>{appointment.clinic}</p>
+                                                <p className='text-white xl:font-medium font-bold xl:text-sm text-xl'>{appointment.date}</p>
+                                                <p className='text-white xl:font-medium font-bold xl:text-sm text-xl'>{appointment.time}</p>
+                                                <p className='text-white xl:font-medium font-bold xl:text-sm text-xl'>{appointment.doctor}</p>
+                                                <p className='text-white xl:font-medium font-bold xl:text-sm text-xl'>{appointment.clinic}</p>
                                             </div>
                                         ))}
                                     </div>

@@ -25,14 +25,14 @@ const PatientDashboard: React.FC = () => {
     
     const Tab: React.FC<Tabs> = ({ tabName, tabLink, tabIcon }) => {
         return(
-            <a href='#' className='h-20 py-4 space-x-[22px] flex items-center justify-center bg-[#4CA9EE]'>
+            <a href='#' className='xl:h-12 h-20 py-4 flex items-center justify-center bg-[#4CA9EE]'>
                 <motion.div 
-                    className='h-20 py-4 pl-6 flex items-center justify-start bg-[#141718] w-full'
+                    className='xl:h-12 h-20 py-4 pl-6 flex items-center justify-start bg-[#141718] w-full'
                     whileHover={{ marginLeft: '6px', marginRight: '6px', color: '#4CA9EE' }}
                     onClick={() => setCurrentTab(tabLink)}
                 >
-                    <img src={tabIcon} alt='profile' className='w-10 h-10 mr-5'/>
-                    <h1 className='text-white font-bold text-2xl'>{tabName}</h1>
+                    <img src={tabIcon} alt='profile' className='w-10 h-10 xl:w-6 xl:h-6 mr-5 '/>
+                    <h1 className='text-white font-bold text-2xl xl:text-lg'>{tabName}</h1>
                 </motion.div>
             </a>
         )
@@ -42,11 +42,11 @@ const PatientDashboard: React.FC = () => {
         return(
                 <motion.a 
                     href='#'
-                    className='h-16 w-16 py-4 pl-6 flex items-center justify-center'
+                    className='xl:h-12 xl:w-12 p-2 my-2 h-16 w-16 flex items-center justify-center'
                     whileHover={{ marginLeft: '6px'}}
                     onClick={() => setCurrentTab(tabLink)}
                 >
-                    <img src={tabIcon} alt='profile' className='w-16 h-16'/>
+                    <img src={tabIcon} alt='profile' className='xl:w-12 xl:h-12 w-16 h-16'/>
                 </motion.a>
         )
     }
@@ -74,16 +74,16 @@ const PatientDashboard: React.FC = () => {
     };
 
     return (
-        <div className='w-full h-screen flex flex-row '>
+        <div className='w-full h-screen flex flex-row'>
             
             {/* Left Side */}
-            <div className={`flex-none w-${smallNav === true ? "24" : "72"} bg-[#141718] `}>
+            <div className={`flex-none ${smallNav === true ? "w-24" : "w-72 xl:w-52"} bg-[#141718] `}>
                 <div className='flex flex-col justify-between h-full'>
                     <div>
                         <a href='#'><img src={smallNav ? '/Logos/LogoIcon.svg' : '/Logos/Logo.svg'} alt='logo' className=''/></a>
                         
                         {/* Background for nav items */}
-                        <div className=' flex flex-col'>
+                        <div className={`flex flex-col ${smallNav ? 'items-center':''}`}>
                             {smallNav ? <SmallTab tabName='Home' tabLink="Home" tabIcon="/icons/HouseIcon.svg"></SmallTab> : <Tab tabName='Home' tabLink="Home" tabIcon="/icons/HouseIcon.svg"></Tab>}
                             {smallNav ? <SmallTab tabName='Appointments' tabLink="Appointments" tabIcon="/icons/CalendarIcon.svg"></SmallTab> : <Tab tabName='Appointments' tabLink="Appointments" tabIcon="/icons/CalendarIcon.svg"></Tab>}
                             {smallNav ? <SmallTab tabName='Profile' tabLink="Profile" tabIcon="/icons/PersonIcon.svg"></SmallTab> : <Tab tabName='Profile' tabLink="Profile" tabIcon="/icons/PersonIcon.svg"></Tab>}
@@ -110,13 +110,14 @@ const PatientDashboard: React.FC = () => {
 
             {/* Right Side */}
             <div className='w-full flex flex-col'>
+                
                 {/* Top Bar */}
                 <div className='bg-[#232627] py-8 px-10 flex justify-between flex-row'>
                     
                     <TimeDisplay />
 
                     {/* Search Bar */}
-                    <div className='rounded-md relative w-[500px] h-fit '>
+                    <div className='rounded-md relative w-[500px] 2xl:hidden h-fit '>
                         <div className='flex flex-row rounded-md'>
                             <input 
                                 type='text' 
