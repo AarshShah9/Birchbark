@@ -8,7 +8,7 @@ const Booking: React.FC = () => {
   const initTimeslots = [
     {
       day: new Date(),
-      times: [""],
+      times: [new Date()],
     },
   ];
 
@@ -16,13 +16,17 @@ const Booking: React.FC = () => {
   const [visibleSlot, setVisibleSlot] = useState<boolean>(false);
   const [curDay, setCurDay] = useState<Date>(new Date());
   const [curTime, setCurTime] = useState<string>("");
-  const [startDate, setStartDate] = useState<Date>(new Date());
   const [timeslots, setTimeslots] = useState<typeof initTimeslots>([]);
 
   // Function to handle clicked time
-  function handleClickedTime(day: Date, time: string) {
+  function handleClickedTime(day: Date, time: Date) {
     setCurDay(day);
-    setCurTime(time);
+    const formattedTime = time.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+    setCurTime(formattedTime);
     setVisibleSlot(true);
   }
 
@@ -54,14 +58,53 @@ const Booking: React.FC = () => {
         ][dayOfWeek];
   }
 
+  function formatDateString(): string {
+    const weekdays = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    const dayOfWeek = weekdays[curDay.getDay()];
+    const month = months[curDay.getMonth()];
+    const dayOfMonth = curDay.getDate();
+    const year = curDay.getFullYear();
+
+    return `${dayOfWeek} ${month}, ${dayOfMonth}, ${year}`;
+  }
+
   // Function to handle changing start date off the calendar
   function handleStartDate(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.id === "calendar" && e.target.value) {
-      setStartDate(new Date(e.target.value));
-      return;
+      const selectedDate = new Date(e.target.value);
+      const adjustedDate = new Date(
+        Date.UTC(
+          selectedDate.getFullYear(),
+          selectedDate.getMonth(),
+          selectedDate.getDate()
+        )
+      );
+      setCurDay(adjustedDate);
     } else if (e.target.id === "calendar" && !e.target.value) {
-      setStartDate(new Date());
-      return;
+      setCurDay(new Date());
     }
   }
 
@@ -73,30 +116,65 @@ const Booking: React.FC = () => {
     } else {
       const ampm = curTime.split(" ")[1];
       const timeSplit = curTime.split(":");
-      if (ampm === "PM" && curDay.getHours() !== 12) {
-        curDay.setHours(parseInt(timeSplit[0] ?? "0") + 12);
-      } else if (ampm === "AM" && curDay.getHours() === 12) {
+      const hours = parseInt(timeSplit[0] ?? "0");
+      const minutes = parseInt(timeSplit[1] ?? "0");
+
+      if (ampm === "PM" && hours !== 12) {
+        // Convert PM hours to 24-hour format
+        curDay.setHours(hours + 12);
+      } else if (ampm === "AM" && hours === 12) {
+        // Handle 12 AM
         curDay.setHours(0);
       } else {
-        curDay.setHours(parseInt(timeSplit[0] ?? "0"));
+        // For AM hours and PM hours when it's already 12 PM
+        curDay.setHours(hours);
       }
-      curDay.setMinutes(parseInt(timeSplit[1] ?? "0"));
+
+      // Set minutes and seconds
+      curDay.setMinutes(minutes);
       curDay.setSeconds(0);
+
       alert(curDay);
     }
   };
 
+  function generateDateTimes(startTime: Date, endTime: Date): Date[] {
+    const dateTimes: Date[] = [];
+
+    // Set the start time to 11:00 AM
+    startTime.setHours(11, 0, 0, 0);
+
+    // Iterate until the end time is reached
+    while (startTime < endTime) {
+      const newDateTime = new Date(startTime.getTime());
+      dateTimes.push(newDateTime);
+
+      // Increment the time by 30 minutes
+      startTime.setMinutes(startTime.getMinutes() + 30);
+    }
+    console.log(dateTimes);
+
+    return dateTimes;
+  }
+
   // Use effect to update timeslots
   React.useEffect(() => {
-    const date = new Date(startDate);
-    date.setDate(date.getDate() + 1);
+    const date = new Date(curDay);
+    // Get the start availablity time
+    const startTime = new Date();
+    const endTime = new Date();
+    endTime.setHours(14, 0, 0, 0); // Set the end time to 2 PM
+    const times = generateDateTimes(startTime, endTime);
+    console.log(curDay);
+    console.log(times);
     setTimeslots([
       {
         day: date,
-        times: ["11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM"],
+        times: times,
       },
     ]);
-  }, [startDate]);
+    console.log(timeslots);
+  }, [curDay]);
 
   return (
     <>
@@ -123,7 +201,7 @@ const Booking: React.FC = () => {
               className="my-4 flex min-w-[200px] items-center justify-center rounded-full bg-[#2a3943] p-3 text-white focus:outline-none"
               type="date"
               id="calendar"
-              value={startDate.toISOString().split("T")[0]}
+              value={curDay.toISOString().split("T")[0]}
               onChange={(e) => handleStartDate(e)}
               min={new Date().toISOString().split("T")[0]}
             />
@@ -137,68 +215,67 @@ const Booking: React.FC = () => {
               {/* Scheduling Component */}
               <div className="flex w-full flex-row items-center justify-center gap-2 lg:flex-col lg:gap-0">
                 {/* Timeslots by day */}
-                <div className="my-6 flex w-1/3 flex-row items-center justify-center gap-4 lg:flex-col">
-                  {timeslots.map((date) => (
-                    <div
-                      key={date.day.toDateString()}
-                      className="flex w-full flex-row items-center justify-center"
-                    >
-                      <div className="flex w-full flex-col gap-2">
-                        <h1 className="text-xl font-bold">
-                          {date.day.toDateString()}
-                        </h1>
-
-                        {/* Line separator */}
-                        <div className="h-[2px] w-[100%] bg-black" />
-
-                        {/* Times */}
-                        {date.times.map((time) => (
-                          <motion.button
-                            key={time}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.98 }}
-                            className={`flex select-none flex-row justify-between rounded-2xl border-2 ${
-                              date.day.getDate() === curDay.getDate() &&
-                              date.day.getMonth() === curDay.getMonth() &&
-                              date.day.getFullYear() === curDay.getFullYear() &&
-                              time === curTime
-                                ? "border-[#2a3943] bg-[#4CA9EE]"
-                                : "border-black"
-                            }`}
-                            onClick={() => handleClickedTime(date.day, time)}
-                          >
-                            <p
-                              className={`flex px-5 py-2 text-lg font-semibold ${
-                                date.day.getDate() === curDay.getDate() &&
-                                date.day.getMonth() === curDay.getMonth() &&
-                                date.day.getFullYear() ===
+                <div className="my-6 flex w-1/2 flex-row items-center justify-center gap-4 lg:w-[95%] lg:flex-col">
+                  <div className="flex w-full flex-row items-center justify-center">
+                    <div className="flex w-full flex-col gap-2">
+                      <h1 className="text-xl font-bold">
+                        {formatDateString()}
+                      </h1>
+                      {/* Line separator */}
+                      <div className="h-[2px] w-[100%] bg-black" />
+                      {/* Times */}
+                      {timeslots.map((day) => {
+                        if (day.day.toDateString() === curDay.toDateString()) {
+                          return day.times.map((time) => (
+                            <motion.button
+                              key={time.toString()}
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.98 }}
+                              className={`flex select-none flex-row justify-between rounded-2xl border-2 ${
+                                day.day.getDate() === curDay.getDate() &&
+                                day.day.getMonth() === curDay.getMonth() &&
+                                day.day.getFullYear() ===
                                   curDay.getFullYear() &&
-                                time === curTime
-                                  ? "text-white"
-                                  : "text-black"
+                                time.toLocaleTimeString([], {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                }) === curTime
+                                  ? "border-[#2a3943] bg-[#4CA9EE] text-white"
+                                  : "border-black text-black"
                               }`}
+                              onClick={() => handleClickedTime(day.day, time)}
                             >
-                              {time}
-                            </p>
-                            <div className="flex px-5 py-2">
-                              <BsArrowRight
-                                size={30}
-                                color={`${
-                                  date.day.getDate() === curDay.getDate() &&
-                                  date.day.getMonth() === curDay.getMonth() &&
-                                  date.day.getFullYear() ===
-                                    curDay.getFullYear() &&
-                                  time === curTime
-                                    ? "white"
-                                    : "black"
-                                }`}
-                              />
-                            </div>
-                          </motion.button>
-                        ))}
-                      </div>
+                              <time
+                                className={`flex px-5 py-2 text-lg font-semibold`}
+                              >
+                                {time.toLocaleTimeString([], {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                })}
+                              </time>
+                              <div className="flex px-5 py-2">
+                                <BsArrowRight
+                                  size={30}
+                                  color={`${
+                                    day.day.getDate() === curDay.getDate() &&
+                                    day.day.getMonth() === curDay.getMonth() &&
+                                    day.day.getFullYear() ===
+                                      curDay.getFullYear() &&
+                                    time.toLocaleTimeString([], {
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                    }) === curTime
+                                      ? "white"
+                                      : "black"
+                                  }`}
+                                />
+                              </div>
+                            </motion.button>
+                          ));
+                        }
+                      })}
                     </div>
-                  ))}
+                  </div>
                 </div>
               </div>
             </div>

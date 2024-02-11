@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { clinicLandingResources } from "~/resources/clinic-landing";
 
-const Questionnaire: React.FC = () => {
+const ClinicLanding2: React.FC = () => {
   return (
     <div className="bg-[#232627]">
       <div className="ml-12 flex h-[10vh] flex-initial p-6">
@@ -77,4 +77,4 @@ const Questionnaire: React.FC = () => {
   );
 };
 
-export default Questionnaire;
+export default ClinicLanding2;
