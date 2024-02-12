@@ -9,7 +9,7 @@ const EventPage: React.FC = () => {
 
   const { data: eventData } = api.events.getEventById.useQuery({
     // id: Number(id),
-    id: Number(1)
+    id: Number(1),
   });
 
   if (!eventData) {
@@ -19,7 +19,6 @@ const EventPage: React.FC = () => {
       </Layout>
     );
   }
-
 
   return (
     <Layout>

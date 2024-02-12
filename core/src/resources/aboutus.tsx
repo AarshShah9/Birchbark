@@ -34,8 +34,7 @@ export const aboutUsResources = {
     English: "You and your doctor can see each other while you talk",
   },
   phone: {
-    English:
-      "Call your doctor and talk over the phone",
+    English: "Call your doctor and talk over the phone",
   },
   text: {
     English:
@@ -45,27 +44,23 @@ export const aboutUsResources = {
     English: "How Birchbark Health works",
   },
   step1: {
-    English:
-      "Choose a time to meet with your doctor.",
+    English: "Choose a time to meet with your doctor.",
   },
   step2: {
-    English:
-      "Create an account on our secure platform.",
+    English: "Create an account on our secure platform.",
   },
   step3: {
     English:
       "Answer a few quick questions to help your doctor better understand your medical needs.",
   },
   step4: {
-    English:
-      "You will be sent a video link for your medical visit.",
+    English: "You will be sent a video link for your medical visit.",
   },
   step5: {
     English:
       "Click on the link when it is time for your visit and meet with your doctor.",
   },
   step6: {
-    English:
-      "Ready to book an appointment?",// Click to book an appointmnet
+    English: "Ready to book an appointment?", // Click to book an appointmnet
   },
 };

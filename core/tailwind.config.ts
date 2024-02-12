@@ -13,7 +13,7 @@ export default {
   ],
   theme: {
     screens: {
-      "3xl": {max: "1600px"},
+      "3xl": { max: "1600px" },
       // => @media (max-width: 1919px) { ... }
       "2xl": { max: "1419px" },
       // => @media (max-width: 1419px) { ... }
@@ -73,8 +73,8 @@ export default {
       fontFamily: {
         // sans: ["var(--font-karla)", ...fontFamily.sans],
         inter: "var(--font-inter)",
-        inikaBold: ['Inika-Bold', 'sans-serif'],
-        inikaRegular: ['Inika-Regular', 'sans-serif'],
+        inikaBold: ["Inika-Bold", "sans-serif"],
+        inikaRegular: ["Inika-Regular", "sans-serif"],
       },
       fontSize: {
         0: ["0px", "0px"],
