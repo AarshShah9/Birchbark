@@ -1,5 +1,5 @@
-import {api} from "~/utils/api";
+import { api } from "~/utils/api";
 
 const useUserStatus = () => {
-    return api.config.isUserDoctor.useQuery();
-}
+  return api.config.isUserDoctor.useQuery();
+};

@@ -6,7 +6,6 @@ import Icon from "~/components/Icon";
 import ChatModal from "../Chats/chat-modal";
 import _ from "lodash"; // Import Lodash for debouncing
 
-
 const PullingImages: React.FC = () => {
   const [visibleSearch, setVisibleSearch] = React.useState<boolean>(false);
 
@@ -39,20 +38,20 @@ const SendImageQuery = ({ propCloseHandler }: closeProps) => {
   const [search, setSearch] = React.useState<string>("");
   const [debouncedSearch, setDebouncedSearch] = React.useState<string>("");
 
-    // Debounce function to delay the search
-    const debouncedSetSearch = useCallback(
-        _.debounce((value) => {
-            setDebouncedSearch(value);
-            console.log("debounced");
-        }, 250), // 500 milliseconds delay
-        []
-    );
+  // Debounce function to delay the search
+  const debouncedSetSearch = useCallback(
+    _.debounce((value) => {
+      setDebouncedSearch(value);
+      console.log("debounced");
+    }, 250), // 500 milliseconds delay
+    []
+  );
 
-    // Handle search input changes
-    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearch(e.target.value);
-        debouncedSetSearch(e.target.value);
-    };
+  // Handle search input changes
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+    debouncedSetSearch(e.target.value);
+  };
 
   //  Create query
   const myQuery = api.image.getImages.useInfiniteQuery(

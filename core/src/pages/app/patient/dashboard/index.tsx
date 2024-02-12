@@ -1,10 +1,8 @@
-import React from 'react';
-import PatientDashboard from '../../../CustomPages/PatientDashboardPage';
+import React from "react";
+import PatientDashboard from "../../../CustomPages/PatientDashboardPage";
 
 const Dashboard = () => {
-    return (
-        <PatientDashboard />
-    )
-}
+  return <PatientDashboard />;
+};
 
 export default Dashboard;
