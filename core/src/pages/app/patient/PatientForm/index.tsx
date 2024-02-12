@@ -13,6 +13,7 @@ import { BsArrowRight } from "react-icons/bs";
 import { clinicLandingResources1 } from "~/resources/clinic-landing1";
 import { clinicLandingResources } from "~/resources/clinic-landing";
 import { questionnaireResources } from "~/resources/questionnaire";
+import { useRouter } from "next/router";
 
 type patientInputs = {
   confirmAppointment: boolean;
@@ -73,9 +74,12 @@ export default function Form() {
     formState: { errors, isValid },
   } = useForm<patientInputs>({});
 
+  const router = useRouter();
+
   const processForm: SubmitHandler<patientInputs> = (data) => {
     console.log(data);
     reset();
+    router.push("/app/patient/dashboard");
   };
 
   type FieldName = keyof patientInputs;
