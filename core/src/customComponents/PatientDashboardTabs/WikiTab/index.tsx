@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import Wiki from '../../../pages/app/articles';
+import React from "react";
+import WikiMain from "~/pages/app/articles/wikiMain";
 
 const WikiTab = () => {
-    
-    return (
-        <div className=''>
-            <Wiki />
-        </div>
-    );
+  return (
+    <div className="">
+      <WikiMain />
+    </div>
+  );
 };
 
 export default WikiTab;
