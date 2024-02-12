@@ -77,22 +77,22 @@ cancelButton.addEventListener('click', () => {
 });`;
 
 export const writeCodeChat = [
-    {
-        id: "0",
-        title: "HTML",
-        language: "html",
-        value: htmlCode,
-    },
-    {
-        id: "1",
-        title: "CSS",
-        language: "css",
-        value: cssCode,
-    },
-    {
-        id: "2",
-        title: "JS",
-        language: "javascript",
-        value: jsCode,
-    },
+  {
+    id: "0",
+    title: "HTML",
+    language: "html",
+    value: htmlCode,
+  },
+  {
+    id: "1",
+    title: "CSS",
+    language: "css",
+    value: cssCode,
+  },
+  {
+    id: "2",
+    title: "JS",
+    language: "javascript",
+    value: jsCode,
+  },
 ];

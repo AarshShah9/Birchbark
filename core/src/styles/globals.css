@@ -3,194 +3,191 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: 'Inika-Bold';
-    src: url('../../public/Inika-Bold.ttf');
+  font-family: "Inika-Bold";
+  src: url("../../public/Inika-Bold.ttf");
 }
 @font-face {
-    font-family: 'Inika-Regular';
-    src: url('../../public/Inika-Regular.ttf');
+  font-family: "Inika-Regular";
+  src: url("../../public/Inika-Regular.ttf");
 }
 
 @layer components {
-    .react-datepicker {
-        @apply !border-n-3 !rounded-lg !font-inter shadow-[0_0_1rem_0.25rem_rgba(0,0,0,0.04),0_2rem_2rem_-1rem_rgba(0,0,0,0.1)] overflow-hidden dark:bg-n-7 dark:!border-n-5;
-    }
+  .react-datepicker {
+    @apply overflow-hidden !rounded-lg !border-n-3 !font-inter shadow-[0_0_1rem_0.25rem_rgba(0,0,0,0.04),0_2rem_2rem_-1rem_rgba(0,0,0,0.1)] dark:!border-n-5 dark:bg-n-7;
+  }
 
-    .react-datepicker .react-datepicker__header {
-        @apply bg-transparent border-none;
-    }
+  .react-datepicker .react-datepicker__header {
+    @apply border-none bg-transparent;
+  }
 
-    .react-datepicker .react-datepicker__current-month {
-        @apply base2 font-semibold text-n-4/75;
-    }
+  .react-datepicker .react-datepicker__current-month {
+    @apply base2 font-semibold text-n-4/75;
+  }
 
-    .react-datepicker .react-datepicker__navigation {
-        @apply top-1.5;
-    }
+  .react-datepicker .react-datepicker__navigation {
+    @apply top-1.5;
+  }
 
-    .react-datepicker .react-datepicker__navigation-icon::before {
-        @apply transition-colors dark:border-n-4;
-    }
+  .react-datepicker .react-datepicker__navigation-icon::before {
+    @apply transition-colors dark:border-n-4;
+  }
 
-    .react-datepicker
+  .react-datepicker
     .react-datepicker__navigation:hover
     .react-datepicker__navigation-icon::before {
-        @apply dark:border-n-3;
-    }
+    @apply dark:border-n-3;
+  }
 
-    .react-datepicker .react-datepicker__triangle {
-        @apply hidden;
-    }
+  .react-datepicker .react-datepicker__triangle {
+    @apply hidden;
+  }
 
-    .react-datepicker .react-datepicker__day-name {
-        @apply pt-2 caption2 font-semibold text-n-5;
-    }
+  .react-datepicker .react-datepicker__day-name {
+    @apply caption2 pt-2 font-semibold text-n-5;
+  }
 
-    .react-datepicker .react-datepicker__day {
-        @apply py-[0.22rem] rounded caption1 transition-colors dark:text-n-1 dark:hover:text-n-7;
-    }
+  .react-datepicker .react-datepicker__day {
+    @apply caption1 rounded py-[0.22rem] transition-colors dark:text-n-1 dark:hover:text-n-7;
+  }
 
-    .react-datepicker .react-datepicker__day.past {
-        @apply text-n-4/50 pointer-events-none;
-    }
+  .react-datepicker .react-datepicker__day.past {
+    @apply pointer-events-none text-n-4/50;
+  }
 
-    .react-datepicker .react-datepicker__day--today {
-        @apply bg-n-3 text-n-1;
-    }
+  .react-datepicker .react-datepicker__day--today {
+    @apply bg-n-3 text-n-1;
+  }
 
-    .react-datepicker .react-datepicker__day--today.past {
-        @apply text-n-7 pointer-events-auto;
-    }
+  .react-datepicker .react-datepicker__day--today.past {
+    @apply pointer-events-auto text-n-7;
+  }
 
-    .react-datepicker .react-datepicker__day--selected {
-        @apply bg-primary-1 !text-n-1;
-    }
+  .react-datepicker .react-datepicker__day--selected {
+    @apply bg-primary-1 !text-n-1;
+  }
 
-    .react-datepicker .react-datepicker__day--keyboard-selected {
-        @apply bg-transparent;
-    }
+  .react-datepicker .react-datepicker__day--keyboard-selected {
+    @apply bg-transparent;
+  }
 
-    .react-datepicker .react-datepicker__day--outside-month {
-        @apply opacity-0 invisible;
-    }
+  .react-datepicker .react-datepicker__day--outside-month {
+    @apply invisible opacity-0;
+  }
 
-    .react-datepicker .react-datepicker__time-container,
-    .react-datepicker
+  .react-datepicker .react-datepicker__time-container,
+  .react-datepicker
     .react-datepicker__time-container
     .react-datepicker__time
     .react-datepicker__time-box {
-        @apply w-[15rem] text-left dark:bg-n-7 dark:border-n-5 !rounded-lg;
-    }
+    @apply w-[15rem] !rounded-lg text-left dark:border-n-5 dark:bg-n-7;
+  }
 
-    .react-datepicker
-    .react-datepicker__time-container
-    .react-datepicker__time {
-        @apply bg-transparent;
-    }
+  .react-datepicker .react-datepicker__time-container .react-datepicker__time {
+    @apply bg-transparent;
+  }
 
-    .react-datepicker .react-datepicker__header--time {
-        @apply hidden;
-    }
+  .react-datepicker .react-datepicker__header--time {
+    @apply hidden;
+  }
 
-    .react-datepicker .react-datepicker__time-list-item {
-        @apply transition-colors;
-    }
+  .react-datepicker .react-datepicker__time-list-item {
+    @apply transition-colors;
+  }
 
-    .react-datepicker
+  .react-datepicker
     .react-datepicker__time-container
     .react-datepicker__time
     .react-datepicker__time-box
     ul.react-datepicker__time-list
     li.react-datepicker__time-list-item {
-        @apply pl-5 leading-normal dark:text-n-4 dark:hover:text-n-7;
-    }
+    @apply pl-5 leading-normal dark:text-n-4 dark:hover:text-n-7;
+  }
 
-    .react-datepicker
+  .react-datepicker
     .react-datepicker__time-container
     .react-datepicker__time
     .react-datepicker__time-box
     ul.react-datepicker__time-list
     li.react-datepicker__time-list-item--selected {
-        @apply bg-primary-1 text-n-1 dark:text-n-1;
-    }
+    @apply bg-primary-1 text-n-1 dark:text-n-1;
+  }
 
-    .multiselect .multiselect__control {
-        @apply min-h-[3.25rem] p-0 border-2 border-n-3 rounded-xl base1 shadow-none outline-none transition-colors cursor-pointer hover:border-n-4/50 dark:bg-transparent dark:border-n-5;
-    }
+  .multiselect .multiselect__control {
+    @apply base1 min-h-[3.25rem] cursor-pointer rounded-xl border-2 border-n-3 p-0 shadow-none outline-none transition-colors hover:border-n-4/50 dark:border-n-5 dark:bg-transparent;
+  }
 
-    .multiselect .multiselect__control.multiselect__control--menu-is-open {
-        @apply border-primary-1;
-    }
+  .multiselect .multiselect__control.multiselect__control--menu-is-open {
+    @apply border-primary-1;
+  }
 
-    .multiselect .multiselect__value-container {
-        @apply pl-13 py-0 pr-0;
-    }
+  .multiselect .multiselect__value-container {
+    @apply py-0 pl-13 pr-0;
+  }
 
-    .multiselect-access .multiselect__value-container {
-        @apply pr-32;
-    }
+  .multiselect-access .multiselect__value-container {
+    @apply pr-32;
+  }
 
-    .multiselect .multiselect__input {
-        @apply dark:!text-n-1;
-    }
+  .multiselect .multiselect__input {
+    @apply dark:!text-n-1;
+  }
 
-    .multiselect .multiselect__input:focus {
-        @apply md:base1;
-    }
+  .multiselect .multiselect__input:focus {
+    @apply md:base1;
+  }
 
-    .multiselect .multiselect__placeholder {
-        @apply text-n-4/50;
-    }
+  .multiselect .multiselect__placeholder {
+    @apply text-n-4/50;
+  }
 
-    .multiselect .multiselect__value-container--has-value {
-        @apply pl-0;
-    }
+  .multiselect .multiselect__value-container--has-value {
+    @apply pl-0;
+  }
 
-    .multiselect .multiselect__multi-value {
-        @apply m-1 p-2 rounded-lg bg-n-3/50 fill-n-4/50 transition-colors hover:!bg-primary-1 hover:text-n-1 hover:fill-n-1 dark:bg-n-6;
-    }
+  .multiselect .multiselect__multi-value {
+    @apply m-1 rounded-lg bg-n-3/50 fill-n-4/50 p-2 transition-colors hover:!bg-primary-1 hover:fill-n-1 hover:text-n-1 dark:bg-n-6;
+  }
 
-    .multiselect .multiselect__multi-value__label {
-        @apply p-0 text-inherit transition-none;
-    }
+  .multiselect .multiselect__multi-value__label {
+    @apply p-0 text-inherit transition-none;
+  }
 
-    .multiselect .multiselect__multi-value__remove {
-        @apply p-0 hover:!bg-transparent hover:scale-110;
-    }
+  .multiselect .multiselect__multi-value__remove {
+    @apply p-0 hover:scale-110 hover:!bg-transparent;
+  }
 
-    .multiselect .multiselect__indicators {
-        @apply hidden;
-    }
+  .multiselect .multiselect__indicators {
+    @apply hidden;
+  }
 
-    .multiselect .multiselect__menu {
-        @apply z-10 mt-2 p-2 shadow-[inset_0_0_0_0.0625rem_#E8ECEF,0_0_1rem_0.25rem_rgba(0,0,0,0.04),0_2rem_2rem_-1rem_rgba(0,0,0,0.1)] rounded-xl dark:bg-n-7 dark:shadow-[inset_0_0_0_0.0625rem_#343839,0_0_1rem_0.25rem_rgba(0,0,0,0.04),0_2rem_2rem_-1rem_rgba(0,0,0,0.1)];
-    }
+  .multiselect .multiselect__menu {
+    @apply z-10 mt-2 rounded-xl p-2 shadow-[inset_0_0_0_0.0625rem_#E8ECEF,0_0_1rem_0.25rem_rgba(0,0,0,0.04),0_2rem_2rem_-1rem_rgba(0,0,0,0.1)] dark:bg-n-7 dark:shadow-[inset_0_0_0_0.0625rem_#343839,0_0_1rem_0.25rem_rgba(0,0,0,0.04),0_2rem_2rem_-1rem_rgba(0,0,0,0.1)];
+  }
 
-    .multiselect .multiselect__menu-list {
-        @apply max-h-[12rem] p-0 overflow-auto scroll-smooth;
-    }
+  .multiselect .multiselect__menu-list {
+    @apply max-h-[12rem] overflow-auto scroll-smooth p-0;
+  }
 
-    .multiselect .multiselect__option {
-        @apply flex items-center px-2 py-2.5 rounded-xl transition-colors cursor-pointer;
-    }
+  .multiselect .multiselect__option {
+    @apply flex cursor-pointer items-center rounded-xl px-2 py-2.5 transition-colors;
+  }
 
-    .multiselect .multiselect__option--is-focused {
-        @apply bg-n-3/50 dark:bg-n-6;
-    }
+  .multiselect .multiselect__option--is-focused {
+    @apply bg-n-3/50 dark:bg-n-6;
+  }
 }
-
 
 .cl-formButtonPrimary {
-    background-color: #4CA9EE;
+  background-color: #4ca9ee;
 }
 
-.cl-formButtonPrimary:hover{
-    background-color: #0080EC;
+.cl-formButtonPrimary:hover {
+  background-color: #0080ec;
 }
 
-.cl-footerActionLink{
-    color: #4CA9EE;
+.cl-footerActionLink {
+  color: #4ca9ee;
 }
-.cl-footerActionLink:hover{
-    color: #0080EC;
+.cl-footerActionLink:hover {
+  color: #0080ec;
 }
