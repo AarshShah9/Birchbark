@@ -2,16 +2,9 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-
-import { z } from "zod";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 // Imports of form components: Will be used later for prop passing
-import ClinicLandingPage from "../ClinicLandingPage/index";
-import ClinicLandingPage2 from "../ClinicLandingPage2/index";
-import Questionnaire from "../QuestionnairePage/index";
-import Booking from "../BookingPortalPage/index";
-
 // Booking Resources
 import Modal from "~/components/Modal";
 import { BsArrowRight } from "react-icons/bs";
@@ -20,7 +13,6 @@ import { BsArrowRight } from "react-icons/bs";
 import { clinicLandingResources1 } from "~/resources/clinic-landing1";
 import { clinicLandingResources } from "~/resources/clinic-landing";
 import { questionnaireResources } from "~/resources/questionnaire";
-import { set } from "lodash";
 
 type patientInputs = {
   confirmAppointment: boolean;

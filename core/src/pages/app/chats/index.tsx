@@ -1,8 +1,8 @@
 import React from "react";
-import ChatPage from "../CustomPages/ChatPage";
+import ChatPage from "./ChatPage";
 import Layout from "~/components/Layout";
 
-const chats: React.FC = () => {
+const index: React.FC = () => {
   return (
     <Layout>
       <ChatPage />
@@ -10,4 +10,4 @@ const chats: React.FC = () => {
   );
 };
 
-export default chats;
+export default index;
