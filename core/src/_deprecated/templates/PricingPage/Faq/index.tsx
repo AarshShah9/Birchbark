@@ -1,6 +1,6 @@
 import FaqItem from "@/components/FaqItem";
 
-import { faqPricing } from "@/mocks/faq";
+import { faqPricing } from "~/_deprecated/mocks/faq";
 
 type FaqProps = Record<string, never>;
 

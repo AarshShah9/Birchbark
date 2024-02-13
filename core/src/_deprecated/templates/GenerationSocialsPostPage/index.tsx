@@ -8,7 +8,7 @@ import SocialsPost from "@/components/SocialsPost";
 import SchedulePost from "@/components/SchedulePost";
 import ScheduleResult from "@/components/ScheduleResult";
 
-import { socailsPost } from "@/mocks/socialsPost";
+import { socailsPost } from "~/_deprecated/mocks/socialsPost";
 
 const GenerationSocialsPostPage = () => {
   const [message, setMessage] = useState<string>("");

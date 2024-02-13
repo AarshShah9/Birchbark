@@ -1,6 +1,6 @@
 import Member from "./Member";
 
-import { members } from "@/mocks/members";
+import { members } from "~/_deprecated/mocks/members";
 
 type TeamProps = Record<string, never>;
 

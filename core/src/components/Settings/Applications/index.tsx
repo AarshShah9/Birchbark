@@ -1,6 +1,6 @@
 import Application from "./Application";
 
-import { applications } from "@/mocks/applications";
+import { applications } from "~/_deprecated/mocks/applications";
 
 type ApplicationsProps = Record<string, never>;
 
