@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { BsArrowRight } from "react-icons/bs";
 import Modal from "~/components/Modal";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { formProps } from "~/pages/app/patient/patient-form";
 
@@ -14,160 +14,161 @@ const initTimeslots = [
 ];
 
 const AppointmentBooking = ({ next }: formProps) => {
-  const { setValue, register } = useFormContext();
+  const { setValue, register, getValues } = useFormContext();
   // States
   const [visibleSlot, setVisibleSlot] = useState<boolean>(false);
   const [curDay, setCurDay] = useState<Date>(new Date());
   const [curTime, setCurTime] = useState<string>("");
   const [timeslots, setTimeslots] = useState<typeof initTimeslots>([]);
-  const generateDateTimes = (startTime: Date, endTime: Date): Date[] => {
-    const dateTimes: Date[] = [];
 
-    // Set the start time to 11:00 AM
-    startTime.setHours(11, 0, 0, 0);
+  useEffect(() => {}, []);
 
-    // Iterate until the end time is reached
-    while (startTime < endTime) {
-      const newDateTime = new Date(startTime.getTime());
-      dateTimes.push(newDateTime);
+  // const generateDateTimes = (startTime: Date, endTime: Date): Date[] => {
+  //   const dateTimes: Date[] = [];
+  //
+  //   // Set the start time to 11:00 AM
+  //   startTime.setHours(11, 0, 0, 0);
+  //
+  //   // Iterate until the end time is reached
+  //   while (startTime < endTime) {
+  //     const newDateTime = new Date(startTime.getTime());
+  //     dateTimes.push(newDateTime);
+  //
+  //     // Increment the time by 30 minutes
+  //     startTime.setMinutes(startTime.getMinutes() + 30);
+  //   }
+  //
+  //   return dateTimes;
+  // };
 
-      // Increment the time by 30 minutes
-      startTime.setMinutes(startTime.getMinutes() + 30);
-    }
-    console.log(dateTimes);
-
-    return dateTimes;
-  };
-
-  // Use effect to update timeslots
-  React.useEffect(() => {
-    const date = new Date(curDay);
-    // Get the start availablity time
-    const startTime = new Date();
-    const endTime = new Date();
-    endTime.setHours(14, 0, 0, 0); // Example set time
-    const times = generateDateTimes(startTime, endTime);
-    setTimeslots([
-      {
-        day: date,
-        times: times,
-      },
-    ]);
-    console.log(timeslots);
-  }, [curDay]);
+  // // Use effect to update timeslots
+  // React.useEffect(() => {
+  //   const date = new Date(curDay);
+  //   // Get the start availablity time
+  //   const startTime = new Date();
+  //   const endTime = new Date();
+  //   endTime.setHours(14, 0, 0, 0); // Example set time
+  //   const times = generateDateTimes(startTime, endTime);
+  //   setTimeslots([
+  //     {
+  //       day: date,
+  //       times: times,
+  //     },
+  //   ]);
+  //   console.log(timeslots);
+  // }, [curDay]);
 
   // Function to handle clicked time
-  function handleClickedTime(day: Date, time: Date) {
-    setCurDay(day);
-    const formattedTime = time.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-
-    setCurTime(formattedTime);
-    setVisibleSlot(true);
-  }
-  // Function to handle clicking yes on modal
-  function handleConfirm() {
-    setVisibleSlot(false);
-  }
-
-  // Function to handle clicking no or closing on modal
-  function handleCancel() {
-    setVisibleSlot(false);
-    setCurTime("");
-  }
-
-  // Function to get day of week
-  function getDayOfWeek() {
-    const dayOfWeek = curDay.getDay();
-    return isNaN(dayOfWeek)
-      ? null
-      : [
-          "Sunday",
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-        ][dayOfWeek];
-  }
-
-  function formatDateString(): string {
-    const weekdays = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ];
-    const months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-
-    const dayOfWeek = weekdays[curDay.getDay()];
-    const month = months[curDay.getMonth()];
-    const dayOfMonth = curDay.getDate();
-    const year = curDay.getFullYear();
-
-    return `${dayOfWeek} ${month}, ${dayOfMonth}, ${year}`;
-  }
-
-  // Function to handle changing start date off the calendar
-  function handleStartDate(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.id === "calendar" && e.target.value) {
-      const selectedDate = new Date(e.target.value);
-      setCurDay(selectedDate);
-    } else if (e.target.id === "calendar" && !e.target.value) {
-      setCurDay(new Date());
-    }
-  }
-
-  // Function to handle submit
-  const handleBooking = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.preventDefault();
-    if (curTime === "") {
-      alert("Please select a time");
-    } else {
-      const ampm = curTime.split(" ")[1];
-      const timeSplit = curTime.split(":");
-      const hours = parseInt(timeSplit[0] ?? "0");
-      const minutes = parseInt(timeSplit[1] ?? "0");
-
-      if (ampm === "PM" && hours !== 12) {
-        // Convert PM hours to 24-hour format
-        curDay.setHours(hours + 12);
-      } else if (ampm === "AM" && hours === 12) {
-        // Handle 12 AM
-        curDay.setHours(0);
-      } else {
-        // For AM hours and PM hours when it's already 12 PM
-        curDay.setHours(hours);
-      }
-
-      // Set minutes and seconds
-      curDay.setMinutes(minutes);
-      curDay.setSeconds(0);
-
-      next();
-    }
-  };
+  // function handleClickedTime(day: Date, time: Date) {
+  //   setCurDay(day);
+  //   const formattedTime = time.toLocaleTimeString("en-US", {
+  //     hour: "2-digit",
+  //     minute: "2-digit",
+  //   });
+  //   setCurTime(formattedTime);
+  //   setVisibleSlot(true);
+  // }
+  // // Function to handle clicking yes on modal
+  // function handleConfirm() {
+  //   setVisibleSlot(false);
+  // }
+  //
+  // // Function to handle clicking no or closing on modal
+  // function handleCancel() {
+  //   setVisibleSlot(false);
+  //   setCurTime("");
+  // }
+  //
+  // // Function to get day of week
+  // function getDayOfWeek() {
+  //   const dayOfWeek = curDay.getDay();
+  //   return isNaN(dayOfWeek)
+  //     ? null
+  //     : [
+  //         "Sunday",
+  //         "Monday",
+  //         "Tuesday",
+  //         "Wednesday",
+  //         "Thursday",
+  //         "Friday",
+  //         "Saturday",
+  //       ][dayOfWeek];
+  // }
+  //
+  // function formatDateString(): string {
+  //   const weekdays = [
+  //     "Sunday",
+  //     "Monday",
+  //     "Tuesday",
+  //     "Wednesday",
+  //     "Thursday",
+  //     "Friday",
+  //     "Saturday",
+  //   ];
+  //   const months = [
+  //     "January",
+  //     "February",
+  //     "March",
+  //     "April",
+  //     "May",
+  //     "June",
+  //     "July",
+  //     "August",
+  //     "September",
+  //     "October",
+  //     "November",
+  //     "December",
+  //   ];
+  //
+  //   const dayOfWeek = weekdays[curDay.getDay()];
+  //   const month = months[curDay.getMonth()];
+  //   const dayOfMonth = curDay.getDate();
+  //   const year = curDay.getFullYear();
+  //
+  //   return `${dayOfWeek} ${month}, ${dayOfMonth}, ${year}`;
+  // }
+  //
+  // // Function to handle changing start date off the calendar
+  // function handleStartDate(e: React.ChangeEvent<HTMLInputElement>) {
+  //   if (e.target.id === "calendar" && e.target.value) {
+  //     const selectedDate = new Date(e.target.value);
+  //     setCurDay(selectedDate);
+  //   } else if (e.target.id === "calendar" && !e.target.value) {
+  //     setCurDay(new Date());
+  //   }
+  // }
+  //
+  // // Function to handle submit
+  // const handleBooking = (
+  //   e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  // ) => {
+  //   e.preventDefault();
+  //   if (curTime === "") {
+  //     alert("Please select a time");
+  //   } else {
+  //     const ampm = curTime.split(" ")[1];
+  //     const timeSplit = curTime.split(":");
+  //     const hours = parseInt(timeSplit[0] ?? "0");
+  //     const minutes = parseInt(timeSplit[1] ?? "0");
+  //
+  //     if (ampm === "PM" && hours !== 12) {
+  //       // Convert PM hours to 24-hour format
+  //       curDay.setHours(hours + 12);
+  //     } else if (ampm === "AM" && hours === 12) {
+  //       // Handle 12 AM
+  //       curDay.setHours(0);
+  //     } else {
+  //       // For AM hours and PM hours when it's already 12 PM
+  //       curDay.setHours(hours);
+  //     }
+  //
+  //     // Set minutes and seconds
+  //     curDay.setMinutes(minutes);
+  //     curDay.setSeconds(0);
+  //
+  //     next();
+  //   }
+  // };
 
   return (
     <>
@@ -195,8 +196,8 @@ const AppointmentBooking = ({ next }: formProps) => {
               type="date"
               id="calendar"
               {...register("bookingDay", { required: true })}
-              value={curDay.toISOString().split("T")[0]}
-              onChange={(e) => handleStartDate(e)}
+              // value={curDay.toISOString().split("T")[0]}
+              // onChange={(e) => handleStartDate(e)}
               min={new Date().toISOString().split("T")[0]}
             />
 
@@ -213,7 +214,7 @@ const AppointmentBooking = ({ next }: formProps) => {
                   <div className="flex w-full flex-row items-center justify-center">
                     <div className="flex w-full flex-col gap-2">
                       <h1 className="text-xl font-bold">
-                        {formatDateString()}
+                        {/*{formatDateString()}*/}
                       </h1>
                       {/* Line separator */}
                       <div className="h-[2px] w-[100%] bg-black" />
@@ -237,7 +238,7 @@ const AppointmentBooking = ({ next }: formProps) => {
                                   ? "border-[#2a3943] bg-[#4CA9EE] text-white"
                                   : "border-black text-black"
                               }`}
-                              onClick={() => handleClickedTime(day.day, time)}
+                              // onClick={() => handleClickedTime(day.day, time)}
                             >
                               <time
                                 className={`flex px-5 py-2 text-lg font-semibold`}
@@ -282,7 +283,7 @@ const AppointmentBooking = ({ next }: formProps) => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
               className="mt-4 flex min-w-[200px] select-none items-center justify-center rounded-full bg-[#4CA9EE] text-white"
-              onClick={handleBooking}
+              // onClick={handleBooking}
             >
               <p className="p-3 font-inikaBold text-2xl text-white">Submit</p>
             </motion.button>
@@ -297,7 +298,8 @@ const AppointmentBooking = ({ next }: formProps) => {
         classButtonClose="hidden md:flex md:absolute md:top-6 md:left-6 dark:fill-n-1"
         classOverlay="md:bg-n-1"
         visible={visibleSlot}
-        onClose={() => handleCancel()}
+        // onClose={() => handleCancel()}
+        onClose={() => {}}
       >
         <div className="flex items-center justify-center p-12 font-inter text-white">
           <div className="flex flex-col gap-y-4">
@@ -314,7 +316,7 @@ const AppointmentBooking = ({ next }: formProps) => {
               </div>
               <div className="flex flex-col">
                 <h1 className="text-lg font-semibold">
-                  {curTime === "" ? "" : getDayOfWeek()}
+                  {/*{curTime === "" ? "" : getDayOfWeek()}*/}
                 </h1>
                 <p className="text-sm font-extralight">
                   {curTime === ""
@@ -331,7 +333,7 @@ const AppointmentBooking = ({ next }: formProps) => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
                 className="mt-4 flex w-[125px] items-center justify-center rounded-full bg-[#4CA9EE] text-white"
-                onClick={handleConfirm}
+                // onClick={handleConfirm}
               >
                 <p className="p-3 font-inter text-lg">Yes</p>
               </motion.button>
@@ -339,7 +341,7 @@ const AppointmentBooking = ({ next }: formProps) => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
                 className="mt-4 flex w-[125px] items-center justify-center rounded-full bg-[#EF4444] text-white"
-                onClick={handleCancel}
+                // onClick={handleCancel}
               >
                 <p className="p-3 font-inter text-lg">No</p>
               </motion.button>
