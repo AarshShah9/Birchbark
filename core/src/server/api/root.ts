@@ -9,6 +9,8 @@ import { eventsRouter } from "~/server/api/routers/eventsRouter";
 import { appointmentDoctorRouter } from "~/server/api/routers/appointmentDoctorRouter";
 import { configRouter } from "~/server/api/routers/configRouter";
 import { organizationRouter } from "~/server/api/routers/organizationRouter";
+import { appointmentPatientRouter } from "~/server/api/routers/appointmentPatientRouter";
+import { patientRouter } from "~/server/api/routers/patientRouter";
 
 /*
  * This is the primary router for your server.
@@ -26,6 +28,8 @@ export const appRouter = createTRPCRouter({
   events: eventsRouter,
   config: configRouter,
   organization: organizationRouter,
+  appointmentPatient: appointmentPatientRouter,
+  patient: patientRouter,
 });
 
 // export type definition of API

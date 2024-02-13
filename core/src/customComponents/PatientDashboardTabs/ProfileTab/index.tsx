@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { api } from "~/utils/api";
 
 const ProfileTab = () => {
   const [editDetails, setEdit] = useState(true);
   const [emergencyDetails, setEmergencyDetails] = useState(true);
+  const { data } = api.patient.getMe.useQuery();
 
   return (
-    <div className="flex h-full w-full bg-[#232627]">
+    <div className="flex h-full w-full bg-[#232627] pt-24">
       {/* Details About me panel */}
       <div className="mx-10 flex h-fit w-96 flex-none flex-col rounded-lg bg-[#141718] p-8">
         <div className="mb-4 flex flex-row items-center">
@@ -94,34 +96,34 @@ const ProfileTab = () => {
           <div className="mx-2">
             <div className="flex flex-col">
               <h2 className="text-2xl font-medium">Name</h2>
-              <h3 className="text-xl text-[#B7B7B7] ">Alice Jones</h3>
+              <h3 className="text-xl text-[#B7B7B7] ">{data?.name}</h3>
             </div>
             <div className="flex flex-col">
               <h2 className="text-2xl font-medium">Relation</h2>
               <h3 className="text-xl text-[#B7B7B7] ">Mother</h3>
             </div>
-            <div className="flex flex-col">
-              <h2 className="text-2xl font-medium">Address</h2>
-              <h3 className="text-xl text-[#B7B7B7] ">682 Toronto Street...</h3>
-            </div>
+            {/*<div className="flex flex-col">*/}
+            {/*  <h2 className="text-2xl font-medium">Address</h2>*/}
+            {/*  <h3 className="text-xl text-[#B7B7B7] ">682 Toronto Street...</h3>*/}
+            {/*</div>*/}
           </div>
           <div className="mx-2">
             <div className="flex flex-col">
               <h2 className="text-2xl font-medium">Email</h2>
-              <h3 className="text-xl text-[#B7B7B7] ">alice.jones@gmail.com</h3>
+              <h3 className="text-xl text-[#B7B7B7] ">{data?.email}</h3>
             </div>
             <div className="flex flex-col">
-              <h2 className="text-2xl font-medium">Mobile Phone</h2>
-              <h3 className="text-xl text-[#B7B7B7] ">682-902-2344</h3>
+              <h2 className="text-2xl font-medium">Phone</h2>
+              <h3 className="text-xl text-[#B7B7B7] ">{data?.phoneNumber}</h3>
             </div>
-            <div className="flex flex-col">
-              <h2 className="text-2xl font-medium">Home Phone</h2>
-              <h3 className="text-xl text-[#B7B7B7] ">682-902-2344</h3>
-            </div>
-            <div className="flex flex-col">
-              <h2 className="text-2xl font-medium">Work Phone</h2>
-              <h3 className="text-xl text-[#B7B7B7] ">682-902-2344</h3>
-            </div>
+            {/*<div className="flex flex-col">*/}
+            {/*  <h2 className="text-2xl font-medium">Home Phone</h2>*/}
+            {/*  <h3 className="text-xl text-[#B7B7B7] ">682-902-2344</h3>*/}
+            {/*</div>*/}
+            {/*<div className="flex flex-col">*/}
+            {/*  <h2 className="text-2xl font-medium">Work Phone</h2>*/}
+            {/*  <h3 className="text-xl text-[#B7B7B7] ">682-902-2344</h3>*/}
+            {/*</div>*/}
           </div>
         </div>
 

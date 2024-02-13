@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-// Imports of form components: Will be used later for prop passing
 // Booking Resources
 import Modal from "~/components/Modal";
 import { BsArrowRight } from "react-icons/bs";
@@ -14,13 +13,13 @@ import { clinicLandingResources1 } from "~/resources/clinic-landing1";
 import { clinicLandingResources } from "~/resources/clinic-landing";
 import { questionnaireResources } from "~/resources/questionnaire";
 import { useRouter } from "next/router";
+import { api } from "~/utils/api";
 
 type patientInputs = {
-  confirmAppointment: boolean;
   firstName: string;
   lastName: string;
   birthday: Date;
-  status: number;
+  status: string;
   reasonOfVisit: string;
   medicalIssue: string;
   bookingDay: Date;
@@ -63,7 +62,6 @@ export default function Form() {
   const [currentStep, setCurrentStep] = useState(0);
   const [language, setLanguage] = useState("English");
   const delta = currentStep - previousStep;
-
   const {
     register,
     handleSubmit,
@@ -73,11 +71,17 @@ export default function Form() {
     setValue,
     formState: { errors, isValid },
   } = useForm<patientInputs>({});
-
   const router = useRouter();
+
+  const mutate = api.appointmentPatient.createNewAppointment.useMutation();
 
   const processForm: SubmitHandler<patientInputs> = (data) => {
     console.log(data);
+    mutate.mutate({
+      ...data,
+      bookingDay: data.bookingDay.toString(),
+      birthday: data.birthday.toString(),
+    });
     reset();
     router.push("/app/patient/dashboard");
   };
@@ -499,27 +503,27 @@ export default function Form() {
 
               <div className="flex w-[65%] flex-col items-center justify-center rounded-[48px] bg-white p-14 text-lg text-black lg:w-[95%] lg:p-8 md:text-sm">
                 <div className="w-full">
-                  <div className="flex flex-row p-5">
-                    <input
-                      type="checkbox"
-                      {...register("confirmAppointment", { required: true })}
-                      className="border-w mr-4 h-8 w-8 cursor-pointer border-2 accent-blue-400 dark:bg-white"
-                      aria-invalid={
-                        errors.confirmAppointment ? "true" : "false"
-                      }
-                    />
+                  {/*<div className="flex flex-row p-5">*/}
+                  {/*  <input*/}
+                  {/*    type="checkbox"*/}
+                  {/*    {...register("confirmAppointment", { required: true })}*/}
+                  {/*    className="border-w mr-4 h-8 w-8 cursor-pointer border-2 accent-blue-400 dark:bg-white"*/}
+                  {/*    aria-invalid={*/}
+                  {/*      errors.confirmAppointment ? "true" : "false"*/}
+                  {/*    }*/}
+                  {/*  />*/}
 
-                    <label className="flex">
-                      <span className="font-bold">
-                        {questionnaireResources.confirmAppointment.English}
-                      </span>
-                    </label>
-                  </div>
-                  {errors.confirmAppointment?.type === "required" && (
-                    <p className="text-sm text-red-500" role="alert">
-                      Please confirm your appointment booking
-                    </p>
-                  )}
+                  {/*  <label className="flex">*/}
+                  {/*    <span className="font-bold">*/}
+                  {/*      {questionnaireResources.confirmAppointment.English}*/}
+                  {/*    </span>*/}
+                  {/*  </label>*/}
+                  {/*</div>*/}
+                  {/*{errors.confirmAppointment?.type === "required" && (*/}
+                  {/*  <p className="text-sm text-red-500" role="alert">*/}
+                  {/*    Please confirm your appointment booking*/}
+                  {/*  </p>*/}
+                  {/*)}*/}
                   <div className="flex flex-row lg:flex-col">
                     <div className="flex w-1/2 flex-col p-5 lg:w-full">
                       <label>{questionnaireResources.firstName.English}</label>
