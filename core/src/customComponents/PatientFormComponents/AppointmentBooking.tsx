@@ -1,23 +1,36 @@
 import { motion } from "framer-motion";
 import { BsArrowRight } from "react-icons/bs";
 import Modal from "~/components/Modal";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { formProps } from "~/pages/app/patient/patient-form";
 import { api } from "~/utils/api";
 
-// Info and Functions for Booking
-const initTimeslots = [
-  {
-    day: new Date(),
-    times: [new Date()],
-  },
-];
+// // Info and Functions for Booking
+// const initTimeslots = [
+//   {
+//     day: new Date(),
+//     times: [new Date()],
+//   },
+// ];
 
-type availability = {
+const convertToMST = (timeString: string) => {
+  // Parse the time string to a Date object
+  const date = new Date(timeString + "Z"); // Adding 'Z' assumes the time is in UTC
+
+  // Convert to MST by subtracting 7 hours
+  date.setHours(date.getHours() - 7);
+
+  // Format the date to extract the time part
+  const hours = date.getHours().toString().padStart(2, "0");
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+
+  return `${hours}:${minutes}`;
+};
+
+type appt = {
   startTime: string;
   endTime: string;
-  interval: number;
 };
 
 const AppointmentBooking = ({ next }: formProps) => {
@@ -26,24 +39,33 @@ const AppointmentBooking = ({ next }: formProps) => {
   const [visibleSlot, setVisibleSlot] = useState<boolean>(false);
   const [curDay, setCurDay] = useState<Date>(new Date());
   const [curTime, setCurTime] = useState<string>("");
-  const [timeslots, setTimeslots] = useState<typeof initTimeslots>([]);
-  const availabilityQuery =
-    api.appointmentPatient.getPatientsDoctorAvailability;
-  const [availability, setAvailability] = useState<any>();
-
-  const bookingDay = watch("bookingDay");
-
+  const [queryDate, setQueryDate] = useState<boolean>(false);
+  const [chosenTimeSlot, setChosenTimeSlot] = useState<appt>();
+  const { data } =
+    api.appointmentPatient.getPatientsDoctorAvailability.useQuery(
+      {
+        date: getValues("bookingDay"),
+      },
+      {
+        enabled: queryDate,
+      }
+    );
   // Custom onChange handler
   const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     // Get the value from the event target
     const { value } = event.target;
     console.log("New booking day selected:", value);
-    // const { data } = availabilityQuery.useQuery({
-    //   date: value,
-    // });
-    // setAvailability(data);
-    // console.log("Availability:", data);
+    setQueryDate(true);
+    setValue("bookingDay", value);
   };
+
+  const onChooseTimeSlot = useCallback(
+    (timeSlot: appt) => () => {
+      setChosenTimeSlot(timeSlot);
+      setVisibleSlot(true);
+    },
+    []
+  );
 
   return (
     <>
@@ -93,57 +115,38 @@ const AppointmentBooking = ({ next }: formProps) => {
                         {/*{formatDateString()}*/}
                       </h1>
                       {/* Line separator */}
-                      <div className="h-[2px] w-[100%] bg-black" />
+                      <div className="max-h-60 w-[100] overflow-auto bg-black" />
                       {/* Times */}
-                      {timeslots.map((day) => {
-                        if (day.day.toDateString() === curDay.toDateString()) {
-                          return day.times.map((time) => (
-                            <motion.button
-                              key={time.toString()}
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.98 }}
-                              className={`flex select-none flex-row justify-between rounded-2xl border-2 ${
-                                day.day.getDate() === curDay.getDate() &&
-                                day.day.getMonth() === curDay.getMonth() &&
-                                day.day.getFullYear() ===
-                                  curDay.getFullYear() &&
-                                time.toLocaleTimeString([], {
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                }) === curTime
-                                  ? "border-[#2a3943] bg-[#4CA9EE] text-white"
-                                  : "border-black text-black"
-                              }`}
-                              // onClick={() => handleClickedTime(day.day, time)}
+                      {data?.map((day, i) => {
+                        return (
+                          <motion.button
+                            key={i}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.98 }}
+                            className={`flex select-none flex-row justify-between rounded-2xl border-2 ${
+                              chosenTimeSlot?.startTime === day.startTime
+                                ? "border-[#2a3943] bg-[#4CA9EE] text-white"
+                                : "border-black text-black"
+                            }`}
+                            onClick={onChooseTimeSlot(day)}
+                          >
+                            <time
+                              className={`flex px-5 py-2 text-lg font-semibold`}
                             >
-                              <time
-                                className={`flex px-5 py-2 text-lg font-semibold`}
-                              >
-                                {time.toLocaleTimeString([], {
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                })}
-                              </time>
-                              <div className="flex px-5 py-2">
-                                <BsArrowRight
-                                  size={30}
-                                  color={`${
-                                    day.day.getDate() === curDay.getDate() &&
-                                    day.day.getMonth() === curDay.getMonth() &&
-                                    day.day.getFullYear() ===
-                                      curDay.getFullYear() &&
-                                    time.toLocaleTimeString([], {
-                                      hour: "2-digit",
-                                      minute: "2-digit",
-                                    }) === curTime
-                                      ? "white"
-                                      : "black"
-                                  }`}
-                                />
-                              </div>
-                            </motion.button>
-                          ));
-                        }
+                              Start Time {convertToMST(day.startTime)}
+                            </time>
+                            <div className="flex px-5 py-2">
+                              <BsArrowRight
+                                size={30}
+                                color={`${
+                                  chosenTimeSlot?.startTime === day.startTime
+                                    ? "white"
+                                    : "black"
+                                }`}
+                              />
+                            </div>
+                          </motion.button>
+                        );
                       })}
                     </div>
                   </div>
@@ -228,152 +231,5 @@ const AppointmentBooking = ({ next }: formProps) => {
     </>
   );
 };
-
-// const generateDateTimes = (startTime: Date, endTime: Date): Date[] => {
-//   const dateTimes: Date[] = [];
-//
-//   // Set the start time to 11:00 AM
-//   startTime.setHours(11, 0, 0, 0);
-//
-//   // Iterate until the end time is reached
-//   while (startTime < endTime) {
-//     const newDateTime = new Date(startTime.getTime());
-//     dateTimes.push(newDateTime);
-//
-//     // Increment the time by 30 minutes
-//     startTime.setMinutes(startTime.getMinutes() + 30);
-//   }
-//
-//   return dateTimes;
-// };
-
-// // Use effect to update timeslots
-// React.useEffect(() => {
-//   const date = new Date(curDay);
-//   // Get the start availablity time
-//   const startTime = new Date();
-//   const endTime = new Date();
-//   endTime.setHours(14, 0, 0, 0); // Example set time
-//   const times = generateDateTimes(startTime, endTime);
-//   setTimeslots([
-//     {
-//       day: date,
-//       times: times,
-//     },
-//   ]);
-//   console.log(timeslots);
-// }, [curDay]);
-
-// Function to handle clicked time
-// function handleClickedTime(day: Date, time: Date) {
-//   setCurDay(day);
-//   const formattedTime = time.toLocaleTimeString("en-US", {
-//     hour: "2-digit",
-//     minute: "2-digit",
-//   });
-//   setCurTime(formattedTime);
-//   setVisibleSlot(true);
-// }
-// // Function to handle clicking yes on modal
-// function handleConfirm() {
-//   setVisibleSlot(false);
-// }
-//
-// // Function to handle clicking no or closing on modal
-// function handleCancel() {
-//   setVisibleSlot(false);
-//   setCurTime("");
-// }
-//
-// // Function to get day of week
-// function getDayOfWeek() {
-//   const dayOfWeek = curDay.getDay();
-//   return isNaN(dayOfWeek)
-//     ? null
-//     : [
-//         "Sunday",
-//         "Monday",
-//         "Tuesday",
-//         "Wednesday",
-//         "Thursday",
-//         "Friday",
-//         "Saturday",
-//       ][dayOfWeek];
-// }
-//
-// function formatDateString(): string {
-//   const weekdays = [
-//     "Sunday",
-//     "Monday",
-//     "Tuesday",
-//     "Wednesday",
-//     "Thursday",
-//     "Friday",
-//     "Saturday",
-//   ];
-//   const months = [
-//     "January",
-//     "February",
-//     "March",
-//     "April",
-//     "May",
-//     "June",
-//     "July",
-//     "August",
-//     "September",
-//     "October",
-//     "November",
-//     "December",
-//   ];
-//
-//   const dayOfWeek = weekdays[curDay.getDay()];
-//   const month = months[curDay.getMonth()];
-//   const dayOfMonth = curDay.getDate();
-//   const year = curDay.getFullYear();
-//
-//   return `${dayOfWeek} ${month}, ${dayOfMonth}, ${year}`;
-// }
-//
-// // Function to handle changing start date off the calendar
-// function handleStartDate(e: React.ChangeEvent<HTMLInputElement>) {
-//   if (e.target.id === "calendar" && e.target.value) {
-//     const selectedDate = new Date(e.target.value);
-//     setCurDay(selectedDate);
-//   } else if (e.target.id === "calendar" && !e.target.value) {
-//     setCurDay(new Date());
-//   }
-// }
-//
-// // Function to handle submit
-// const handleBooking = (
-//   e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-// ) => {
-//   e.preventDefault();
-//   if (curTime === "") {
-//     alert("Please select a time");
-//   } else {
-//     const ampm = curTime.split(" ")[1];
-//     const timeSplit = curTime.split(":");
-//     const hours = parseInt(timeSplit[0] ?? "0");
-//     const minutes = parseInt(timeSplit[1] ?? "0");
-//
-//     if (ampm === "PM" && hours !== 12) {
-//       // Convert PM hours to 24-hour format
-//       curDay.setHours(hours + 12);
-//     } else if (ampm === "AM" && hours === 12) {
-//       // Handle 12 AM
-//       curDay.setHours(0);
-//     } else {
-//       // For AM hours and PM hours when it's already 12 PM
-//       curDay.setHours(hours);
-//     }
-//
-//     // Set minutes and seconds
-//     curDay.setMinutes(minutes);
-//     curDay.setSeconds(0);
-//
-//     next();
-//   }
-// };
 
 export default AppointmentBooking;

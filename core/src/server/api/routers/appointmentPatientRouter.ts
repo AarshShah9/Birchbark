@@ -13,7 +13,7 @@ export const appointmentPatientRouter = createTRPCRouter({
         z.object({
           startTime: z.string(),
           endTime: z.string(),
-          interval: z.number(),
+          // interval: z.number(),
         })
       )
     )
@@ -71,33 +71,42 @@ export const appointmentPatientRouter = createTRPCRouter({
           new Date(a.startTime).getTime() - new Date(b.startTime).getTime()
       );
 
-      // Calculate available time slots
       let availableSlots = [];
       let lastEndTime = startOfDay;
 
       appointmentsForDay.forEach((appointment) => {
         const appointmentStart = new Date(appointment.startTime);
-        if (appointmentStart > lastEndTime) {
-          // There's a gap between appointments
+        while (lastEndTime < appointmentStart) {
+          // Calculate next slot's end time, but it should not exceed the appointment start time
+          let nextSlotEndTime = new Date(
+            lastEndTime.getTime() + 30 * 60 * 1000
+          ); // Add 30 minutes
+          if (nextSlotEndTime > appointmentStart) {
+            nextSlotEndTime = appointmentStart; // Adjust to not exceed the appointment start time
+          }
+          // Push the 30-min interval slot
           availableSlots.push({
-            startTime: lastEndTime.toISOString(),
-            endTime: appointmentStart.toISOString(),
-            interval:
-              (appointmentStart.getTime() - lastEndTime.getTime()) /
-              (60 * 1000), // Calculate interval in minutes
+            startTime: lastEndTime.toISOString().slice(0, 16),
+            endTime: nextSlotEndTime.toISOString().slice(0, 16),
           });
+          lastEndTime = nextSlotEndTime; // Move to the next slot
         }
-        lastEndTime = new Date(appointment.endTime); // Update lastEndTime to the end of the current appointment
+        lastEndTime = new Date(appointment.endTime); // Move past the current appointment
       });
 
       // Check for a slot after the last appointment till the end of the working day
-      if (lastEndTime < endOfDay) {
+      while (lastEndTime < endOfDay) {
+        let nextSlotEndTime = new Date(lastEndTime.getTime() + 30 * 60 * 1000); // Add 30 minutes
+        if (nextSlotEndTime > endOfDay) {
+          nextSlotEndTime = endOfDay; // Adjust to not exceed end of the day
+        }
         availableSlots.push({
-          startTime: lastEndTime.toISOString(),
-          endTime: endOfDay.toISOString(),
-          interval: (endOfDay.getTime() - lastEndTime.getTime()) / (60 * 1000), // Calculate interval in minutes
+          startTime: lastEndTime.toISOString().slice(0, 16),
+          endTime: nextSlotEndTime.toISOString().slice(0, 16),
         });
+        lastEndTime = nextSlotEndTime; // Prepare for the next iteration, if any
       }
+
       // Return the available slots
       return availableSlots;
     }),
