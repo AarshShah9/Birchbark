@@ -74,11 +74,11 @@ export default function Form() {
 
   const processForm: SubmitHandler<patientInputs> = (data) => {
     console.log(data);
-    mutate.mutate({
-      ...data,
-      bookingDay: data.bookingDay.toString(),
-      birthday: data.birthday.toString(),
-    });
+    // mutate.mutate({
+    //   ...data,
+    //   bookingDay: data.bookingDay.toString(),
+    //   birthday: data.birthday.toString(),
+    // });
     reset();
     router.push("/app/patient/dashboard");
   };
@@ -111,7 +111,7 @@ export default function Form() {
         {/* Form */}
         <form onSubmit={handleSubmit(processForm)}>
           {/* Clinic Landing Page 1 */}
-          {currentStep === 1 && (
+          {currentStep === 0 && (
             <LandingPage1
               next={next}
               language={language}
@@ -120,7 +120,7 @@ export default function Form() {
           )}
 
           {/* Clinic Landing Page 2 */}
-          {currentStep === 0 && (
+          {currentStep === 1 && (
             <LandingPage2
               next={next}
               language={language}

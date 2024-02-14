@@ -37,7 +37,7 @@ const LandingPage1 = ({ next, language, setLanguage }: formProps) => {
             className=" rounded-lg p-16 "
             style={{ backgroundColor: "rgba(150, 150, 150, 0.75)" }}
           >
-            <h1 className="mb-8 text-center text-7xl font-bold md:text-4xl">
+            <h1 className="mb-8 text-center text-7xl font-bold text-white md:text-4xl">
               {language === "Blackfoot"
                 ? clinicLandingResources1.title.Blackfoot
                 : clinicLandingResources1.title.English}
@@ -55,7 +55,7 @@ const LandingPage1 = ({ next, language, setLanguage }: formProps) => {
                 />
               </button>
             </h1>
-            <h2 className="mb-8 text-center font-inter text-4xl md:text-2xl">
+            <h2 className="mb-8 text-center font-inter text-4xl text-white md:text-2xl">
               {clinicLandingResources1.greeting.English}
             </h2>
             <div className=" flex flex-wrap items-center justify-center gap-6">
@@ -65,7 +65,7 @@ const LandingPage1 = ({ next, language, setLanguage }: formProps) => {
                 whileHover={{ scale: 1.05 }}
                 className="flex h-64 w-64 flex-col items-center justify-center rounded-xl bg-[#303334] shadow-lg"
               >
-                <h3 className="font-inikaRegular text-2xl">
+                <h3 className="font-inikaRegular text-2xl text-white">
                   {clinicLandingResources1.content.English}
                 </h3>
                 <div className="h-38 w-38 rounded-full bg-[#4CA9EE] shadow-md">
@@ -84,7 +84,7 @@ const LandingPage1 = ({ next, language, setLanguage }: formProps) => {
                 whileHover={{ scale: 1.05 }}
                 className="flex h-64 w-64 flex-col items-center justify-center rounded-xl bg-[#303334] shadow-lg"
               >
-                <h3 className="font-inikaRegular text-2xl">
+                <h3 className="text:white font-inikaRegular text-2xl text-white">
                   {clinicLandingResources1.appointment.English}
                 </h3>
                 <div className="h-38 w-38 rounded-full bg-[#4CA9EE] shadow-md">
