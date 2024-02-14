@@ -36,7 +36,7 @@ const Questionnaire = ({ next }: formProps) => {
           />
         </div>
         <div className="flex min-h-[90vh] flex-col items-center justify-center p-16 font-inter lg:p-8">
-          <h1 className="mb-8 text-center text-7xl font-bold md:text-4xl">
+          <h1 className="mb-8 text-center text-7xl font-bold text-white md:text-4xl">
             {questionnaireResources.title.English}
           </h1>
 

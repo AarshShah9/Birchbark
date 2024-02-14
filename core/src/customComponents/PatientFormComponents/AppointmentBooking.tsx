@@ -4,6 +4,7 @@ import Modal from "~/components/Modal";
 import React, { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { formProps } from "~/pages/app/patient/patient-form";
+import { api } from "~/utils/api";
 
 // Info and Functions for Booking
 const initTimeslots = [
@@ -13,162 +14,36 @@ const initTimeslots = [
   },
 ];
 
+type availability = {
+  startTime: string;
+  endTime: string;
+  interval: number;
+};
+
 const AppointmentBooking = ({ next }: formProps) => {
-  const { setValue, register, getValues } = useFormContext();
+  const { setValue, register, getValues, watch } = useFormContext();
   // States
   const [visibleSlot, setVisibleSlot] = useState<boolean>(false);
   const [curDay, setCurDay] = useState<Date>(new Date());
   const [curTime, setCurTime] = useState<string>("");
   const [timeslots, setTimeslots] = useState<typeof initTimeslots>([]);
+  const availabilityQuery =
+    api.appointmentPatient.getPatientsDoctorAvailability;
+  const [availability, setAvailability] = useState<any>();
 
-  useEffect(() => {}, []);
+  const bookingDay = watch("bookingDay");
 
-  // const generateDateTimes = (startTime: Date, endTime: Date): Date[] => {
-  //   const dateTimes: Date[] = [];
-  //
-  //   // Set the start time to 11:00 AM
-  //   startTime.setHours(11, 0, 0, 0);
-  //
-  //   // Iterate until the end time is reached
-  //   while (startTime < endTime) {
-  //     const newDateTime = new Date(startTime.getTime());
-  //     dateTimes.push(newDateTime);
-  //
-  //     // Increment the time by 30 minutes
-  //     startTime.setMinutes(startTime.getMinutes() + 30);
-  //   }
-  //
-  //   return dateTimes;
-  // };
-
-  // // Use effect to update timeslots
-  // React.useEffect(() => {
-  //   const date = new Date(curDay);
-  //   // Get the start availablity time
-  //   const startTime = new Date();
-  //   const endTime = new Date();
-  //   endTime.setHours(14, 0, 0, 0); // Example set time
-  //   const times = generateDateTimes(startTime, endTime);
-  //   setTimeslots([
-  //     {
-  //       day: date,
-  //       times: times,
-  //     },
-  //   ]);
-  //   console.log(timeslots);
-  // }, [curDay]);
-
-  // Function to handle clicked time
-  // function handleClickedTime(day: Date, time: Date) {
-  //   setCurDay(day);
-  //   const formattedTime = time.toLocaleTimeString("en-US", {
-  //     hour: "2-digit",
-  //     minute: "2-digit",
-  //   });
-  //   setCurTime(formattedTime);
-  //   setVisibleSlot(true);
-  // }
-  // // Function to handle clicking yes on modal
-  // function handleConfirm() {
-  //   setVisibleSlot(false);
-  // }
-  //
-  // // Function to handle clicking no or closing on modal
-  // function handleCancel() {
-  //   setVisibleSlot(false);
-  //   setCurTime("");
-  // }
-  //
-  // // Function to get day of week
-  // function getDayOfWeek() {
-  //   const dayOfWeek = curDay.getDay();
-  //   return isNaN(dayOfWeek)
-  //     ? null
-  //     : [
-  //         "Sunday",
-  //         "Monday",
-  //         "Tuesday",
-  //         "Wednesday",
-  //         "Thursday",
-  //         "Friday",
-  //         "Saturday",
-  //       ][dayOfWeek];
-  // }
-  //
-  // function formatDateString(): string {
-  //   const weekdays = [
-  //     "Sunday",
-  //     "Monday",
-  //     "Tuesday",
-  //     "Wednesday",
-  //     "Thursday",
-  //     "Friday",
-  //     "Saturday",
-  //   ];
-  //   const months = [
-  //     "January",
-  //     "February",
-  //     "March",
-  //     "April",
-  //     "May",
-  //     "June",
-  //     "July",
-  //     "August",
-  //     "September",
-  //     "October",
-  //     "November",
-  //     "December",
-  //   ];
-  //
-  //   const dayOfWeek = weekdays[curDay.getDay()];
-  //   const month = months[curDay.getMonth()];
-  //   const dayOfMonth = curDay.getDate();
-  //   const year = curDay.getFullYear();
-  //
-  //   return `${dayOfWeek} ${month}, ${dayOfMonth}, ${year}`;
-  // }
-  //
-  // // Function to handle changing start date off the calendar
-  // function handleStartDate(e: React.ChangeEvent<HTMLInputElement>) {
-  //   if (e.target.id === "calendar" && e.target.value) {
-  //     const selectedDate = new Date(e.target.value);
-  //     setCurDay(selectedDate);
-  //   } else if (e.target.id === "calendar" && !e.target.value) {
-  //     setCurDay(new Date());
-  //   }
-  // }
-  //
-  // // Function to handle submit
-  // const handleBooking = (
-  //   e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  // ) => {
-  //   e.preventDefault();
-  //   if (curTime === "") {
-  //     alert("Please select a time");
-  //   } else {
-  //     const ampm = curTime.split(" ")[1];
-  //     const timeSplit = curTime.split(":");
-  //     const hours = parseInt(timeSplit[0] ?? "0");
-  //     const minutes = parseInt(timeSplit[1] ?? "0");
-  //
-  //     if (ampm === "PM" && hours !== 12) {
-  //       // Convert PM hours to 24-hour format
-  //       curDay.setHours(hours + 12);
-  //     } else if (ampm === "AM" && hours === 12) {
-  //       // Handle 12 AM
-  //       curDay.setHours(0);
-  //     } else {
-  //       // For AM hours and PM hours when it's already 12 PM
-  //       curDay.setHours(hours);
-  //     }
-  //
-  //     // Set minutes and seconds
-  //     curDay.setMinutes(minutes);
-  //     curDay.setSeconds(0);
-  //
-  //     next();
-  //   }
-  // };
+  // Custom onChange handler
+  const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // Get the value from the event target
+    const { value } = event.target;
+    console.log("New booking day selected:", value);
+    // const { data } = availabilityQuery.useQuery({
+    //   date: value,
+    // });
+    // setAvailability(data);
+    // console.log("Availability:", data);
+  };
 
   return (
     <>
@@ -195,9 +70,10 @@ const AppointmentBooking = ({ next }: formProps) => {
               className="my-4 flex min-w-[200px] items-center justify-center rounded-full bg-[#2a3943] p-3 text-white focus:outline-none"
               type="date"
               id="calendar"
-              {...register("bookingDay", { required: true })}
-              // value={curDay.toISOString().split("T")[0]}
-              // onChange={(e) => handleStartDate(e)}
+              {...register("bookingDay", {
+                required: true,
+                onChange: handleDateChange, // Use the custom onChange handler
+              })}
               min={new Date().toISOString().split("T")[0]}
             />
 
@@ -352,5 +228,152 @@ const AppointmentBooking = ({ next }: formProps) => {
     </>
   );
 };
+
+// const generateDateTimes = (startTime: Date, endTime: Date): Date[] => {
+//   const dateTimes: Date[] = [];
+//
+//   // Set the start time to 11:00 AM
+//   startTime.setHours(11, 0, 0, 0);
+//
+//   // Iterate until the end time is reached
+//   while (startTime < endTime) {
+//     const newDateTime = new Date(startTime.getTime());
+//     dateTimes.push(newDateTime);
+//
+//     // Increment the time by 30 minutes
+//     startTime.setMinutes(startTime.getMinutes() + 30);
+//   }
+//
+//   return dateTimes;
+// };
+
+// // Use effect to update timeslots
+// React.useEffect(() => {
+//   const date = new Date(curDay);
+//   // Get the start availablity time
+//   const startTime = new Date();
+//   const endTime = new Date();
+//   endTime.setHours(14, 0, 0, 0); // Example set time
+//   const times = generateDateTimes(startTime, endTime);
+//   setTimeslots([
+//     {
+//       day: date,
+//       times: times,
+//     },
+//   ]);
+//   console.log(timeslots);
+// }, [curDay]);
+
+// Function to handle clicked time
+// function handleClickedTime(day: Date, time: Date) {
+//   setCurDay(day);
+//   const formattedTime = time.toLocaleTimeString("en-US", {
+//     hour: "2-digit",
+//     minute: "2-digit",
+//   });
+//   setCurTime(formattedTime);
+//   setVisibleSlot(true);
+// }
+// // Function to handle clicking yes on modal
+// function handleConfirm() {
+//   setVisibleSlot(false);
+// }
+//
+// // Function to handle clicking no or closing on modal
+// function handleCancel() {
+//   setVisibleSlot(false);
+//   setCurTime("");
+// }
+//
+// // Function to get day of week
+// function getDayOfWeek() {
+//   const dayOfWeek = curDay.getDay();
+//   return isNaN(dayOfWeek)
+//     ? null
+//     : [
+//         "Sunday",
+//         "Monday",
+//         "Tuesday",
+//         "Wednesday",
+//         "Thursday",
+//         "Friday",
+//         "Saturday",
+//       ][dayOfWeek];
+// }
+//
+// function formatDateString(): string {
+//   const weekdays = [
+//     "Sunday",
+//     "Monday",
+//     "Tuesday",
+//     "Wednesday",
+//     "Thursday",
+//     "Friday",
+//     "Saturday",
+//   ];
+//   const months = [
+//     "January",
+//     "February",
+//     "March",
+//     "April",
+//     "May",
+//     "June",
+//     "July",
+//     "August",
+//     "September",
+//     "October",
+//     "November",
+//     "December",
+//   ];
+//
+//   const dayOfWeek = weekdays[curDay.getDay()];
+//   const month = months[curDay.getMonth()];
+//   const dayOfMonth = curDay.getDate();
+//   const year = curDay.getFullYear();
+//
+//   return `${dayOfWeek} ${month}, ${dayOfMonth}, ${year}`;
+// }
+//
+// // Function to handle changing start date off the calendar
+// function handleStartDate(e: React.ChangeEvent<HTMLInputElement>) {
+//   if (e.target.id === "calendar" && e.target.value) {
+//     const selectedDate = new Date(e.target.value);
+//     setCurDay(selectedDate);
+//   } else if (e.target.id === "calendar" && !e.target.value) {
+//     setCurDay(new Date());
+//   }
+// }
+//
+// // Function to handle submit
+// const handleBooking = (
+//   e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+// ) => {
+//   e.preventDefault();
+//   if (curTime === "") {
+//     alert("Please select a time");
+//   } else {
+//     const ampm = curTime.split(" ")[1];
+//     const timeSplit = curTime.split(":");
+//     const hours = parseInt(timeSplit[0] ?? "0");
+//     const minutes = parseInt(timeSplit[1] ?? "0");
+//
+//     if (ampm === "PM" && hours !== 12) {
+//       // Convert PM hours to 24-hour format
+//       curDay.setHours(hours + 12);
+//     } else if (ampm === "AM" && hours === 12) {
+//       // Handle 12 AM
+//       curDay.setHours(0);
+//     } else {
+//       // For AM hours and PM hours when it's already 12 PM
+//       curDay.setHours(hours);
+//     }
+//
+//     // Set minutes and seconds
+//     curDay.setMinutes(minutes);
+//     curDay.setSeconds(0);
+//
+//     next();
+//   }
+// };
 
 export default AppointmentBooking;
