@@ -6,6 +6,8 @@ import React, { FormEvent } from "react";
 import Icon from "~/components/Icon";
 import { motion } from "framer-motion";
 import { BsArrowLeft } from "react-icons/bs";
+import { PDFViewer } from "@react-pdf/renderer";
+import MyDocument from "~/customComponents/Document";
 
 const article: NextPage = () => {
   const router = useRouter();
@@ -38,63 +40,71 @@ const article: NextPage = () => {
 
   return (
     <Layout>
-      <div className="relative flex h-[95vh] w-full overflow-auto bg-white font-inter text-[#141718]">
-        <SearchArticles />
-        <motion.div
-          whileHover={{
-            scale: [null, 1.03, 1.02],
-            transition: { duration: 0.5 },
-          }}
-          whileTap={{
-            scale: 0.98,
-            transition: { duration: 0.75 },
-          }}
-          className="fixed left-96 top-14 z-10 flex h-14 w-14 rounded-md border-[1px] border-black bg-white hover:shadow-lg xl:left-32 md:left-9 md:top-9 md:h-9 md:w-9"
-        >
-          <a
-            className="flex h-full w-full items-center justify-center"
-            onClick={() => router.back()}
-          >
-            <BsArrowLeft className="flex h-[85%] w-[85%]" />
-          </a>
-        </motion.div>
-        <div className="m-30 lg:m-24 md:m-10 md:mt-20">
-          <header className="flex justify-start">
-            <h1 className="text-4xl font-bold">Article Title</h1>
-            <div className="ml-4 flex items-center">
-              <Icon
-                className="h-8 w-8 fill-black transition-colors group-hover:fill-n-4 md:h-6 md:w-6"
-                name="edit"
-              />
-              <Icon
-                className="h-8 w-8 fill-black transition-colors group-hover:fill-n-4 md:h-6 md:w-6"
-                name="delete"
-              />
-            </div>
-          </header>
-          <div className="my-4 border-t border-black"></div>
-          {contentBlocks.map((block) => {
-            switch (block.type) {
-              case "TEXT":
-                return <p key={block.id}>{block.content}</p>;
-              case "IMAGE":
-                return <img key={block.id} src={block.content} alt="" />;
-              case "VIDEO":
-                return (
-                  <iframe
-                    key={block.id}
-                    src={`https://www.youtube.com/embed/${block.content}`}
-                    title="YouTube video"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  ></iframe>
-                );
-              default:
-                return null;
-            }
-          })}
-        </div>
-      </div>
+      {/*<div className="relative flex h-[95vh] w-full overflow-auto bg-white font-inter text-[#141718]">*/}
+      {/*<SearchArticles />*/}
+      {/*<motion.div*/}
+      {/*  whileHover={{*/}
+      {/*    scale: [null, 1.03, 1.02],*/}
+      {/*    transition: { duration: 0.5 },*/}
+      {/*  }}*/}
+      {/*  whileTap={{*/}
+      {/*    scale: 0.98,*/}
+      {/*    transition: { duration: 0.75 },*/}
+      {/*  }}*/}
+      {/*  className="fixed left-96 top-14 z-10 flex h-14 w-14 rounded-md border-[1px] border-black bg-white hover:shadow-lg xl:left-32 md:left-9 md:top-9 md:h-9 md:w-9"*/}
+      {/*>*/}
+      {/*  <a*/}
+      {/*    className="flex h-full w-full items-center justify-center"*/}
+      {/*    onClick={() => router.back()}*/}
+      {/*  >*/}
+      {/*    <BsArrowLeft className="flex h-[85%] w-[85%]" />*/}
+      {/*  </a>*/}
+      {/*</motion.div>*/}
+      {/*<div className="m-30 lg:m-24 md:m-10 md:mt-20">*/}
+      {/*  <header className="flex justify-start">*/}
+      {/*    <h1 className="text-4xl font-bold">Article Title</h1>*/}
+      {/*    <div className="ml-4 flex items-center">*/}
+      {/*      <Icon*/}
+      {/*        className="h-8 w-8 fill-black transition-colors group-hover:fill-n-4 md:h-6 md:w-6"*/}
+      {/*        name="edit"*/}
+      {/*      />*/}
+      {/*      <Icon*/}
+      {/*        className="h-8 w-8 fill-black transition-colors group-hover:fill-n-4 md:h-6 md:w-6"*/}
+      {/*        name="delete"*/}
+      {/*      />*/}
+      {/*    </div>*/}
+      {/*  </header>*/}
+      <PDFViewer>
+        <MyDocument
+          pdfUrl={
+            "https://res.cloudinary.com/demo/image/upload/example_pdf.pdf"
+          }
+        />
+      </PDFViewer>
+      {/*<div className="my-4 border-t border-black"></div>*/}
+
+      {/*{contentBlocks.map((block) => {*/}
+      {/*  switch (block.type) {*/}
+      {/*    case "TEXT":*/}
+      {/*      return <p key={block.id}>{block.content}</p>;*/}
+      {/*    case "IMAGE":*/}
+      {/*      return <img key={block.id} src={block.content} alt="" />;*/}
+      {/*    case "VIDEO":*/}
+      {/*      return (*/}
+      {/*        <iframe*/}
+      {/*          key={block.id}*/}
+      {/*          src={`https://www.youtube.com/embed/${block.content}`}*/}
+      {/*          title="YouTube video"*/}
+      {/*          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"*/}
+      {/*          allowFullScreen*/}
+      {/*        ></iframe>*/}
+      {/*      );*/}
+      {/*    default:*/}
+      {/*      return null;*/}
+      {/*  }*/}
+      {/*})}*/}
+      {/*</div>*/}
+      {/*</div>*/}
     </Layout>
   );
 };
