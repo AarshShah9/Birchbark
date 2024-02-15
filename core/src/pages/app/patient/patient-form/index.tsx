@@ -15,11 +15,15 @@ import AppointmentBooking from "~/customComponents/PatientFormComponents/Appoint
 type patientInputs = {
   firstName: string;
   lastName: string;
-  birthday: Date;
+  birthday: string;
   status: string;
   reasonOfVisit: string;
   medicalIssue: string;
-  bookingDay: Date;
+  bookingDay: string;
+  bookingTime: {
+    startTime: string;
+    endTime: string;
+  };
   needCounsellor: boolean;
   needDoctor: boolean;
   needPsychologist: boolean;
@@ -67,19 +71,13 @@ export default function Form() {
   const [currentStep, setCurrentStep] = useState(0);
   const [language, setLanguage] = useState("English");
   const methods = useForm<patientInputs>({});
-  const { register, handleSubmit, reset, trigger } = methods;
+  const { handleSubmit, reset, trigger } = methods;
   const router = useRouter();
 
   const mutate = api.appointmentPatient.createNewAppointment.useMutation();
 
   const processForm: SubmitHandler<patientInputs> = (data) => {
-    console.log(data);
-    // mutate.mutate({
-    //   ...data,
-    //   bookingDay: data.bookingDay.toString(),
-    //   birthday: data.birthday.toString(),
-    // });
-    reset();
+    mutate.mutate(data);
     router.push("/app/patient/dashboard");
   };
 
@@ -90,9 +88,6 @@ export default function Form() {
     if (!output) return;
 
     if (currentStep < steps.length) {
-      if (currentStep === steps.length - 1) {
-        await handleSubmit(processForm)();
-      }
       setPreviousStep(currentStep);
       setCurrentStep((step) => step + 1);
     }

@@ -160,7 +160,6 @@ export const appointmentPatientRouter = createTRPCRouter({
   createNewAppointment: privateProcedure
     .input(
       z.object({
-        // confirmAppointment: z.boolean(),
         firstName: z.string(),
         lastName: z.string(),
         birthday: z.string(),
@@ -168,6 +167,10 @@ export const appointmentPatientRouter = createTRPCRouter({
         reasonOfVisit: z.string(),
         medicalIssue: z.string(),
         bookingDay: z.string(),
+        bookingTime: z.object({
+          startTime: z.string(),
+          endTime: z.string(),
+        }),
         needCounsellor: z.boolean(),
         needDoctor: z.boolean(),
         needPsychologist: z.boolean(),
@@ -176,7 +179,40 @@ export const appointmentPatientRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ input, ctx }) => {
-      console.log(input);
-      return null;
+      // This end point will get the userId from the context and use it to find the patient
+      // Then it will create a new appointment for the patient using the patient's doctorId
+      // It will also create a new appointment for the doctor using the doctor's id
+      // It will return the appointment created for the patient
+
+      // Find the patient using the clerkId provided
+      const patient = await ctx.prisma.patient.findUnique({
+        where: {
+          clerkId: ctx.userId as string,
+        },
+      });
+
+      if (!patient) {
+        throw new Error("Patient not found");
+      }
+
+      return await ctx.prisma.appointment.create({
+        data: {
+          statusM: "Pending",
+          subject: "New Appointment",
+          description: input.reasonOfVisit,
+          startTime: new Date(input.bookingTime.startTime),
+          endTime: new Date(input.bookingTime.endTime),
+          patient: {
+            connect: {
+              id: patient.id,
+            },
+          },
+          doctor: {
+            connect: {
+              id: patient.doctorId,
+            },
+          },
+        },
+      });
     }),
 });
