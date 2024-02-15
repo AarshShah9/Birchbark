@@ -1,4 +1,4 @@
-import ConfirmationPage from "../../pages/CustomPages/ConfirmationPage";
+import ConfirmationPage from "./CustomPages/ConfirmationPage";
 import React from "react";
 import { NextPage } from "next";
 
