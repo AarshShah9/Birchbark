@@ -2,7 +2,7 @@ import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 import cloudinary from "~/utils/cloudinary";
 import findSimilarWords from "~/utils/semantic";
-import tagsList from "~/enums/tags";
+import tagsList from "~/constants/tags";
 
 const handleSemantics = (searchTerm: string | undefined) => {
   if (!searchTerm) {

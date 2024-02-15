@@ -6,7 +6,7 @@ import Field from "@/components/Field";
 import MultiSelect from "@/components/MultiSelect";
 import Notify from "@/components/Notify";
 
-import { people } from "@/mocks/people";
+import { people } from "~/_deprecated/mocks/people";
 
 type ModalShareChatProps = {
   visible: boolean;

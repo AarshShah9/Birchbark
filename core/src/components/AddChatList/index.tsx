@@ -4,7 +4,7 @@ import Select from "@/components/Select";
 import MultiSelect from "@/components/MultiSelect";
 import User from "./User";
 
-import { people } from "@/mocks/people";
+import { people } from "~/_deprecated/mocks/people";
 
 const colors = [
   {

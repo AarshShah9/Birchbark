@@ -117,6 +117,7 @@ model Availability {
   date      DateTime
   startTime DateTime
   endTime   DateTime
+  interval  Int      @default(30) // should only be 15, 30, 45, 60
 
   @@index([doctorId])
 }

@@ -3,11 +3,7 @@ import React from "react";
 import { NextPage } from "next";
 
 const ContactUs: NextPage = () => {
-  return (
-    <>
-      <ContactUsPage />
-    </>
-  );
+  return <ContactUsPage />;
 };
 
 export default ContactUs;

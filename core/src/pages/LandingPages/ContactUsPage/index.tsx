@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Inter } from "next/font/google";
 import { BiPlusMedical, BiMinus } from "react-icons/bi";
 import FAQComponent from "../../../customComponents/FAQS/FAQComponent";
-import { faq } from "../../../data/faq";
+import { faq } from "@/constants/faq";
 import { contactResources } from "~/resources/contact";
 
 const ContactUsPage: React.FC = () => {

@@ -6,7 +6,7 @@ import Question from "@/components/Question";
 import Answer from "@/components/Answer";
 import Code from "@/components/Code";
 
-import { writeCodeChat } from "mocks/writeCodeChat";
+// import { writeCodeChat } from "mocks/writeCodeChat";
 
 const CodeGenerationPage = () => {
   const [message, setMessage] = useState<string>("");
@@ -19,9 +19,7 @@ const CodeGenerationPage = () => {
           time="Just now"
         />
         <Answer loading />
-        <Answer time="Just now">
-          <Code items={writeCodeChat} />
-        </Answer>
+        <Answer time="Just now">{/*<Code items={writeCodeChat} />*/}</Answer>
       </Chat>
       <Message
         value={message}
