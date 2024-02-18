@@ -13,19 +13,17 @@ type PDFViewerProps = {
 };
 
 const MyDocument = ({ pdfUrl }: PDFViewerProps) => {
-  const [numPages, setNumPages] = useState(10);
+  const [loading, setLoading] = useState(true);
+  const [numPages, setNumPages] = useState(null);
 
-  function onDocumentLoadSuccess({ numPages }: { numPages: any }) {
+  const onDocumentLoadSuccess = ({ numPages }: { numPages: any }) => {
+    setLoading(false);
     setNumPages(numPages);
-  }
+  };
 
   return (
     <div>
-      <Document
-        file={pdfUrl}
-        // options={{ worker: PDFWorker }}
-        onLoadSuccess={onDocumentLoadSuccess}
-      >
+      <Document file={pdfUrl} onLoadSuccess={onDocumentLoadSuccess}>
         {Array.from(new Array(numPages), (el, index) => (
           <Page key={`page_${index + 1}`} pageNumber={index + 1} />
         ))}

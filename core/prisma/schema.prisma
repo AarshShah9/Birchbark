@@ -166,12 +166,12 @@ model GeneratedNote {
 }
 
 model Article {
-  id          Int            @id @default(autoincrement())
-  title       String         @db.VarChar(255)
-  description String?        @db.Text
-  content     ContentBlock[]
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(255)
+  description String?  @db.Text
+  contentUrl  String   @db.VarChar(255)
   categoryId  Int // Foreign key for Category relation
-  category    Category       @relation(fields: [categoryId], references: [id])
+  category    Category @relation(fields: [categoryId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -180,34 +180,11 @@ model Article {
 }
 
 model Event {
-  id        Int            @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   title     String
   date      DateTime
-  content   ContentBlock[]
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
-}
-
-model ContentBlock {
-  id        Int         @id @default(autoincrement())
-  type      ContentType
-  content   String
-  order     Int
-  article   Article?    @relation(fields: [articleId], references: [id])
-  articleId Int?
-  event     Event?      @relation(fields: [eventId], references: [id])
-  eventId   Int?
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-
-  @@index([articleId])
-  @@index([eventId])
-}
-
-enum ContentType {
-  TEXT
-  IMAGE
-  VIDEO
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Category {
