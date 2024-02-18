@@ -23,7 +23,7 @@ const SignInPage = () => {
   }, [router.query]);
 
   if (url === "") {
-    return <Loading></Loading>;
+    return <Loading />;
   }
 
   return (

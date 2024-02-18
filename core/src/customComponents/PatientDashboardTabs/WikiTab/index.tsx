@@ -1,10 +1,10 @@
 import React from "react";
-import WikiMain from "~/pages/app/articles/wikiMain";
+import WikiMain from "~/customComponents/ArticleComponents/wikiMain";
 
 const WikiTab = () => {
   return (
-    <div className="">
-      <WikiMain />
+    <div>
+      <WikiMain patient={true} />
     </div>
   );
 };

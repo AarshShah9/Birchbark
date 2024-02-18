@@ -4,29 +4,21 @@ import React, { FormEvent } from "react";
 import Icon from "~/components/Icon";
 import { BsArrowRight } from "react-icons/bs";
 import { motion } from "framer-motion";
+import Loading from "~/customComponents/Loading";
 
-const WikiMain = (props: { patient?: boolean }) => {
+const WikiMain = (props: { patient: boolean }) => {
   const { data: categories, error } = api.wiki.getCategories.useQuery();
 
   if (error) return <div>Error: {error.message}</div>;
-  if (!categories)
-    return (
-      <div className="flex h-full items-center justify-center">
-        <div
-          className="flex h-8 w-8 animate-spin items-center justify-center rounded-full border-4 border-solid border-current border-r-transparent motion-reduce:animate-[spin_1.5s_linear_infinite]"
-          role="status"
-        >
-          <span className="!-m-px flex !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-            Loading...
-          </span>
-        </div>
-      </div>
-    );
+  if (!categories) return <Loading />;
 
   return (
-    <div className="flex h-[95vh] w-full overflow-auto bg-white font-inter text-[#141718]">
+    <div
+      className={`flex w-full overflow-auto bg-white font-inter text-[#141718] ${
+        props.patient ? "h-[100vh]" : "h-[95vh]"
+      }`}
+    >
       <SearchArticles />
-
       <div className="flex w-full flex-col items-center">
         <div className="mx-8 flex w-auto flex-col">
           <div className="mb-8 mt-28 flex w-full flex-col">
@@ -40,7 +32,7 @@ const WikiMain = (props: { patient?: boolean }) => {
           <ul className="mb-10 grid w-auto grid-cols-2 gap-6 text-center md:grid-cols-1">
             {categories.map((category) => (
               <li className="flex justify-center" key={category.id}>
-                <Link href={`/app/articles/category?categoryId=${category.id}`}>
+                <Link href={`"/app/articles?categoryId=${category.id}`}>
                   <motion.div
                     whileHover={{
                       scale: [null, 1.05, 1.03],

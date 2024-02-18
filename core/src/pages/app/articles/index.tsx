@@ -1,11 +1,11 @@
-import WikiMain from "~/pages/app/articles/wikiMain";
+import WikiMain from "~/customComponents/ArticleComponents/wikiMain";
 import Layout from "~/components/Layout";
 import type { NextPage } from "next";
 
 const Wiki: NextPage = () => {
   return (
     <Layout>
-      <WikiMain />
+      <WikiMain patient={false} />
     </Layout>
   );
 };

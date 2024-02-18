@@ -1,7 +1,9 @@
+"use client";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import { useState } from "react";
-import { PDFWorker } from "pdfjs-dist";
+import "react-pdf/dist/Page/TextLayer.css";
+import "react-pdf/dist/Page/AnnotationLayer.css";
 
 // pdfjs worker
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -10,8 +12,8 @@ type PDFViewerProps = {
   pdfUrl: string;
 };
 
-const PDFViewer = ({ pdfUrl }: PDFViewerProps) => {
-  const [numPages, setNumPages] = useState(null);
+const MyDocument = ({ pdfUrl }: PDFViewerProps) => {
+  const [numPages, setNumPages] = useState(10);
 
   function onDocumentLoadSuccess({ numPages }: { numPages: any }) {
     setNumPages(numPages);
@@ -32,4 +34,4 @@ const PDFViewer = ({ pdfUrl }: PDFViewerProps) => {
   );
 };
 
-export default PDFViewer;
+export default MyDocument;
