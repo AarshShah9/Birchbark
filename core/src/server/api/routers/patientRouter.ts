@@ -1,25 +1,32 @@
 import { z } from "zod";
 import {
-  createTRPCRouter,
-  privateProcedure,
-  publicProcedure,
+    createTRPCRouter,
+    privateProcedure,
+    publicProcedure,
 } from "~/server/api/trpc";
 
 export const patientRouter = createTRPCRouter({
-  getDoctorsPatients: privateProcedure.query(async ({ ctx }) => {
-    const doctor = await ctx.prisma.doctor.findUnique({
-      where: {
-        clerkId: ctx.userId as string,
-      },
-      include: {
-        patient: true,
-      },
-    });
+    getDoctorsPatients: privateProcedure.query(async ({ ctx }) => {
+        const doctor = await ctx.prisma.doctor.findUnique({
+            where: {
+                clerkId: ctx.userId as string,
+            },
+            include: {
+                patient: true,
+            },
+        });
 
-    if (!doctor) {
-      throw new Error("Doctor not found");
-    }
+        if (!doctor) {
+            throw new Error("Doctor not found");
+        }
 
-    return doctor.patient;
-  }),
+        return doctor.patient;
+    }),
+    getMe: publicProcedure.query(({ ctx }) => {
+        return ctx.prisma.patient.findUnique({
+            where: {
+                clerkId: ctx.userId as string,
+            },
+        });
+    }),
 });

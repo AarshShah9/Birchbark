@@ -6,7 +6,7 @@ import Modal from "@/components/Modal";
 import Search from "@/components/Search";
 import Settings from "@/components/Settings";
 import Navigation from "./Navigation";
-import { resultSearch } from "@/mocks/resultSearch";
+import { resultSearch } from "~/_deprecated/mocks/resultSearch";
 import { settings } from "@/constants/settings";
 import { twMerge } from "tailwind-merge";
 import { UserButton } from "@clerk/nextjs";

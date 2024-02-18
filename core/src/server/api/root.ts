@@ -7,6 +7,8 @@ import { imageRouter } from "~/server/api/routers/imageRouter";
 import { wikiRouter } from "~/server/api/routers/wikiRouter";
 import { eventsRouter } from "~/server/api/routers/eventsRouter";
 import { appointmentDoctorRouter } from "~/server/api/routers/appointmentDoctorRouter";
+import { organizationRouter } from "~/server/api/routers/organizationRouter";
+import { appointmentPatientRouter } from "~/server/api/routers/appointmentPatientRouter";
 import { configRouter } from "~/server/api/routers/configRouter";
 import { patientRouter } from "~/server/api/routers/patientRouter";
 
@@ -25,7 +27,10 @@ export const appRouter = createTRPCRouter({
   wiki: wikiRouter,
   events: eventsRouter,
   config: configRouter,
+  organization: organizationRouter,
+  appointmentPatient: appointmentPatientRouter,
   patient: patientRouter,
+  config: configRouter,
 });
 
 // export type definition of API

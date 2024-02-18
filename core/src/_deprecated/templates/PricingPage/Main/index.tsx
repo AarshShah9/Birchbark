@@ -3,7 +3,7 @@ import Radio from "@/components/Radio";
 import Package from "./Package";
 import Features from "./Features";
 
-import { featuresPrice, price } from "@/mocks/price";
+import { featuresPrice, price } from "~/_deprecated/mocks/price";
 
 type MainProps = Record<string, never>;
 

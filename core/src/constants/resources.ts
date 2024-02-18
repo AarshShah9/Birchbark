@@ -1,1 +1,1 @@
-export const resources = {}
+export const resources = {};

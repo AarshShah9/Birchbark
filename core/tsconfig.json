@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2017",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "checkJs": true,
     "skipLibCheck": true,
@@ -22,36 +18,16 @@
     "noUncheckedIndexedAccess": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": [
-        "./src/*"
-      ],
-      "@/components/*": [
-        "./src/components/*"
-      ],
-      "@/templates/*": [
-        "./src/templates/*"
-      ],
-      "@/styles/*": [
-        "./src/styles/*"
-      ],
-      "@/utils/*": [
-        "./src/utils/*"
-      ],
-      "@/hooks/*": [
-        "./src/hooks/*"
-      ],
-      "@/types/*": [
-        "./src/types/*"
-      ],
-      "@/constants/*": [
-        "./src/constants/*"
-      ],
-      "@/mocks/*": [
-        "./src/mocks/*"
-      ],
-      "@/CustomPages/*": [
-        "./src/CustomPages/*"
-      ]
+      "~/*": ["./src/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/templates/*": ["./src/templates/*"],
+      "@/styles/*": ["./src/styles/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/constants/*": ["./src/constants/*"],
+      "@/mocks/*": ["./src/mocks/*"],
+      "@/CustomPages/*": ["./src/CustomPages/*"]
     }
   },
   "include": [
@@ -64,6 +40,5 @@
     "/src",
     "node_modules/@sendbird/uikit-react/index.d.ts"
   ],
-  "exclude": [
-  ]
+  "exclude": []
 }

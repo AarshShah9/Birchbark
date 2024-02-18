@@ -9,8 +9,8 @@ import Notifications from "./Notifications";
 import ChatItem from "./ChatItem";
 import ChatEmpty from "./ChatEmpty";
 
-import { notifications } from "@/mocks/notifications";
-import { chatHistory } from "@/mocks/chatHistory";
+import { notifications } from "~/_deprecated/mocks/notifications";
+import { chatHistory } from "~/_deprecated/mocks/chatHistory";
 import { UserButton } from "@clerk/nextjs";
 
 type RightSidebarProps = {

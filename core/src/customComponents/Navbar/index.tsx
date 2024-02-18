@@ -52,6 +52,13 @@ const Navbar: React.FC = () => {
               >
                 Contact Us
               </motion.a>
+              <motion.a
+                whileHover={{ scale: 1.2, color: "#0084FF" }}
+                className=" m-6 text-2xl font-bold text-white lg:m-4 lg:text-lg"
+                href="/organization-selection"
+              >
+                Organization
+              </motion.a>
             </ul>
             <div className="ml-8 flex h-full items-center justify-center lg:ml-4">
               <motion.a
@@ -159,6 +166,20 @@ const Navbar: React.FC = () => {
                   href="/CustomPages/PricingPage"
                 >
                   Pricing
+                </motion.a>
+              </motion.li>
+              <motion.li
+                variants={{
+                  hidden: { opacity: 0, y: -10 },
+                  visible: { opacity: 1, y: 0 },
+                }}
+              >
+                <motion.a
+                  whileHover={{ scale: 1.2, color: "#0084FF" }}
+                  className=" m-6 text-2xl font-bold text-white lg:m-4 lg:text-lg"
+                  href="/organization-selection"
+                >
+                  Organization
                 </motion.a>
               </motion.li>
               <motion.li
