@@ -16,10 +16,13 @@ export const patientRouter = createTRPCRouter({
             },
         });
 
+        
         if (!doctor) {
+            
             throw new Error("Doctor not found");
         }
 
+        console.log("BITCH");
         return doctor.patient;
     }),
     getMe: publicProcedure.query(({ ctx }) => {
