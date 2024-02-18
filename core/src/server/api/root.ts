@@ -30,7 +30,6 @@ export const appRouter = createTRPCRouter({
   organization: organizationRouter,
   appointmentPatient: appointmentPatientRouter,
   patient: patientRouter,
-  config: configRouter,
 });
 
 // export type definition of API
