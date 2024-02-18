@@ -5,7 +5,6 @@ import { doctorRouter } from "~/server/api/routers/doctorRouter";
 import { stripeRouter } from "~/server/api/routers/stripeRouter";
 import { imageRouter } from "~/server/api/routers/imageRouter";
 import { wikiRouter } from "~/server/api/routers/wikiRouter";
-import { eventsRouter } from "~/server/api/routers/eventsRouter";
 import { appointmentDoctorRouter } from "~/server/api/routers/appointmentDoctorRouter";
 import { configRouter } from "~/server/api/routers/configRouter";
 import { organizationRouter } from "~/server/api/routers/organizationRouter";
@@ -25,7 +24,6 @@ export const appRouter = createTRPCRouter({
   stripe: stripeRouter,
   image: imageRouter,
   wiki: wikiRouter,
-  events: eventsRouter,
   config: configRouter,
   organization: organizationRouter,
   appointmentPatient: appointmentPatientRouter,

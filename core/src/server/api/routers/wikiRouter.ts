@@ -36,16 +36,6 @@ export const wikiRouter = createTRPCRouter({
       )
     )
     .query(async ({ ctx, input }) => {
-      const articles = await ctx.prisma.article.findMany({
-        where: {
-          categoryId: input.id,
-        },
-        select: {
-          id: true,
-          title: true,
-          description: true,
-        },
-      });
       return await ctx.prisma.article.findMany({
         where: {
           categoryId: input.id,
@@ -64,28 +54,11 @@ export const wikiRouter = createTRPCRouter({
         id: z.number(),
       })
     )
-    .output(
-      z.array(
-        z.object({
-          id: z.number(),
-          type: z.enum(["TEXT", "IMAGE", "VIDEO"]),
-          content: z.string(),
-          order: z.number(),
-          articleId: z.number().nullable(),
-        })
-      )
-    )
+    .output(z.string())
     .query(async ({ ctx, input }) => {
       const article = await ctx.prisma.article.findUnique({
         where: {
           id: input.id,
-        },
-        include: {
-          content: {
-            orderBy: {
-              order: "asc",
-            },
-          },
         },
       });
 
@@ -93,7 +66,7 @@ export const wikiRouter = createTRPCRouter({
         throw new Error("Article not found");
       }
 
-      return article.content;
+      return article.contentUrl;
     }),
 
   searchArticlesByTitle: privateProcedure

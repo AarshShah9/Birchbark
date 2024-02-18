@@ -1,10 +1,10 @@
 import { PrismaClient } from "@prisma/client";
 import { fieldEncryptionExtension } from "prisma-field-encryption";
+
 const prisma = new PrismaClient().$extends(fieldEncryptionExtension());
 
 async function clearDB() {
   await prisma.appointment.deleteMany({});
-  await prisma.contentBlock.deleteMany({});
   await prisma.article.deleteMany({});
   await prisma.category.deleteMany({});
   await prisma.patient.deleteMany({});
@@ -67,6 +67,7 @@ async function main() {
         notificationOn: true,
         doctorId: doctor.id,
         OrganizationId: organization.id,
+        clerkId: "user_2YjfKNxNa2zJKIZgBQF49DfsBdr",
       },
     });
   }
@@ -111,28 +112,11 @@ async function main() {
     article = await prisma.article.create({
       data: {
         id: 1,
-        title: "Article Title",
+        title: "Diabetes Article",
         description: "Article Description",
+        contentUrl:
+          "https://res.cloudinary.com/duoghyw7n/image/upload/v1708289599/seecvh8hta2otgul5kdo.pdf",
         categoryId: category.id,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    });
-  }
-
-  let articleContent = await prisma.contentBlock.findFirst({
-    where: { articleId: article.id },
-  });
-
-  if (!articleContent) {
-    articleContent = await prisma.contentBlock.create({
-      data: {
-        type: "TEXT",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc eu ni",
-        order: 1,
-        articleId: article.id,
-        eventId: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
