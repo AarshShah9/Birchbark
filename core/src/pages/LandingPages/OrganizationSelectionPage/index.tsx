@@ -12,7 +12,7 @@ const OrganizationSelectionPage = () => {
   const onClick = useCallback(
     (orgId: number) => {
       // Use router.push to navigate with query parameters
-      router.push(`/sign-in?orgId=${orgId}?patient=true`);
+      router.push(`/sign-in?orgId=${orgId}&patient=true`);
     },
     [router]
   );

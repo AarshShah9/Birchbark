@@ -4,8 +4,6 @@ import Layout from "~/components/Layout";
 import { api } from "~/utils/api";
 import React, { FormEvent } from "react";
 import Icon from "~/components/Icon";
-import { motion } from "framer-motion";
-import { BsArrowLeft } from "react-icons/bs";
 import { PDFViewer } from "@react-pdf/renderer";
 import MyDocument from "~/customComponents/Document";
 
@@ -40,6 +38,13 @@ const article: NextPage = () => {
 
   return (
     <Layout>
+      <PDFViewer>
+        <MyDocument
+          pdfUrl={
+            "https://res.cloudinary.com/duoghyw7n/image/upload/v1708289599/seecvh8hta2otgul5kdo.pdf"
+          }
+        />
+      </PDFViewer>
       {/*<div className="relative flex h-[95vh] w-full overflow-auto bg-white font-inter text-[#141718]">*/}
       {/*<SearchArticles />*/}
       {/*<motion.div*/}
@@ -74,13 +79,6 @@ const article: NextPage = () => {
       {/*      />*/}
       {/*    </div>*/}
       {/*  </header>*/}
-      <PDFViewer>
-        <MyDocument
-          pdfUrl={
-            "https://res.cloudinary.com/demo/image/upload/example_pdf.pdf"
-          }
-        />
-      </PDFViewer>
       {/*<div className="my-4 border-t border-black"></div>*/}
 
       {/*{contentBlocks.map((block) => {*/}

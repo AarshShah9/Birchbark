@@ -3,21 +3,34 @@ import Image from "~/components/Image";
 import Icon from "~/components/Icon";
 import { SignIn } from "@clerk/nextjs";
 import { signInResources } from "~/resources/signin";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import Loading from "~/customComponents/Loading";
 
 const SignInPage = () => {
+  const [url, setUrl] = useState<string>("");
+  const router = useRouter();
+
+  useEffect(() => {
+    const orgId = router.query.orgId as string;
+    const patient = router.query.patient === "true"; // Convert to boolean
+
+    if (patient) {
+      setUrl(`/app/patient/patient-form/`);
+    } else {
+      setUrl(`/app/calendar/`);
+    }
+  }, [router.query]);
+
+  if (url === "") {
+    return <Loading></Loading>;
+  }
+
   return (
     <div className="min-h-screen-ios relative flex min-h-screen bg-[#232627]">
       <div className="flex grow flex-col items-center justify-center bg-[#232627]">
         <div className="z-2 rounded-xl bg-[#414141] p-12 md:bg-transparent md:p-0">
           <div className="mb-8 flex w-full items-center justify-center">
-            {/* <div className="h3 mb-4 text-n-1">Welcome to Symptom 360</div> */}
-            {/* <Image
-              className="w-[80%] object-contain"
-              src="/Logos/S360Logo.svg"
-              height={95}
-              width={300}
-              alt=""
-            /> */}
             <img
               className="h-32"
               alt="Birchbark Health Logo"
@@ -29,7 +42,7 @@ const SignInPage = () => {
             <SignIn
               signUpUrl={"/sign-up"}
               routing={"virtual"}
-              afterSignInUrl={"/app/calendar"}
+              afterSignInUrl={url}
             />
           </div>
           <div className="body1 mt-6 text-center text-n-3">
