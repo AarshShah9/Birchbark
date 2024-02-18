@@ -154,7 +154,7 @@ const IndexPage: React.FC = () => {
         <SchedulerWrapper />
       </div>
       {/* Right sidebar */}
-      <div className="flex h-full w-[550px] flex-initial bg-[#141718]">
+      <div className="flex h-full w-[550px] 3xl:w-full flex-initial bg-[#141718]">
         <div className="m-4 ml-8 flex flex-col">
           <div className="h4 my-8 text-center text-white">
             Patient requested appointments

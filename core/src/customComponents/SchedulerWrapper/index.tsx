@@ -9,7 +9,7 @@ const SchedulerWrapper: React.FC = () => {
     setIsClient(true);
   }, []);
 
-  return <div className="">{isClient && <DynamicScheduler />}</div>;
+  return <div className="h-full w-full">{isClient && <DynamicScheduler />}</div>;
 };
 
 const DynamicScheduler = dynamic(() => import("~/customComponents/Scheduler"), {
@@ -17,3 +17,4 @@ const DynamicScheduler = dynamic(() => import("~/customComponents/Scheduler"), {
 });
 
 export default SchedulerWrapper;
+ 
