@@ -206,18 +206,11 @@ const PatientAppointmentRequestCard: React.FC<Props> = ({
                 returnStartTime.getUTCMinutes() + duration
               );
 
-              rescheduleAppointment.mutate(
-                {
-                  appointmentId: appointmentId,
-                  newStartTime: returnStartTime,
-                  newEndTime: returnEndTime,
-                },
-                {
-                  onSuccess: () => {
-                    refetch();
-                  },
-                }
-              );
+              rescheduleAppointment.mutate({
+                appointmentId: appointmentId,
+                newStartTime: returnStartTime,
+                newEndTime: returnEndTime,
+              });
             }}
           >
             Reschedule
