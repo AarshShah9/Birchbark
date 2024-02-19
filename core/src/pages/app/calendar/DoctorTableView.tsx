@@ -28,10 +28,17 @@ export type appointmentData = {
 }[];
 
 const IndexPage: React.FC = () => {
-  const { data, isError, isLoading, refetch } =
+  let { data, isError, isLoading, refetch } =
     api.appointment.getAllAppointments.useQuery();
   const [createAppointmentModal, setCreateAppointmentModal] = useState(false);
   const [appointmentData, setAppointmentData] = useState<appointmentData>([]);
+  const [trigger, setTrigger] = useState(false);
+
+  const refetchData = () => {
+    console.log("Refetching data");
+    refetch();
+    setTrigger(!trigger);
+  };
 
   useEffect(() => {
     // Check if the data is null
@@ -112,7 +119,7 @@ const IndexPage: React.FC = () => {
       });
       setAppointmentData(appointmentData2);
     }
-  }, [data]);
+  }, [data, trigger]);
 
   if (isLoading || isError) {
     return <Loading />;
@@ -142,7 +149,7 @@ const IndexPage: React.FC = () => {
           ) : (
             <PendingAppointmentRenderer
               appointmentData={appointmentData}
-              refetch={refetch}
+              refetch={refetchData}
             />
           )}
         </div>
