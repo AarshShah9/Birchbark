@@ -338,35 +338,35 @@ const IndexPage: React.FC = () => {
         const [currentTab, setCurrentTab] = React.useState("All");
 
         return (
-            <div className="w-full flex flex-col bg-[#141718] rounded-md p-8 my-8 ml-8 ">
+            <div className="w-full flex flex-col bg-[#141718] rounded-md p-8 3xl:p-6 my-8 3xl:my-6 ml-8 3xl:ml-6">
                 <h2 className="text-2xl font-bold mb-2">
                     Appointments
                 </h2>
                 <div className="flex justify-between">
                     <div className="flex flex-row space-x-4">
                         <motion.button 
-                            className={`${currentTab == "All" ? "bg-[#4CA9EE]" : "bg-[#232627]"} text-white font-bold rounded-sm py-2 px-6`}
+                            className={`${currentTab == "All" ? "bg-[#4CA9EE]" : "bg-[#232627]"} text-white text-md 3xl:text-sm font-bold rounded-sm py-2 px-6 3xl:px-3`}
                             whileHover={{ scale: 1.05 }}
                             onClick={() => {setCurrentTab("All")}}
                         >
                             All
                         </motion.button>
                         <motion.button 
-                            className={`${currentTab == "Upcoming" ? "bg-[#4CA9EE]" : "bg-[#232627]"} text-white font-bold rounded-sm py-2 px-6`}
+                            className={`${currentTab == "Upcoming" ? "bg-[#4CA9EE]" : "bg-[#232627]"} text-white text-md 3xl:text-sm font-bold rounded-sm py-2 px-6 3xl:px-3`}
                             whileHover={{ scale: 1.05}}
                             onClick={() => {setCurrentTab("Upcoming")}}
                         >
                             Upcoming
                         </motion.button>
                         <motion.button 
-                            className={`${currentTab == "Completed" ? "bg-[#4CA9EE]" : "bg-[#232627]"} text-white font-bold rounded-sm py-2 px-6`}
+                            className={`${currentTab == "Completed" ? "bg-[#4CA9EE]" : "bg-[#232627]"} text-white text-md 3xl:text-sm font-bold rounded-sm py-2 px-6 3xl:px-3`}
                             whileHover={{ scale: 1.05}}
                             onClick={() => {setCurrentTab("Completed")}}
                         >
                             Completed
                         </motion.button>
                         <motion.button 
-                            className={`${currentTab == "Pending" ? "bg-[#4CA9EE]" : "bg-[#232627]"} text-white font-bold rounded-sm py-2 px-6`}
+                            className={`${currentTab == "Pending" ? "bg-[#4CA9EE]" : "bg-[#232627]"} text-white text-md 3xl:text-sm font-bold rounded-sm py-2 px-6 3xl:px-3`}
                             whileHover={{ scale: 1.05}}
                             onClick={() => {setCurrentTab("Pending")}}
                         >
@@ -375,11 +375,11 @@ const IndexPage: React.FC = () => {
                     </div>
                     <div>
                         <motion.button 
-                            className={`bg-[#4CA9EE] text-white font-bold rounded-md py-3 px-6`}
+                            className={`bg-[#4CA9EE] text-white text-md 3xl:text-sm font-bold rounded-md py-2 px-6 3xl:px-3`}
                             whileHover={{ scale: 1.05}}
                             onClick={() => {setCreateAppointmentModal(true)}}
                         >
-                            Create Appointment
+                            New Appointment
                         </motion.button>
                     </div>
                 </div>
@@ -476,7 +476,7 @@ const IndexPage: React.FC = () => {
             <AppointmentsTable />
 
             {/* Side bar panel */}
-            <div className="w-[550px] bg-[#141718] rounded-md p-8 m-8">
+            <div className="flex-initial w-[550px] bg-[#141718] rounded-md p-8 3xl:p-6 m-8 3xl:m-6">
                 <h2 className="text-2xl font-bold">
                     Pending Appointments
                 </h2>
