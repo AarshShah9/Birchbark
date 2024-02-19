@@ -43,6 +43,7 @@ const IndexPage: React.FC = () => {
   useEffect(() => {
     // Check if the data is null
     if (data) {
+      console.log("USE EFFECT TRIGGERED");
       let appointmentData2: appointmentData = [];
       // Loops through all the appointments in db
       data.forEach((currentAppointment) => {

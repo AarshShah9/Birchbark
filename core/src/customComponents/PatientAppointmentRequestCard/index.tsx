@@ -13,7 +13,7 @@ interface Props {
   time: string;
   duration: number;
   date: string;
-  refetch: any;
+  refetch: () => void;
 }
 
 const PatientAppointmentRequestCard: React.FC<Props> = ({
@@ -206,12 +206,18 @@ const PatientAppointmentRequestCard: React.FC<Props> = ({
                 returnStartTime.getUTCMinutes() + duration
               );
 
-              rescheduleAppointment.mutate({
-                appointmentId: appointmentId,
-                newStartTime: returnStartTime,
-                newEndTime: returnEndTime,
-              });
-              refetch();
+              rescheduleAppointment.mutate(
+                {
+                  appointmentId: appointmentId,
+                  newStartTime: returnStartTime,
+                  newEndTime: returnEndTime,
+                },
+                {
+                  onSuccess: () => {
+                    refetch();
+                  },
+                }
+              );
             }}
           >
             Reschedule

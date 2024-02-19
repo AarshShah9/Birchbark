@@ -24,7 +24,7 @@ const PendingAppointmentRenderer = ({
   refetch,
 }: {
   appointmentData: appointmentData;
-  refetch: any;
+  refetch: () => void;
 }) => {
   let currentDate = "";
 
