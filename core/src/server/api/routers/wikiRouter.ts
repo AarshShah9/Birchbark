@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const wikiRouter = createTRPCRouter({
-  getCategories: privateProcedure
+  getCategories: publicProcedure
     .output(
       z.array(
         z.object({
@@ -20,7 +20,7 @@ export const wikiRouter = createTRPCRouter({
       });
     }),
 
-  getArticlesByCategory: privateProcedure
+  getArticlesByCategory: publicProcedure
     .input(
       z.object({
         id: z.number(),
@@ -48,7 +48,7 @@ export const wikiRouter = createTRPCRouter({
       });
     }),
 
-  getArticleContent: privateProcedure
+  getArticleContent: publicProcedure
     .input(
       z.object({
         id: z.number(),
@@ -69,7 +69,7 @@ export const wikiRouter = createTRPCRouter({
       return article.contentUrl;
     }),
 
-  searchArticlesByTitle: privateProcedure
+  searchArticlesByTitle: publicProcedure
     .input(
       z.object({
         title: z.string(),

@@ -16,6 +16,11 @@ export default authMiddleware({
     "/confirmation",
     "/organization-selection",
     "/api/trpc/organization.getAllOrganizations",
+    "/wiki",
+    "/api/trpc/wiki.getCategories",
+    "/api/trpc/wiki.getArticlesByCategory",
+    "/api/trpc/wiki.getArticleContent",
+    "/api/trpc/wiki.searchArticlesByTitle",
   ],
   beforeAuth(req, evt) {
     // Check to make sure patients are only to see the patient portal

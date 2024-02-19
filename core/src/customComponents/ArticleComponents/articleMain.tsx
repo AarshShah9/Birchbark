@@ -43,7 +43,7 @@ const article = () => {
 
   return (
     <>
-      <div className="relative flex h-[95vh] w-full overflow-auto bg-white font-inter text-[#141718]">
+      <div className="relative flex h-[100vh] w-full overflow-auto bg-white font-inter text-[#141718]">
         <motion.div
           whileHover={{
             scale: [null, 1.03, 1.02],

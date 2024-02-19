@@ -26,38 +26,38 @@ const Navbar: React.FC = () => {
             <ul className="flex flex-row text-white">
               <motion.a
                 whileHover={{ scale: 1.2, color: "#0084FF" }}
-                className=" m-6 text-2xl font-bold text-white lg:m-4 lg:text-lg"
+                className=" m-6 text-xl font-bold text-white lg:m-4 lg:text-lg"
                 href="/"
               >
                 Home
               </motion.a>
               <motion.a
                 whileHover={{ scale: 1.2, color: "#0084FF" }}
-                className=" m-6 text-2xl font-bold text-white lg:m-4 lg:text-lg"
+                className=" m-6 text-xl font-bold text-white lg:m-4 lg:text-lg"
                 href="/about-us"
               >
                 About Us
               </motion.a>
-              {/* <motion.a
-                whileHover={{ scale: 1.2, color: "#0084FF" }}
-                className=" m-6 text-2xl font-bold text-white lg:m-4 lg:text-lg"
-                href="/pricing"
-              >
-                Pricing
-              </motion.a> */}
               <motion.a
                 whileHover={{ scale: 1.2, color: "#0084FF" }}
-                className=" m-6 text-2xl font-bold text-white lg:m-4 lg:text-lg"
+                className=" m-6 text-xl font-bold text-white lg:m-4 lg:text-lg"
                 href="/contact-us"
               >
                 Contact Us
               </motion.a>
               <motion.a
                 whileHover={{ scale: 1.2, color: "#0084FF" }}
-                className=" m-6 text-2xl font-bold text-white lg:m-4 lg:text-lg"
+                className=" m-6 text-xl font-bold text-white lg:m-4 lg:text-lg"
                 href="/organization-selection"
               >
                 Organization
+              </motion.a>
+              <motion.a
+                whileHover={{ scale: 1.2, color: "#0084FF" }}
+                className=" m-6 text-xl font-bold text-white lg:m-4 lg:text-lg"
+                href="/wiki"
+              >
+                Wiki
               </motion.a>
             </ul>
             <div className="ml-8 flex h-full items-center justify-center lg:ml-4">
@@ -66,7 +66,7 @@ const Navbar: React.FC = () => {
                 className="flex h-16 w-48 items-center justify-center rounded-full bg-[#4CA9EE] lg:h-12 lg:w-32"
                 href="/sign-in"
               >
-                <span className="text-center text-2xl font-bold">Login</span>
+                <span className="text-center text-xl font-bold">Login</span>
               </motion.a>
             </div>
           </div>
@@ -134,7 +134,7 @@ const Navbar: React.FC = () => {
               >
                 <motion.a
                   whileHover={{ scale: 1.2, color: "#0084FF" }}
-                  className="m-6 text-2xl font-bold lg:m-4 lg:text-lg"
+                  className="m-6 text-xl font-bold lg:m-4 lg:text-lg"
                   href="/CustomPages/HomePage"
                 >
                   Home
@@ -148,7 +148,7 @@ const Navbar: React.FC = () => {
               >
                 <motion.a
                   whileHover={{ scale: 1.2, color: "#0084FF" }}
-                  className="m-6 text-2xl font-bold lg:m-4 lg:text-lg"
+                  className="m-6 text-xl font-bold lg:m-4 lg:text-lg"
                   href="/CustomPages/AboutUsPage"
                 >
                   About Us
@@ -162,7 +162,7 @@ const Navbar: React.FC = () => {
               >
                 <motion.a
                   whileHover={{ scale: 1.2, color: "#0084FF" }}
-                  className="m-6 text-2xl font-bold lg:m-4 lg:text-lg"
+                  className="m-6 text-xl font-bold lg:m-4 lg:text-lg"
                   href="/CustomPages/PricingPage"
                 >
                   Pricing
@@ -176,7 +176,7 @@ const Navbar: React.FC = () => {
               >
                 <motion.a
                   whileHover={{ scale: 1.2, color: "#0084FF" }}
-                  className=" m-6 text-2xl font-bold text-white lg:m-4 lg:text-lg"
+                  className=" m-6 text-xl font-bold text-white lg:m-4 lg:text-lg"
                   href="/organization-selection"
                 >
                   Organization
@@ -190,7 +190,7 @@ const Navbar: React.FC = () => {
               >
                 <motion.a
                   whileHover={{ scale: 1.2, color: "#0084FF" }}
-                  className="m-6 text-2xl font-bold lg:m-4 lg:text-lg"
+                  className="m-6 text-xl font-bold lg:m-4 lg:text-lg"
                   href="/CustomPages/ContactUsPage"
                 >
                   Contact Us

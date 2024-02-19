@@ -121,14 +121,14 @@ const PatientDashboard: React.FC = () => {
               )}
               {smallNav ? (
                 <SmallTab
-                  tabName="Wiki"
-                  tabLink="Wiki"
+                  tabName="Index"
+                  tabLink="Index"
                   tabIcon="/icons/BookIcon.svg"
                 ></SmallTab>
               ) : (
                 <Tab
-                  tabName="Wiki"
-                  tabLink="Wiki"
+                  tabName="Index"
+                  tabLink="Index"
                   tabIcon="/icons/BookIcon.svg"
                 ></Tab>
               )}
