@@ -13,7 +13,7 @@ const ProfileTab = () => {
       <div className="mx-10 flex h-fit w-96 flex-none flex-col rounded-lg bg-[#141718] p-8">
         <div className="mb-4 flex flex-row items-center">
           <img
-            src="/Icons/Profile2.svg"
+            src="/icons/Profile2.svg"
             alt="Profile"
             className="h-14 w-14"
           ></img>
@@ -52,7 +52,7 @@ const ProfileTab = () => {
             className="my-2 flex items-center justify-center rounded-md bg-[#232627]"
           >
             <div className="flex flex-row">
-              <img src="/Icons/edit.svg" alt="Edit" className="h-8 w-8"></img>
+              <img src="/icons/edit.svg" alt="Edit" className="h-8 w-8"></img>
               <p className="pl-1 text-xl text-[#4CA9EE] underline">Edit</p>
             </div>
           </motion.button>
@@ -86,7 +86,7 @@ const ProfileTab = () => {
       <div className="mr-10 flex h-fit w-full flex-col rounded-lg bg-[#141718] p-8">
         <div className="mb-4 flex flex-row items-center">
           <img
-            src="/Icons/Star.svg"
+            src="/icons/Star.svg"
             alt="Emergency Contacts"
             className="h-14 w-14"
           ></img>
@@ -137,7 +137,7 @@ const ProfileTab = () => {
             className="my-2 flex items-center justify-center rounded-md bg-[#232627]"
           >
             <div className="flex flex-row">
-              <img src="/Icons/edit.svg" alt="Edit" className="h-8 w-8"></img>
+              <img src="/icons/edit.svg" alt="Edit" className="h-8 w-8"></img>
               <p className="pl-1 text-xl text-[#4CA9EE] underline">Edit</p>
             </div>
           </motion.button>
