@@ -23,7 +23,7 @@ const LandingPage1 = ({ next, language, setLanguage }: formProps) => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#232627]">
+    <div className="min-h-screen w-full" id="chiefBackground">
       <div className="z-2 w-full">
         <div className="z-10 ml-12 flex h-[10vh] flex-initial p-6">
           <img
@@ -37,15 +37,21 @@ const LandingPage1 = ({ next, language, setLanguage }: formProps) => {
             className=" rounded-lg p-16 "
             style={{ backgroundColor: "rgba(150, 150, 150, 0.75)" }}
           >
-            <h1 className="mb-8 text-center text-7xl font-bold text-white md:text-4xl">
+            <motion.h1 
+              className="mb-8 text-center text-7xl font-bold text-white md:text-4xl"
+              whileHover={{ color: "#D5D5D5", scale: 1.05 }}  
+            >
               {language === "Blackfoot"
                 ? clinicLandingResources1.title.Blackfoot
                 : clinicLandingResources1.title.English}
               <button
                 className="text-sm font-light"
                 onClick={() => {
-                  if (language === "Blackfoot") setLanguage("English");
-                  else setLanguage("Blackfoot");
+                  if (language === "Blackfoot") {
+                    setLanguage("English");
+                  } else {
+                    setLanguage("Blackfoot");
+                  }
                 }}
               >
                 <img
@@ -54,7 +60,7 @@ const LandingPage1 = ({ next, language, setLanguage }: formProps) => {
                   className="h-6 w-6"
                 />
               </button>
-            </h1>
+            </motion.h1>
             <h2 className="mb-8 text-center font-inter text-4xl text-white md:text-2xl">
               {clinicLandingResources1.greeting.English}
             </h2>
@@ -71,9 +77,9 @@ const LandingPage1 = ({ next, language, setLanguage }: formProps) => {
                 <div className="h-38 w-38 rounded-full bg-[#4CA9EE] shadow-md">
                   <div>
                     <img
-                      className="p-6"
+                      className="p-10 h-full w-full"
                       alt="Psychologist Icon"
-                      src="/images/BookIcon.svg"
+                      src="/icons/BookIcon.svg"
                     />
                   </div>
                 </div>

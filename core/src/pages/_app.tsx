@@ -45,6 +45,12 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         #headlessui-portal-root {
           font-family: ${inter.style.fontFamily};
         }
+        #chiefBackground {
+          background-image: url("/images/chiefMountainSmall.jpg");
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+        }
       `}</style>
       <ColorModeProvider>
         <ColorModeScript

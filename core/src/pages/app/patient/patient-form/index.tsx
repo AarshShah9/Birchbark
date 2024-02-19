@@ -145,7 +145,7 @@ export default function Form() {
         </form>
 
         {/* Navigation */}
-        <div className="fixed bottom-[50%] left-4 lg:bottom-4">
+        <div className="fixed bottom-[50%] left-8 lg:bottom-4">
           <div className="flex justify-between">
             <motion.button
               type="button"
