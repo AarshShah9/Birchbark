@@ -226,12 +226,14 @@ export const appointmentDoctorRouter = createTRPCRouter({
     .input(
       z.object({
         subject: z.string(),
-        startTime: z.date(),
-        endTime: z.date(),
+        startDate: z.string(),
+        startTime: z.string(),
+        endDate: z.string(),
+        endTime: z.string(),
         description: z.string().optional(),
         isAllDay: z.boolean().optional(),
         isReadOnly: z.boolean().optional(),
-        patientId: z.number(),
+        patientId: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -249,7 +251,7 @@ export const appointmentDoctorRouter = createTRPCRouter({
 
         const patient = await prisma.patient.findUnique({
           where: {
-            id: input.patientId,
+            id: Number(input.patientId),
           },
         });
 
@@ -257,11 +259,14 @@ export const appointmentDoctorRouter = createTRPCRouter({
           throw new Error("Patient not found");
         }
 
+        const endFullDate = new Date(input.endDate + " " + input.endTime);
+        const startFullDate = new Date(input.startDate + " " + input.startTime);
+
         return await prisma.appointment.create({
           data: {
             subject: input.subject,
-            startTime: input.startTime,
-            endTime: input.endTime,
+            startTime: startFullDate,
+            endTime: endFullDate,
             description: input.description,
             isAllDay: input.isAllDay || false,
             isReadOnly: input.isReadOnly || false,
