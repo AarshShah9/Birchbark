@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import SchedulerWrapper from "src/customComponents/SchedulerWrapper";
 import PatientAppointmentRequestCard from "~/customComponents/PatientAppointmentRequestCard";
 import { api } from "~/utils/api";
 import { motion } from "framer-motion";
-import Modal from "../../components/Modal";
+import Modal from "../../../components/Modal";
+import { Dialog } from "@headlessui/react";
+
 
 const MONTHS: Record<number, string> = {
     0: "January",
@@ -50,15 +52,8 @@ interface DateLineBreakProps {
     date: string;
 }
 
-const CreateAppointmentModal: React.FC = () => {
-    return (
-        <div>
-            <h1>Modal</h1>
-        </div>
-    )
-}
-
 const IndexPage: React.FC = () => {
+    const [createAppointmentModal, setCreateAppointmentModal] = useState(false);
     const { data, error } = api.appointment.getAllAppointments.useQuery();
     
     // Check if data is null
@@ -168,6 +163,133 @@ const IndexPage: React.FC = () => {
         );
     };
     
+    // Component for Modal for creating an appointment
+    const CreateAppointmentModal: React.FC = () => {
+        
+        const [form, setForm] = useState({
+            subject: '',
+            patient: '',
+            startDate: '',
+            startTime: '',
+            endDate: '',
+            endTime: '',
+            description: '',
+        });
+
+        const handleChange = (e) => {
+            setForm({
+                ...form,
+                [e.target.name]: e.target.value,
+            });
+        };
+
+        const patients = ['Patient 1', 'Patient 2', 'Patient 3']; // TODO: Replace with actual patient data
+
+        return (
+            <Modal
+                visible={createAppointmentModal}
+                onClose={() => setCreateAppointmentModal(false)}
+                className="flex h-full w-full items-center justify-center"
+            >
+                <Dialog.Title className={"px-20 pt-8 font-bold text-center"}>
+                    Create a new appointment
+                </Dialog.Title>
+                
+                <div className="w-full flex items-center justify-center">
+                    <form className="">
+                        <table className="table-auto border-separate border-spacing-y-2">
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <label htmlFor="subject">Subject:</label>
+                                </td>
+                                <td className="px-4 py-1 font-normal">
+                                    <input className="w-full px-3 py-2" type="text" name="subject" value={form.subject} placeholder="Enter subject" onChange={handleChange}/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label htmlFor="patient">Patient:</label>
+                                </td>
+                                <td className="px-4 py-1 font-normal">
+                                    <select className="w-full px-3 py-2" name="patient" value={form.patient} title="Select patient" onChange={handleChange}>
+                                        {patients.map((patient, index) => (
+                                        <option key={index} value={patient}>
+                                            {patient}
+                                        </option>
+                                        ))}
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label htmlFor="startDate">Start Date:</label>
+                                </td>
+                                <td className="px-4 py-1 font-normal">
+                                    <input className="w-full px-3 py-2" type="date" name="startDate" value={form.startDate} title="Start Date" onChange={handleChange}/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label htmlFor="startTime">Start Time:</label>
+                                </td>
+                                <td className="px-4 py-1 font-normal">
+                                    <input className="w-full px-3 py-2" type="time" name="startTime" value={form.startTime} title="Start Time" onChange={handleChange}/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label htmlFor="endDate">End Date:</label>
+                                </td>
+                                <td className="px-4 py-1 font-normal">
+                                    <input className="w-full px-3 py-2" type="date" name="endDate" value={form.endDate} title="End Date" placeholder="Select end date" onChange={handleChange}/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label htmlFor="endTime">End Time:</label>
+                                </td>
+                                <td className="px-4 py-1 font-normal">
+                                    <input className="w-full px-3 py-2" type="time" name="endTime" value={form.endTime} title="End Time" placeholder="Select end time" onChange={handleChange}/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label htmlFor="description">Description:</label>
+                                </td>
+                                <td className="px-4 py-1 font-normal">
+                                    <textarea className="w-full px-3 py-2" name="description" value={form.description} placeholder="Enter description" onChange={handleChange}/>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div className="w-full flex flex-row justify-center">
+                            <motion.button
+                                whileHover={{ scale: 0.9 }}
+                                className="m-1 flex h-12 w-28 items-center justify-center rounded-full bg-[#4CA9EE] p-4"
+                                onClick={() => {
+                                    // setCreateAppointmentModal(false); //This closes the Modal
+                                }}
+                                onSubmit={() => {
+                                    //TODO: this is the Save button for the create new appointment form, implement form saving and create appt to DB.
+                                }}
+                            >
+                                Save
+                            </motion.button>
+                            <motion.button
+                                whileHover={{ scale: 0.9 }}
+                                className="m-1 flex h-12 w-28 items-center justify-center rounded-full bg-red-500 p-4"
+                                onClick={() => setCreateAppointmentModal(false)}
+                            >
+                                Cancel
+                            </motion.button>
+                        </div>
+                    </form>
+                </div>
+            </Modal>
+        )
+    }
+
     // Component for the Pending appointment renderer
     const PendingAppointmentRenderer: React.FC = () => {
         let currentDate = "";
@@ -175,7 +297,7 @@ const IndexPage: React.FC = () => {
         return (
             <>
                 {/* <DateLineBreak date={MONTHS[0]||''} /> */}
-                {appointmentData.map((appointment, index) => {
+                {appointmentData.filter(appointment => appointment.appointmentType === 'Pending').map((appointment, index) => {
                 // Check if the Date has changed
                 const isNewDate = appointment.datePrint !== currentDate;
                 currentDate = appointment.datePrint;
@@ -255,7 +377,7 @@ const IndexPage: React.FC = () => {
                         <motion.button 
                             className={`bg-[#4CA9EE] text-white font-bold rounded-md py-3 px-6`}
                             whileHover={{ scale: 1.05}}
-                            onClick={() => {console.log("Prompt Form Modal")}}
+                            onClick={() => {setCreateAppointmentModal(true)}}
                         >
                             Create Appointment
                         </motion.button>
@@ -348,7 +470,8 @@ const IndexPage: React.FC = () => {
 
     return (
         <div className="flex h-full w-full flex-row rounded-md bg-[#232627]">
-            
+            <CreateAppointmentModal/>
+
             {/* Main Panel */}
             <AppointmentsTable />
 
