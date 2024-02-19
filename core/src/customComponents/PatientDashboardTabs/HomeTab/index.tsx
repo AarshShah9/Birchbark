@@ -14,7 +14,7 @@ const Chat: React.FC<ChatProps> = ({ doctorName, link }) => {
     >
       <h1 className="text-3xl font-bold text-white">{doctorName}</h1>
       <img
-        src="/Icons/ChatBubblesIcon.svg"
+        src="/icons/ChatBubblesIcon.svg"
         alt="Chat Icon"
         className="h-8 w-8"
       ></img>
@@ -132,12 +132,12 @@ const HomeTab = () => {
             <div className="m-4 flex h-48 flex-row space-x-4 overflow-x-scroll">
               <AppointmentType
                 type="Doctor"
-                icon="/Icons/DoctorIcon.svg"
+                icon="/icons/DoctorIcon.svg"
               ></AppointmentType>
-              {/* <AppointmentType type='Cardiology' icon='/Icons/HeartIcon.svg'></AppointmentType> */}
-              {/* <AppointmentType type='Respiratory' icon='/Icons/LungsIcon.svg'></AppointmentType> */}
-              {/* <AppointmentType type='Eye Doctor' icon='/Icons/EyeIcon.svg'></AppointmentType> */}
-              {/* <AppointmentType type='Dermatologist' icon='/Icons/SkinIcon.svg'></AppointmentType> */}
+              {/* <AppointmentType type='Cardiology' icon='/icons/HeartIcon.svg'></AppointmentType> */}
+              {/* <AppointmentType type='Respiratory' icon='/icons/LungsIcon.svg'></AppointmentType> */}
+              {/* <AppointmentType type='Eye Doctor' icon='/icons/EyeIcon.svg'></AppointmentType> */}
+              {/* <AppointmentType type='Dermatologist' icon='/icons/SkinIcon.svg'></AppointmentType> */}
             </div>
           </div>
         </div>
