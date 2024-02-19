@@ -2,12 +2,7 @@ import React, { useEffect, useState } from "react";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import Logo from "@/components/Logo";
 import Icon from "@/components/Icon";
-import Modal from "@/components/Modal";
-import Search from "@/components/Search";
-import Settings from "@/components/Settings";
 import Navigation from "./Navigation";
-import { resultSearch } from "~/_deprecated/mocks/resultSearch";
-import { settings } from "@/constants/settings";
 import { twMerge } from "tailwind-merge";
 import { UserButton } from "@clerk/nextjs";
 
@@ -61,7 +56,7 @@ const LeftSidebar = ({
       url: "/app/images",
     },
     {
-      title: "Wiki",
+      title: "Articles",
       icon: "container",
       color: "fill-accent-5",
       url: "/app/articles",
