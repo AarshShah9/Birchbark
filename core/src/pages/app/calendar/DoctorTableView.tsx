@@ -3,6 +3,7 @@ import SchedulerWrapper from "src/customComponents/SchedulerWrapper";
 import PatientAppointmentRequestCard from "~/customComponents/PatientAppointmentRequestCard";
 import { api } from "~/utils/api";
 import { motion } from "framer-motion";
+import Modal from "../../components/Modal";
 
 const MONTHS: Record<number, string> = {
     0: "January",
@@ -19,6 +20,43 @@ const MONTHS: Record<number, string> = {
     11: "December",
 };
 
+// model Appointment {
+//     id          Int      @id @default(autoincrement())
+//     subject     String /// @encrypted
+//     startTime   DateTime
+//     endTime     DateTime
+//     description String? /// @encrypted
+//     isAllDay    Boolean  @default(false)
+//     isReadOnly  Boolean  @default(false)
+//     statusM     Status   @default(Pending)
+//     doctorId    Int
+//     patientId   Int
+//     doctor      Doctor   @relation(fields: [doctorId], references: [id])
+//     patient     Patient  @relation(fields: [patientId], references: [id])
+  
+//     @@index([doctorId])
+//     @@index([patientId])
+//   }
+
+enum Status {
+    Confirmed = 'Confirmed',
+    Pending = 'Pending',
+    Cancelled = 'Cancelled',
+    Stale = 'Stale',
+    Completed = 'Completed',
+}
+
+interface DateLineBreakProps {
+    date: string;
+}
+
+const CreateAppointmentModal: React.FC = () => {
+    return (
+        <div>
+            <h1>Modal</h1>
+        </div>
+    )
+}
 
 const IndexPage: React.FC = () => {
     const { data, error } = api.appointment.getAllAppointments.useQuery();
@@ -35,7 +73,9 @@ const IndexPage: React.FC = () => {
         patient: string;
         patientPhoto: string;
         appointmentType: string;
-        date: string;
+        datePrint: string;
+        startDate: Date;
+        endDate: Date;
         time: string;
         duration: number;
     }[] = [];
@@ -101,12 +141,14 @@ const IndexPage: React.FC = () => {
                 patient: currentAppointment?.patient.name,
                 patientPhoto: "/images/avatar.jpg", // TODO: Need to make a call to get the patients photo
                 appointmentType: currentAppointment?.statusM,
-                date:
+                datePrint:
                     newMonth.toString() +
                     "/" +
                     currentAppointment?.startTime.getDate().toString() +
                     "/" +
                     currentAppointment?.startTime.getFullYear().toString(),
+                startDate: currentAppointment?.startTime,
+                endDate: currentAppointment?.endTime,
                 time: displayTime,
                 duration: minutes,
             };
@@ -114,10 +156,6 @@ const IndexPage: React.FC = () => {
             appointmentData.push(appointment);
             
         });
-    }
-
-    interface DateLineBreakProps {
-        date: string;
     }
     
     // Component for the line break between dates
@@ -130,16 +168,8 @@ const IndexPage: React.FC = () => {
         );
     };
     
-
-    const AppointmentRenderer: React.FC = () => {
-        // Fetch the pending appointments
-        const { data1, error } = api.appointment.getAllAppointments.useQuery();
-        
-        // Check if data is null
-        if (error) {
-            console.log("TRPC CALL ERROR: " + JSON.stringify(error));
-        }
-
+    // Component for the Pending appointment renderer
+    const PendingAppointmentRenderer: React.FC = () => {
         let currentDate = "";
 
         return (
@@ -147,11 +177,11 @@ const IndexPage: React.FC = () => {
                 {/* <DateLineBreak date={MONTHS[0]||''} /> */}
                 {appointmentData.map((appointment, index) => {
                 // Check if the Date has changed
-                const isNewDate = appointment.date !== currentDate;
-                currentDate = appointment.date;
+                const isNewDate = appointment.datePrint !== currentDate;
+                currentDate = appointment.datePrint;
         
                 // Parse the date to a pretier display date
-                let bits = appointment.date.split("/");
+                let bits = appointment.datePrint.split("/");
                 let curMonth = bits[0] || "";
                 let curDay = bits[1];
                 let curYear = bits[2];
@@ -173,7 +203,7 @@ const IndexPage: React.FC = () => {
                         appointmentType={appointment.appointmentType}
                         time={appointment.time}
                         duration={appointment.duration}
-                        date={appointment.date}
+                        date={appointment.datePrint}
                     />
                     </React.Fragment>
                 );
@@ -181,7 +211,6 @@ const IndexPage: React.FC = () => {
             </>
         );
     };
-    console.log(appointmentData);
 
     const AppointmentsTable: React.FC = () => {
         const [currentTab, setCurrentTab] = React.useState("All");
@@ -235,15 +264,15 @@ const IndexPage: React.FC = () => {
 
                 {/* Main table content */}
                 <div className="overflow-auto">
-                    <table className="w-full mt-8 table-auto">
+                    <table className="w-full mt-8 table-auto border-separate border-spacing-y-1">
                         <thead>
                             <tr>
-                                <th className="text-left text-white">Patient</th>
-                                <th className="text-left text-white">Type</th>
-                                <th className="text-left text-white">Date</th>
-                                <th className="text-left text-white">Time</th>
-                                <th className="text-left text-white">Duration</th>
-                                <th className="text-left text-white">Status</th>
+                                <th className="py-2 px-4 text-left text-white">Patient</th>
+                                <th className="py-2 px-4 text-left text-white">Type</th>
+                                <th className="py-2 px-4 text-left text-white">Date</th>
+                                <th className="py-2 px-4 text-left text-white">Time</th>
+                                <th className="py-2 px-4 text-left text-white">Duration</th>
+                                <th className="py-2 px-4 text-left text-white">Status</th>
                             </tr>
                         </thead>
                         { currentTab == "All" ?
@@ -253,12 +282,12 @@ const IndexPage: React.FC = () => {
                                     .map((appointment, index) => {
                                         return (
                                         <tr key={index} className="bg-[#323337]">
-                                            <td>{appointment.patient}</td>
-                                            <td>{appointment.appointmentType}</td>
-                                            <td>{appointment.date}</td>
-                                            <td>{appointment.time}</td>
-                                            <td>{appointment.duration}</td>
-                                            <td>{appointment.appointmentType}</td>
+                                            <td className="py-2 px-4">{appointment.patient}</td>
+                                            <td className="py-2 px-4">{appointment.appointmentType}</td>
+                                            <td className="py-2 px-4">{appointment.datePrint}</td>
+                                            <td className="py-2 px-4">{appointment.time}</td>
+                                            <td className="py-2 px-4">{appointment.duration}</td>
+                                            <td className="py-2 px-4">{appointment.appointmentType}</td>
                                         </tr>
                                         );
                                     })}
@@ -268,12 +297,12 @@ const IndexPage: React.FC = () => {
                                 {appointmentData.filter(appointment => appointment.appointmentType === 'Confirmed').map((appointment, index) => {
                                     return (
                                         <tr key={index} className="bg-[#323337]">
-                                            <td>{appointment.patient}</td>
-                                            <td>{appointment.appointmentType}</td>
-                                            <td>{appointment.date}</td>
-                                            <td>{appointment.time}</td>
-                                            <td>{appointment.duration}</td>
-                                            <td>{appointment.appointmentType}</td>
+                                            <td className="py-2 px-4">{appointment.patient}</td>
+                                            <td className="py-2 px-4">{appointment.appointmentType}</td>
+                                            <td className="py-2 px-4">{appointment.datePrint}</td>
+                                            <td className="py-2 px-4">{appointment.time}</td>
+                                            <td className="py-2 px-4">{appointment.duration}</td>
+                                            <td className="py-2 px-4">{appointment.appointmentType}</td>
                                         </tr>
                                     )
                                 })}
@@ -283,12 +312,12 @@ const IndexPage: React.FC = () => {
                                 {appointmentData.filter(appointment => appointment.appointmentType === "Completed").map((appointment, index) => {
                                     return (
                                         <tr key={index} className="bg-[#323337]">
-                                            <td>{appointment.patient}</td>
-                                            <td>{appointment.appointmentType}</td>
-                                            <td>{appointment.date}</td>
-                                            <td>{appointment.time}</td>
-                                            <td>{appointment.duration}</td>
-                                            <td>{appointment.appointmentType}</td>
+                                            <td className="py-2 px-4">{appointment.patient}</td>
+                                            <td className="py-2 px-4">{appointment.appointmentType}</td>
+                                            <td className="py-2 px-4">{appointment.datePrint}</td>
+                                            <td className="py-2 px-4">{appointment.time}</td>
+                                            <td className="py-2 px-4">{appointment.duration}</td>
+                                            <td className="py-2 px-4">{appointment.appointmentType}</td>
                                         </tr>
                                     )
                                 })}
@@ -298,12 +327,12 @@ const IndexPage: React.FC = () => {
                                 {appointmentData.filter(appointment => appointment.appointmentType === "Pending").map((appointment, index) => {
                                     return (
                                         <tr key={index} className="bg-[#323337]">
-                                            <td>{appointment.patient}</td>
-                                            <td>{appointment.appointmentType}</td>
-                                            <td>{appointment.date}</td>
-                                            <td>{appointment.time}</td>
-                                            <td>{appointment.duration}</td>
-                                            <td>{appointment.appointmentType}</td>
+                                            <td className="py-2 px-4">{appointment.patient}</td>
+                                            <td className="py-2 px-4">{appointment.appointmentType}</td>
+                                            <td className="py-2 px-4">{appointment.datePrint}</td>
+                                            <td className="py-2 px-4">{appointment.time}</td>
+                                            <td className="py-2 px-4">{appointment.duration}</td>
+                                            <td className="py-2 px-4">{appointment.appointmentType}</td>
                                         </tr>
                                     )
                                 })}
@@ -334,7 +363,7 @@ const IndexPage: React.FC = () => {
                         No appointments requested
                     </div>
                     ) : (
-                    <AppointmentRenderer />
+                    <PendingAppointmentRenderer />
                     )}
                 </div>
             </div>
