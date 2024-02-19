@@ -46,7 +46,7 @@ async function main() {
         phoneNumber: "321-654-0987",
         notificationOn: true,
         OrganizationId: organization.id,
-        clerkId: "user_2YjfKNxNa2zJKIZgBQF49DfsBdr",
+        clerkId: "user_2YjfKNxNa2zJKIZgBQF49DfsBdr", // This is where the Doctor clerk ID is
         // Add other fields as necessary
       },
     });

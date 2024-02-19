@@ -481,7 +481,7 @@ const Overview = () => {
           patientId: 1, // TODO test,
         };
       }
-      if (data != null) createMutation.mutate(data);
+      // if (data != null) createMutation.mutate(data);
     } else if (args.requestType === "eventChanged" && args.changedRecords) {
       const changedRecord = args.changedRecords[0];
       if (changedRecord) {

@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Modal from "../../components/Modal";
-import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { api } from "~/utils/api";
 
@@ -14,17 +13,18 @@ interface Props {
   time: string;
   duration: number;
   date: string;
+  refetch: () => void;
 }
 
 const PatientAppointmentRequestCard: React.FC<Props> = ({
   appointmentId,
-  patientId,
   patient,
   patientPhoto,
   appointmentType,
   date,
   time,
   duration,
+  refetch,
 }: Props) => {
   // Use states
   const [confirmModalState, setConfirmModalState] = useState(false);
@@ -89,6 +89,7 @@ const PatientAppointmentRequestCard: React.FC<Props> = ({
                 appointmentId: appointmentId,
                 newStatus: "Confirmed",
               });
+              refetch();
             }}
           >
             Continue
@@ -227,19 +228,19 @@ const PatientAppointmentRequestCard: React.FC<Props> = ({
   };
 
   return (
-    <div className="my-2 flex flex-row justify-between rounded-xl bg-[#323337] text-white">
+    <div className="my-2 flex flex-row justify-between rounded-xl bg-[#323337] text-white 3xl:flex-col">
       <ConfirmModal />
       <RescheduleModal />
 
-      <div className="flex flex-row ">
+      <div className="flex flex-row 2xl:flex-col">
         {/* Buttons Div */}
-        <div className="flex flex-col items-center justify-center p-2">
+        <div className="flex flex-col items-center justify-center p-2 2xl:flex-row">
           <motion.button
             onClick={() => {
               setConfirmModalState(true);
             }}
             whileHover={{ scale: 0.9 }}
-            className="m-1 flex h-8 w-8 items-center justify-center rounded-full bg-[#6C7275] hover:bg-[#505253]"
+            className="m-1 flex h-8 w-8 items-center justify-center rounded-full bg-[#6C7275] hover:bg-[#505253] 3xl:h-6 3xl:w-6 3xl:p-1"
           >
             <svg
               width="16"
@@ -264,7 +265,7 @@ const PatientAppointmentRequestCard: React.FC<Props> = ({
               setRescheduleModal(true);
             }}
             whileHover={{ scale: 0.9 }}
-            className="m-1 flex h-8 w-8 items-center justify-center rounded-full bg-[#6C7275] hover:bg-[#505253]"
+            className="m-1 flex h-8 w-8 items-center justify-center rounded-full bg-[#6C7275] hover:bg-[#505253] 3xl:h-6 3xl:w-6 3xl:p-1"
           >
             <svg
               width="20"
@@ -290,27 +291,37 @@ const PatientAppointmentRequestCard: React.FC<Props> = ({
 
         {/* Patient Info Div */}
         <div className="flex items-center justify-center">
-          <div className="flex flex-row">
+          <div className="flex flex-row 2xl:flex-col">
             <div className="flex items-center justify-center">
               <img
-                className="h-16 w-16 rounded-full"
+                className="h-16 w-16 flex-none rounded-full 3xl:h-12 3xl:w-12"
                 src={patientPhoto}
                 alt={patient}
               />
             </div>
             <div className="mx-2 my-2">
-              <div className="text-lg font-bold">{patient}</div>
-              <div className="text-md">{appointmentType}</div>
+              <div className="3xl:text-md text-lg font-bold 2xl:text-center">
+                {patient}
+              </div>
+              <div className="text-md 3xl:text-sm 2xl:text-center">
+                {appointmentType}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Date & Time Div */}
-      <div className="mr-4 flex flex-col justify-center">
-        <div className="text-right text-sm">{date}</div>
-        <div className="text-right text-lg font-bold">{time}</div>
-        <div className="text-md text-right">{duration} Minutes</div>
+      <div className="mr-4 flex flex-col justify-center 3xl:ml-4 3xl:flex-row-reverse 3xl:justify-between 3xl:pb-2 2xl:flex-col 2xl:items-center">
+        <div className="text-right text-sm 3xl:text-xs 3xl:font-bold">
+          {date}
+        </div>
+        <div className="text-right text-lg font-bold 3xl:text-xs 3xl:font-bold">
+          {time}
+        </div>
+        <div className="text-md text-right 3xl:text-xs 3xl:font-bold">
+          {duration} Minutes
+        </div>
       </div>
     </div>
   );

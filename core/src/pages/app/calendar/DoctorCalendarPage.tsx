@@ -1,6 +1,5 @@
 import React from "react";
 import SchedulerWrapper from "src/customComponents/SchedulerWrapper";
-import PatientAppointmentRequestCard from "~/customComponents/PatientAppointmentRequestCard";
 import { api } from "~/utils/api";
 
 const MONTHS: Record<number, string> = {
@@ -130,17 +129,17 @@ const IndexPage: React.FC = () => {
               {isNewDate && <DateLineBreak date={displayString} />}
 
               {/* Render the appointment */}
-              <PatientAppointmentRequestCard
-                key={index}
-                appointmentId={appointment.appointmentId}
-                patientId={appointment.patientId}
-                patient={appointment.patient}
-                patientPhoto={appointment.patientPhoto}
-                appointmentType={appointment.appointmentType}
-                time={appointment.time}
-                duration={appointment.duration}
-                date={appointment.date}
-              />
+              {/*<PatientAppointmentRequestCard*/}
+              {/*  key={index}*/}
+              {/*  appointmentId={appointment.appointmentId}*/}
+              {/*  patientId={appointment.patientId}*/}
+              {/*  patient={appointment.patient}*/}
+              {/*  patientPhoto={appointment.patientPhoto}*/}
+              {/*  appointmentType={appointment.appointmentType}*/}
+              {/*  time={appointment.time}*/}
+              {/*  duration={appointment.duration}*/}
+              {/*  date={appointment.date}*/}
+              {/*/>*/}
             </React.Fragment>
           );
         })}
