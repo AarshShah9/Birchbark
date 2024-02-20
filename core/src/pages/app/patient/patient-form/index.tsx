@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { SubmitHandler, useForm, FormProvider } from "react-hook-form";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
 // ITL Texts
 import { useRouter } from "next/router";
@@ -147,30 +147,32 @@ export default function Form() {
         {/* Navigation */}
         <div className="fixed bottom-[50%] left-8 lg:bottom-4">
           <div className="flex justify-between">
-            <motion.button
-              type="button"
-              onClick={prev}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.98 }}
-              disabled={currentStep === 0}
-              className="mt-4 flex w-[100px] items-center justify-center rounded-full bg-[#4CA9EE] p-2 text-white disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="h-4 w-4"
+            {currentStep !== 0 && (
+              <motion.button
+                type="button"
+                onClick={prev}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+                disabled={currentStep === 0}
+                className="mt-4 flex w-[100px] items-center justify-center rounded-full bg-[#4CA9EE] p-2 text-white disabled:cursor-not-allowed disabled:opacity-50"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15.75 19.5L8.25 12l7.5-7.5"
-                />
-              </svg>
-              Back
-            </motion.button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="h-4 w-4"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.75 19.5L8.25 12l7.5-7.5"
+                  />
+                </svg>
+                Back
+              </motion.button>
+            )}
           </div>
         </div>
       </div>

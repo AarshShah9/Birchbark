@@ -48,7 +48,7 @@ const SearchArticles: React.FC = () => {
             >
               <a
                 className="mx-4 flex w-full flex-col text-ellipsis"
-                href={`/app/articles/article?id=${article.id}`}
+                href={`/wiki/article?id=${article.id}`}
               >
                 <p className="truncate">{article.title}</p>
                 <p className="truncate text-[#6C7275]">{article.description}</p>

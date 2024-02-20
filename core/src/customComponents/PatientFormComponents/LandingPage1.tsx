@@ -37,15 +37,16 @@ const LandingPage1 = ({ next, language, setLanguage }: formProps) => {
             className=" rounded-lg p-16 "
             style={{ backgroundColor: "rgba(150, 150, 150, 0.75)" }}
           >
-            <motion.h1 
+            <motion.h1
               className="mb-8 text-center text-7xl font-bold text-white md:text-4xl"
-              whileHover={{ color: "#D5D5D5", scale: 1.05 }}  
+              whileHover={{ color: "#D5D5D5", scale: 1.05 }}
             >
               {language === "Blackfoot"
                 ? clinicLandingResources1.title.Blackfoot
                 : clinicLandingResources1.title.English}
               <button
                 className="text-sm font-light"
+                type={"button"}
                 onClick={() => {
                   if (language === "Blackfoot") {
                     setLanguage("English");
@@ -77,7 +78,7 @@ const LandingPage1 = ({ next, language, setLanguage }: formProps) => {
                 <div className="h-38 w-38 rounded-full bg-[#4CA9EE] shadow-md">
                   <div>
                     <img
-                      className="p-10 h-full w-full"
+                      className="h-full w-full p-10"
                       alt="Psychologist Icon"
                       src="/icons/BookIcon.svg"
                     />

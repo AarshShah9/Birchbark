@@ -1,10 +1,7 @@
 import React from "react";
 import Navbar from "~/customComponents/Navbar";
 import Footer from "~/customComponents/Footer";
-import FAQS from "~/customComponents/FAQS";
-import { motion, AnimatePresence } from "framer-motion";
-import { Inter } from "next/font/google";
-import { BiPlusMedical, BiMinus } from "react-icons/bi";
+import { motion } from "framer-motion";
 import FAQComponent from "../../../customComponents/FAQS/FAQComponent";
 import { faq } from "@/constants/faq";
 import { contactResources } from "~/resources/contact";
@@ -90,7 +87,6 @@ const ContactUsPage: React.FC = () => {
               </h1>
               <FAQComponent faq={faq.faq1} />
               <FAQComponent faq={faq.faq2} />
-              <FAQComponent faq={faq.faq3} />
               <FAQComponent faq={faq.faq4} />
               <FAQComponent faq={faq.faq5} />
               <FAQComponent faq={faq.faq6} />

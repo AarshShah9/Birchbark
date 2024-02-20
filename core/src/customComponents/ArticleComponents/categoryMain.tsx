@@ -27,7 +27,7 @@ const CategoryPage: NextPage = () => {
 
   return (
     <>
-      <div className="relative flex h-[95vh] w-full overflow-auto bg-white font-inter text-[#141718]">
+      <div className="relative flex h-[100vh] w-full overflow-auto bg-white font-inter text-[#141718]">
         <SearchArticles />
         <motion.div
           whileHover={{
@@ -42,7 +42,7 @@ const CategoryPage: NextPage = () => {
         >
           <a
             className="flex h-full w-full items-center justify-center"
-            href={`/app/articles/`}
+            href={`/wiki/`}
           >
             <BsArrowLeft className="flex h-[85%] w-[85%]" />
           </a>
@@ -57,7 +57,7 @@ const CategoryPage: NextPage = () => {
             <ul className="mb-10 grid w-auto grid-cols-2 gap-6 text-center md:grid-cols-1">
               {articles.map((article) => (
                 <li className="flex justify-center" key={article.id}>
-                  <Link href={`/app/articles/article?id=${article.id}`}>
+                  <Link href={`/wiki/article?id=${article.id}`}>
                     <motion.div
                       whileHover={{
                         //   boxShadow: "0px 0px 15px rgb(76, 169, 238)",

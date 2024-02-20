@@ -21,7 +21,12 @@ const OrganizationSelectionPage = () => {
     return (
       <>
         <Navbar />
-        <Loading />
+        <div
+          className="flex items-center justify-center"
+          style={{ height: `calc(100vh - 250px)` }}
+        >
+          <Loading />
+        </div>
         <Footer />
       </>
     );

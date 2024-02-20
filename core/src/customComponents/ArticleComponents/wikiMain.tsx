@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import Loading from "~/customComponents/Loading";
 import SearchArticles from "~/customComponents/ArticleComponents/search";
 
-const WikiMain = (props: { patient: boolean }) => {
+const WikiMain = () => {
   const { data: categories, error } = api.wiki.getCategories.useQuery();
 
   if (error) return <div>Error: {error.message}</div>;
@@ -15,9 +15,7 @@ const WikiMain = (props: { patient: boolean }) => {
 
   return (
     <div
-      className={`flex w-full overflow-auto bg-white font-inter text-[#141718] ${
-        props.patient ? "h-[100vh]" : "h-[95vh]"
-      }`}
+      className={`flex h-[100vh] w-full overflow-auto bg-white font-inter text-[#141718]`}
     >
       <SearchArticles />
       <div className="flex w-full flex-col items-center">
@@ -33,7 +31,7 @@ const WikiMain = (props: { patient: boolean }) => {
           <ul className="mb-10 grid w-auto grid-cols-2 gap-6 text-center md:grid-cols-1">
             {categories.map((category) => (
               <li className="flex justify-center" key={category.id}>
-                <Link href={`/app/articles/category?categoryId=${category.id}`}>
+                <Link href={`/wiki/category?categoryId=${category.id}`}>
                   <motion.div
                     whileHover={{
                       scale: [null, 1.05, 1.03],

@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import HomeTab from "~/customComponents/PatientDashboardTabs/HomeTab";
 import AppointmentsTab from "~/customComponents/PatientDashboardTabs/AppointmentTab";
 import ProfileTab from "~/customComponents/PatientDashboardTabs/ProfileTab";
-import WikiTab from "~/customComponents/PatientDashboardTabs/WikiTab";
+import { UserButton } from "@clerk/nextjs";
 
 const PatientDashboard: React.FC = () => {
   const [currentTab, setCurrentTab] = useState("Home");
@@ -119,29 +119,24 @@ const PatientDashboard: React.FC = () => {
                   tabIcon="/icons/PersonIcon.svg"
                 ></Tab>
               )}
-              {smallNav ? (
-                <SmallTab
-                  tabName="Wiki"
-                  tabLink="Wiki"
-                  tabIcon="/icons/BookIcon.svg"
-                ></SmallTab>
-              ) : (
-                <Tab
-                  tabName="Wiki"
-                  tabLink="Wiki"
-                  tabIcon="/icons/BookIcon.svg"
-                ></Tab>
-              )}
             </div>
           </div>
 
           {/* Switch Button */}
-          <div className="flex w-full justify-end">
+          {/*<div className="flex w-full justify-end">*/}
+          <div
+            className={`flex w-full ${
+              smallNav
+                ? "flex-col items-center justify-center"
+                : "items-center justify-between"
+            }`}
+          >
+            <div className="m-4 flex h-12 w-12 items-center justify-center">
+              <UserButton afterSignOutUrl="/" />
+            </div>
             <motion.button
               whileHover={{ scale: 1.05 }}
-              onClick={() =>
-                !smallNav ? setSmallNav(true) : setSmallNav(false)
-              }
+              onClick={() => setSmallNav(!smallNav)}
               className="m-4 flex h-16 w-16 items-center justify-center rounded-full"
             >
               {smallNav ? (
@@ -165,17 +160,9 @@ const PatientDashboard: React.FC = () => {
       {/* Right Side */}
       <div className="flex w-full flex-col">
         <div className="h-full">
-          {currentTab === "Home" ? (
-            <HomeTab></HomeTab>
-          ) : currentTab === "Appointments" ? (
-            <AppointmentsTab></AppointmentsTab>
-          ) : currentTab === "Profile" ? (
-            <ProfileTab></ProfileTab>
-          ) : currentTab === "Wiki" ? (
-            <WikiTab></WikiTab>
-          ) : (
-            <div></div>
-          )}
+          {currentTab === "Home" && <HomeTab />}
+          {currentTab === "Appointments" && <AppointmentsTab />}
+          {currentTab === "Profile" && <ProfileTab />}
         </div>
       </div>
     </div>
