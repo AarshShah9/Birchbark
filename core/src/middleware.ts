@@ -17,6 +17,8 @@ export default authMiddleware({
     "/organization-selection",
     "/api/trpc/organization.getAllOrganizations",
     "/wiki",
+    "/wiki/article",
+    "/wiki/category",
     "/api/trpc/wiki.getCategories",
     "/api/trpc/wiki.getArticlesByCategory",
     "/api/trpc/wiki.getArticleContent",
