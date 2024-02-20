@@ -99,7 +99,7 @@ const HomeTab = () => {
           <div className="rounded-lg bg-[#141718]">
             <div className="">
               <h1 className="mx-8 mt-4 text-3xl font-bold text-white">
-                Upcomming Appointments
+                Upcoming Appointments
               </h1>
             </div>
             <div className="m-4 flex h-64 flex-row space-x-4 overflow-x-scroll">

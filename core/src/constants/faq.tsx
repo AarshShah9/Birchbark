@@ -15,14 +15,6 @@ export const faq = {
       English: "lore ipsum",
     },
   },
-  faq3: {
-    question: {
-      English: "How much does Symptom360 cost?",
-    },
-    answer: {
-      English: "lore ipsum",
-    },
-  },
   faq4: {
     question: {
       English: "How can I contact my doctor?",
