@@ -141,13 +141,13 @@ const PatientDashboard: React.FC = () => {
             >
               {smallNav ? (
                 <img
-                  src="/Icons/MenuOpen.svg"
+                  src="/icons/MenuOpen.svg"
                   alt="Menu Icon"
                   className="h-12 w-12"
                 ></img>
               ) : (
                 <img
-                  src="/Icons/MenuClose.svg"
+                  src="/icons/MenuClose.svg"
                   alt="Menu Icon"
                   className="h-12 w-12"
                 ></img>

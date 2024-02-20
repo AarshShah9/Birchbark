@@ -61,7 +61,7 @@ const LandingPage2 = ({ next }: formProps) => {
                 <img
                   className="p-6"
                   alt="Psychologist Icon"
-                  src="/images/brain.svg"
+                  src="/icons/brain.svg"
                 />
               </div>
             </motion.button>
@@ -77,7 +77,7 @@ const LandingPage2 = ({ next }: formProps) => {
                 <img
                   className="p-6"
                   alt="Doctor Icon"
-                  src="/images/doctor.svg"
+                  src="/icons/doctor.svg"
                 />
               </div>
             </motion.button>
@@ -93,7 +93,7 @@ const LandingPage2 = ({ next }: formProps) => {
                 <img
                   className="p-6"
                   alt="Councillor Icon"
-                  src="/images/clipboard.svg"
+                  src="/icons/clipboard.svg"
                 />
               </div>
             </motion.button>

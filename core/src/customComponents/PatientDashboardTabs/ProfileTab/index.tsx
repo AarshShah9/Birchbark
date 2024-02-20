@@ -13,31 +13,31 @@ const ProfileTab = () => {
       <div className="mx-10 flex h-fit w-96 flex-none flex-col rounded-lg bg-[#141718] p-8">
         <div className="mb-4 flex flex-row items-center">
           <img
-            src="/Icons/Profile2.svg"
+            src="/icons/Profile2.svg"
             alt="Profile"
             className="h-14 w-14"
           ></img>
-          <h2 className="ml-4 text-3xl font-bold">Details about me</h2>
+          <h2 className="ml-4 text-3xl font-bold text-white">Details about me</h2>
         </div>
         <div className="">
           <div className="flex flex-col">
-            <h2 className="text-2xl font-medium">Preferred First Name</h2>
+            <h2 className="text-2xl font-medium text-white">Preferred First Name</h2>
             <h3 className="text-xl text-[#B7B7B7] ">John</h3>
           </div>
           <div className="flex flex-col">
-            <h2 className="text-2xl font-medium">Gender Identity</h2>
+            <h2 className="text-2xl font-medium text-white">Gender Identity</h2>
             <h3 className="text-xl text-[#B7B7B7] ">Male</h3>
           </div>
           <div className="flex flex-col">
-            <h2 className="text-2xl font-medium">Sexual Orientation</h2>
+            <h2 className="text-2xl font-medium text-white">Sexual Orientation</h2>
             <h3 className="text-xl text-[#B7B7B7] ">Straight</h3>
           </div>
           <div className="flex flex-col">
-            <h2 className="text-2xl font-medium">Race</h2>
+            <h2 className="text-2xl font-medium text-white">Race</h2>
             <h3 className="text-xl text-[#B7B7B7] ">Asian</h3>
           </div>
           <div className="flex flex-col">
-            <h2 className="text-2xl font-medium">Ethnicity</h2>
+            <h2 className="text-2xl font-medium text-white">Ethnicity</h2>
             <h3 className="text-xl text-[#B7B7B7] ">Non Hispanic or Latino</h3>
           </div>
         </div>
@@ -52,7 +52,7 @@ const ProfileTab = () => {
             className="my-2 flex items-center justify-center rounded-md bg-[#232627]"
           >
             <div className="flex flex-row">
-              <img src="/Icons/edit.svg" alt="Edit" className="h-8 w-8"></img>
+              <img src="/icons/edit.svg" alt="Edit" className="h-8 w-8"></img>
               <p className="pl-1 text-xl text-[#4CA9EE] underline">Edit</p>
             </div>
           </motion.button>
@@ -86,7 +86,7 @@ const ProfileTab = () => {
       <div className="mr-10 flex h-fit w-full flex-col rounded-lg bg-[#141718] p-8">
         <div className="mb-4 flex flex-row items-center">
           <img
-            src="/Icons/Star.svg"
+            src="/icons/Star.svg"
             alt="Emergency Contacts"
             className="h-14 w-14"
           ></img>
@@ -95,33 +95,33 @@ const ProfileTab = () => {
         <div className="flex flex-row">
           <div className="mx-2">
             <div className="flex flex-col">
-              <h2 className="text-2xl font-medium">Name</h2>
+              <h2 className="text-2xl font-medium text-white">Name</h2>
               <h3 className="text-xl text-[#B7B7B7] ">{data?.name}</h3>
             </div>
             <div className="flex flex-col">
-              <h2 className="text-2xl font-medium">Relation</h2>
+              <h2 className="text-2xl font-medium text-white">Relation</h2>
               <h3 className="text-xl text-[#B7B7B7] ">Mother</h3>
             </div>
             {/*<div className="flex flex-col">*/}
-            {/*  <h2 className="text-2xl font-medium">Address</h2>*/}
+            {/*  <h2 className="text-2xl font-medium text-white">Address</h2>*/}
             {/*  <h3 className="text-xl text-[#B7B7B7] ">682 Toronto Street...</h3>*/}
             {/*</div>*/}
           </div>
           <div className="mx-2">
             <div className="flex flex-col">
-              <h2 className="text-2xl font-medium">Email</h2>
+              <h2 className="text-2xl font-medium text-white">Email</h2>
               <h3 className="text-xl text-[#B7B7B7] ">{data?.email}</h3>
             </div>
             <div className="flex flex-col">
-              <h2 className="text-2xl font-medium">Phone</h2>
+              <h2 className="text-2xl font-medium text-white">Phone</h2>
               <h3 className="text-xl text-[#B7B7B7] ">{data?.phoneNumber}</h3>
             </div>
             {/*<div className="flex flex-col">*/}
-            {/*  <h2 className="text-2xl font-medium">Home Phone</h2>*/}
+            {/*  <h2 className="text-2xl font-medium text-white">Home Phone</h2>*/}
             {/*  <h3 className="text-xl text-[#B7B7B7] ">682-902-2344</h3>*/}
             {/*</div>*/}
             {/*<div className="flex flex-col">*/}
-            {/*  <h2 className="text-2xl font-medium">Work Phone</h2>*/}
+            {/*  <h2 className="text-2xl font-medium text-white">Work Phone</h2>*/}
             {/*  <h3 className="text-xl text-[#B7B7B7] ">682-902-2344</h3>*/}
             {/*</div>*/}
           </div>
@@ -137,7 +137,7 @@ const ProfileTab = () => {
             className="my-2 flex items-center justify-center rounded-md bg-[#232627]"
           >
             <div className="flex flex-row">
-              <img src="/Icons/edit.svg" alt="Edit" className="h-8 w-8"></img>
+              <img src="/icons/edit.svg" alt="Edit" className="h-8 w-8"></img>
               <p className="pl-1 text-xl text-[#4CA9EE] underline">Edit</p>
             </div>
           </motion.button>
