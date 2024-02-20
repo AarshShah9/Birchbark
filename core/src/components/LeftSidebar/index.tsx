@@ -117,7 +117,7 @@ const LeftSidebar = ({
             }`}
           ></div>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 bg-n-7 px-4 pb-6 before:pointer-events-none before:absolute before:bottom-full before:left-0 before:right-0 before:h-10 before:bg-gradient-to-t before:from-[#131617] before:to-[rgba(19,22,23,0)] md:px-3">
+        <div className="absolute bottom-0 left-0 right-0 bg-n-7 px-4 pb-6 before:pointer-events-none before:absolute before:bottom-full before:left-0 before:right-0 before:h-10 before:bg-gradient-to-t before:from-n-7 before:to-[rgba(19,22,23,0)] md:px-3">
           <UserButton afterSignOutUrl="/" />
         </div>
       </div>
